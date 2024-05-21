@@ -2636,13 +2636,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5576891758463423469}
   cost: 1
-  AttackPoint: {fileID: 5329206681237499535}
+  EnemyState: 1
   Animator: {fileID: 7461846953144706116}
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   RotationSpeed: 2
   RotationModifier: 1
+  _attackPoint: {fileID: 5329206681237499535}
   _lungeData: {fileID: 11400000, guid: d8b38042fc7e61b4993df1ae71a4133c, type: 2}
   _flurryData: {fileID: 11400000, guid: 5a9da5d5df0a12140aded168dfb37ba2, type: 2}
   _flurryAttackAmount: 4

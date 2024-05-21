@@ -256,41 +256,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4164862064049684296}
   cost: 5
-  AttackPoint: {fileID: 7162009370998953068}
+  EnemyState: 1
   Animator: {fileID: 1971425573201015181}
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  RotationSpeed: 0
-  RotationModifier: 0
-  currentState: 0
-  animator: {fileID: 1971425573201015181}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  player: {fileID: 0}
-  slashSize: {x: 3, y: 2, z: 2}
-  slashDamage: 20
-  slashChargeTime: 0.9
-  slashDuration: 0.6
-  slashCD: 1
-  slashRange: 3
-  doubleSlashSize: {x: 2, y: 2, z: 2}
-  doubleSlashDamage: 10
-  doubleSlashChargeTime: 0.5
-  doubleSlashDuration: 1
-  doubleSlashCD: 1
-  doubleSlashRange: 3
-  spinRadius: 3
-  spinDamage: 20
-  spinChargeTime: 1
-  spinDuration: 0.5
-  spinCD: 1
-  spinRange: 3
-  attackPoint: {fileID: 7162009370998953068}
-  MovementPredictionThreshold: 1
-  MovementPredictionTime: 2
-  rotationSpeed: 1
+    m_Bits: 128
+  RotationSpeed: 2
+  RotationModifier: 1
+  _attackPoint: {fileID: 7162009370998953068}
+  _singeSlashData: {fileID: 11400000, guid: 4b8b52efa98721044ab54edc79688054, type: 2}
+  _doubleSlashData: {fileID: 11400000, guid: e8bebed628763f34a8a6505c541e24bd, type: 2}
+  _spinSlashData: {fileID: 11400000, guid: e59ba47a999840748819d593d644cd82, type: 2}
+  _spinRadius: 3
 --- !u!114 &1359280759599318150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,13 +280,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b7b9862a34a5d47acf403f1f684477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxValue: 0
-  StartingValue: 0
+  MaxValue: 150
+  StartingValue: 150
   _deathTime: 3
-  _canvasPrefab: {fileID: 0}
+  _canvasPrefab: {fileID: 4145837071063551548, guid: 78e006ba5449f9e429becdbcb4375473, type: 3}
   yOffset: 4
-  _animator: {fileID: 0}
-  _origin: {fileID: 0}
+  _animator: {fileID: 1971425573201015181}
+  _origin: {fileID: 6002613583924301122}
   _bleedEffect: {fileID: 0}
 --- !u!1001 &1877970422915997315
 PrefabInstance:

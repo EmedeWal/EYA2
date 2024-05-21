@@ -163,7 +163,7 @@ MonoBehaviour:
   Animator: {fileID: 2260325493172794509}
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   RotationSpeed: 2
   RotationModifier: 1
   _firePoint: {fileID: 5316805630645347721}

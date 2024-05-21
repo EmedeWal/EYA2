@@ -9949,6 +9949,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000011161899254, guid: 835d59177d8bad543a70828252cdccaf, type: 3}
   m_PrefabInstance: {fileID: 889534209}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &891434126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1333079530877925728, guid: b96fd0b89f7148743af71404495328d6, type: 3}
+  m_PrefabInstance: {fileID: 1812896875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &896119025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17875,6 +17880,14 @@ PrefabInstance:
     - target: {fileID: 5028792203554100145, guid: b96fd0b89f7148743af71404495328d6, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028792203554100145, guid: b96fd0b89f7148743af71404495328d6, type: 3}
+      propertyPath: _attackPoint
+      value: 
+      objectReference: {fileID: 891434126}
+    - target: {fileID: 5028792203554100145, guid: b96fd0b89f7148743af71404495328d6, type: 3}
+      propertyPath: PlayerLayer.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -33,7 +33,7 @@ public class HybridEnemyAI : EnemyAI
                 break;
 
             case EnemyState.Retreating:
-                Teleport();
+                //Teleport();
                 break;
         }
     }
