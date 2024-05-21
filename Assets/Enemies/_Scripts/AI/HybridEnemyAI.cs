@@ -12,7 +12,7 @@ public class HybridEnemyAI : EnemyAI
     private bool _canAttack = true;
     private bool _canFire = true;
 
-    private void Update()
+    protected virtual void Update()
     {
         switch (EnemyState)
         {
@@ -31,16 +31,11 @@ public class HybridEnemyAI : EnemyAI
             case EnemyState.Firing:
                 ChargeFire();
                 break;
-
-            case EnemyState.Retreating:
-                //Teleport();
-                break;
         }
     }
 
-    private void Chase()
+    protected virtual void Chase()
     {
-        // If the player is in melee range, attack in melee. Also check if it can attack, otherwise use a ranged spell
         if (InRange(MeleeData.AttackRange))
         {
             SetAttacking();
@@ -56,7 +51,7 @@ public class HybridEnemyAI : EnemyAI
     }
 
 
-    private void ChargeAttack()
+    protected void ChargeAttack()
     {
         if (!_canAttack) return;
 
@@ -82,7 +77,7 @@ public class HybridEnemyAI : EnemyAI
         _canAttack = true;
     }
 
-    private void AttackRecovery()
+    protected virtual void AttackRecovery()
     {
         SetRetreating();
     }
@@ -105,7 +100,7 @@ public class HybridEnemyAI : EnemyAI
         return Physics.OverlapBox(AttackPoint.position, MeleeData.AttackSize, AttackPoint.rotation, PlayerLayer);
     }
 
-    private void ChargeFire()
+    protected void ChargeFire()
     {
         if (!_canFire) return;
 
@@ -121,6 +116,7 @@ public class HybridEnemyAI : EnemyAI
     private void FireStart()
     {
         SetFiring();
+        FireAction();
         Invoke(nameof(FireRecovery), RangedData.FireDuration);
         Invoke(nameof(ResetCanFire), RangedData.FireCooldown);
     }
@@ -135,7 +131,7 @@ public class HybridEnemyAI : EnemyAI
         _canFire = true;
     }
 
-    private void FireRecovery()
+    protected virtual void FireRecovery()
     {
         StartChase();
     }
@@ -150,27 +146,18 @@ public class HybridEnemyAI : EnemyAI
         return;
     }
 
-    protected void StartChase()
+    protected virtual void StartChase()
     {
         SetChasing();
-        DetermineProjectile();
-        //Invoke(nameof(TeleportReset), teleportCD);
     }
 
-    private void TeleportVFX()
+    protected void SetMeleeData(EnemyMeleeData enemyMeleeData)
     {
-        //GameObject VFX = Instantiate(teleportVFX, transform.position + new Vector3(0, 3, 0), Quaternion.identity);
-
-        //yield return new WaitForSeconds(0.7f);
-
-        //Destroy(VFX);
+        MeleeData = enemyMeleeData;
     }
 
-    // END OF EXECUTION
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireCube(attackPoint.position, meleeSize);
-    //}
+    protected void SetRangedData(EnemyRangedData enemyRangedData)
+    {
+        RangedData = enemyRangedData;
+    }
 }

@@ -7,7 +7,7 @@ public class SkeletonAI : MeleeEnemyAI
 
     private void Awake()
     {
-        DetermineAttackData();
+        SetAttackData(_attackData);
         SetReferences();
     }
 }

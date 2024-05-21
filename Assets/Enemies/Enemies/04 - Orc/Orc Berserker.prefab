@@ -287,7 +287,7 @@ MonoBehaviour:
   yOffset: 4
   _animator: {fileID: 1971425573201015181}
   _origin: {fileID: 6002613583924301122}
-  _bleedEffect: {fileID: 0}
+  _bleedEffect: {fileID: 8526527707790002138, guid: 7d73e2bbc5d7aae42adce09b9363ce72, type: 3}
 --- !u!1001 &1877970422915997315
 PrefabInstance:
   m_ObjectHideFlags: 0
