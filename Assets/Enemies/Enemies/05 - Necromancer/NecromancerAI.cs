@@ -11,11 +11,8 @@ public class NecromancerAI : HybridEnemyAI
     [SerializeField] private EnemyRangedData _trackingProjectileData;
     private int _projectileNumber;
 
-    [Header("MULTI SPELL")]
-    [SerializeField] private float _multiRotationIncrement;
-
     [Header("TELEPORTING")]
-    [SerializeField] private GameObject teleportVFX;
+    [SerializeField] private GameObject _teleportVFX;
     [SerializeField] private float _teleportCooldown;
     [SerializeField] private float minTeleportDistance;
     private Vector3 teleportTargetPosition;
@@ -68,32 +65,6 @@ public class NecromancerAI : HybridEnemyAI
         }
     }
 
-    protected override void FireAction()
-    {
-        if (_projectileNumber == 0)
-        {
-            FireMultiProjectile();
-        }
-        else
-        {
-            FireProjectile();
-        }
-    }
-
-    private void FireMultiProjectile()
-    {
-        float currentRotationOffset = -_multiRotationIncrement;
-
-        for (int i = 0; i < 3; i++)
-        {
-            Quaternion projectileRotation = Quaternion.Euler(FirePoint.eulerAngles.x, FirePoint.eulerAngles.y + currentRotationOffset, FirePoint.eulerAngles.z);
-
-            Instantiate(RangedData.ProjectilePrefab, FirePoint.position, projectileRotation);
-
-            currentRotationOffset += _multiRotationIncrement;
-        }
-    }
-
     private void Teleport()
     {
         if (_canTeleport)
@@ -101,7 +72,7 @@ public class NecromancerAI : HybridEnemyAI
             _canTeleport = false;
             Animator.SetFloat("Speed", 0f);
 
-            Instantiate(teleportVFX, transform.position, Quaternion.identity);
+            Instantiate(_teleportVFX, transform.position, Quaternion.identity);
 
             int maxAttempts = 50;
             Vector3 potentialRetreatPosition;

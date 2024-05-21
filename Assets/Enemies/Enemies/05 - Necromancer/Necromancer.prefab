@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &171566254296304326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5491270185074556563}
+  m_Layer: 11
+  m_Name: VFX Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5491270185074556563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171566254296304326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.99, z: 0.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4171359307182868302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &236678078858085741
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,6 +44,7 @@ GameObject:
   - component: {fileID: 7669599337120959835}
   - component: {fileID: 1185839338104887911}
   - component: {fileID: 8745428715072191222}
+  - component: {fileID: 2756205751277941348}
   m_Layer: 11
   m_Name: Necromancer
   m_TagString: Enemy
@@ -34,8 +66,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 41213354973837727}
-  - {fileID: 188974690690754055}
+  - {fileID: 5491270185074556563}
   - {fileID: 7173880426397352248}
+  - {fileID: 188974690690754055}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!136 &2477395060290035362
@@ -205,10 +238,29 @@ MonoBehaviour:
   _meleeData: {fileID: 11400000, guid: e7d5686f8edd4bf4ea8201290f2287fc, type: 2}
   _multiProjectileData: {fileID: 11400000, guid: e20ebc8714ce8544cb467a0a427979ca, type: 2}
   _trackingProjectileData: {fileID: 11400000, guid: 99025129d9fa1da44b889af8fa7bdd9a, type: 2}
-  _multiRotationIncrement: 15
-  teleportVFX: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
+  _teleportVFX: {fileID: 4535006216103734310, guid: 98c4704d0fd7211449bcf5c451095a60, type: 3}
   _teleportCooldown: 10
   minTeleportDistance: 10
+--- !u!114 &2756205751277941348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236678078858085741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b7b9862a34a5d47acf403f1f684477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxValue: 150
+  StartingValue: 150
+  _deathTime: 5
+  _canvasPrefab: {fileID: 4145837071063551548, guid: 78e006ba5449f9e429becdbcb4375473, type: 3}
+  yOffset: 6
+  _animator: {fileID: 130002609622339103}
+  _origin: {fileID: 5491270185074556563}
+  _bleedEffect: {fileID: 8526527707790002138, guid: 7d73e2bbc5d7aae42adce09b9363ce72, type: 3}
 --- !u!1 &3003593793880452136
 GameObject:
   m_ObjectHideFlags: 0

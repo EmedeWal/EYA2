@@ -116,14 +116,9 @@ public class HybridEnemyAI : EnemyAI
     private void FireStart()
     {
         SetFiring();
-        FireAction();
+        FireProjectile();
         Invoke(nameof(FireRecovery), RangedData.FireDuration);
         Invoke(nameof(ResetCanFire), RangedData.FireCooldown);
-    }
-
-    protected virtual void FireAction()
-    {
-        FireProjectile();
     }
 
     private void ResetCanFire()

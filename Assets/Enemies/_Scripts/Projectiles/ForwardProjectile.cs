@@ -16,12 +16,6 @@ public class ForwardProjectile : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody>();
         _rigidBody.AddForce(_fireForce * transform.forward, ForceMode.Impulse);
-
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
-        int projectileLayer = LayerMask.NameToLayer("Projectile");
-
-        Physics.IgnoreLayerCollision(enemyLayer, projectileLayer, true);
-        Physics.IgnoreLayerCollision(projectileLayer, projectileLayer, true);
     }
 
     private void OnTriggerEnter(Collider collision)

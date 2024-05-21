@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e09b5b307db6143ab64e4f2acff2b8, type: 3}
   m_Name: NecromancerMultiProjectile
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 4096035542166729159, guid: e630992fc9226a24fa519b9aaae7f173, type: 3}
-  ChargeDuration: 1
+  ProjectilePrefab: {fileID: 4253052573600197002, guid: 7e292a2a2e2a6d94d966b66307118cee, type: 3}
+  ChargeDuration: 1.5
   FireDuration: 1.5
   FireCooldown: 2
   FireRange: 20
   AnimationParameter: Fire
+  FireClip: {fileID: 8300000, guid: 7f4aa26d5b55226409cda231ffaf869b, type: 3}

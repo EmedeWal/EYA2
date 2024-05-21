@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 968648904004928373}
-  - component: {fileID: 1961896185391838081}
   - component: {fileID: 4125383868574515113}
   - component: {fileID: 2766705941163766958}
+  - component: {fileID: -3319863041173367014}
   - component: {fileID: 3068705925081368931}
   m_Layer: 11
   m_Name: Tracking Orb
@@ -36,33 +36,6 @@ Transform:
   - {fileID: 69595409919187276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1961896185391838081
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4150800921667752422}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 84
-  m_CollisionDetection: 1
 --- !u!135 &4125383868574515113
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -96,22 +69,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb11f223f2ecff4d8bf58b2526f946c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rotationSpeed: 100
-  explosionPrefab: {fileID: 100010, guid: c0a15d884e5e7a9468ab38bba8a32604, type: 3}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  explosionRange: 5
-  shockwaveRange: 20
-  explosionDelay: 1
-  explosionClip: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
-  VFX: {fileID: 69595409919280492}
-  activationTime: 1
-  destroyDelay: 5
-  lifespan: 10
-  player: {fileID: 0}
-  explosionDamage: 50
+  _moveSpeed: 5
+  _rotationSpeed: 100
+  explosionPrefab: {fileID: 8631004680692537792, guid: 31b587ae9b37ccb48b3cba459991c700, type: 3}
+  _detonationRange: 5
+  _detonationDelay: 1
+  _activationTime: 1
+--- !u!114 &-3319863041173367014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4150800921667752422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a886a85c2df094e84c5b8083063870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeTime: 10
 --- !u!82 &3068705925081368931
 AudioSource:
   m_ObjectHideFlags: 0
@@ -220,6 +196,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -272,7 +252,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 19800008, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.1957209
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800008, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800008, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.49019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800010, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800010, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800010, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114000012280478620, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
+    - {fileID: 114000011179990534, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
     m_RemovedGameObjects:
     - {fileID: 100006, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
     - {fileID: 100004, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
@@ -284,10 +290,5 @@ PrefabInstance:
 --- !u!4 &69595409919187276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
-  m_PrefabInstance: {fileID: 69595409919312832}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &69595409919280492 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100012, guid: 9826389809c2e1e41a1125953a56a236, type: 3}
   m_PrefabInstance: {fileID: 69595409919312832}
   m_PrefabAsset: {fileID: 0}

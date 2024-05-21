@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class csShowAllEffect : MonoBehaviour
 {
     public string[] EffectName;
     public Transform[] Effect;
-    public Text Text1;
+    public TextMeshProUGUI Text1;
     public int i = 0;
 
     void Start()
