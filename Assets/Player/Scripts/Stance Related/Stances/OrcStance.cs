@@ -13,19 +13,30 @@ public class OrcStance : Stance, IStance
 
     private void Start()
     {
-        _heavyAttack = GetComponent<PlayerHeavyAttack>();
         _health = GetComponent<PlayerHealth>();
+    }
+
+    private void OnDisable()
+    {
+        PlayerAttack.SuccesfulAttack -= OrcStance_SuccesfulAttack;
+    }
+
+    private void OrcStance_SuccesfulAttack(Collider hit, float damage)
+    {
+        Explosion explosion = Instantiate(_splashPrefab, hit.transform.position, hit.transform.rotation).GetComponent<Explosion>();
+        explosion.SetColliderToIgnore(hit);
+        explosion.SetDamage(damage / 2);
     }
 
     public void Enter()
     {
         ManageStanceSwap();
-        _heavyAttack.SuccesfulHeavyAttack += OrcStance_SuccesfulHeavyAttack;
+        PlayerAttack.SuccesfulAttack += OrcStance_SuccesfulAttack;
     }
 
     public void Exit()
     {
-        _heavyAttack.SuccesfulHeavyAttack -= OrcStance_SuccesfulHeavyAttack;
+        PlayerAttack.SuccesfulAttack -= OrcStance_SuccesfulAttack;
     }
 
     public void CastUltimate()
@@ -42,11 +53,5 @@ public class OrcStance : Stance, IStance
         _health.SetDamageReduction(0);
 
         DeactivateUltimate();
-    }
-
-    private void OrcStance_SuccesfulHeavyAttack(Collider hit)
-    {
-        GameObject splashEffect = Instantiate(_splashPrefab, hit.transform.position, hit.transform.rotation);
-        splashEffect.GetComponent<Explosion>().SetColliderToIgnore(hit);
     }
 }

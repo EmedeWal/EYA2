@@ -62,9 +62,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetLayers:
     serializedVersion: 2
-    m_Bits: 512
-  damage: 30
-  radius: 6
+    m_Bits: 2048
+  _damage: 25
+  _radius: 5
 --- !u!82 &-3270713605610042148
 AudioSource:
   m_ObjectHideFlags: 0

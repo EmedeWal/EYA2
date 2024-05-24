@@ -49,6 +49,15 @@ public class PlayerInputManager : MonoBehaviour
 
     public event Action SkipInput_Performed;
 
+    private void HandleInput(Action action, Func<bool> canPerformAction)
+    {
+        if (!canPerformAction()) return;
+
+        _lastAction = () => { if (canPerformAction()) action.Invoke(); };
+        _lastInputTime = Time.time;
+        _lastAction.Invoke();
+    }
+
     public void OnDirectionInput(InputAction.CallbackContext context)
     {
         DirectionInput_Value?.Invoke(context.ReadValue<Vector2>());
@@ -58,9 +67,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (context.performed)
         {
-            _lastAction = () => { if (_stateManager.CanDash()) DashInput_Performed?.Invoke(); };
-            _lastInputTime = Time.time;
-            _lastAction.Invoke();
+            HandleInput(() => DashInput_Performed?.Invoke(), _stateManager.CanDash);
         }
     }
 
@@ -68,9 +75,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (context.performed)
         {
-            _lastAction = () => { if (_stateManager.CanAttack()) LightAttackInput_Performed?.Invoke(); };
-            _lastInputTime = Time.time;
-            _lastAction.Invoke();
+            HandleInput(() => LightAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
         }
     }
 
@@ -78,9 +83,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (context.performed)
         {
-            _lastAction = () => { if (_stateManager.CanAttack()) HeavyAttackInput_Performed?.Invoke(); };
-            _lastInputTime = Time.time;
-            _lastAction.Invoke();
+            HandleInput(() => HeavyAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
         }
     }
 

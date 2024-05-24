@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2048
   damage: 10
   radius: 3
 --- !u!114 &5094578166031134149

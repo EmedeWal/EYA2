@@ -53,7 +53,7 @@ public class PlayerDash : MonoBehaviour
 
     private void PlayerDash_DashInput_Performed()
     {
-        if (_canDash) StartCoroutine(Dash());
+        StartCoroutine(Dash());
     }
 
     private IEnumerator Dash()

@@ -478,16 +478,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n- Eme de Wal\n\n\n- Eme de Wal\n\n\n\n\n- D.M.M Productions \n  (Main
-    Theme) \n- RPG Orchestral Essentials\n- Gothic Dynamic Music\n- Action RPG Battle
-    Music\n\n- Monster SFX\n- RPG Essential SFX\n- Free Sound Effects Pack\n- Ancient
-    Magic Pack Free\n- Ancient Weapons Pack \n- Blades and Bludgeoning\n\n\n\n\n-
-    Traditional Water Well\n- Tomb\n- Old Game Stylized Props\n- Castle Supply Lite\n\n\n-
-    Warrior maiden\n\n\n- RPG Skeleton\n- Fantasy Spider\n- Monster - Watcher\n-
-    Orc berseker\n- Fantasy Monster (Wizard)\n- Dragon Soul Eater and\n  Dragon Boar\n\n\n-
-    RPG Icons Starter Pack\n- Wooden GUI Free\n- Iconduck.Com\n- GameIcons.net\n-
-    TheNounProject.com\n- PNGtree.com\n- Pinterest.com - PS \n\n\n- Hit Impact Effects\n-
-    Magic Effects\n- Free Fire VFX\n- 52 Special Effects Pack"
+  m_text: "\r\n- Eme de Wal\r\n\r\n\r\n- Eme de Wal\r\n\r\n\r\n\r\n\r\n- Main Theme\r\n\t
+    [D.M.M Productions]\r\n- RPG Orchestral Essentials\r\n\t[InspectorJ Audio] \r\n-
+    Gothic Dynamic Music\r\n\t[Salty Dog Sounds]\r\n- Action RPG Battle Music\r\n\t[Chef
+    Sound]\r\n\n\n- Monster SFX\r\n\t[GWriterStudio]\r\n- RPG Essential SFX\r\n\t[Leohpaz]\r\n-
+    Free Sound Effects Pack\r\n\t[Olivier Girardot]\r\n- Ancient Magic Pack Free\r\n\t[SF
+    Audio Guild] \r\n- Ancient Weapons Pack \r\n\t[SF Audio Guild]\r\n- Blades and
+    Bludgeoning\r\n\t[Idia Software LLC]\r\n\r\n\r\n\r\n\r\n- Traditional Water Well\r\n\t[3D
+    Montra]\r\n- Tomb\r\n\t[Hviluvator]\r\n- Old Game Stylized Props\r\n\t[reach
+    the enD]\r\n- Castle Supply Lite\r\n\t[Aquarius Max]\r\n\r\n\r\n- Warrior maiden\r\n\t[Anton
+    Puzanov]\r\n\r\n\r\n- RPG Skeleton\r\n\t[Ironic Game]\r\n- Fantasy Spider\r\n\t[Dante\u2019s
+    Anvil]\r\n- Monster - Watcher\r\n\t[HATOGAME]\r\n- Orc berserker3\r\n\t[Andryuha1981]\r\n-
+    Fantasy Monster (Wizard)\r\n\t[TS WORK]\r\n- Dragon Soul Eater and\r\n  Dragon
+    Boar\r\n\t[Dungeon Mason]\r\n\r\n\r\n- PS4 Buttons \r\n\t[ArkDigital]\r\n- RPG
+    Icons Starter Pack\r\n\t[icreatepixels]\r\n- Wooden GUI Free\r\n\t[Black Hammer]\r\n-
+    Other UI\r\n\t[Iconduck.com]\r\n\t[GameIcons.net]\r\n\t[TheNounProject.com]\r\n\t[PNGtree.com]\r\n\r\n\n-
+    Effect Textures and Prefabs\r\n\t[Magic Pot Inc.]\r\n- Hit Impact Effects\r\n\t[Travis
+    Game Assets]\r\n- Magic Effects\r\n\t[Hovl Studio]\r\n- Free Fire VFX\r\n\t[Vefects]\r\n-
+    52 Special Effects Pack\r\n\t[Gaph]\r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 14d62c2651c7afb40a0adaf5b2b1159c, type: 2}
   m_sharedMaterial: {fileID: 3579091977567580406, guid: 14d62c2651c7afb40a0adaf5b2b1159c, type: 2}
@@ -652,6 +660,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358740498}
   - component: {fileID: 1358740497}
+  - component: {fileID: 1358740499}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -770,6 +779,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1358740499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358740496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d2b6b61021da54c8c535986c995926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: 35
 --- !u!1 &1364130802
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,8 +897,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textHolder: {fileID: 1579274566}
-  duration: 48
-  distance: 4800
+  duration: 70
+  distance: 7000
   inputPrompt: {fileID: 272476115}
 --- !u!4 &1566430550
 Transform:
@@ -1194,7 +1216,17 @@ MonoBehaviour:
 
 
 
+
+
+
+
     SFX:
+
+
+
+
+
+
 
 
 
@@ -1213,8 +1245,13 @@ MonoBehaviour:
 
 
 
+
+
+
+
     Player
     Character:
+
 
 
 
@@ -1228,7 +1265,17 @@ MonoBehaviour:
 
 
 
+
+
+
+
+
+
     UI Elements:
+
+
+
+
 
 
 

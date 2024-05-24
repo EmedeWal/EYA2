@@ -4,28 +4,28 @@ public class HealthPotionUI : PotionUI
     {
         HealthPotion.HealthPotionChargesChanged += HealthPotionUI_HealthPotionChargesChanged;
         HealthPotion.HealthPotionRefillStarted += HealthPotionUI_HealthPotionRefillStarted;
-        HealthPotion.HealthPotionRefillBoosted += HealthPotionUI_HealthPotionRefillBoosted;
+        HealthPotion.HealthPotionRefillUpdated += HealthPotionUI_HealthPotionRefillUpdated;
     }
 
     private void OnDisable()
     {
         HealthPotion.HealthPotionChargesChanged -= HealthPotionUI_HealthPotionChargesChanged;
         HealthPotion.HealthPotionRefillStarted -= HealthPotionUI_HealthPotionRefillStarted;
-        HealthPotion.HealthPotionRefillBoosted -= HealthPotionUI_HealthPotionRefillBoosted;
+        HealthPotion.HealthPotionRefillUpdated -= HealthPotionUI_HealthPotionRefillUpdated;
     }
 
-    private void HealthPotionUI_HealthPotionChargesChanged(int charges)
+    private void HealthPotionUI_HealthPotionChargesChanged(int currentCharges)
     {
-        UpdateCharges(charges);
+        UpdateCharges(currentCharges);
     }
 
-    private void HealthPotionUI_HealthPotionRefillStarted(float refillTime)
+    private void HealthPotionUI_HealthPotionRefillStarted(float startTime)
     {
-        StartRefillTime(refillTime);
+        StartRefillTime(startTime);
     }
 
-    private void HealthPotionUI_HealthPotionRefillBoosted(float boost)
+    private void HealthPotionUI_HealthPotionRefillUpdated(float remainingTime)
     {
-        UpdateRefillTime(boost);
+        UpdateRefillTime(remainingTime);
     }
 }

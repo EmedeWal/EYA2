@@ -20,6 +20,6 @@ MonoBehaviour:
   AttackDuration: 0.9
   LungeSpeed: 10
   LungeDuration: 0.1
-  AttackSize: {x: 1, y: 2, z: 1.5}
+  AttackSize: {x: 1.5, y: 2, z: 2}
   AttackDamage: 10
   AttackClip: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}

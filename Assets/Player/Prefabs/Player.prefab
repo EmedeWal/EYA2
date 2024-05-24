@@ -628,6 +628,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 12
   _gravity: 18
+  historicalPositionDuration: 1
+  historicalPositionInterval: 0.1
 --- !u!114 &7478195856578284366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +645,7 @@ MonoBehaviour:
   _rotationSpeed: 15
   _enemyLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2048
   _assistRange: 5
   _maxAngle: 60
 --- !u!114 &5315919464812395881
@@ -767,7 +769,6 @@ MonoBehaviour:
   _ultimateClip: {fileID: 8300000, guid: 7e34e57f4296727459eb521806c3b466, type: 3}
   _audioVolume: 0.5
   _audioOffset: 0
-  _totalBleedDamage: 20
   _totalBleedDuration: 5
   _lifestealPercentage: 50
 --- !u!114 &4918026721748581504
@@ -899,7 +900,7 @@ MonoBehaviour:
   _maxCharges: 2
   _refillDuration: 10
   _refillOnKill: 5
-  _refillAmount: 25
+  RefillAmount: 25
   _audioSource: {fileID: 2849663989969087430}
   _playerHealth: {fileID: 7056050384593491693}
 --- !u!1 &4754659351769297192
@@ -1178,7 +1179,7 @@ MonoBehaviour:
   _maxCharges: 2
   _refillDuration: 10
   _refillOnKill: 5
-  _refillAmount: 25
+  RefillAmount: 25
   _audioSource: {fileID: 2849663989969087430}
   _playerMana: {fileID: 8918670806845681883}
 --- !u!1 &7121025842207010777

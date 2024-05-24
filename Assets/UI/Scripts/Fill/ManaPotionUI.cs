@@ -4,28 +4,28 @@ public class ManaPotionUI : PotionUI
     {
         ManaPotion.ManaPotionChargesChanged += ManaPotionUI_ManaPotionChargesChanged;
         ManaPotion.ManaPotionRefillStarted += ManaPotionUI_ManaPotionRefillStarted;
-        ManaPotion.ManaPotionRefillBoosted += ManaPotionUI_ManaPotionRefillBoosted;
+        ManaPotion.ManaPotionRefillUpdated += ManaPotionUI_ManaPotionRefillBoosted;
     }
 
     private void OnDisable()
     {
         ManaPotion.ManaPotionChargesChanged -= ManaPotionUI_ManaPotionChargesChanged;
-        ManaPotion.ManaPotionRefillStarted -= ManaPotionUI_ManaPotionRefillStarted;
-        ManaPotion.ManaPotionRefillBoosted -= ManaPotionUI_ManaPotionRefillBoosted;
+        ManaPotion.ManaPotionRefillStarted += ManaPotionUI_ManaPotionRefillStarted;
+        ManaPotion.ManaPotionRefillUpdated -= ManaPotionUI_ManaPotionRefillBoosted;
     }
 
-    private void ManaPotionUI_ManaPotionChargesChanged(int charges)
+    private void ManaPotionUI_ManaPotionChargesChanged(int currentCharges)
     {
-        UpdateCharges(charges);
+        UpdateCharges(currentCharges);
     }
 
-    private void ManaPotionUI_ManaPotionRefillStarted(float refillTime)
+    private void ManaPotionUI_ManaPotionRefillStarted(float startTime)
     {
-        StartRefillTime(refillTime);
+        StartRefillTime(startTime);
     }
 
-    private void ManaPotionUI_ManaPotionRefillBoosted(float boost)
+    private void ManaPotionUI_ManaPotionRefillBoosted(float remainingTime)
     {
-        UpdateRefillTime(boost);
+        UpdateRefillTime(remainingTime);
     }
 }

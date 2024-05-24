@@ -428,7 +428,7 @@
                 {
                     "name": "",
                     "id": "b2a978aa-9351-4f10-98d1-6bda26983dac",
-                    "path": "<DualShockGamepad>/buttonSouth",
+                    "path": "<DualShockGamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

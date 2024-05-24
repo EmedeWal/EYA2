@@ -29,7 +29,7 @@ public abstract class MeleeEnemyAI : EnemyAI
     {
         if (!_canAttack)
         {
-            SetCharging();
+            RotateTowardsPlayer();
         }
         else if (InRange(MeleeData.AttackRange))
         {
@@ -115,13 +115,13 @@ public abstract class MeleeEnemyAI : EnemyAI
         MeleeData = meleeData;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (MeleeData != null)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.matrix = Matrix4x4.TRS(_attackPoint.position, _attackPoint.rotation, Vector3.one);
-            Gizmos.DrawWireCube(Vector3.zero, MeleeData.AttackSize);
-        }
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    if (MeleeData != null)
+    //    {
+    //        Gizmos.color = Color.blue;
+    //        Gizmos.matrix = Matrix4x4.TRS(_attackPoint.position, _attackPoint.rotation, Vector3.one);
+    //        Gizmos.DrawWireCube(Vector3.zero, MeleeData.AttackSize);
+    //    }
+    //}
 }

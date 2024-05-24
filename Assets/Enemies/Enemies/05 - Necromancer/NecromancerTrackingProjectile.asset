@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: NecromancerTrackingProjectile
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 4150800921667752422, guid: e6cd2e0aea7f4e5488595831f22edf91, type: 3}
-  ChargeDuration: 2
+  ChargeDuration: 1.5
   FireDuration: 2
-  FireCooldown: 3
+  FireCooldown: 3.5
   FireRange: 20
   AnimationParameter: Fire
   FireClip: {fileID: 8300000, guid: 7f4aa26d5b55226409cda231ffaf869b, type: 3}

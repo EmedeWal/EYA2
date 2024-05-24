@@ -9,6 +9,7 @@ public class PauseMenu : ButtonUI
 
     [Header("HEADERS")]
     [SerializeField] private Image[] _headers;
+    [SerializeField] private Color _defaultColor;
     [SerializeField] private Color _selectedColor;
 
     [Header("MENUS")]
@@ -80,7 +81,7 @@ public class PauseMenu : ButtonUI
 
     private void SwapHeader()
     {
-        foreach (var header in _headers) header.color = Color.white;
+        foreach (var header in _headers) header.color = _defaultColor;
         _headers[_menuIndex].color = _selectedColor;
     }
 

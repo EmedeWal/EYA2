@@ -5,54 +5,33 @@ public class HealthPotion : Potion, IPotion
     [Header("REFERENCE")]
     [SerializeField] private PlayerHealth _playerHealth;
 
-    public delegate void Delegate_ChargesChanged(int charges);
-    public static event Delegate_ChargesChanged HealthPotionChargesChanged;
+    public delegate void HealthPotion_ChargesChanged(int charges);
+    public static event HealthPotion_ChargesChanged HealthPotionChargesChanged;
 
-    public delegate void Delegate_RefillStarted(float refillDuration);
-    public static event Delegate_RefillStarted HealthPotionRefillStarted;
+    public delegate void HealthPotion_RefillStarted(float startTime);
+    public static event HealthPotion_RefillStarted HealthPotionRefillStarted;
 
-    public delegate void Delegate_RefillBoosted(float boost);
-    public static event Delegate_RefillBoosted HealthPotionRefillBoosted;
+    public delegate void HealthPotion_RefillUpdated(float remainingTime);
+    public static event HealthPotion_RefillUpdated HealthPotionRefillUpdated;
 
     private void Start()
     {
         SetCharges();
     }
 
-    private void OnEnable()
-    {
-        ChargesChanged += HealthPotion_ChargesChanged;
-        RefillStarted += HealthPotion_RefillStarted;
-        RefillBoosted += HealthPotion_RefillBoosted;
-        PotionConsumed += HealthPotion_PotionConsumed;
-    }
-
-    private void OnDisable()
-    {
-        ChargesChanged -= HealthPotion_ChargesChanged;
-        RefillStarted -= HealthPotion_RefillStarted;
-        RefillBoosted -= HealthPotion_RefillBoosted;
-        PotionConsumed -= HealthPotion_PotionConsumed;
-    }
-
-    private void HealthPotion_ChargesChanged(int currentCharges)
+    protected override void ChargesChanged(int currentCharges)
     {
         OnChargesChanged(currentCharges);
     }
 
-    private void HealthPotion_RefillStarted(float cooldown)
+    protected override void RefillStarted(float startTime)
     {
-        OnRefillStarted(cooldown);
+        OnRefillStarted(startTime);
     }
 
-    private void HealthPotion_RefillBoosted(float boost)
+    protected override void RefillUpdated(float remainingTime)
     {
-        OnRefillBoosted(boost);
-    }
-
-    private void HealthPotion_PotionConsumed(float refillAmount)
-    {
-        TriggerPotionEffect(refillAmount);
+        OnRefillUpdated(remainingTime);
     }
 
     private void OnChargesChanged(int currentCharges)
@@ -60,28 +39,32 @@ public class HealthPotion : Potion, IPotion
         HealthPotionChargesChanged?.Invoke(currentCharges);
     }
 
-    private void OnRefillStarted(float cooldown)
+    private void OnRefillStarted(float startTime)
     {
-        HealthPotionRefillStarted?.Invoke(cooldown);
-    }
+        HealthPotionRefillStarted?.Invoke(startTime);
+    }    
 
-    private void OnRefillBoosted(float boost)
+    private void OnRefillUpdated(float remainingTime)
     {
-        HealthPotionRefillBoosted?.Invoke(boost);
-    }
-
-    private void TriggerPotionEffect(float amount)
-    { 
-        _playerHealth.HealOverTime(amount);
+        HealthPotionRefillUpdated?.Invoke(remainingTime);
     }
 
     public void Consume()
     {
-        if (CanConsume()) ConsumePotion();
+        if (CanConsume())
+        {
+            ConsumePotion();
+            TriggerPotionEffect();
+        }
     }
 
     private bool CanConsume()
     {
         return CurrentCharges > 0 && !_playerHealth.AtMaxValue();
+    }
+
+    private void TriggerPotionEffect()
+    {
+        _playerHealth.HealOverTime(RefillAmount);
     }
 }

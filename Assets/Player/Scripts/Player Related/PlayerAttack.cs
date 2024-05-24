@@ -17,7 +17,8 @@ public abstract class PlayerAttack : MonoBehaviour
     protected PlayerDataManager  DataManager;
     protected Animator Animator;
 
-    protected event Action<Collider> SuccesfulAttack; 
+    public delegate void PlayerAttack_SuccesfulAttack(Collider hit, float damage);
+    public static event PlayerAttack_SuccesfulAttack SuccesfulAttack;
 
     [Header("AUDIO")]
     [SerializeField] private AudioSource _audioSource;
@@ -83,7 +84,7 @@ public abstract class PlayerAttack : MonoBehaviour
         {
             if (!hit.TryGetComponent<Health>(out var health)) return;
 
-            SuccesfulAttack?.Invoke(hit);
+            SuccesfulAttack?.Invoke(hit, _attackData.AttackDamage);
             health.TakeDamage(_attackData.AttackDamage);
         }
     }

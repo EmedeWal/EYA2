@@ -11,17 +11,12 @@ public abstract class Potion : MonoBehaviour
     private float _remainingTime;
 
     [Header("EFFECT")]
-    [SerializeField] private float _refillAmount = 25f;
+    [SerializeField] protected float RefillAmount = 25f;
     protected int CurrentCharges;
     private bool _isRefilling = false;
 
     [Header("AUDIO")]
     [SerializeField] private AudioSource _audioSource;
-
-    protected event Action<int> ChargesChanged;
-    protected event Action<float> RefillStarted;
-    protected event Action<float> RefillBoosted;
-    protected event Action<float> PotionConsumed;
 
     private void Awake()
     {
@@ -40,90 +35,85 @@ public abstract class Potion : MonoBehaviour
 
     private void BoostRefill()
     {
-        if (_isRefilling)
-        {
-            _remainingTime -= _refillOnKill;
+        if (!_isRefilling) return;
 
-            OnRefillBoosted(_refillOnKill);
-        }
+        _isRefilling = false;
+        _remainingTime -= _refillOnKill;
+
+        if (_remainingTime > 0) return;
+
+        RefillCharge();
+        StopAllCoroutines();
+
+        if (AtMaxCharges()) return;
+
+        _remainingTime *= -1;
+        StartCoroutine(RefillCoroutine(_refillDuration - _remainingTime));
     }
 
     protected void SetCharges()
     {
         CurrentCharges = _maxCharges;
 
-        OnChargesChanged();
+        ChargesChanged(CurrentCharges);
     }
 
     public void ConsumePotion()
     {
-        CurrentCharges--;
-
         if (!_audioSource.isPlaying) _audioSource.Play();
 
-        OnPotionConsumed();
-        OnChargesChanged();
+        CurrentCharges--;
 
-        StartCooldown();
+        ChargesChanged(CurrentCharges);
+        StartRefill();
     }
 
-    public void StartCooldown()
+    private void StartRefill()
     {
-        if (!_isRefilling)
-        {
-            _isRefilling = true;
+        if (_isRefilling) return;
 
-            OnRefillStarted(_refillDuration);
-            StartCoroutine(RefillCoroutine(_refillDuration));
-        }
+        StartCoroutine(RefillCoroutine(_refillDuration));
     }
 
     private IEnumerator RefillCoroutine(float duration)
     {
+        RefillStarted(_refillDuration);
+
+        _isRefilling = true;
         _remainingTime = duration;
 
         while (_remainingTime > 0)
         {
             yield return null;
             _remainingTime -= Time.deltaTime;
-        }
 
-        Refill();
+            RefillUpdated(_remainingTime);
+        }
 
         _isRefilling = false;
 
-        if (CurrentCharges < _maxCharges)
-        {
-            StartCooldown();
-        }
+        RefillCharge();
+        if (!AtMaxCharges()) StartRefill();
     }
 
-    public void Refill()
+    private void RefillCharge()
     {
-        if (CurrentCharges < _maxCharges)
-        {
-            CurrentCharges++;
-            OnChargesChanged();
-        }
+        if (AtMaxCharges()) return;
+
+        CurrentCharges++;
+
+        RefillUpdated(0);
+        ChargesChanged(CurrentCharges);
     }
 
-    private void OnPotionConsumed()
+    private bool AtMaxCharges()
     {
-        PotionConsumed?.Invoke(_refillAmount);
+        return CurrentCharges == _maxCharges;
     }
 
-    private void OnChargesChanged()
-    {
-        ChargesChanged?.Invoke(CurrentCharges);
-    }
+    protected abstract void ChargesChanged(int currentCharges);
 
-    private void OnRefillStarted(float duration)
-    {
-        RefillStarted?.Invoke(duration);
-    }
+    protected abstract void RefillStarted(float startTime);
 
-    private void OnRefillBoosted(float boost)
-    {
-        RefillBoosted?.Invoke(boost);   
-    }
+    protected abstract void RefillUpdated(float remainingTime);
 }

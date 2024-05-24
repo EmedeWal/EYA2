@@ -23,11 +23,6 @@ public class EnemyHealth : Health
     private Collider _collider;
     private EnemyAI _enemyAI;
 
-    [Header("DAMAGE VFX")]
-    [SerializeField] private Transform _origin;
-    [SerializeField] private GameObject _bleedEffect;
-    private GameObject _currentBleedEffect;
-
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -63,9 +58,9 @@ public class EnemyHealth : Health
         _enemyAI.SetIdle();
         _agent.isStopped = true;
         _agent.enabled = false;
-        Destroy(_origin.gameObject);
-        Destroy(_collider);
         Destroy(_canvasReference);
+        Destroy(_collider);
+        StopAllCoroutines();
         OnEnemyDied();
     }
 
@@ -97,13 +92,12 @@ public class EnemyHealth : Health
 
     public void Bleed(float damage, float duration)
     {
-        StopAllCoroutines();
-        StartCoroutine(ApplyBleed(damage, duration));
+        StartCoroutine(BleedCoroutine(damage, duration));
     }
 
-    private IEnumerator ApplyBleed(float damage, float duration)
+    private IEnumerator BleedCoroutine(float damage, float duration)
     {
-        if (_currentBleedEffect == null) _currentBleedEffect = Instantiate(_bleedEffect, _origin);
+        _enemyHealthUI.AddBleed();
 
         int ticks = Mathf.CeilToInt(duration / 0.1f);
         float damagePerTick = damage / ticks;
@@ -115,6 +109,6 @@ public class EnemyHealth : Health
             TakeDamage(damagePerTick);
         }
 
-        Destroy(_currentBleedEffect);
+        _enemyHealthUI.RemoveBleed();
     }
 }
