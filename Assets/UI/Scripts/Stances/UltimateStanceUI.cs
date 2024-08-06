@@ -9,19 +9,7 @@ public class UltimateStanceUI : StanceUI
         _ultimateUI = GetComponent<UltimateUI>();
     }
 
-    private void OnEnable()
-    {
-        Stance.UpdateStance += UltimateStanceUI_UpdateStance;
-        Stance.UltimateStart += UltimateStanceUI_UltimateStart;
-    }
-
-    private void OnDisable()
-    {
-        Stance.UpdateStance -= UltimateStanceUI_UpdateStance;
-        Stance.UltimateStart -= UltimateStanceUI_UltimateStart;
-    }
-
-    private void UltimateStanceUI_UpdateStance(StanceType stanceType)
+    protected override void StanceUI_UpdateStance(StanceType stanceType)
     {
         _currentStance = stanceType;
         if (!_ultimateActive) UpdateUI(_currentStance);
@@ -30,9 +18,6 @@ public class UltimateStanceUI : StanceUI
     private void UltimateStanceUI_UltimateStart(float duration)
     {
         ActivateUltimate();
-
-        _ultimateUI.Duration(duration);
-
         Invoke(nameof(DeactivateUltimate), duration);
     }
 

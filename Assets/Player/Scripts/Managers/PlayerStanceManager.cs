@@ -9,7 +9,7 @@ public class PlayerStanceManager : MonoBehaviour
     // References
     private PlayerInputManager _inputManager;
     private PlayerDataManager _dataManager;
-    private PlayerMana _mana;
+    private Mana _mana;
 
     // Stance Related
     private List<IStance> _stances = new List<IStance>();
@@ -30,7 +30,7 @@ public class PlayerStanceManager : MonoBehaviour
     {
         _inputManager = GetComponent<PlayerInputManager>();
         _dataManager = GetComponent<PlayerDataManager>();
-        _mana = GetComponent<PlayerMana>();
+        _mana = GetComponent<Mana>();
     }
 
     private void Start()
@@ -46,7 +46,6 @@ public class PlayerStanceManager : MonoBehaviour
     private void OnEnable()
     {
         StancePurchaseMenu.UnlockStance += PlayerStanceManager_UnlockStance;
-
         _inputManager.SwapStanceInput_Performed += PlayerStanceManager_SwapStanceInput_Performed;
         _inputManager.UltimateInput_Performed += PlayerStanceManager_UltimateInput_Performed;
     }
@@ -54,9 +53,35 @@ public class PlayerStanceManager : MonoBehaviour
     private void OnDisable()
     {
         StancePurchaseMenu.UnlockStance -= PlayerStanceManager_UnlockStance;
-
         _inputManager.SwapStanceInput_Performed -= PlayerStanceManager_SwapStanceInput_Performed;
         _inputManager.UltimateInput_Performed -= PlayerStanceManager_UltimateInput_Performed;
+    }
+
+    public void UnlockVampireStance()
+    {
+        IStance[] stances = GetComponents<IStance>();
+        UnlockStance(stances[0]);
+    }
+
+    public void UnlockOrcStance()
+    {
+        IStance[] stances = GetComponents<IStance>();
+        UnlockStance(stances[1]);
+    }
+
+    public void UnlockGhostStance()
+    {
+        IStance[] stances = GetComponents<IStance>();
+        UnlockStance(stances[2]);
+    }
+
+    private void UnlockStance(IStance newStance)
+    {
+        if (!_stances.Contains(newStance))
+        {
+            _stances.Add(newStance);
+            SwapStance(newStance);
+        }
     }
 
     private void PlayerStanceManager_UnlockStance(StanceType stanceType)
@@ -81,8 +106,8 @@ public class PlayerStanceManager : MonoBehaviour
     {
         if (_stances.Count > 1 && _canSwap)
         {
-            StanceSwap?.Invoke();
             DetermineStance();
+            OnStanceSwap();
         }
     }
 
@@ -90,8 +115,8 @@ public class PlayerStanceManager : MonoBehaviour
     {
         if (_stances.Count != 0 && _mana.AtMaxValue() && !_dataManager.GetUltimateActivate())
         {
-            _mana.SpentMana(100);
             _currentStance.CastUltimate();
+            _mana.SpendMana(100);
         }
     }
 
@@ -117,38 +142,13 @@ public class PlayerStanceManager : MonoBehaviour
         newStance.Enter();
     }
 
+    private void OnStanceSwap()
+    {
+        StanceSwap?.Invoke();
+    }
+
     private void ResetSwap()
     {
         _canSwap = true;
-    }
-
-    public void UnlockVampireStance()
-    {
-        IStance[] stances = GetComponents<IStance>();
-
-        UnlockStance(stances[0]);
-    }
-
-    public void UnlockOrcStance()
-    {
-        IStance[] stances = GetComponents<IStance>();
-
-        UnlockStance(stances[1]);
-    }
-
-    public void UnlockGhostStance()
-    {
-        IStance[] stances = GetComponents<IStance>();
-
-        UnlockStance(stances[2]);
-    }
-
-    private void UnlockStance(IStance newStance)
-    {
-        if (!_stances.Contains(newStance))
-        {
-            _stances.Add(newStance);
-            SwapStance(newStance);
-        }
     }
 }

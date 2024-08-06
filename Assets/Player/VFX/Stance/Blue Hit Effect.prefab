@@ -4912,6 +4912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifeTime: 1
+  _countDownOnStart: 1
 --- !u!1 &3137466034826505490
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class VampireStance : Stance, IStance
 
     public void CastUltimate()
     {
-        DataManager.SetLifeSteal(_lifestealPercentage / 100);
+        _DataManager.SetLifeSteal(_lifestealPercentage / 100);
 
         Invoke(nameof(EndUltimate), UltimateDuration);
 
@@ -42,7 +42,7 @@ public class VampireStance : Stance, IStance
 
     private void EndUltimate()
     {
-        DataManager.SetLifeSteal(0);
+        _DataManager.SetLifeSteal(0);
 
         DeactivateUltimate();
     }

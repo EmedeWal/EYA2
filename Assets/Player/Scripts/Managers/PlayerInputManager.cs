@@ -4,21 +4,111 @@ using System;
 
 public class PlayerInputManager : MonoBehaviour
 {
-    #region Setup
     private PlayerStateManager _stateManager;
-
-    private void Awake()
-    {
-        _stateManager = GetComponent<PlayerStateManager>();
-    }
-    #endregion
-
-    #region Retry System
 
     [Header("VARIABLES")]
     [SerializeField] private float _retryDuration = 0.2f;
     private Action _lastAction;
     private float _lastInputTime;
+
+    [Header("INPUT ACTION ASSET")]
+    [SerializeField] private InputActionAsset _inputActionAsset;
+
+    private InputAction _directionAction;
+    private InputAction _dashAction;
+    private InputAction _lightAttackAction;
+    private InputAction _heavyAttackAction;
+    private InputAction _swapStanceAction;
+    private InputAction _ultimateAction;
+    private InputAction _consumePotionAction;
+    private InputAction _interactionAction;
+    private InputAction _pauseAction;
+    private InputAction _swapMenuAction;
+    private InputAction _skipAction;
+
+    public event Action SkipInput_Performed;
+    public event Action DashInput_Performed;
+    public event Action PauseInput_Performed;
+    public event Action UltimateInput_Performed;
+    public event Action<Vector2> DirectionInput_Value;
+    public event Action InteractionInput_Performed;
+    public event Action<float> SwapMenuInput_Performed;
+    public event Action LightAttackInput_Performed;
+    public event Action HeavyAttackInput_Performed;
+    public event Action SwapStanceInput_Performed;
+    public event Action<float> ConsumePotionInput_Performed;
+
+    private void Awake()
+    {
+        _stateManager = GetComponent<PlayerStateManager>();
+        _skipAction = _inputActionAsset.FindAction("Skip");
+        _dashAction = _inputActionAsset.FindAction("Dash");
+        _pauseAction = _inputActionAsset.FindAction("Pause");
+        _ultimateAction = _inputActionAsset.FindAction("Ultimate");
+        _directionAction = _inputActionAsset.FindAction("Direction");
+        _interactionAction = _inputActionAsset.FindAction("Interaction");
+        _swapMenuAction = _inputActionAsset.FindAction("Swap Menu");
+        _lightAttackAction = _inputActionAsset.FindAction("Light Attack");
+        _heavyAttackAction = _inputActionAsset.FindAction("Heavy Attack");
+        _swapStanceAction = _inputActionAsset.FindAction("Swap Stance");
+        _consumePotionAction = _inputActionAsset.FindAction("Consume Potion");
+    }
+
+    private void OnEnable()
+    {
+        _skipAction.Enable();
+        _dashAction.Enable();
+        _pauseAction.Enable();
+        _ultimateAction.Enable();
+        _directionAction.Enable();
+        _interactionAction.Enable();
+        _swapMenuAction.Enable();
+        _lightAttackAction.Enable();
+        _heavyAttackAction.Enable();
+        _swapStanceAction.Enable();
+        _consumePotionAction.Enable();
+
+        _skipAction.performed += OnSkipInput_Performed;
+        _dashAction.performed += OnDashInput_Performed;
+        _pauseAction.performed += OnPauseInput_Performed;
+        _ultimateAction.performed += OnUltimateInput_Performed;
+        _directionAction.performed += OnDirectionInput;
+        _directionAction.canceled += OnDirectionInput;
+        _interactionAction.performed += OnInteractionInput_Performed;
+        _swapMenuAction.performed += OnSwapMenuInput_Performed;
+        _lightAttackAction.performed += OnLightAttackInput_Performed;
+        _heavyAttackAction.performed += OnHeavyAttackInput_Performed;
+        _swapStanceAction.performed += OnSwapStanceInput_Performed;
+        _consumePotionAction.performed += OnConsumePotionInput_Performed;
+    }
+
+    private void OnDisable()
+    {
+        _skipAction.Disable();
+        _dashAction.Disable();
+        _pauseAction.Disable();
+        _ultimateAction.Disable();
+        _directionAction.Disable();
+        _interactionAction.Disable();
+        _swapMenuAction.Disable();
+        _lightAttackAction.Disable();
+        _heavyAttackAction.Disable();
+        _swapStanceAction.Disable();
+        _consumePotionAction.Disable();
+
+        _skipAction.performed -= OnSkipInput_Performed;
+        _dashAction.performed -= OnDashInput_Performed;
+        _pauseAction.performed -= OnPauseInput_Performed;
+        _ultimateAction.performed -= OnUltimateInput_Performed;
+        _directionAction.performed -= OnDirectionInput;
+        _directionAction.canceled += OnDirectionInput;
+        _interactionAction.performed -= OnInteractionInput_Performed;
+        _swapMenuAction.performed -= OnSwapMenuInput_Performed;
+        _lightAttackAction.performed -= OnLightAttackInput_Performed;
+        _heavyAttackAction.performed -= OnHeavyAttackInput_Performed;
+        _swapStanceAction.performed -= OnSwapStanceInput_Performed;
+        _consumePotionAction.performed -= OnConsumePotionInput_Performed;
+    }
 
     private void Update()
     {
@@ -27,28 +117,6 @@ public class PlayerInputManager : MonoBehaviour
             _lastAction.Invoke();
         }
     }
-
-    #endregion
-
-    public event Action<Vector2> DirectionInput_Value;
-
-    public event Action DashInput_Performed;
-
-    public event Action LightAttackInput_Performed;
-    public event Action HeavyAttackInput_Performed;
-
-    public event Action SwapStanceInput_Performed;
-    public event Action UltimateInput_Performed;
-
-    public event Action<float> ConsumePotionInput_Performed;
-
-    public event Action InteractionInput_Performed;
-
-    public event Action PauseInput_Performed;
-    public event Action<float> SwapMenuInput_Performed;
-
-    public event Action SkipInput_Performed;
-
     private void HandleInput(Action action, Func<bool> canPerformAction)
     {
         if (!canPerformAction()) return;
@@ -58,88 +126,59 @@ public class PlayerInputManager : MonoBehaviour
         _lastAction.Invoke();
     }
 
-    public void OnDirectionInput(InputAction.CallbackContext context)
+    private void OnSkipInput_Performed(InputAction.CallbackContext context)
+    {
+        SkipInput_Performed?.Invoke();
+    }
+
+    private void OnDashInput_Performed(InputAction.CallbackContext context)
+    {
+        HandleInput(() => DashInput_Performed?.Invoke(), _stateManager.CanDash);
+    }
+
+    private void OnPauseInput_Performed(InputAction.CallbackContext context)
+    {
+        PauseInput_Performed?.Invoke();
+    }
+
+    private void OnUltimateInput_Performed(InputAction.CallbackContext context)
+    {
+        UltimateInput_Performed?.Invoke();
+    }
+
+    private void OnDirectionInput(InputAction.CallbackContext context)
     {
         DirectionInput_Value?.Invoke(context.ReadValue<Vector2>());
     }
 
-    public void OnDashInput(InputAction.CallbackContext context)
+    private void OnInteractionInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            HandleInput(() => DashInput_Performed?.Invoke(), _stateManager.CanDash);
-        }
+        InteractionInput_Performed?.Invoke();
     }
 
-    public void OnLightAttackInput(InputAction.CallbackContext context)
+    private void OnSwapMenuInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            HandleInput(() => LightAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
-        }
+        SwapMenuInput_Performed?.Invoke(context.ReadValue<float>());
     }
 
-    public void OnHeavyAttackInput(InputAction.CallbackContext context)
+    private void OnLightAttackInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            HandleInput(() => HeavyAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
-        }
+        HandleInput(() => LightAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
     }
 
-    public void OnStanceSwapInput(InputAction.CallbackContext context)
+    private void OnHeavyAttackInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            SwapStanceInput_Performed?.Invoke();
-        }
+        HandleInput(() => HeavyAttackInput_Performed?.Invoke(), _stateManager.CanAttack);
     }
 
-    public void OnUltimateInput(InputAction.CallbackContext context)
+    private void OnSwapStanceInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            UltimateInput_Performed?.Invoke();
-        }
+        SwapStanceInput_Performed?.Invoke();
     }
 
-    public void OnConsumePotionInput(InputAction.CallbackContext context)
+    private void OnConsumePotionInput_Performed(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            ConsumePotionInput_Performed?.Invoke(context.ReadValue<float>());
-        }
-    }
-
-    public void OnInteractionInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            InteractionInput_Performed?.Invoke();
-        }
-    }
-
-    public void OnPauseInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            PauseInput_Performed?.Invoke();
-        }
-    }
-
-    public void OnSwapMenuInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            SwapMenuInput_Performed?.Invoke(context.ReadValue<float>());
-        }
-    }
-
-    public void OnSkipInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            SkipInput_Performed?.Invoke();  
-        }
+        ConsumePotionInput_Performed?.Invoke(context.ReadValue<float>());
     }
 }
+

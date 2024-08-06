@@ -14528,6 +14528,7 @@ GameObject:
   - component: {fileID: 5369135229358984125}
   - component: {fileID: 6464537013088974560}
   - component: {fileID: 8960395666798715895}
+  - component: {fileID: -1933955116732096005}
   m_Layer: 0
   m_Name: Manapotion Effect
   m_TagString: Untagged
@@ -19350,3 +19351,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-1933955116732096005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320536287162563309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a886a85c2df094e84c5b8083063870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeTime: 1
+  _countDownOnStart: 0

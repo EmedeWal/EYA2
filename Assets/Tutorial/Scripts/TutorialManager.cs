@@ -30,20 +30,20 @@ public class TutorialManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerHealth.PlayerHealed += TutorialManager_PlayerHealed;
+        //PlayerHealth.PlayerHealed += TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer += TutorialManager_TeleportedPlayer;
         EnemyHealth.EnemyDied += TutorialManager_EnemyHasDied;
         StancePurchaseMenu.UnlockStance += TutorialManager_UnlockStance;
-        PlayerMana.ManaRestored += TutorialManager_ManaRestored;
+        //PlayerMana.ManaRestored += TutorialManager_ManaRestored;
     }
 
     private void OnDisable()
     {
-        PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
+        //PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer -= TutorialManager_TeleportedPlayer;
         EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
         StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
-        PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
+        //PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
         PlayerPause.Pause -= TutorialManager_Pause;
         PlayerStanceManager.StanceSwap -= TutorialManager_StanceSwap;
     }
@@ -52,7 +52,7 @@ public class TutorialManager : MonoBehaviour
     {
         IncreaseIndex();
 
-        PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
+        //PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
 
         OnHealthPotionConsumed();
     }
@@ -89,7 +89,7 @@ public class TutorialManager : MonoBehaviour
     {
         IncreaseIndex();
 
-        PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
+        //PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
 
         OnSpawnEnemies();
     }

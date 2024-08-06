@@ -3,8 +3,8 @@ using UnityEngine;
 public abstract class Stance : MonoBehaviour
 {
     // References
-    protected PlayerDataManager DataManager;
-    protected PlayerHealth Health;
+    protected PlayerDataManager _DataManager;
+    protected Health _Health;
 
     [Header("STANCE RELATED")]
     [SerializeField] private StanceType _stanceType;
@@ -26,47 +26,39 @@ public abstract class Stance : MonoBehaviour
 
     public delegate void Delegate_UltimateStart(float duration);
     public static event Delegate_UltimateStart UltimateStart;
-
     public delegate void Delegate_UpdateStance(StanceType stanceType);
     public static event Delegate_UpdateStance UpdateStance;
 
     protected virtual void Awake()
     {
-        DataManager = GetComponent<PlayerDataManager>();
-        Health = GetComponent<PlayerHealth>();
+        _DataManager = GetComponent<PlayerDataManager>();
+        _Health = GetComponent<Health>();
     }
 
     protected virtual void ManageStanceSwap()
     {
         ManageColors();
-
-        UpdateStance?.Invoke(_stanceType);
+        OnUpdateStance();
     }
 
     private void ManageColors()
     {
         Instantiate(_swapVFX, _origin); 
-
         _swordRender.material.color = _stanceColor;
     }
 
     protected void ActivateUltimate()
     {
-        DataManager.SetUltimateActivate(true);
-
-        _currentUltimateGFX = Instantiate(_ultimateGFX, DataManager.GetVFXOrigin());
-
-        UltimateStart?.Invoke(UltimateDuration);
-
+        _DataManager.SetUltimateActivate(true);
+        _currentUltimateGFX = Instantiate(_ultimateGFX, _DataManager.GetVFXOrigin());
+        OnUltimateStart();
         PlayAudio();
     }
 
     protected void DeactivateUltimate()
     {
-        DataManager.SetUltimateActivate(false);
-
+        _DataManager.SetUltimateActivate(false);
         Destroy(_currentUltimateGFX);
-
         _audioSource.Stop();
     }
 
@@ -76,5 +68,15 @@ public abstract class Stance : MonoBehaviour
         _audioSource.clip = _ultimateClip;
         _audioSource.time = _audioOffset;
         _audioSource.Play();
+    }
+
+    private void OnUltimateStart()
+    {
+        UltimateStart?.Invoke(UltimateDuration);
+    }
+
+    private void OnUpdateStance()
+    {
+        UpdateStance?.Invoke(_stanceType);
     }
 }

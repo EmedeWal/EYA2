@@ -1,23 +1,28 @@
+using UnityEngine;
+
 public class DashCooldownUI : FillUI
 {
+    [Header("REFERENCE")]
+    [SerializeField] private PlayerDash _playerDash;
+
     private void OnEnable()
     {
-        PlayerDash.CooldownCountdown += DashCooldownUI_CooldownCountdown;
-        PlayerDash.CooldownStart += DashCooldownUI_CooldownStart;
+        _playerDash.DashCooldownStart += DashCooldownUI_DashCooldownStart;
+        _playerDash.DashCooldownUpdate += DashCooldownUI_DashCooldownUpdate;
     }
 
     private void OnDisable()
     {
-        PlayerDash.CooldownCountdown -= DashCooldownUI_CooldownCountdown;
-        PlayerDash.CooldownStart -= DashCooldownUI_CooldownStart;
+        _playerDash.DashCooldownStart -= DashCooldownUI_DashCooldownStart;
+        _playerDash.DashCooldownUpdate -= DashCooldownUI_DashCooldownUpdate;
     }
 
-    private void DashCooldownUI_CooldownStart(float maxValue)
+    private void DashCooldownUI_DashCooldownStart(float maxValue)
     {
         SetMaxValue(maxValue);
     }
 
-    private void DashCooldownUI_CooldownCountdown(float currentValue)
+    private void DashCooldownUI_DashCooldownUpdate(float currentValue)
     {
         SetCurrentValue(currentValue);
     }

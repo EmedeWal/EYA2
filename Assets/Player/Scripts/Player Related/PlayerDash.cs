@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,12 +7,12 @@ public class PlayerDash : MonoBehaviour
     [Header("REFERENCES")]
     [SerializeField] private TrailRenderer _trailRenderer;
     [SerializeField] private AudioSource _audioSource;
+    private CharacterController _controller;
     private PlayerStateManager _stateManager;
     private PlayerInputManager _inputManager;
     private PlayerDataManager _dataManager;
-    private CharacterController _controller;
-    private PlayerHealth _health;
     private Animator _animator;
+    private Health _health;
 
     [Header("VARIABLES")]
     [SerializeField] private float _dashSpeed = 45f;
@@ -21,15 +22,10 @@ public class PlayerDash : MonoBehaviour
     private float _currentCD;
     private bool _canDash = true;
 
-    // Events
-    public delegate void Delegate_CooldownStart(float dashCooldown);
-    public static event Delegate_CooldownStart CooldownStart;
-
-    public delegate void Delegate_CooldownCountdown(float currentCooldown);
-    public static event Delegate_CooldownCountdown CooldownCountdown;
-
-    public delegate void Delegate_DashEnd();
-    public static event Delegate_DashEnd DashEnd;
+    public delegate void Delegate_DashCooldown(float cooldown);
+    public event Delegate_DashCooldown DashCooldownStart;
+    public event Delegate_DashCooldown DashCooldownUpdate;
+    public event Action DashEnd;
 
     private void Awake()
     {
@@ -37,8 +33,8 @@ public class PlayerDash : MonoBehaviour
         _inputManager = GetComponent<PlayerInputManager>();
         _dataManager = GetComponent<PlayerDataManager>();
         _controller = GetComponent<CharacterController>();
-        _health = GetComponent<PlayerHealth>();
         _animator = GetComponentInChildren<Animator>();
+        _health = GetComponent<Health>();
     }
 
     private void OnEnable()
@@ -53,24 +49,21 @@ public class PlayerDash : MonoBehaviour
 
     private void PlayerDash_DashInput_Performed()
     {
-        StartCoroutine(Dash());
+        if (_canDash)
+        {
+            StartCoroutine(DashCoroutine());
+            StartCoroutine(DashCooldownCoroutine());
+        }
     }
 
-    private IEnumerator Dash()
+    private IEnumerator DashCoroutine()
     {
-        StartCoroutine(DashCooldownCountdown());
-
         _animator.SetFloat("Speed", 1f);
-
-        _health.SetInvincible(true);
-
-        _stateManager.SetDashing();
-
-        _audioSource.Play();
-
-        _canDash = false;
-
         _trailRenderer.enabled = true;
+        _health.SetInvincible(true);
+        _stateManager.SetDashing();
+        _audioSource.Play();
+        _canDash = false;
 
         float startTime = Time.time;
 
@@ -81,34 +74,38 @@ public class PlayerDash : MonoBehaviour
         }
 
         _trailRenderer.enabled = false;
-
         _health.SetInvincible(false);
-
         _stateManager.SetIdle();
-
-        DashEnd?.Invoke();
+        OnDashEnd();
     }
 
-    private IEnumerator DashCooldownCountdown()
+    private IEnumerator DashCooldownCoroutine()
     {
-        CooldownStart?.Invoke(_dashCD);
-
+        OnDashCooldownStart(_dashCD);
         _currentCD = _dashCD;
 
         while (_currentCD > 0f)
         {
             _currentCD -= Time.deltaTime * _dataManager.GetDashModifier();
-
-            CooldownCountdown?.Invoke(_currentCD);
-
+            OnDashCooldownUpdate(_currentCD);
             yield return null;
         }
-        
-        ResetDash();
+
+        _canDash = true;
     }
 
-    private void ResetDash()
+    private void OnDashCooldownStart(float time)
     {
-        _canDash = true;
+        DashCooldownStart?.Invoke(time);
+    }
+
+    private void OnDashCooldownUpdate(float time)
+    {
+        DashCooldownUpdate?.Invoke(time);
+    }
+
+    private void OnDashEnd()
+    {
+        DashEnd?.Invoke();
     }
 }

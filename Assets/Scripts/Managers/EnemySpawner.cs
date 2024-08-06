@@ -164,5 +164,4 @@ public class EnemySpawner : MonoBehaviour
         _activated = true;
         StartNextWave();
     }
-
 }

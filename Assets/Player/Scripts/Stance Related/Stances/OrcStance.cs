@@ -9,11 +9,11 @@ public class OrcStance : Stance, IStance
     [SerializeField] private float _damageReductionPercentage;
 
     private PlayerHeavyAttack _heavyAttack;
-    private PlayerHealth _health;
+    private Health _health;
 
     private void Start()
     {
-        _health = GetComponent<PlayerHealth>();
+        _health = GetComponent<Health>();
     }
 
     private void OnDisable()

@@ -809,25 +809,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    //
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    if (meleePoint != null)
-    //    {
-    //        Gizmos.color = Color.red;
-    //        Gizmos.matrix = Matrix4x4.TRS(meleePoint.position, meleePoint.rotation, Vector3.one);
-    //        Gizmos.DrawWireCube(Vector3.zero, attackSize);
-
-    //    }
-
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireSphere(transform.position, shockwaveRange);
-
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, vampireUltRange);
-    //}
-
     #endregion
 
     // END OF EXECUTION

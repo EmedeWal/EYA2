@@ -5,35 +5,37 @@ public class GhostStance : Stance, IStance
     [Header("GHOST STANCE")]
     [SerializeField] private float _dashCooldownModifier = 2;
     [SerializeField] private GameObject _explosionPrefab;
+    private PlayerDash _playerDash;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _playerDash = GetComponent<PlayerDash>();
+    }
 
     public void Enter()
     {
         ManageStanceSwap();
-        DataManager.SetDashModifier(_dashCooldownModifier);
+        _DataManager.SetDashModifier(_dashCooldownModifier);
     }
 
     public void Exit()
     {
-        DataManager.SetDashModifier(1);
+        _DataManager.SetDashModifier(1);
     }
 
     public void CastUltimate()
     {
-        PlayerDash.DashEnd += GhostStance_DashEnd;
-
-        IgnoreCollisions(true);
-
         Invoke(nameof(EndUltimate), UltimateDuration);
-
+        _playerDash.DashEnd += GhostStance_DashEnd;
+        IgnoreCollisions(true);
         ActivateUltimate();
     }
 
     private void EndUltimate()
     {
-        PlayerDash.DashEnd -= GhostStance_DashEnd;
-
+        _playerDash.DashEnd -= GhostStance_DashEnd;
         IgnoreCollisions(false);
-
         DeactivateUltimate();
     }
 

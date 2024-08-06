@@ -1,12 +1,28 @@
 using UnityEngine;
 
-public abstract class StanceUI : MonoBehaviour
+public class StanceUI : MonoBehaviour
 {
+    [Header("REFERENCES")]
     [SerializeField] private GameObject[] _stanceIcons;
+
+    private void OnEnable()
+    {
+        Stance.UpdateStance += StanceUI_UpdateStance;
+    }
+
+    private void OnDisable()
+    {
+        Stance.UpdateStance -= StanceUI_UpdateStance;
+    }
 
     private void Start()
     {
         DisableUI();
+    }
+
+    protected virtual void StanceUI_UpdateStance(StanceType stanceType)
+    {
+        UpdateUI(stanceType);
     }
 
     protected void UpdateUI(StanceType stanceType)

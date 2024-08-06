@@ -3,32 +3,34 @@ using System.Collections;
 
 public class UltimateUI : FillUI
 {
-    private void Start()
-    {
-        ManageTimerImage(false);
-    }
+    //private void Start()
+    //{
+    //    ManageTimerImage(false);
+    //}
 
     private void OnEnable()
     {
-        StancePurchaseMenu.UnlockStance += UltimateUI_UnlockStance;
+        //StancePurchaseMenu.UnlockStance += UltimateUI_UnlockStance;
+        Stance.UltimateStart += UltimateUI_UltimateStart;
     }
 
     private void OnDisable()
     {
-        StancePurchaseMenu.UnlockStance -= UltimateUI_UnlockStance;
+        //StancePurchaseMenu.UnlockStance -= UltimateUI_UnlockStance;
+        Stance.UltimateStart -= UltimateUI_UltimateStart;
     }
 
-    private void UltimateUI_UnlockStance(StanceType stanceType)
+    //private void UltimateUI_UnlockStance(StanceType stanceType)
+    //{
+    //    ManageTimerImage(true);
+    //}
+
+    private void UltimateUI_UltimateStart(float duration)
     {
-        ManageTimerImage(true);
+        StartCoroutine(UltimateDurationCoroutine(duration));
     }
 
-    public void Duration(float duration)
-    {
-        StartCoroutine(DurationCoroutine(duration));
-    }
-
-    private IEnumerator DurationCoroutine(float duration)
+    private IEnumerator UltimateDurationCoroutine(float duration)
     {
         float remainingTime = duration;
 
@@ -42,8 +44,8 @@ public class UltimateUI : FillUI
         }
     }
 
-    private void ManageTimerImage(bool active)
-    {
-        TimerImage.gameObject.SetActive(active);
-    }
+    //private void ManageTimerImage(bool active)
+    //{
+    //    TimerImage.gameObject.SetActive(active);
+    //}
 }
