@@ -11,12 +11,6 @@ public class EnemyHealth : Health
     private EnemyHealthUI _enemyHealthUI;
     private GameObject _canvasReference;
 
-    public delegate void EnemyHealth_EnemyDamageTaken(float amount);
-    public static event EnemyHealth_EnemyDamageTaken EnemyDamageTaken;
-
-    public delegate void EnemyHealth_EnemyDied();
-    public static event EnemyHealth_EnemyDied EnemyDied;
-
     [Header("DEATH RELATED")]
     [SerializeField] private Animator _animator;
     private NavMeshAgent _agent;

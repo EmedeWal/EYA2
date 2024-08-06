@@ -379,7 +379,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3427616205837227700}
-  - component: {fileID: 1643740618580109161}
+  - component: {fileID: 123896228163231895}
+  - component: {fileID: 1539621868154433378}
+  - component: {fileID: 6912794516248056480}
   m_Layer: 0
   m_Name: Enemy Canvas
   m_TagString: Untagged
@@ -396,14 +398,14 @@ Transform:
   m_GameObject: {fileID: 2127526210997560067}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.06, z: 0}
+  m_LocalPosition: {x: 0, y: 7.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5996400748174031550}
   m_Father: {fileID: 2183621556495727823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1643740618580109161
+--- !u!114 &123896228163231895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,7 +414,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2127526210997560067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545f17a8f3d0ca54b9e06cde115f204f, type: 3}
+  m_Script: {fileID: 11500000, guid: d5c1e582d16223f479f0fb0f0b135523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gradient:
@@ -447,9 +449,33 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   slider: {fileID: 2964951937479316708}
   fill: {fileID: 7247160049336540086}
-  _health: {fileID: 0}
+  _health: {fileID: 4426319692199166446}
+--- !u!114 &1539621868154433378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127526210997560067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e73825fcc2705c4581b7ac5651726fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _bleedText: {fileID: 7868693311460341679}
   _bleedIcon: {fileID: 6983118071161790647}
+--- !u!114 &6912794516248056480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127526210997560067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b362b01821a5bae42b91e33fcdda152f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2313407279125676644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,6 +1380,7 @@ GameObject:
   - component: {fileID: 8021781040299788388}
   - component: {fileID: 5028792203554100145}
   - component: {fileID: 4426319692199166446}
+  - component: {fileID: 4442470044747540036}
   m_Layer: 11
   m_Name: Skeleton
   m_TagString: Enemy
@@ -1555,9 +1582,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxValue: 0
-  _startingValue: 0
+  _maxValue: 75
+  _startingValue: 50
   _deathDelay: 3
+--- !u!114 &4442470044747540036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4682828495929238245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d066b75bbe3cdec4db0f82f7053754c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5080679648060460589
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2353,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7031062994074507759}
-  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
+  m_LocalRotation: {x: -0.3420201, y: 0, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2322,7 +2361,7 @@ RectTransform:
   - {fileID: 5078844989660193444}
   - {fileID: 8909320880654270671}
   m_Father: {fileID: 3427616205837227700}
-  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -40, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}

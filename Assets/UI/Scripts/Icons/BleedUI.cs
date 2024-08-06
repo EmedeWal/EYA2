@@ -3,25 +3,41 @@ using TMPro;
 
 public class BleedUI : MonoBehaviour
 {
-    [Header("BLEED SYSTEM")]
+    [Header("REFERENCES")]
     [SerializeField] private TextMeshProUGUI _bleedText;
     [SerializeField] private GameObject _bleedIcon;
+    private Bleed _bleed;
+
+    // Variables
     private int _bleedStacks = 0;
 
-    public void AddBleed()
+    private void Awake()
     {
-        ModifyBleedStacks(1);
-
-        _bleedIcon.SetActive(true);
+        _bleed = GetComponentInParent<Bleed>();
+        _bleedIcon.SetActive(false);
     }
 
-    public void RemoveBleed()
+    private void OnEnable()
     {
-        ModifyBleedStacks(-1);
+        _bleed.BleedUpdate += BleedUI_BleedUpdate;
+    }
 
-        if (_bleedStacks == 0)
+    private void OnDisable()
+    {
+        _bleed.BleedUpdate -= BleedUI_BleedUpdate;
+    }
+
+    private void BleedUI_BleedUpdate(int modification)
+    {
+        ModifyBleedStacks(modification);
+
+        if (modification < 0)
         {
-            _bleedIcon.SetActive(false);
+            if (_bleedStacks == 0) _bleedIcon.SetActive(false);
+        }
+        else
+        {
+            _bleedIcon.SetActive(true);
         }
     }
 
