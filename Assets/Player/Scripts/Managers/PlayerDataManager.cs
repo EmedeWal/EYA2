@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using System;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -29,20 +29,28 @@ public class PlayerDataManager : MonoBehaviour
 
     #endregion
 
-    #region Directions
+    #region Movement
+    [SerializeField] private MovementData _movementData;
 
-    private DirectionData _directionData;
-
-    private void SetDirection(Vector2 direction)
+    public void SetDirection(Vector2 newDirection)
     {
-        _directionData.Direction = direction;
+        _movementData.Direction = newDirection;
     }
 
     public Vector2 GetDirection()
     {
-        return _directionData.Direction;
+        return _movementData.Direction;
     }
 
+    public void SetMovementModifier(float newModifier)
+    {
+        _movementData.MovementModifier = newModifier;
+    }
+
+    public float GetMovementModifier()
+    {
+        return _movementData.MovementModifier;
+    }
     #endregion
 
     #region Dashing
@@ -59,6 +67,20 @@ public class PlayerDataManager : MonoBehaviour
         return _dashData.DashModifier;
     }
 
+    #endregion
+
+    #region Attacking
+    [SerializeField] private AttackData _attackData;
+
+    public void SetAttackModifier(float newModifier)
+    {
+        _attackData.AttackModifier = newModifier;
+    }
+
+    public float GetAttackModifier()
+    {
+        return _attackData.AttackModifier;
+    }
     #endregion
 
     #region Stances
@@ -115,15 +137,23 @@ public class PlayerDataManager : MonoBehaviour
     #endregion
 }
 
-public struct DirectionData
+[Serializable]
+public struct MovementData
 {
-    public Vector2 Direction;
+    [HideInInspector] public Vector2 Direction;
+    public float MovementModifier;
 }
 
 [Serializable]
 public struct DashData
 {
     public float DashModifier;
+}
+
+[Serializable]
+public struct AttackData
+{
+    public float AttackModifier;
 }
 
 [Serializable]

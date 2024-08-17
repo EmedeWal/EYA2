@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -25,7 +24,6 @@ public class PlayerDash : MonoBehaviour
     public delegate void Delegate_DashCooldown(float cooldown);
     public event Delegate_DashCooldown DashCooldownStart;
     public event Delegate_DashCooldown DashCooldownUpdate;
-    public event Action DashEnd;
 
     private void Awake()
     {
@@ -76,7 +74,6 @@ public class PlayerDash : MonoBehaviour
         _trailRenderer.enabled = false;
         _health.SetInvincible(false);
         _stateManager.SetIdle();
-        OnDashEnd();
     }
 
     private IEnumerator DashCooldownCoroutine()
@@ -102,10 +99,5 @@ public class PlayerDash : MonoBehaviour
     private void OnDashCooldownUpdate(float time)
     {
         DashCooldownUpdate?.Invoke(time);
-    }
-
-    private void OnDashEnd()
-    {
-        DashEnd?.Invoke();
     }
 }

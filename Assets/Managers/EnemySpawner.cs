@@ -45,13 +45,11 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnable()
     {
         PlayerSkip.Skip += EnemySpawner_Skip;
-        EnemyHealth.EnemyDied += EnemySpawner_EnemyHasDied;
     }
 
     private void OnDisable()
     {
         PlayerSkip.Skip -= EnemySpawner_Skip;
-        EnemyHealth.EnemyDied -= EnemySpawner_EnemyHasDied;
     }
 
     private void EnemySpawner_Skip()

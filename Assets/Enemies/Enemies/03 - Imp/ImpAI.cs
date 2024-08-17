@@ -21,9 +21,9 @@ public class ImpAI : RangedEnemyAI
 
     private void OnDestroy()
     {
-        if (GetComponent<EnemyHealth>().AtMinValue())
-        {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        }
+        //if (GetComponent<EnemyHealth>().AtMinValue())
+        //{
+        //    Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        //}
     }
 }

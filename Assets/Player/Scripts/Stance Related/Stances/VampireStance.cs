@@ -10,40 +10,36 @@ public class VampireStance : Stance, IStance
 
     private void OnDisable()
     {
-        PlayerAttack.SuccesfulAttack -= VampireStance_SuccesfulAttack;
-    }
-
-    private void VampireStance_SuccesfulAttack(Collider hit, float damage)
-    {
-        if (!hit.TryGetComponent<EnemyHealth>(out var enemyHealth)) return;
-
-        enemyHealth.Bleed(damage / 2, _totalBleedDuration);
+        PlayerAttack.SuccessfulAttack -= VampireStance_SuccesfulAttack;
     }
 
     public void Enter()
     {
         ManageStanceSwap();
-        PlayerAttack.SuccesfulAttack += VampireStance_SuccesfulAttack;
+        PlayerAttack.SuccessfulAttack += VampireStance_SuccesfulAttack;
     }
 
     public void Exit()
     {
-        PlayerAttack.SuccesfulAttack -= VampireStance_SuccesfulAttack;
+        PlayerAttack.SuccessfulAttack -= VampireStance_SuccesfulAttack;
     }
 
     public void CastUltimate()
     {
         _DataManager.SetLifeSteal(_lifestealPercentage / 100);
-
         Invoke(nameof(EndUltimate), UltimateDuration);
-
         ActivateUltimate();
+    }
+
+    private void VampireStance_SuccesfulAttack(Collider hit, float damage)
+    {
+        if (!hit.TryGetComponent<Bleed>(out var bleed)) return;
+        bleed.InflictBleed(damage / 2, _totalBleedDuration);
     }
 
     private void EndUltimate()
     {
         _DataManager.SetLifeSteal(0);
-
         DeactivateUltimate();
     }
 }

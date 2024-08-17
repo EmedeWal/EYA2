@@ -43,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
     {
         GetDirection();
         DetermineBehavior();
-
         TrackVelocity();
     }
     
@@ -74,13 +73,12 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetFloat("Speed", _movementDirection.magnitude);
         }
 
-        // Apply gravity
         Ground();
     }
 
     private void Movement()
     {
-        _controller.Move(_movementSpeed * Time.deltaTime * _movementDirection);
+        _controller.Move(_dataManager.GetMovementModifier() * _movementSpeed * Time.deltaTime * _movementDirection);
     }
 
     private void Ground()

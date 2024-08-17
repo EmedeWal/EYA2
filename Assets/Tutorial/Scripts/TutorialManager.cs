@@ -32,7 +32,7 @@ public class TutorialManager : MonoBehaviour
     {
         //PlayerHealth.PlayerHealed += TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer += TutorialManager_TeleportedPlayer;
-        EnemyHealth.EnemyDied += TutorialManager_EnemyHasDied;
+        //EnemyHealth.EnemyDied += TutorialManager_EnemyHasDied;
         StancePurchaseMenu.UnlockStance += TutorialManager_UnlockStance;
         //PlayerMana.ManaRestored += TutorialManager_ManaRestored;
     }
@@ -41,7 +41,7 @@ public class TutorialManager : MonoBehaviour
     {
         //PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer -= TutorialManager_TeleportedPlayer;
-        EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
+        //EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
         StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
         //PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
         PlayerPause.Pause -= TutorialManager_Pause;
@@ -132,7 +132,7 @@ public class TutorialManager : MonoBehaviour
             IncreaseIndex();
             OnThirdBatchDefeated();
 
-            EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
+            //EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
         }
     }
 

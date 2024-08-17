@@ -649,8 +649,9 @@ GameObject:
   m_Component:
   - component: {fileID: 437653107}
   - component: {fileID: 437653106}
+  - component: {fileID: 437653108}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -685,6 +686,18 @@ Transform:
   - {fileID: 38462169}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437653108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437653105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500628cc6a6eb474db9d4e986e9e57ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &444278051 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1327409407972195936, guid: 3d7e0b0d63d5ba24bb44f55e8b48db0a, type: 3}
@@ -899,6 +912,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f9e65acf41e9bc4aa4196e7318e5972, type: 3}
+--- !u!114 &648830038 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4426319692199166446, guid: b96fd0b89f7148743af71404495328d6, type: 3}
+  m_PrefabInstance: {fileID: 1640311919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &927146725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,6 +2147,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4245435837812985321, guid: 299132d69c5bdf5469663043529e7696, type: 3}
+      propertyPath: _attackData.AttackModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245435837812985321, guid: 299132d69c5bdf5469663043529e7696, type: 3}
+      propertyPath: _movementData.MovementModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245435837812985321, guid: 299132d69c5bdf5469663043529e7696, type: 3}
+      propertyPath: _movementData.MovementSpeedModifier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4953715007330098528, guid: 299132d69c5bdf5469663043529e7696, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2130,6 +2166,14 @@ PrefabInstance:
     - target: {fileID: 4953715007330098528, guid: 299132d69c5bdf5469663043529e7696, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6055289211533731926, guid: 299132d69c5bdf5469663043529e7696, type: 3}
+      propertyPath: UltimateDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365621094093429924, guid: 299132d69c5bdf5469663043529e7696, type: 3}
+      propertyPath: _refillBoostOnKill
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7972231894251925974, guid: 299132d69c5bdf5469663043529e7696, type: 3}
       propertyPath: m_Name
@@ -2206,6 +2250,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8216642734795537196, guid: c73ad219c50e9bd4991d0a969e80cb91, type: 3}
+      propertyPath: _healthReferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 648830038}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

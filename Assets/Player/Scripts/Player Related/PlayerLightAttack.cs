@@ -1,23 +1,21 @@
-using UnityEngine;
-
 public class PlayerLightAttack : PlayerAttack
 {
     private void OnEnable()
     {
-        InputManager.LightAttackInput_Performed += PlayerLightAttack_LightAttackInput_Performed;
+        _InputManager.LightAttackInput_Performed += PlayerLightAttack_LightAttackInput_Performed;
     }
 
     private void OnDisable()
     {
-        InputManager.LightAttackInput_Performed -= PlayerLightAttack_LightAttackInput_Performed;
+        _InputManager.LightAttackInput_Performed -= PlayerLightAttack_LightAttackInput_Performed;
     }
 
     private void PlayerLightAttack_LightAttackInput_Performed()
     {
-        if (CanAttack)
+        if (_CanAttack)
         {
-            Animator.SetFloat("Speed", 0);
-            Animator.SetTrigger("Light Attack");
+            _Animator.SetFloat("Speed", 0);
+            _Animator.SetTrigger("Light Attack");
             StartCharging();
         }
     }

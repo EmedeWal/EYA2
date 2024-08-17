@@ -18,7 +18,7 @@ public class OrcStance : Stance, IStance
 
     private void OnDisable()
     {
-        PlayerAttack.SuccesfulAttack -= OrcStance_SuccesfulAttack;
+        PlayerAttack.SuccessfulAttack -= OrcStance_SuccesfulAttack;
     }
 
     private void OrcStance_SuccesfulAttack(Collider hit, float damage)
@@ -31,12 +31,12 @@ public class OrcStance : Stance, IStance
     public void Enter()
     {
         ManageStanceSwap();
-        PlayerAttack.SuccesfulAttack += OrcStance_SuccesfulAttack;
+        PlayerAttack.SuccessfulAttack += OrcStance_SuccesfulAttack;
     }
 
     public void Exit()
     {
-        PlayerAttack.SuccesfulAttack -= OrcStance_SuccesfulAttack;
+        PlayerAttack.SuccessfulAttack -= OrcStance_SuccesfulAttack;
     }
 
     public void CastUltimate()

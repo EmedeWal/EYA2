@@ -51,17 +51,12 @@ public abstract class Potion : MonoBehaviour
         OnChargesUpdated();
     }
 
-    //private void Potion_EnemyDied()
-    //{
-    //    BoostRefill();
-    //}
-
-    private void BoostRefill()
+    public void BoostRefill(float amount)
     {
         if (!_isRefilling) return;
 
         _isRefilling = false;
-        _remainingTime -= _refillOnKill;
+        _remainingTime -= amount;
 
         if (_remainingTime > 0) return;
 

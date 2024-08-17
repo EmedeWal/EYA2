@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class Health : Resource
 {
-    [Header("DEATH RELATED")]
-    [SerializeField] private float _deathDelay = 3f;
-
     // Variables
     private float _damageModifier = 1;
     private bool _invincible = false;
 
     // Events
-    public delegate void DeathDelegate(float deathDelay);
+    public delegate void DeathDelegate(GameObject gameObject);
     public event DeathDelegate Death;
 
     private void Start()
@@ -55,6 +52,6 @@ public class Health : Resource
 
     private void OnDeath()
     {
-        Death?.Invoke(_deathDelay);
+        Death?.Invoke(gameObject);
     }
 }
