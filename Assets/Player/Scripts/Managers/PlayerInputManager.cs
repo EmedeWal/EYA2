@@ -101,7 +101,7 @@ public class PlayerInputManager : MonoBehaviour
         _pauseAction.performed -= OnPauseInput_Performed;
         _ultimateAction.performed -= OnUltimateInput_Performed;
         _directionAction.performed -= OnDirectionInput;
-        _directionAction.canceled += OnDirectionInput;
+        _directionAction.canceled -= OnDirectionInput;
         _interactionAction.performed -= OnInteractionInput_Performed;
         _swapMenuAction.performed -= OnSwapMenuInput_Performed;
         _lightAttackAction.performed -= OnLightAttackInput_Performed;

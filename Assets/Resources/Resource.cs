@@ -14,7 +14,7 @@ public abstract class Resource : MonoBehaviour
     public event Action<float> ValueRemoved;
     public event Action CoroutineCompleted;
 
-    protected void InitializeValues()
+    public void InitializeValues()
     {
         _currentValue = _startingValue;
         OnMaxValueInitialized();
@@ -23,7 +23,6 @@ public abstract class Resource : MonoBehaviour
 
     protected void AddValue(float amount)
     {
-        float initialValue = _currentValue;
         _currentValue += amount;
 
         if (_currentValue > _maxValue)
@@ -31,13 +30,12 @@ public abstract class Resource : MonoBehaviour
             _currentValue = _maxValue;
         }
 
-        float amountRemoved = initialValue - _currentValue;
-        OnValueRemoved(amountRemoved);
         OnCurrentValueUpdated();
     }
 
     protected void RemoveValue(float amount)
     {
+        float initialValue = _currentValue;
         _currentValue -= amount;
 
         if (_currentValue < 0)
@@ -45,6 +43,8 @@ public abstract class Resource : MonoBehaviour
             _currentValue = 0;
         }
 
+        float amountRemoved = initialValue - _currentValue;
+        OnValueRemoved(amountRemoved);
         OnCurrentValueUpdated();
     }
 

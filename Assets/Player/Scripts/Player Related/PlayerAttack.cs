@@ -81,6 +81,7 @@ public abstract class PlayerAttack : MonoBehaviour
 
     private void PlayerAttack_ValueRemoved(float amount)
     {
+        Debug.Log("Value removed");
         _health.Heal(amount * _dataManager.GetLifeSteal());
     }
 

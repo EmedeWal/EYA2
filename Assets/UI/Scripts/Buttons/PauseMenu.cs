@@ -38,13 +38,13 @@ public class PauseMenu : ButtonUI
 
     private void PauseMenu_Pause()
     {
-        Time.timeScale = 0;
+        TimeManager.Instance.SetTimeScaleToZero();
         OpenPauseMenu();
     }
 
     private void PauseMenu_Resume()
     {
-        Time.timeScale = 1;
+        TimeManager.Instance.RevertToPreviousTimeScale();
         ClosePauseMenu();
     }
 

@@ -21,6 +21,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _waveDurationIncrement = 15f;
     private int _waveValue;
 
+    private EnemyManager _enemyManager;
+
     private List<GameObject> _enemiesToSpawn = new List<GameObject>();
     private float _spawnInterval;
 
@@ -36,6 +38,11 @@ public class EnemySpawner : MonoBehaviour
 
     public delegate void EnemySpawner_WaveEnd();
     public static event EnemySpawner_WaveEnd WaveEnd;
+
+    private void Awake()
+    {
+        _enemyManager = GetComponent<EnemyManager>();   
+    }
 
     private void Start()
     {
@@ -76,12 +83,9 @@ public class EnemySpawner : MonoBehaviour
     private void StartNextWave()
     {
         _onCooldown = false;
-
         _enemiesKilled = 0;
         _enemiesInWave = 0;
-
         _currentWave++;
-
         OnWaveStart();
         GenerateWave();
     }
@@ -135,6 +139,8 @@ public class EnemySpawner : MonoBehaviour
             GameObject currentEnemy = Instantiate(_enemiesToSpawn[0], _spawnPosition, _spawnRotation, transform);
 
             _enemiesSpawned.Add(currentEnemy);
+            currentEnemy.GetComponent<Health>().Death += EnemySpawner_Death;
+            _enemyManager.AddEnemy(currentEnemy.GetComponent<Enemy>());
             _enemiesToSpawn.RemoveAt(0);
         }
     }
@@ -161,5 +167,16 @@ public class EnemySpawner : MonoBehaviour
     {
         _activated = true;
         StartNextWave();
+    }
+
+    private void EnemySpawner_Death(GameObject deathObject)
+    {
+        _enemiesSpawned.Remove(deathObject);
+
+        if (_enemiesSpawned.Count == 0)
+        {
+            _onCooldown = true;
+            OnWaveEnd();
+        }
     }
 }

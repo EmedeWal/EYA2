@@ -1,10 +1,5 @@
 public class Mana : Resource
 {
-    private void Start()
-    {
-        InitializeValues();
-    }
-
     public void GainMana(float amount)
     {
         AddValue(amount);

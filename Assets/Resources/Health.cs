@@ -10,11 +10,6 @@ public class Health : Resource
     public delegate void DeathDelegate(GameObject gameObject);
     public event DeathDelegate Death;
 
-    private void Start()
-    {
-        InitializeValues();
-    }
-
     public void Heal(float amount)
     {
         AddValue(amount);

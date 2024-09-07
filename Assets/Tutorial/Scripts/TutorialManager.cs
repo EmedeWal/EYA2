@@ -1,8 +1,33 @@
-using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine;
+
+/// <summary>
+/// TUTORIAL FLOW:
+/// 1: Player moves towards lava.
+/// 2: Player dashes over lava.
+/// 3: Player destroys barrels by attacking.
+/// 4: Player kills the first skeleton.
+/// 5: Player unlocks the health potion.
+/// 6: Player unlocks the teleporter upon finishing the heal.
+/// 7: Update message to notify player of potion refilling.
+/// 8: Spawn additional enemies upon descending the stairs.
+/// 9: Unlock a stance shop which the player can use to unlock the first stance.
+/// 10: Explain stance logic.
+/// 11: Unlock mana potion.
+/// 12: Upon finishing the mana potion, spawn additional enemies and notify the player of his ultimate.
+/// 13: Unlock the other stance shops.
+/// 14: Once the player has all stances, show him how to check which stances he has in the stance view. MAKE SURE TO UPDATE THE GHOST ULT BTW
+/// 15: Then, show him the exit menu??? Not sure if that is the step.
+/// 16: Infinite spawning to experiment. 
+/// </summary>
 
 public class TutorialManager : MonoBehaviour
 {
+    [Header("PLAYER REFERENCE")]
+    [SerializeField] private GameObject _playerObject;
+    [SerializeField] private Resource[] _toInitializeArray;
+    [SerializeField] private GameObject[] _toDisableArray;
+
     [Header("MESSAGES")]
     [SerializeField] private GameObject[] _messages;
     private int _messageIndex = 0;
@@ -23,27 +48,37 @@ public class TutorialManager : MonoBehaviour
     private int _enemiesDied = 0;
     private int _stancesUnlocked = 0;
 
-    private void Awake()
+    private void Start()
     {
         UpdateMessage();
+
+        _playerObject.GetComponent<Mana>().InitializeValues();
+
+        foreach (Resource resource in _toInitializeArray)
+        {
+            resource.InitializeValues();
+        }
+
+        foreach (GameObject gameObject in _toDisableArray)
+        {
+            gameObject.SetActive(false);
+        }
+
+        _toDisableArray = null;
     }
 
     private void OnEnable()
     {
-        //PlayerHealth.PlayerHealed += TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer += TutorialManager_TeleportedPlayer;
-        //EnemyHealth.EnemyDied += TutorialManager_EnemyHasDied;
+        EnemyManager.EnemyDeath += TutorialManager_EnemyDeath;
         StancePurchaseMenu.UnlockStance += TutorialManager_UnlockStance;
-        //PlayerMana.ManaRestored += TutorialManager_ManaRestored;
     }
 
     private void OnDisable()
     {
-        //PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
         Teleporter.TeleportedPlayer -= TutorialManager_TeleportedPlayer;
-        //EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
+        EnemyManager.EnemyDeath -= TutorialManager_EnemyDeath;
         StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
-        //PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
         PlayerPause.Pause -= TutorialManager_Pause;
         PlayerStanceManager.StanceSwap -= TutorialManager_StanceSwap;
     }
@@ -51,10 +86,8 @@ public class TutorialManager : MonoBehaviour
     private void TutorialManager_PlayerHealed()
     {
         IncreaseIndex();
-
-        //PlayerHealth.PlayerHealed -= TutorialManager_PlayerHealed;
-
         OnHealthPotionConsumed();
+        _playerObject.GetComponent<Health>().CoroutineCompleted -= TutorialManager_PlayerHealed;
     }
 
     private void TutorialManager_TeleportedPlayer()
@@ -70,17 +103,14 @@ public class TutorialManager : MonoBehaviour
 
         if (_stancesUnlocked == 1)
         {
-            OnUnlockedFirstStance();
-
             IncreaseIndex();
+            OnUnlockedFirstStance();
             Invoke(nameof(OnUnlockManaPotion), 8f);
         }
         else if (_stancesUnlocked == 3)
         {
             IncreaseIndex();
-
             StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
-
             PlayerStanceManager.StanceSwap += TutorialManager_StanceSwap;
         }
     }
@@ -88,18 +118,14 @@ public class TutorialManager : MonoBehaviour
     private void TutorialManager_ManaRestored()
     {
         IncreaseIndex();
-
-        //PlayerMana.ManaRestored -= TutorialManager_ManaRestored;
-
         OnSpawnEnemies();
+        _playerObject.GetComponent<Mana>().CoroutineCompleted -= TutorialManager_ManaRestored;
     }
 
     private void TutorialManager_StanceSwap()
     {
         IncreaseIndex();
-
         PlayerStanceManager.StanceSwap -= TutorialManager_StanceSwap;
-
         PlayerPause.Pause += TutorialManager_Pause;
     }
 
@@ -113,26 +139,25 @@ public class TutorialManager : MonoBehaviour
         PlayerPause.Pause -= TutorialManager_Pause;
     }
 
-    private void TutorialManager_EnemyHasDied()
+    private void TutorialManager_EnemyDeath()
     {
         _enemiesDied++;
 
         if (_enemiesDied == 1)
         {
             IncreaseIndex();
-            FirstBatchDefeated.Invoke();
+            OnFirstBatchDefeated();
         }
         else if (_enemiesDied == 3)
         {
             IncreaseIndex();
-            SecondBatchDefeated.Invoke();
+            OnSecondBatchDefeated();
         }
         else if (_enemiesDied == 7)
         {
             IncreaseIndex();
             OnThirdBatchDefeated();
-
-            //EnemyHealth.EnemyDied -= TutorialManager_EnemyHasDied;
+            EnemyManager.EnemyDeath -= TutorialManager_EnemyDeath;
         }
     }
 
@@ -150,6 +175,7 @@ public class TutorialManager : MonoBehaviour
     {
         IncreaseIndex();
         UnlockManaPotion.Invoke();
+        _playerObject.GetComponent<Mana>().CoroutineCompleted += TutorialManager_ManaRestored;
     }
 
     private void OnSpawnEnemies()
@@ -160,6 +186,17 @@ public class TutorialManager : MonoBehaviour
     private void OnActivateSpawner()
     {
         ActivateSpawner.Invoke();   
+    }
+
+    private void OnFirstBatchDefeated()
+    {
+        _playerObject.GetComponent<Health>().CoroutineCompleted += TutorialManager_PlayerHealed;
+        FirstBatchDefeated.Invoke();
+    }
+
+    private void OnSecondBatchDefeated()
+    {
+        SecondBatchDefeated.Invoke();
     }
 
     private void OnThirdBatchDefeated()

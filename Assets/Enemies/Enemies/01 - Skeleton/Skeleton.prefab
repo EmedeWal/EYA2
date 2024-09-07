@@ -1583,8 +1583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 75
-  _startingValue: 50
-  _deathDelay: 3
+  _startingValue: 75
 --- !u!114 &4442470044747540036
 MonoBehaviour:
   m_ObjectHideFlags: 0

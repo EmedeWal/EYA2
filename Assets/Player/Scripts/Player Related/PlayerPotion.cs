@@ -12,10 +12,7 @@ public class PlayerPotion : MonoBehaviour
     private void Awake()
     {
         _inputManager = GetComponent<PlayerInputManager>();
-    }
 
-    private void Start()
-    {
         IPotion[] potions = GetComponentsInChildren<IPotion>();
 
         foreach (var potion in potions)
