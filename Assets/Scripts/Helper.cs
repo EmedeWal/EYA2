@@ -15,7 +15,7 @@ namespace EW
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            _animator = GetComponentInChildren<Animator>();
             //Horizontal = Animator.StringToHash("Horizontal");
             //Vertical = Animator.StringToHash("Vertical");
         }
@@ -35,8 +35,8 @@ namespace EW
             }
 
             _animator.SetBool("LockedOn", LockedOn);
-            _animator.SetFloat("Horizontal", Horizontal);
-            _animator.SetFloat("Vertical", Vertical);
+            _animator.SetFloat("Horizontal", Horizontal, 0.1f, Time.deltaTime);
+            _animator.SetFloat("Vertical", Vertical, 0.1f, Time.deltaTime);
         }
     }
 }

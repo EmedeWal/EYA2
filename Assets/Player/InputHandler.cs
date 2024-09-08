@@ -22,10 +22,13 @@ public class InputHandler : MonoBehaviour
         _inputActions ??= new InputActions();
 
         _inputActions.PlayerMovement.LeftStick.performed += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.PlayerMovement.LeftStick.canceled += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
         _inputActions.PlayerMovement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.PlayerMovement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
         _inputActions.Enable();
     }
+
 
     void OnDisable()
     {
@@ -45,7 +48,7 @@ public class InputHandler : MonoBehaviour
     {
         HandleAllInput();
         _delta = Time.deltaTime;
-        _cameraManager.OnUpdate(_delta, _rightStickX, _rightStickY);
+        _stateManager.OnUpdate(_delta);
     }
 
     void FixedUpdate()
@@ -53,20 +56,21 @@ public class InputHandler : MonoBehaviour
         _delta = Time.fixedDeltaTime;
         HandleAllInput();
         UpdateStateManager();
-        _stateManager.OnFixedUpdate(_delta);
+        _cameraManager.OnUpdate(_delta, _rightStickX, _rightStickY);
     }
 
     void UpdateStateManager()
     {
         _stateManager.Horizontal = _leftStickX;
         _stateManager.Vertical = _leftStickY;
-        _stateManager.OnFixedUpdate(_delta);
 
         Vector3 horizontal = _stateManager.Horizontal * _cameraManager.transform.right;
         Vector3 vertical = _stateManager.Vertical * _cameraManager.transform.forward;
         _stateManager.MovementDirection = (horizontal + vertical).normalized;
         float movement = Mathf.Abs(_leftStickX) + Mathf.Abs(_leftStickY);
         _stateManager.MovementAmount = Mathf.Clamp01(movement);
+
+        _stateManager.OnFixedUpdate(_delta);
     }
 
     void HandleAllInput()

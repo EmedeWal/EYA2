@@ -45,7 +45,7 @@ public class PlayerInputManager : MonoBehaviour
         _dashAction = _inputActionAsset.FindAction("Dash");
         _pauseAction = _inputActionAsset.FindAction("Pause");
         _ultimateAction = _inputActionAsset.FindAction("Ultimate");
-        _directionAction = _inputActionAsset.FindAction("Direction");
+        _directionAction = _inputActionAsset.FindAction("Left Stick");
         _interactionAction = _inputActionAsset.FindAction("Interaction");
         _swapMenuAction = _inputActionAsset.FindAction("Swap Menu");
         _lightAttackAction = _inputActionAsset.FindAction("Light Attack");

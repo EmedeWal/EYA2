@@ -11661,8 +11661,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab386a48e8e6342499a2b75a26fe71e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementData:
+    Direction: {x: 0, y: 0}
+    MovementModifier: 1
   _dashData:
     DashModifier: 1
+  _attackData:
+    AttackModifier: 0
   _stanceData:
     LifeSteal: 0
     DamageReduction: 1
@@ -11776,6 +11781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2babf344bf2fb247aef64d38d05a9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _refillBoostOnKill: 5
 --- !u!114 &7447608430744828792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11886,7 +11892,9 @@ MonoBehaviour:
   _audioVolume: 0.2
   _audioOffset: 1
   _dashCooldownModifier: 2
-  _explosionPrefab: {fileID: 2687576285635060487, guid: 09d65db74aa3d4542903fe4d266f7055, type: 3}
+  _timeSlowPercentage: 50
+  _movementSpeedBoostPercentage: 20
+  _attackDamageBoostPercentage: 100
 --- !u!114 &6859212378461956835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11901,7 +11909,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxValue: 100
   _startingValue: 50
-  _deathDelay: 3
 --- !u!114 &1737648007111650666
 MonoBehaviour:
   m_ObjectHideFlags: 0

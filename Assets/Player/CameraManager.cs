@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour
     Transform _transform;
     Transform _pivot;
     float _turnSmoothing = 0.1f;
-    float _mimimumAngle = -35f;
+    float _mimimumAngle = -15f;
     float _maximumAngle = 35f;
     float _lookAngle;
     float _tiltAngle;
@@ -39,7 +39,6 @@ public class CameraManager : MonoBehaviour
     public void Initialize(Transform target)
     {
         Target = target;
-        RotationSpeed /= 100;
         _cameraTransform = Camera.main.transform;
         _transform = transform;
         _pivot = _cameraTransform.parent;

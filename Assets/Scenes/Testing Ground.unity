@@ -643,10 +643,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1175480225078818, guid: da3eb27b09f49164f92acc665ec93174, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1716543566}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da3eb27b09f49164f92acc665ec93174, type: 3}
 --- !u!1 &161284926
 GameObject:
@@ -1292,8 +1289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  FollowSpeed: 9
-  RotationSpeed: 5
+  FollowSpeed: 6
+  RotationSpeed: 1.5
   LockedOn: 0
 --- !u!1 &772485541
 GameObject:
@@ -2893,33 +2890,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1358218779608736338, guid: 3d7e0b0d63d5ba24bb44f55e8b48db0a, type: 3}
   m_PrefabInstance: {fileID: 1672771174}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1716543563 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1175480225078818, guid: da3eb27b09f49164f92acc665ec93174, type: 3}
-  m_PrefabInstance: {fileID: 147449497}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1716543565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4675171207743090, guid: da3eb27b09f49164f92acc665ec93174, type: 3}
   m_PrefabInstance: {fileID: 147449497}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1716543566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1716543563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b7d03e52a004f4da115ed0a4bab5f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Horizontal: 0
-  Vertical: 0
-  AnimationName: Light Attack
-  PlayAnimation: 0
-  LockedOn: 0
 --- !u!1 &1992623382
 GameObject:
   m_ObjectHideFlags: 3
@@ -3113,7 +3088,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.25
-  m_Height: 2
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &2116464497
@@ -3140,9 +3115,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 80
-  m_CollisionDetection: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &2116464498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3172,7 +3147,13 @@ MonoBehaviour:
   MovementAmount: 0
   Horizontal: 0
   Vertical: 0
-  MovementSpeed: 3
+  MovementSpeed: 5
+  RotationSpeed: 10
+  IsGrounded: 0
+  GroundCheckOffset: 0.5
+  LayersToIgnore:
+    serializedVersion: 2
+    m_Bits: 3145728
 --- !u!1 &2122366592
 GameObject:
   m_ObjectHideFlags: 0
@@ -3448,7 +3429,7 @@ Transform:
   m_GameObject: {fileID: 1767992358976824798}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6}
+  m_LocalPosition: {x: 0, y: 0, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
