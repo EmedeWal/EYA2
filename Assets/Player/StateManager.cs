@@ -12,14 +12,20 @@ public class StateManager : MonoBehaviour
     public float Vertical;
     public float MovementSpeed = 2f;
     public float RotationSpeed = 5f;
-    public bool IsGrounded;
+    public bool Grounded;
+    public bool LockedOn;
     public float GroundCheckOffset = 0.5f;
     public LayerMask LayersToIgnore;
 
+    public LockOnTarget EnemyTarget;
+
+    Transform _transform;
     int _animatorVertical;
+    bool _canMove;
 
     public void Initialize()
     {
+        _transform = transform;
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
@@ -41,15 +47,21 @@ public class StateManager : MonoBehaviour
     {
         Delta = delta;
 
-        IsGrounded = Grounded();
+        Grounded = IsGrounded();
     }
 
     public void OnFixedUpdate(float delta)
     {
         Delta = delta;
 
-        _rigidbody.drag = (MovementAmount > 0) ? 0 : 4;
-        _rigidbody.velocity = MovementDirection * (MovementSpeed * MovementAmount);
+        if (!_canMove) return;
+
+        _rigidbody.drag = (MovementAmount > 0 || !Grounded) ? 0 : 4;
+
+        if (Grounded)
+        {
+            _rigidbody.velocity = MovementDirection * (MovementSpeed * MovementAmount);
+        }
 
         HandleRotation();
         HandleMovementAnimations();
@@ -57,36 +69,39 @@ public class StateManager : MonoBehaviour
 
     void HandleMovementAnimations()
     {
+        if (!Grounded) MovementAmount = 0;
+        _canMove = _animator.GetBool("CanMove");
         _animator.SetFloat(_animatorVertical, MovementAmount, 0.1f, Delta);
     }
 
     void HandleRotation()
     {
+        if (LockedOn) return;
+
         Vector3 targetDirection = MovementDirection;
         targetDirection.y = 0;
 
-        if (targetDirection == Vector3.zero) targetDirection = transform.forward;
+        if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
 
         Quaternion tr = Quaternion.LookRotation(targetDirection);
-        Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, Delta * MovementAmount * RotationSpeed);
-        transform.rotation = targetRotation;
+        Quaternion targetRotation = Quaternion.Slerp(_transform.rotation, tr, Delta * MovementAmount * RotationSpeed);
+        _transform.rotation = targetRotation;
     }
 
-    public bool Grounded()
+    public bool IsGrounded()
     {
         bool r = false;
 
-        RaycastHit hit;
-        Vector3 origin = transform.position + (Vector3.up * GroundCheckOffset);
+        Vector3 origin = _transform.position + (Vector3.up * GroundCheckOffset);
         Vector3 direction = -Vector3.up;
         float distance = GroundCheckOffset + 0.25f;
 
-        if (Physics.Raycast(origin, direction, out hit, distance))
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
-            r = true;
-
             Vector3 targetPosition = hit.point;
-            transform.position = targetPosition;
+            _transform.position = targetPosition;
+
+            r = true;
         }
 
         return r;

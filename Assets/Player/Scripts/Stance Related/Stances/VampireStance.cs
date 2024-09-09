@@ -2,26 +2,29 @@ using UnityEngine;
 
 public class VampireStance : Stance, IStance
 {
+    private PlayerAttackHandler _attackHandler;
+
     [Header("PASSIVE")]
     [SerializeField] private float _totalBleedDuration = 5f;
 
     [Header("UTLIMATE")]
     [SerializeField] private float _lifestealPercentage;
 
-    private void OnDisable()
+    protected override void Awake()
     {
-        PlayerAttack.SuccessfulAttack -= VampireStance_SuccesfulAttack;
+        base.Awake();
+        _attackHandler = GetComponent<PlayerAttackHandler>();
     }
 
     public void Enter()
     {
         ManageStanceSwap();
-        PlayerAttack.SuccessfulAttack += VampireStance_SuccesfulAttack;
+        _attackHandler.SuccessfulAttack += VampireStance_SuccesfulAttack;
     }
 
     public void Exit()
     {
-        PlayerAttack.SuccessfulAttack -= VampireStance_SuccesfulAttack;
+        _attackHandler.SuccessfulAttack -= VampireStance_SuccesfulAttack;
     }
 
     public void CastUltimate()

@@ -147,6 +147,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Lock On",
+                    "type": "Button",
+                    "id": "67317a6f-8f6a-4872-b118-2017616622f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Ultimate",
                     "type": "Button",
                     "id": "c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0",
@@ -518,6 +527,28 @@
                     "action": "Swap Menu",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7e926b72-3c47-4133-889c-e8e74a2beef2",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a662151-26e5-4f2f-8b07-ea1c23ecc4c2",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

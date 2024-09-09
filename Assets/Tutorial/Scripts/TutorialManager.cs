@@ -52,11 +52,11 @@ public class TutorialManager : MonoBehaviour
     {
         UpdateMessage();
 
-        _playerObject.GetComponent<Mana>().InitializeValues();
+        _playerObject.GetComponent<Mana>().Initialize();
 
         foreach (Resource resource in _toInitializeArray)
         {
-            resource.InitializeValues();
+            resource.Initialize();
         }
 
         foreach (GameObject gameObject in _toDisableArray)

@@ -18,46 +18,53 @@ public class CameraManager : MonoBehaviour
     }
     #endregion
 
-    public Transform Target;
-    public float FollowSpeed = 9f;
-    public float RotationSpeed = 2f;
-    public bool LockedOn = false;
+    private Transform _transform;
 
-    Transform _cameraTransform;
-    Transform _transform;
-    Transform _pivot;
-    float _turnSmoothing = 0.1f;
-    float _mimimumAngle = -15f;
-    float _maximumAngle = 35f;
-    float _lookAngle;
-    float _tiltAngle;
-    float _smoothVelocityX;
-    float _smoothVelocityY;
-    float _smoothX;
-    float _smoothY;
+    [Header("MOVEMENT")]
+    [SerializeField] private float _followSpeed = 6f;
+
+    [Header("ROTATION")]
+    [SerializeField] private float _rotationSpeed = 1.5f;
+    private Transform _pivot;
+    private float _turnSmoothing = 0.1f;
+    private float _mimimumAngle = -15f;
+    private float _maximumAngle = 35f;
+    private float _lookAngle;
+    private float _tiltAngle;
+    private float _smoothVelocityX;
+    private float _smoothVelocityY;
+    private float _smoothX;
+    private float _smoothY;
+
+    [Header("LockOn System")]
+    public bool LockedOn = false;
+    public Transform _lockOnTarget;
+
+    public Transform _CameraTransform { get; private set; }
+    private Transform _target;
 
     public void Initialize(Transform target)
     {
-        Target = target;
-        _cameraTransform = Camera.main.transform;
+        _target = target;
+        _CameraTransform = Camera.main.transform;
         _transform = transform;
-        _pivot = _cameraTransform.parent;
+        _pivot = _CameraTransform.parent;
     }
 
-    public void OnUpdate(float delta, float horizontal, float vertical)
+    public void OnFixedUpdate(float delta, float horizontal, float vertical)
     {
         FollowTarget(delta);
         HandleRotation(delta, horizontal, vertical);
     }
 
-    void FollowTarget(float delta)
+    private void FollowTarget(float delta)
     {
-        float speed = delta * FollowSpeed;
-        Vector3 targetPosition = Vector3.Lerp(_transform.position, Target.position, speed);
+        float speed = delta * _followSpeed;
+        Vector3 targetPosition = Vector3.Lerp(_transform.position, _target.position, speed);
         _transform.position = targetPosition;
     }
 
-    void HandleRotation(float delta, float horizontal, float vertical)
+    private void HandleRotation(float delta, float horizontal, float vertical)
     {
         if (_turnSmoothing > 0)
         {
@@ -70,16 +77,28 @@ public class CameraManager : MonoBehaviour
             _smoothY = vertical;
         }
 
-        if (LockedOn)
-        {
 
-        }
-
-        _lookAngle += _smoothX * RotationSpeed;
-        _transform.rotation = Quaternion.Euler(0, _lookAngle, 0);
-
-        _tiltAngle -= _smoothY * RotationSpeed;
+        _tiltAngle -= _smoothY * _rotationSpeed;
         _tiltAngle = Mathf.Clamp(_tiltAngle, _mimimumAngle, _maximumAngle);
         _pivot.localRotation = Quaternion.Euler(_tiltAngle, 0, 0);
+
+        if (LockedOn && _lockOnTarget != null)
+        {
+            Vector3 targetDirection = _lockOnTarget.position - _transform.position;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
+
+            if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
+
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            _transform.rotation = Quaternion.Slerp(_transform.rotation, targetRotation, delta * 9);    
+
+            _lookAngle = _transform.eulerAngles.y;
+        }
+        else
+        {
+            _lookAngle += _smoothX * _rotationSpeed;
+            _transform.rotation = Quaternion.Euler(0, _lookAngle, 0);
+        }
     }
 }

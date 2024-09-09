@@ -2,23 +2,20 @@ using UnityEngine;
 
 public class OrcStance : Stance, IStance
 {
+    private PlayerAttackHandler _attackHandler;
+    private Health _health;
+
     [Header("PASSIVE")]
     [SerializeField] private GameObject _splashPrefab;
 
     [Header("ULTIMATE")]
     [SerializeField] private float _damageReductionPercentage;
 
-    private PlayerHeavyAttack _heavyAttack;
-    private Health _health;
-
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+        _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
-    }
-
-    private void OnDisable()
-    {
-        PlayerAttack.SuccessfulAttack -= OrcStance_SuccesfulAttack;
     }
 
     private void OrcStance_SuccesfulAttack(Collider hit, float damage)
@@ -31,12 +28,12 @@ public class OrcStance : Stance, IStance
     public void Enter()
     {
         ManageStanceSwap();
-        PlayerAttack.SuccessfulAttack += OrcStance_SuccesfulAttack;
+        _attackHandler.SuccessfulAttack += OrcStance_SuccesfulAttack;
     }
 
     public void Exit()
     {
-        PlayerAttack.SuccessfulAttack -= OrcStance_SuccesfulAttack;
+        _attackHandler.SuccessfulAttack -= OrcStance_SuccesfulAttack;
     }
 
     public void CastUltimate()

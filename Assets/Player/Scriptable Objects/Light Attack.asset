@@ -12,14 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6818e77cb094f4ab3139aab9a6e8cb, type: 3}
   m_Name: Light Attack
   m_EditorClassIdentifier: 
-  EnemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  ChargeDuration: 0.3
-  AttackSpeed: 0.75
-  AttackDuration: 0.9
-  LungeSpeed: 10
-  LungeDuration: 0.1
+  AnimationName: Light Attack
+  AttackClip: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
   AttackSize: {x: 1.5, y: 2, z: 2}
   AttackDamage: 10
-  AttackClip: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
+  LungeForce: 100

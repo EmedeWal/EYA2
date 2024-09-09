@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     {
         Health health = enemy.GetComponent<Health>();
         health.Death += EnemyManager_Death;
-        health.InitializeValues();
+        health.Initialize();
         _enemies.Add(enemy);
     }
 

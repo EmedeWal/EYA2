@@ -169,6 +169,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Lock On"",
+                    ""type"": ""Button"",
+                    ""id"": ""67317a6f-8f6a-4872-b118-2017616622f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Ultimate"",
                     ""type"": ""Button"",
                     ""id"": ""c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0"",
@@ -540,6 +549,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Swap Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e926b72-3c47-4133-889c-e8e74a2beef2"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a662151-26e5-4f2f-8b07-ea1c23ecc4c2"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -555,6 +586,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_PlayerActions_Skip = m_PlayerActions.FindAction("Skip", throwIfNotFound: true);
         m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
         m_PlayerActions_Pause = m_PlayerActions.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
         m_PlayerActions_Ultimate = m_PlayerActions.FindAction("Ultimate", throwIfNotFound: true);
         m_PlayerActions_Interaction = m_PlayerActions.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerActions_SwapMenu = m_PlayerActions.FindAction("Swap Menu", throwIfNotFound: true);
@@ -680,6 +712,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Skip;
     private readonly InputAction m_PlayerActions_Dash;
     private readonly InputAction m_PlayerActions_Pause;
+    private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_Ultimate;
     private readonly InputAction m_PlayerActions_Interaction;
     private readonly InputAction m_PlayerActions_SwapMenu;
@@ -694,6 +727,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Skip => m_Wrapper.m_PlayerActions_Skip;
         public InputAction @Dash => m_Wrapper.m_PlayerActions_Dash;
         public InputAction @Pause => m_Wrapper.m_PlayerActions_Pause;
+        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @Ultimate => m_Wrapper.m_PlayerActions_Ultimate;
         public InputAction @Interaction => m_Wrapper.m_PlayerActions_Interaction;
         public InputAction @SwapMenu => m_Wrapper.m_PlayerActions_SwapMenu;
@@ -719,6 +753,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @LockOn.started += instance.OnLockOn;
+            @LockOn.performed += instance.OnLockOn;
+            @LockOn.canceled += instance.OnLockOn;
             @Ultimate.started += instance.OnUltimate;
             @Ultimate.performed += instance.OnUltimate;
             @Ultimate.canceled += instance.OnUltimate;
@@ -753,6 +790,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @LockOn.started -= instance.OnLockOn;
+            @LockOn.performed -= instance.OnLockOn;
+            @LockOn.canceled -= instance.OnLockOn;
             @Ultimate.started -= instance.OnUltimate;
             @Ultimate.performed -= instance.OnUltimate;
             @Ultimate.canceled -= instance.OnUltimate;
@@ -801,6 +841,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSkip(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
         void OnUltimate(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnSwapMenu(InputAction.CallbackContext context);

@@ -14,7 +14,7 @@ public abstract class Resource : MonoBehaviour
     public event Action<float> ValueRemoved;
     public event Action CoroutineCompleted;
 
-    public void InitializeValues()
+    public void Initialize()
     {
         _currentValue = _startingValue;
         OnMaxValueInitialized();

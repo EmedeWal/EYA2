@@ -3,32 +3,6 @@ using System;
 
 public class PlayerDataManager : MonoBehaviour
 {
-    #region Setup
-
-    private PlayerInputManager _inputManager;
-
-    private void Awake()
-    {
-        _inputManager = GetComponent<PlayerInputManager>();
-    }
-
-    private void OnEnable()
-    {
-        _inputManager.DirectionInput_Value += PlayerData_DirectionInput_Value;
-    }
-
-    private void OnDisable()
-    {
-        _inputManager.DirectionInput_Value -= PlayerData_DirectionInput_Value;
-    }
-
-    private void PlayerData_DirectionInput_Value(Vector2 direction)
-    {
-        SetDirection(direction);
-    }
-
-    #endregion
-
     #region Movement
     [SerializeField] private MovementData _movementData;
 
@@ -125,6 +99,8 @@ public class PlayerDataManager : MonoBehaviour
 
     #endregion
 
+    public LockOnData LockOnData { get; private set; }
+
     #region Visual Effects
 
     [SerializeField] private VFXData _VFXData;
@@ -173,4 +149,10 @@ public struct UltimateData
 public struct VFXData
 {
     public Transform VFXOrigin;
+}
+
+public struct LockOnData
+{
+    public Transform LockOnTarget;
+    public bool LockedOn;
 }

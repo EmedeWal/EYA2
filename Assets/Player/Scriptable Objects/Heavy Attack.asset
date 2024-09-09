@@ -12,14 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6818e77cb094f4ab3139aab9a6e8cb, type: 3}
   m_Name: Heavy Attack
   m_EditorClassIdentifier: 
-  EnemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  ChargeDuration: 0.6
-  AttackSpeed: 1.2
-  AttackDuration: 1.2
-  LungeSpeed: 15
-  LungeDuration: 0.15
+  AnimationName: Heavy Attack
+  AttackClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
   AttackSize: {x: 1, y: 2, z: 3}
   AttackDamage: 20
-  AttackClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
+  LungeForce: 150
