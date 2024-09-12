@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private PlayerAnimatorManager _animatorManager;
     private PlayerInputHandler _inputHandler;
+    private PlayerAnimatorManager _animatorManager;
+    private PlayerDataManager _dataManager;
     private PlayerLocomotion _locomotion;
     private PlayerAttackHandler _attackHandler;
     private CameraManager _cameraManager;
@@ -12,13 +13,17 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        _animatorManager = GetComponent<PlayerAnimatorManager>();
+        DontDestroyOnLoad(gameObject);
+
         _inputHandler = GetComponent<PlayerInputHandler>();
+        _animatorManager = GetComponent<PlayerAnimatorManager>();
+        _dataManager = GetComponent<PlayerDataManager>();
         _locomotion = GetComponent<PlayerLocomotion>();
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _cameraManager = CameraManager.Instance;
 
         _animatorManager.Initialize();
+        _dataManager.Initialize();
         _locomotion.Initialize();
         _cameraManager.Initialize(transform);
 
@@ -46,8 +51,11 @@ public class PlayerManager : MonoBehaviour
         float rightStickX = _inputHandler._RightStickX;
         float rightStickY = _inputHandler._RightStickY;
 
+        Transform lockOnTarget = _dataManager.LockOnData.LockOnTarget;
+        bool lockedOn = _dataManager.LockOnData.LockedOn;
+
         _inputHandler.OnFixedUpdate();
-        _locomotion.OnFixedUpdate(_delta, xDirection, yDirection, leftStickX, leftStickY);
-        _cameraManager.OnFixedUpdate(_delta, rightStickX, rightStickY);
+        _locomotion.OnFixedUpdate(_delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTarget, lockedOn);
+        _cameraManager.OnFixedUpdate(_delta, rightStickX, rightStickY, lockOnTarget, lockedOn);
     }
 }

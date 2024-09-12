@@ -24,7 +24,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     ""name"": ""InputActions"",
     ""maps"": [
         {
-            ""name"": ""PlayerMovement"",
+            ""name"": ""Movement"",
             ""id"": ""93ea7213-e431-4b35-846f-0bf251c854d3"",
             ""actions"": [
                 {
@@ -138,11 +138,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""PlayerActions"",
+            ""name"": ""Actions"",
             ""id"": ""c677d909-742b-41c9-8816-ca21899da168"",
             ""actions"": [
                 {
-                    ""name"": ""Skip"",
+                    ""name"": ""Button North"",
                     ""type"": ""Button"",
                     ""id"": ""0cb03d7d-2fbe-4555-99f6-2c300fb77492"",
                     ""expectedControlType"": ""Button"",
@@ -151,16 +151,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""db469594-0d46-4b14-b0f6-280ab9d7ddaa"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Pause"",
+                    ""name"": ""Options"",
                     ""type"": ""Button"",
                     ""id"": ""fa1345a0-69ab-4cb8-ac38-d01b02b99cd2"",
                     ""expectedControlType"": ""Button"",
@@ -169,7 +160,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lock On"",
+                    ""name"": ""R3 Press"",
                     ""type"": ""Button"",
                     ""id"": ""67317a6f-8f6a-4872-b118-2017616622f2"",
                     ""expectedControlType"": ""Button"",
@@ -178,7 +169,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ultimate"",
+                    ""name"": ""Left Trigger"",
                     ""type"": ""Button"",
                     ""id"": ""c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0"",
                     ""expectedControlType"": ""Button"",
@@ -187,7 +178,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interaction"",
+                    ""name"": ""Button West"",
                     ""type"": ""Button"",
                     ""id"": ""14ef6eba-e11a-4b77-913d-1b8354bb8e30"",
                     ""expectedControlType"": ""Button"",
@@ -196,7 +187,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Swap Menu"",
+                    ""name"": ""Shoulders"",
                     ""type"": ""Value"",
                     ""id"": ""e97d2d16-5054-496e-81ff-6a209865608d"",
                     ""expectedControlType"": ""Axis"",
@@ -205,7 +196,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Light Attack"",
+                    ""name"": ""Right Shoulder"",
                     ""type"": ""Button"",
                     ""id"": ""633c81d8-9883-482e-b625-e3e772516d40"",
                     ""expectedControlType"": ""Button"",
@@ -214,7 +205,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Heavy Attack"",
+                    ""name"": ""Right Trigger"",
                     ""type"": ""Button"",
                     ""id"": ""75de8292-2823-4fe4-89d7-7aac021f5864"",
                     ""expectedControlType"": ""Button"",
@@ -223,7 +214,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Swap Stance"",
+                    ""name"": ""Left Shoulder"",
                     ""type"": ""Value"",
                     ""id"": ""1aac6eed-0147-40e5-b2fd-2775e5c55c65"",
                     ""expectedControlType"": ""Button"",
@@ -232,7 +223,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Consume Potion"",
+                    ""name"": ""D-Pad (Left & Right)"",
                     ""type"": ""Button"",
                     ""id"": ""eddde8cb-3d32-4269-9505-bc7ec85d2d77"",
                     ""expectedControlType"": ""Button"",
@@ -249,7 +240,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Light Attack"",
+                    ""action"": ""Right Shoulder"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -260,7 +251,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Light Attack"",
+                    ""action"": ""Right Shoulder"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -271,7 +262,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Heavy Attack"",
+                    ""action"": ""Right Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -282,7 +273,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Heavy Attack"",
+                    ""action"": ""Right Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -293,7 +284,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -304,7 +295,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -315,7 +306,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -326,7 +317,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -337,7 +328,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -348,31 +339,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Consume Potion"",
+                    ""action"": ""D-Pad (Left & Right)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f35beef9-d048-44dd-9c4f-4670ec2b80e1"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""485c84ab-4c47-4dbf-bde2-5c274ec574ef"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -381,7 +350,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Skip"",
+                    ""action"": ""Button North"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -392,7 +361,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Skip"",
+                    ""action"": ""Button North"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -403,7 +372,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""Options"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -414,7 +383,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""Options"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -425,7 +394,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Ultimate"",
+                    ""action"": ""Left Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -436,7 +405,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Ultimate"",
+                    ""action"": ""Left Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -447,7 +416,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Stance"",
+                    ""action"": ""Left Shoulder"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -458,7 +427,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Stance"",
+                    ""action"": ""Left Shoulder"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -469,7 +438,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interaction"",
+                    ""action"": ""Button West"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -480,7 +449,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interaction"",
+                    ""action"": ""Button West"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -491,7 +460,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -502,7 +471,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -513,7 +482,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -524,7 +493,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -535,7 +504,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -546,18 +515,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Swap Menu"",
+                    ""action"": ""Shoulders"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
                     ""id"": ""7e926b72-3c47-4133-889c-e8e74a2beef2"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock On"",
+                    ""action"": ""R3 Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -568,7 +537,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock On"",
+                    ""action"": ""R3 Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -577,23 +546,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // PlayerMovement
-        m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
-        m_PlayerMovement_LeftStick = m_PlayerMovement.FindAction("Left Stick", throwIfNotFound: true);
-        m_PlayerMovement_RightStick = m_PlayerMovement.FindAction("Right Stick", throwIfNotFound: true);
-        // PlayerActions
-        m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
-        m_PlayerActions_Skip = m_PlayerActions.FindAction("Skip", throwIfNotFound: true);
-        m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
-        m_PlayerActions_Pause = m_PlayerActions.FindAction("Pause", throwIfNotFound: true);
-        m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
-        m_PlayerActions_Ultimate = m_PlayerActions.FindAction("Ultimate", throwIfNotFound: true);
-        m_PlayerActions_Interaction = m_PlayerActions.FindAction("Interaction", throwIfNotFound: true);
-        m_PlayerActions_SwapMenu = m_PlayerActions.FindAction("Swap Menu", throwIfNotFound: true);
-        m_PlayerActions_LightAttack = m_PlayerActions.FindAction("Light Attack", throwIfNotFound: true);
-        m_PlayerActions_HeavyAttack = m_PlayerActions.FindAction("Heavy Attack", throwIfNotFound: true);
-        m_PlayerActions_SwapStance = m_PlayerActions.FindAction("Swap Stance", throwIfNotFound: true);
-        m_PlayerActions_ConsumePotion = m_PlayerActions.FindAction("Consume Potion", throwIfNotFound: true);
+        // Movement
+        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
+        m_Movement_LeftStick = m_Movement.FindAction("Left Stick", throwIfNotFound: true);
+        m_Movement_RightStick = m_Movement.FindAction("Right Stick", throwIfNotFound: true);
+        // Actions
+        m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
+        m_Actions_ButtonNorth = m_Actions.FindAction("Button North", throwIfNotFound: true);
+        m_Actions_Options = m_Actions.FindAction("Options", throwIfNotFound: true);
+        m_Actions_R3Press = m_Actions.FindAction("R3 Press", throwIfNotFound: true);
+        m_Actions_LeftTrigger = m_Actions.FindAction("Left Trigger", throwIfNotFound: true);
+        m_Actions_ButtonWest = m_Actions.FindAction("Button West", throwIfNotFound: true);
+        m_Actions_Shoulders = m_Actions.FindAction("Shoulders", throwIfNotFound: true);
+        m_Actions_RightShoulder = m_Actions.FindAction("Right Shoulder", throwIfNotFound: true);
+        m_Actions_RightTrigger = m_Actions.FindAction("Right Trigger", throwIfNotFound: true);
+        m_Actions_LeftShoulder = m_Actions.FindAction("Left Shoulder", throwIfNotFound: true);
+        m_Actions_DPadLeftRight = m_Actions.FindAction("D-Pad (Left & Right)", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -652,26 +620,26 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerMovement
-    private readonly InputActionMap m_PlayerMovement;
-    private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
-    private readonly InputAction m_PlayerMovement_LeftStick;
-    private readonly InputAction m_PlayerMovement_RightStick;
-    public struct PlayerMovementActions
+    // Movement
+    private readonly InputActionMap m_Movement;
+    private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
+    private readonly InputAction m_Movement_LeftStick;
+    private readonly InputAction m_Movement_RightStick;
+    public struct MovementActions
     {
         private @InputActions m_Wrapper;
-        public PlayerMovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftStick => m_Wrapper.m_PlayerMovement_LeftStick;
-        public InputAction @RightStick => m_Wrapper.m_PlayerMovement_RightStick;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
+        public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftStick => m_Wrapper.m_Movement_LeftStick;
+        public InputAction @RightStick => m_Wrapper.m_Movement_RightStick;
+        public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerMovementActions instance)
+        public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
+        public void AddCallbacks(IMovementActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
             @LeftStick.started += instance.OnLeftStick;
             @LeftStick.performed += instance.OnLeftStick;
             @LeftStick.canceled += instance.OnLeftStick;
@@ -680,7 +648,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @RightStick.canceled += instance.OnRightStick;
         }
 
-        private void UnregisterCallbacks(IPlayerMovementActions instance)
+        private void UnregisterCallbacks(IMovementActions instance)
         {
             @LeftStick.started -= instance.OnLeftStick;
             @LeftStick.performed -= instance.OnLeftStick;
@@ -690,164 +658,155 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @RightStick.canceled -= instance.OnRightStick;
         }
 
-        public void RemoveCallbacks(IPlayerMovementActions instance)
+        public void RemoveCallbacks(IMovementActions instance)
         {
-            if (m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MovementActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerMovementActions instance)
+        public void SetCallbacks(IMovementActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerMovementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MovementActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MovementActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+    public MovementActions @Movement => new MovementActions(this);
 
-    // PlayerActions
-    private readonly InputActionMap m_PlayerActions;
-    private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
-    private readonly InputAction m_PlayerActions_Skip;
-    private readonly InputAction m_PlayerActions_Dash;
-    private readonly InputAction m_PlayerActions_Pause;
-    private readonly InputAction m_PlayerActions_LockOn;
-    private readonly InputAction m_PlayerActions_Ultimate;
-    private readonly InputAction m_PlayerActions_Interaction;
-    private readonly InputAction m_PlayerActions_SwapMenu;
-    private readonly InputAction m_PlayerActions_LightAttack;
-    private readonly InputAction m_PlayerActions_HeavyAttack;
-    private readonly InputAction m_PlayerActions_SwapStance;
-    private readonly InputAction m_PlayerActions_ConsumePotion;
-    public struct PlayerActionsActions
+    // Actions
+    private readonly InputActionMap m_Actions;
+    private List<IActionsActions> m_ActionsActionsCallbackInterfaces = new List<IActionsActions>();
+    private readonly InputAction m_Actions_ButtonNorth;
+    private readonly InputAction m_Actions_Options;
+    private readonly InputAction m_Actions_R3Press;
+    private readonly InputAction m_Actions_LeftTrigger;
+    private readonly InputAction m_Actions_ButtonWest;
+    private readonly InputAction m_Actions_Shoulders;
+    private readonly InputAction m_Actions_RightShoulder;
+    private readonly InputAction m_Actions_RightTrigger;
+    private readonly InputAction m_Actions_LeftShoulder;
+    private readonly InputAction m_Actions_DPadLeftRight;
+    public struct ActionsActions
     {
         private @InputActions m_Wrapper;
-        public PlayerActionsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Skip => m_Wrapper.m_PlayerActions_Skip;
-        public InputAction @Dash => m_Wrapper.m_PlayerActions_Dash;
-        public InputAction @Pause => m_Wrapper.m_PlayerActions_Pause;
-        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
-        public InputAction @Ultimate => m_Wrapper.m_PlayerActions_Ultimate;
-        public InputAction @Interaction => m_Wrapper.m_PlayerActions_Interaction;
-        public InputAction @SwapMenu => m_Wrapper.m_PlayerActions_SwapMenu;
-        public InputAction @LightAttack => m_Wrapper.m_PlayerActions_LightAttack;
-        public InputAction @HeavyAttack => m_Wrapper.m_PlayerActions_HeavyAttack;
-        public InputAction @SwapStance => m_Wrapper.m_PlayerActions_SwapStance;
-        public InputAction @ConsumePotion => m_Wrapper.m_PlayerActions_ConsumePotion;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
+        public ActionsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ButtonNorth => m_Wrapper.m_Actions_ButtonNorth;
+        public InputAction @Options => m_Wrapper.m_Actions_Options;
+        public InputAction @R3Press => m_Wrapper.m_Actions_R3Press;
+        public InputAction @LeftTrigger => m_Wrapper.m_Actions_LeftTrigger;
+        public InputAction @ButtonWest => m_Wrapper.m_Actions_ButtonWest;
+        public InputAction @Shoulders => m_Wrapper.m_Actions_Shoulders;
+        public InputAction @RightShoulder => m_Wrapper.m_Actions_RightShoulder;
+        public InputAction @RightTrigger => m_Wrapper.m_Actions_RightTrigger;
+        public InputAction @LeftShoulder => m_Wrapper.m_Actions_LeftShoulder;
+        public InputAction @DPadLeftRight => m_Wrapper.m_Actions_DPadLeftRight;
+        public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActionsActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActionsActions instance)
+        public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IActionsActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Add(instance);
-            @Skip.started += instance.OnSkip;
-            @Skip.performed += instance.OnSkip;
-            @Skip.canceled += instance.OnSkip;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
-            @LockOn.started += instance.OnLockOn;
-            @LockOn.performed += instance.OnLockOn;
-            @LockOn.canceled += instance.OnLockOn;
-            @Ultimate.started += instance.OnUltimate;
-            @Ultimate.performed += instance.OnUltimate;
-            @Ultimate.canceled += instance.OnUltimate;
-            @Interaction.started += instance.OnInteraction;
-            @Interaction.performed += instance.OnInteraction;
-            @Interaction.canceled += instance.OnInteraction;
-            @SwapMenu.started += instance.OnSwapMenu;
-            @SwapMenu.performed += instance.OnSwapMenu;
-            @SwapMenu.canceled += instance.OnSwapMenu;
-            @LightAttack.started += instance.OnLightAttack;
-            @LightAttack.performed += instance.OnLightAttack;
-            @LightAttack.canceled += instance.OnLightAttack;
-            @HeavyAttack.started += instance.OnHeavyAttack;
-            @HeavyAttack.performed += instance.OnHeavyAttack;
-            @HeavyAttack.canceled += instance.OnHeavyAttack;
-            @SwapStance.started += instance.OnSwapStance;
-            @SwapStance.performed += instance.OnSwapStance;
-            @SwapStance.canceled += instance.OnSwapStance;
-            @ConsumePotion.started += instance.OnConsumePotion;
-            @ConsumePotion.performed += instance.OnConsumePotion;
-            @ConsumePotion.canceled += instance.OnConsumePotion;
+            if (instance == null || m_Wrapper.m_ActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ActionsActionsCallbackInterfaces.Add(instance);
+            @ButtonNorth.started += instance.OnButtonNorth;
+            @ButtonNorth.performed += instance.OnButtonNorth;
+            @ButtonNorth.canceled += instance.OnButtonNorth;
+            @Options.started += instance.OnOptions;
+            @Options.performed += instance.OnOptions;
+            @Options.canceled += instance.OnOptions;
+            @R3Press.started += instance.OnR3Press;
+            @R3Press.performed += instance.OnR3Press;
+            @R3Press.canceled += instance.OnR3Press;
+            @LeftTrigger.started += instance.OnLeftTrigger;
+            @LeftTrigger.performed += instance.OnLeftTrigger;
+            @LeftTrigger.canceled += instance.OnLeftTrigger;
+            @ButtonWest.started += instance.OnButtonWest;
+            @ButtonWest.performed += instance.OnButtonWest;
+            @ButtonWest.canceled += instance.OnButtonWest;
+            @Shoulders.started += instance.OnShoulders;
+            @Shoulders.performed += instance.OnShoulders;
+            @Shoulders.canceled += instance.OnShoulders;
+            @RightShoulder.started += instance.OnRightShoulder;
+            @RightShoulder.performed += instance.OnRightShoulder;
+            @RightShoulder.canceled += instance.OnRightShoulder;
+            @RightTrigger.started += instance.OnRightTrigger;
+            @RightTrigger.performed += instance.OnRightTrigger;
+            @RightTrigger.canceled += instance.OnRightTrigger;
+            @LeftShoulder.started += instance.OnLeftShoulder;
+            @LeftShoulder.performed += instance.OnLeftShoulder;
+            @LeftShoulder.canceled += instance.OnLeftShoulder;
+            @DPadLeftRight.started += instance.OnDPadLeftRight;
+            @DPadLeftRight.performed += instance.OnDPadLeftRight;
+            @DPadLeftRight.canceled += instance.OnDPadLeftRight;
         }
 
-        private void UnregisterCallbacks(IPlayerActionsActions instance)
+        private void UnregisterCallbacks(IActionsActions instance)
         {
-            @Skip.started -= instance.OnSkip;
-            @Skip.performed -= instance.OnSkip;
-            @Skip.canceled -= instance.OnSkip;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
-            @LockOn.started -= instance.OnLockOn;
-            @LockOn.performed -= instance.OnLockOn;
-            @LockOn.canceled -= instance.OnLockOn;
-            @Ultimate.started -= instance.OnUltimate;
-            @Ultimate.performed -= instance.OnUltimate;
-            @Ultimate.canceled -= instance.OnUltimate;
-            @Interaction.started -= instance.OnInteraction;
-            @Interaction.performed -= instance.OnInteraction;
-            @Interaction.canceled -= instance.OnInteraction;
-            @SwapMenu.started -= instance.OnSwapMenu;
-            @SwapMenu.performed -= instance.OnSwapMenu;
-            @SwapMenu.canceled -= instance.OnSwapMenu;
-            @LightAttack.started -= instance.OnLightAttack;
-            @LightAttack.performed -= instance.OnLightAttack;
-            @LightAttack.canceled -= instance.OnLightAttack;
-            @HeavyAttack.started -= instance.OnHeavyAttack;
-            @HeavyAttack.performed -= instance.OnHeavyAttack;
-            @HeavyAttack.canceled -= instance.OnHeavyAttack;
-            @SwapStance.started -= instance.OnSwapStance;
-            @SwapStance.performed -= instance.OnSwapStance;
-            @SwapStance.canceled -= instance.OnSwapStance;
-            @ConsumePotion.started -= instance.OnConsumePotion;
-            @ConsumePotion.performed -= instance.OnConsumePotion;
-            @ConsumePotion.canceled -= instance.OnConsumePotion;
+            @ButtonNorth.started -= instance.OnButtonNorth;
+            @ButtonNorth.performed -= instance.OnButtonNorth;
+            @ButtonNorth.canceled -= instance.OnButtonNorth;
+            @Options.started -= instance.OnOptions;
+            @Options.performed -= instance.OnOptions;
+            @Options.canceled -= instance.OnOptions;
+            @R3Press.started -= instance.OnR3Press;
+            @R3Press.performed -= instance.OnR3Press;
+            @R3Press.canceled -= instance.OnR3Press;
+            @LeftTrigger.started -= instance.OnLeftTrigger;
+            @LeftTrigger.performed -= instance.OnLeftTrigger;
+            @LeftTrigger.canceled -= instance.OnLeftTrigger;
+            @ButtonWest.started -= instance.OnButtonWest;
+            @ButtonWest.performed -= instance.OnButtonWest;
+            @ButtonWest.canceled -= instance.OnButtonWest;
+            @Shoulders.started -= instance.OnShoulders;
+            @Shoulders.performed -= instance.OnShoulders;
+            @Shoulders.canceled -= instance.OnShoulders;
+            @RightShoulder.started -= instance.OnRightShoulder;
+            @RightShoulder.performed -= instance.OnRightShoulder;
+            @RightShoulder.canceled -= instance.OnRightShoulder;
+            @RightTrigger.started -= instance.OnRightTrigger;
+            @RightTrigger.performed -= instance.OnRightTrigger;
+            @RightTrigger.canceled -= instance.OnRightTrigger;
+            @LeftShoulder.started -= instance.OnLeftShoulder;
+            @LeftShoulder.performed -= instance.OnLeftShoulder;
+            @LeftShoulder.canceled -= instance.OnLeftShoulder;
+            @DPadLeftRight.started -= instance.OnDPadLeftRight;
+            @DPadLeftRight.performed -= instance.OnDPadLeftRight;
+            @DPadLeftRight.canceled -= instance.OnDPadLeftRight;
         }
 
-        public void RemoveCallbacks(IPlayerActionsActions instance)
+        public void RemoveCallbacks(IActionsActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_ActionsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerActionsActions instance)
+        public void SetCallbacks(IActionsActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_ActionsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_ActionsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
-    public interface IPlayerMovementActions
+    public ActionsActions @Actions => new ActionsActions(this);
+    public interface IMovementActions
     {
         void OnLeftStick(InputAction.CallbackContext context);
         void OnRightStick(InputAction.CallbackContext context);
     }
-    public interface IPlayerActionsActions
+    public interface IActionsActions
     {
-        void OnSkip(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
-        void OnLockOn(InputAction.CallbackContext context);
-        void OnUltimate(InputAction.CallbackContext context);
-        void OnInteraction(InputAction.CallbackContext context);
-        void OnSwapMenu(InputAction.CallbackContext context);
-        void OnLightAttack(InputAction.CallbackContext context);
-        void OnHeavyAttack(InputAction.CallbackContext context);
-        void OnSwapStance(InputAction.CallbackContext context);
-        void OnConsumePotion(InputAction.CallbackContext context);
+        void OnButtonNorth(InputAction.CallbackContext context);
+        void OnOptions(InputAction.CallbackContext context);
+        void OnR3Press(InputAction.CallbackContext context);
+        void OnLeftTrigger(InputAction.CallbackContext context);
+        void OnButtonWest(InputAction.CallbackContext context);
+        void OnShoulders(InputAction.CallbackContext context);
+        void OnRightShoulder(InputAction.CallbackContext context);
+        void OnRightTrigger(InputAction.CallbackContext context);
+        void OnLeftShoulder(InputAction.CallbackContext context);
+        void OnDPadLeftRight(InputAction.CallbackContext context);
     }
 }

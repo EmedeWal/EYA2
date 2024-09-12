@@ -26,12 +26,7 @@ public class TimeManager : MonoBehaviour
         Time.timeScale = scale;
     }
 
-    public void SetTimeScaleToZero()
-    {
-        Time.timeScale = 0f;
-    }
-
-    public void ResetTimeScaleToDefault()
+    public void ResetTimeScale()
     {
         Time.timeScale = 1f;
     }

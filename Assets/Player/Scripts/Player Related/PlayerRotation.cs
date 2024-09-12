@@ -30,8 +30,8 @@ public class PlayerRotation : MonoBehaviour
 
     private void GetDirection()
     {
-        Vector2 directionValue = _dataManager.GetDirection();
-        _rotationDirection = new (directionValue.x, 0, directionValue.y);
+        //Vector2 directionValue = _dataManager.GetDirection();
+        //_rotationDirection = new (directionValue.x, 0, directionValue.y);
     }
 
     private void DetermineBehavior()

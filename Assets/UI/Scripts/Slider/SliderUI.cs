@@ -1,23 +1,28 @@
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 public abstract class SliderUI : MonoBehaviour
 {
     [Header("REFERENCES")]
-    [SerializeField] private Gradient gradient;
-    [SerializeField] private Slider slider;
-    [SerializeField] private Image fill;
+    [SerializeField] private Gradient _gradient;
+    [SerializeField] private Image _fill;
+    private Slider _slider;
+
+    private void Awake()
+    {
+        _slider = GetComponent<Slider>();
+    }
 
     protected void SetMaxValue(float maxValue)
     {
-        slider.maxValue = maxValue;
-        slider.value = slider.maxValue;
-        fill.color = gradient.Evaluate(slider.normalizedValue);
+        _slider.maxValue = maxValue;
+        _slider.value = _slider.maxValue;
+        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 
     protected void SetValue(float value)
     {
-        slider.value = value;
-        fill.color = gradient.Evaluate(slider.normalizedValue);
+        _slider.value = value;
+        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 }

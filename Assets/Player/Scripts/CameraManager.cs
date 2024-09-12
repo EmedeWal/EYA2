@@ -36,12 +36,10 @@ public class CameraManager : MonoBehaviour
     private float _smoothX;
     private float _smoothY;
 
-    [Header("LockOn System")]
-    public bool LockedOn = false;
-    public Transform _lockOnTarget;
-
     public Transform _CameraTransform { get; private set; }
     private Transform _target;
+
+    public bool RotationEnabled { private get; set; }
 
     public void Initialize(Transform target)
     {
@@ -51,21 +49,12 @@ public class CameraManager : MonoBehaviour
         _pivot = _CameraTransform.parent;
     }
 
-    public void OnFixedUpdate(float delta, float horizontal, float vertical)
+    public void OnFixedUpdate(float delta, float horizontal, float vertical, Transform lockOnTarget, bool lockedOn)
     {
         FollowTarget(delta);
-        HandleRotation(delta, horizontal, vertical);
-    }
 
-    private void FollowTarget(float delta)
-    {
-        float speed = delta * _followSpeed;
-        Vector3 targetPosition = Vector3.Lerp(_transform.position, _target.position, speed);
-        _transform.position = targetPosition;
-    }
-
-    private void HandleRotation(float delta, float horizontal, float vertical)
-    {
+        if (!RotationEnabled) return;
+   
         if (_turnSmoothing > 0)
         {
             _smoothX = Mathf.SmoothDamp(_smoothX, horizontal, ref _smoothVelocityX, _turnSmoothing);
@@ -82,16 +71,16 @@ public class CameraManager : MonoBehaviour
         _tiltAngle = Mathf.Clamp(_tiltAngle, _mimimumAngle, _maximumAngle);
         _pivot.localRotation = Quaternion.Euler(_tiltAngle, 0, 0);
 
-        if (LockedOn && _lockOnTarget != null)
+        if (lockedOn && lockOnTarget != null)
         {
-            Vector3 targetDirection = _lockOnTarget.position - _transform.position;
+            Vector3 targetDirection = lockOnTarget.position - _transform.position;
             targetDirection.Normalize();
             targetDirection.y = 0;
 
             if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
 
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            _transform.rotation = Quaternion.Slerp(_transform.rotation, targetRotation, delta * 9);    
+            _transform.rotation = Quaternion.Slerp(_transform.rotation, targetRotation, delta * 9);
 
             _lookAngle = _transform.eulerAngles.y;
         }
@@ -101,4 +90,12 @@ public class CameraManager : MonoBehaviour
             _transform.rotation = Quaternion.Euler(0, _lookAngle, 0);
         }
     }
+
+    private void FollowTarget(float delta)
+    {
+        float speed = delta * _followSpeed;
+        Vector3 targetPosition = Vector3.Lerp(_transform.position, _target.position, speed);
+        _transform.position = targetPosition;
+    }
+
 }

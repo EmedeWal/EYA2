@@ -6,6 +6,9 @@ public abstract class Stance : MonoBehaviour
     protected PlayerDataManager _DataManager;
     protected Health _Health;
 
+    [Header("REFERENCES")]
+    [SerializeField] private Transform _center;
+
     [Header("STANCE RELATED")]
     [SerializeField] private StanceType _stanceType;
     [SerializeField] protected float UltimateDuration = 10f;
@@ -49,15 +52,15 @@ public abstract class Stance : MonoBehaviour
 
     protected void ActivateUltimate()
     {
-        _DataManager.SetUltimateActivate(true);
-        _currentUltimateGFX = Instantiate(_ultimateGFX, _DataManager.GetVFXOrigin());
+        _DataManager.UltimateData.IsUltimateActive = true;
+        _currentUltimateGFX = Instantiate(_ultimateGFX, _center);
         OnUltimateStart();
         PlayAudio();
     }
 
     protected void DeactivateUltimate()
     {
-        _DataManager.SetUltimateActivate(false);
+        _DataManager.UltimateData.IsUltimateActive = false;
         Destroy(_currentUltimateGFX);
         _audioSource.Stop();
     }

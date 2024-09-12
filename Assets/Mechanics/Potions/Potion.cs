@@ -10,7 +10,7 @@ public abstract class Potion : MonoBehaviour
 
     [Header("REFILLS")]
     [SerializeField] private float _refillDuration = 10f;
-    [SerializeField] private float _refillOnKill = 5f;
+    //[SerializeField] private float _refillOnKill = 5f;
     private float _remainingTime;
 
     [Header("EFFECT STATISTICS")]

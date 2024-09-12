@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GhostStance : Stance, IStance
 {
-    [Header("PASSIVE")]
-    [SerializeField] private float _dashCooldownModifier = 2f;
+//    [Header("PASSIVE")]
+//    [SerializeField] private float _dashCooldownModifier = 2f;
 
     [Header("ULTIMATE")]
     [SerializeField] private float _timeSlowPercentage = 50f;
@@ -13,19 +13,19 @@ public class GhostStance : Stance, IStance
     public void Enter()
     {
         ManageStanceSwap();
-        _DataManager.SetDashModifier(_dashCooldownModifier);
+        // Effect goes here
     }
 
     public void Exit()
     {
-        _DataManager.SetDashModifier(1);
+        // Effect goes here
     }
 
     public void CastUltimate()
     {
         TimeManager.Instance.SetTimeScale(1 - (_timeSlowPercentage / 100));
-        _DataManager.SetAttackModifier(1 + (_attackDamageBoostPercentage / 100));
-        _DataManager.SetMovementModifier(1 + (_movementSpeedBoostPercentage / 100));
+        _DataManager.AttackData.AttackModifier = 1 + (_attackDamageBoostPercentage / 100);
+        _DataManager.LocomotionData.SpeedModifier = 1 + (_movementSpeedBoostPercentage / 100);
         Invoke(nameof(EndUltimate), UltimateDuration);
         IgnoreCollisions(true);
         ActivateUltimate();
@@ -33,9 +33,9 @@ public class GhostStance : Stance, IStance
 
     private void EndUltimate()
     {
-        TimeManager.Instance.ResetTimeScaleToDefault();
-        _DataManager.SetMovementModifier(1);
-        _DataManager.SetAttackModifier(1);
+        TimeManager.Instance.ResetTimeScale();
+        _DataManager.LocomotionData.SpeedModifier = 1;
+        _DataManager.AttackData.AttackModifier = 1;
         IgnoreCollisions(false);
         DeactivateUltimate();
     }

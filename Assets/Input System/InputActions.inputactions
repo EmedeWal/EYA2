@@ -2,7 +2,7 @@
     "name": "InputActions",
     "maps": [
         {
-            "name": "PlayerMovement",
+            "name": "Movement",
             "id": "93ea7213-e431-4b35-846f-0bf251c854d3",
             "actions": [
                 {
@@ -116,11 +116,11 @@
             ]
         },
         {
-            "name": "PlayerActions",
+            "name": "Actions",
             "id": "c677d909-742b-41c9-8816-ca21899da168",
             "actions": [
                 {
-                    "name": "Skip",
+                    "name": "Button North",
                     "type": "Button",
                     "id": "0cb03d7d-2fbe-4555-99f6-2c300fb77492",
                     "expectedControlType": "Button",
@@ -129,16 +129,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
-                    "type": "Button",
-                    "id": "db469594-0d46-4b14-b0f6-280ab9d7ddaa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Pause",
+                    "name": "Options",
                     "type": "Button",
                     "id": "fa1345a0-69ab-4cb8-ac38-d01b02b99cd2",
                     "expectedControlType": "Button",
@@ -147,7 +138,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Lock On",
+                    "name": "R3 Press",
                     "type": "Button",
                     "id": "67317a6f-8f6a-4872-b118-2017616622f2",
                     "expectedControlType": "Button",
@@ -156,7 +147,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ultimate",
+                    "name": "Left Trigger",
                     "type": "Button",
                     "id": "c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0",
                     "expectedControlType": "Button",
@@ -165,7 +156,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaction",
+                    "name": "Button West",
                     "type": "Button",
                     "id": "14ef6eba-e11a-4b77-913d-1b8354bb8e30",
                     "expectedControlType": "Button",
@@ -174,7 +165,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Swap Menu",
+                    "name": "Shoulders",
                     "type": "Value",
                     "id": "e97d2d16-5054-496e-81ff-6a209865608d",
                     "expectedControlType": "Axis",
@@ -183,7 +174,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Light Attack",
+                    "name": "Right Shoulder",
                     "type": "Button",
                     "id": "633c81d8-9883-482e-b625-e3e772516d40",
                     "expectedControlType": "Button",
@@ -192,7 +183,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Heavy Attack",
+                    "name": "Right Trigger",
                     "type": "Button",
                     "id": "75de8292-2823-4fe4-89d7-7aac021f5864",
                     "expectedControlType": "Button",
@@ -201,7 +192,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Swap Stance",
+                    "name": "Left Shoulder",
                     "type": "Value",
                     "id": "1aac6eed-0147-40e5-b2fd-2775e5c55c65",
                     "expectedControlType": "Button",
@@ -210,7 +201,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Consume Potion",
+                    "name": "D-Pad (Left & Right)",
                     "type": "Button",
                     "id": "eddde8cb-3d32-4269-9505-bc7ec85d2d77",
                     "expectedControlType": "Button",
@@ -227,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Light Attack",
+                    "action": "Right Shoulder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -238,7 +229,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Light Attack",
+                    "action": "Right Shoulder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -249,7 +240,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Heavy Attack",
+                    "action": "Right Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -260,7 +251,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Heavy Attack",
+                    "action": "Right Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -271,7 +262,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -282,7 +273,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -293,7 +284,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -304,7 +295,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -315,7 +306,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -326,31 +317,9 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Consume Potion",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "f35beef9-d048-44dd-9c4f-4670ec2b80e1",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "485c84ab-4c47-4dbf-bde2-5c274ec574ef",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -359,7 +328,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skip",
+                    "action": "Button North",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -370,7 +339,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skip",
+                    "action": "Button North",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -381,7 +350,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Options",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -392,7 +361,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Options",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -403,7 +372,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Ultimate",
+                    "action": "Left Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -414,7 +383,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Ultimate",
+                    "action": "Left Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -425,7 +394,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Stance",
+                    "action": "Left Shoulder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -436,7 +405,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Stance",
+                    "action": "Left Shoulder",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -447,7 +416,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
+                    "action": "Button West",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -458,7 +427,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
+                    "action": "Button West",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -469,7 +438,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -480,7 +449,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -491,7 +460,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -502,7 +471,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -513,7 +482,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -524,18 +493,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Swap Menu",
+                    "action": "Shoulders",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
                     "id": "7e926b72-3c47-4133-889c-e8e74a2beef2",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lock On",
+                    "action": "R3 Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -546,7 +515,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Lock On",
+                    "action": "R3 Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

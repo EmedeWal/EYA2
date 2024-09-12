@@ -12,9 +12,9 @@ public class PlayerAttackHandler : MonoBehaviour
 
     [Header("REFERENCES")]
     [SerializeField] private Transform _attackPoint;
+    private PlayerInputHandler _inputHandler;
     private PlayerAnimatorManager _animatorManager;
     private PlayerAudioManager _audioManager;
-    private PlayerInputHandler _inputHandler;
     private PlayerDataManager _dataManager;
     private PlayerLocomotion _locomotion;
     private Health _health;
@@ -28,9 +28,10 @@ public class PlayerAttackHandler : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+
+        _inputHandler = GetComponent<PlayerInputHandler>();
         _animatorManager = GetComponent<PlayerAnimatorManager>();
         _audioManager = GetComponent<PlayerAudioManager>();
-        _inputHandler = GetComponent<PlayerInputHandler>();
         _dataManager = GetComponent<PlayerDataManager>();
         _locomotion = GetComponent<PlayerLocomotion>();
         _health = GetComponent<Health>();
@@ -69,7 +70,7 @@ public class PlayerAttackHandler : MonoBehaviour
     {
         if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
         _animatorManager.CrossFadeAnimation(_delta, attackData.AnimationName, 0.1f, 1);
-        _audioManager.PlayAudioClip(_audioManager._AudioSources[1], attackData.AttackClip, 0);
+        _audioManager.PlayAudioClip(_audioManager._AudioSources[0], attackData.AttackClip, 0);
         StartCoroutine(Attack(attackData));
     }
 
@@ -97,7 +98,7 @@ public class PlayerAttackHandler : MonoBehaviour
             {
                 OnSuccesfulAttack(hit, attackData.AttackDamage);
                 health.ValueRemoved += PlayerAttack_ValueRemoved;
-                health.TakeDamage(attackData.AttackDamage * _dataManager.GetAttackModifier());
+                health.TakeDamage(attackData.AttackDamage * _dataManager.AttackData.AttackModifier);
                 health.ValueRemoved -= PlayerAttack_ValueRemoved;
             }
         }
@@ -108,8 +109,7 @@ public class PlayerAttackHandler : MonoBehaviour
 
     private void PlayerAttack_ValueRemoved(float amount)
     {
-        Debug.Log($"{amount} damage dealt.");
-        _health.Heal(amount * _dataManager.GetLifeSteal());
+        _health.Heal(amount * _dataManager.StanceData.LifeSteal);
     }
 
     private void OnSuccesfulAttack(Collider hit, float damage)

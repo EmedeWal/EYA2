@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     private PlayerInputManager _playerInputManager;
     private PlayerDataManager _playerDataManager;
     private PlayerMovement _playerMovement;
-    private PlayerDash _playerDash;
     private Health _playerHealth;
 
     private void Start()

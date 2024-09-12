@@ -1,10 +1,10 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
 {
     // References
     private PlayerAnimatorManager _animatorManager;
+    private PlayerDataManager _dataManager;
     private Rigidbody _rigidbody;
 
     // Variables
@@ -29,18 +29,13 @@ public class PlayerLocomotion : MonoBehaviour
     private float _groundCheckOffset = 0.5f;
     private bool _grounded;
 
-    // Other
-    private bool _forceAdded;
-
-    // DELETE LATER
-    public LockOnTarget EnemyTarget;
-    public bool LockedOn;
-
     public void Initialize()
     {
-        _animatorManager = GetComponent<PlayerAnimatorManager>();
-        _rigidbody = GetComponent<Rigidbody>();
         _transform = transform;
+
+        _animatorManager = GetComponent<PlayerAnimatorManager>();
+        _dataManager = GetComponent<PlayerDataManager>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         _rigidbody.drag = _drag;
         _rigidbody.angularDrag = _angularDrag;
@@ -59,7 +54,7 @@ public class PlayerLocomotion : MonoBehaviour
         _grounded = IsGrounded();
     }
 
-    public void OnFixedUpdate(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput)
+    public void OnFixedUpdate(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput, Transform lockOnTarget, bool lockedOn)
     {
         _delta = delta;
 
@@ -72,11 +67,11 @@ public class PlayerLocomotion : MonoBehaviour
         _movementDirection = (horizontal + vertical).normalized;
         _movementAmount = Mathf.Clamp01(movement);
 
-        HandleAnimations();
+        HandleAnimations(lockedOn);
 
         if (_animatorManager.GetBool("InAction"))
         {
-            if (!_forceAdded)
+            if (!_dataManager.LocomotionData.ForceAdded)
             {
                 _rigidbody.velocity = Vector3.zero;
             }
@@ -87,31 +82,30 @@ public class PlayerLocomotion : MonoBehaviour
 
             if (_grounded)
             {
-                _rigidbody.velocity = _movementDirection * (_movementSpeed * _movementAmount);
+                _rigidbody.velocity = _movementDirection * (_movementSpeed * _movementAmount * _dataManager.LocomotionData.SpeedModifier);
             }
 
-            HandleRotation();
+            HandleRotation(lockOnTarget, lockedOn);
         }
     }
 
     public void AddForce(Vector3 direction)
     {
         _rigidbody.AddForce(direction, ForceMode.Force);
-        _forceAdded = true;
+        _dataManager.LocomotionData.ForceAdded = true;
     }
 
     public void RemoveForce()
     {
-        _forceAdded = false;
+        _dataManager.LocomotionData.ForceAdded = false;
     }
 
-    private void HandleAnimations()
+    private void HandleAnimations(bool lockedOn)
     {
         float horizontal;
         float vertical;
-        bool lockedOn = LockedOn;
 
-        if (LockedOn && _vertical >= 0)
+        if (lockedOn && _vertical >= 0)
         {
             Vector3 relativeDirection = transform.InverseTransformDirection(_movementDirection);
             horizontal = relativeDirection.x;
@@ -127,9 +121,9 @@ public class PlayerLocomotion : MonoBehaviour
         _animatorManager.UpdateAnimatorValues(_delta, horizontal, vertical, _grounded, lockedOn);
     }
 
-    private void HandleRotation()
+    private void HandleRotation(Transform lockOnTarget, bool lockedOn)
     {
-        Vector3 targetDirection = (LockedOn && _vertical >= 0) ? EnemyTarget.transform.position - _transform.position : _movementDirection;
+        Vector3 targetDirection = (lockedOn && _vertical >= 0) ? lockOnTarget.position - _transform.position : _movementDirection;
         targetDirection.y = 0;
 
         if (targetDirection == Vector3.zero) targetDirection = _transform.forward;

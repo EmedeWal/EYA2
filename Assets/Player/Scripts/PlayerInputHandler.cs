@@ -4,10 +4,6 @@ using System;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    CameraManager _cameraManager;
-    StateManager _stateManager;
-    float _delta;
-
     [Header("VARIABLES")]
     [SerializeField] private float _retryDuration = 0.2f;
     private Action _lastAction;
@@ -25,6 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
     public float _RightStickY { get; private set; }
     #endregion
 
+    public event Action StanceWheelInput;
     public event Action LockOnInputPerformed;
     public event Action LightAttackInputPerformed;
     public event Action HeavyAttackInputPerformed;
@@ -36,18 +33,19 @@ public class PlayerInputHandler : MonoBehaviour
     {
         _inputActions ??= new InputActions();
 
-        _inputActions.PlayerMovement.LeftStick.performed += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
-        _inputActions.PlayerMovement.LeftStick.canceled += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
-        _inputActions.PlayerMovement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
-        _inputActions.PlayerMovement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.Movement.LeftStick.performed += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.Movement.LeftStick.canceled += indexer => _leftStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.Movement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
+        _inputActions.Movement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
-        _inputActions.PlayerActions.LockOn.performed += OnLockOnInputPerformed;
-        _inputActions.PlayerActions.LightAttack.performed += OnLightAttackInputPerformed;
-        _inputActions.PlayerActions.HeavyAttack.performed += OnHeavyAttackInputPerformed;
+        _inputActions.Actions.LeftShoulder.performed += OnStanceWheelInput;
+        _inputActions.Actions.LeftShoulder.canceled += OnStanceWheelInput;
+        _inputActions.Actions.R3Press.performed += OnLockOnInputPerformed;
+        _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
+        _inputActions.Actions.RightTrigger.performed += OnHeavyAttackInputPerformed;
 
         _inputActions.Enable();
     }
-
 
     private void OnDisable()
     {
@@ -77,6 +75,11 @@ public class PlayerInputHandler : MonoBehaviour
         _lastAction = () => action.Invoke();
         _lastInputTime = Time.time;
         _lastAction.Invoke();
+    }
+
+    private void OnStanceWheelInput(InputAction.CallbackContext context)
+    {
+        StanceWheelInput?.Invoke();
     }
 
     private void OnLockOnInputPerformed(InputAction.CallbackContext context)

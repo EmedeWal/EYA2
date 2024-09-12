@@ -10,8 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
 
     [Header("VARIABLES")]
-    [SerializeField] private float _movementSpeed = 12f;
-    [SerializeField] private float _gravity = 18f; 
+    //[SerializeField] private float _movementSpeed = 12f;
+    [SerializeField] private float _gravity = 18f;
 
     private Vector3 _movementDirection;
 
@@ -45,11 +45,11 @@ public class PlayerMovement : MonoBehaviour
         DetermineBehavior();
         TrackVelocity();
     }
-    
+
     private void GetDirection()
     {
-        Vector2 directionValue = _dataManager.GetDirection();
-        _movementDirection = new(directionValue.x, 0, directionValue.y);
+        //Vector2 directionValue = _dataManager.GetDirection();
+        //_movementDirection = new(directionValue.x, 0, directionValue.y);
     }
 
     private void DetermineBehavior()
@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        _controller.Move(_dataManager.GetMovementModifier() * _movementSpeed * Time.deltaTime * _movementDirection);
+        //_controller.Move(_dataManager.GetMovementModifier() * _movementSpeed * Time.deltaTime * _movementDirection);
     }
 
     private void Ground()
@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (historicalVelocities.Count == 0)
             {
-                return Vector3.zero; 
+                return Vector3.zero;
             }
 
             Vector3 average = Vector3.zero;
@@ -121,9 +121,9 @@ public class PlayerMovement : MonoBehaviour
                 average += velocity;
             }
 
-            average.y = 0; 
+            average.y = 0;
 
-            return average / historicalVelocities.Count; 
+            return average / historicalVelocities.Count;
         }
     }
 
