@@ -1,5 +1,17 @@
+using UnityEngine;
+
 public class Mana : Resource
 {
+    private PlayerAttackHandler _playerAttackHandler;
+
+    public override void Init()
+    {
+        base.Init();
+
+        _playerAttackHandler = GetComponent<PlayerAttackHandler>();
+        _playerAttackHandler.SuccessfulAttack += Mana_SuccesfulAttack;
+    }
+
     public void GainMana(float amount)
     {
         AddValue(amount);
@@ -10,8 +22,8 @@ public class Mana : Resource
         RemoveValue(amount);
     }
 
-    public void GainManaOverTime(float totalAmount, float totalTime, float coroutineSpeed = 10)
+    private void Mana_SuccesfulAttack(Collider hit, float damage)
     {
-        StartCoroutine(AddValueOverTimeCoroutine(totalAmount, totalTime, coroutineSpeed));
+        GainMana(damage / 2);
     }
 }

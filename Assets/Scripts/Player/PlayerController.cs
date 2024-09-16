@@ -211,13 +211,13 @@ public class PlayerController : MonoBehaviour
     //private void OnEnable()
     //{
     //    StancePurchaseMenu.onStanceGranted += AddStance;
-    //    StancePurchaseMenu.onFirstStanceGranted += DetermineStance;
+    //    StancePurchaseMenu.onFirstStanceGranted += SwapToStance;
     //}
 
     //private void OnDisable()
     //{
     //    StancePurchaseMenu.onStanceGranted -= AddStance;
-    //    StancePurchaseMenu.onFirstStanceGranted -= DetermineStance;
+    //    StancePurchaseMenu.onFirstStanceGranted -= SwapToStance;
     //}
 
     // Retrieve components, set objects inactive, make the cursor invisible
@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour
 
     #region STANCES
 
-    // Handle the input of the player and update _stancePosition accordingly
+    // Handle the input of the player and update _currentIndex accordingly
     public void DetermineStance()
     {
         if (stances.Count == 0) return;
@@ -316,7 +316,7 @@ public class PlayerController : MonoBehaviour
         SwapStance();
     }
 
-    // Based on the current _stancePosition, swap to the correct stance and handle additional functionality
+    // Based on the current _currentIndex, swap to the correct stance and handle additional functionality
     private void SwapStance()
     {
         currentStance = stances[stancePosition];
@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour
                 float damage = attackDamage;
                 damagedEnemies.Add(hitObject);
 
-                //#region Stance Related Logic
+                //#region StanceBase Related Logic
 
                 //if (currentStance == "Vampire") hitObject.GetComponent<StatusEffect>().Bleed(bleedDamage, bleedTicks, bleedIntervals);
 

@@ -23,7 +23,7 @@ public class ManaPotion : Potion, IPotion
     protected override void TriggerPotionEffect()
     {
         base.TriggerPotionEffect();
-        _mana.GainManaOverTime(_RefillAmount, _RefillTime, _RefillSpeed);
+        _mana.AddValueOverTime(_RefillAmount, _RefillTime, _RefillSpeed);
     }
 
     private bool CanConsume()

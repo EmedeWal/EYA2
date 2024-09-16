@@ -5,16 +5,17 @@ using System;
 public abstract class Resource : MonoBehaviour
 {
     [Header("RESOURCE VALUES")]
-    [SerializeField] protected float _maxValue;
-    [SerializeField] protected float _startingValue;
-    protected float _currentValue;
+    [SerializeField] private float _maxValue;
+    [SerializeField] private float _startingValue;
+    private float _currentValue;
 
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
-    public event Action<float> ValueRemoved;
     public event Action CoroutineCompleted;
 
-    public void Initialize()
+    public float _MaxValue => _maxValue; public float _CurrentValue => _currentValue;
+
+    public virtual void Init()
     {
         _currentValue = _startingValue;
         OnMaxValueInitialized();
@@ -35,7 +36,6 @@ public abstract class Resource : MonoBehaviour
 
     protected void RemoveValue(float amount)
     {
-        float initialValue = _currentValue;
         _currentValue -= amount;
 
         if (_currentValue < 0)
@@ -43,8 +43,6 @@ public abstract class Resource : MonoBehaviour
             _currentValue = 0;
         }
 
-        float amountRemoved = initialValue - _currentValue;
-        OnValueRemoved(amountRemoved);
         OnCurrentValueUpdated();
     }
 
@@ -58,21 +56,41 @@ public abstract class Resource : MonoBehaviour
         return _currentValue >= _maxValue;
     }
 
-    protected virtual IEnumerator AddValueOverTimeCoroutine(float totalAmount, float totalTime, float coroutineSpeed)
+    public void AddValueOverTime(float totalAmount, float totalTime, float coroutineSpeed = 10)
     {
-        float valuePerSecond = totalAmount / totalTime;
-        float valueIncrement = valuePerSecond / coroutineSpeed;
-        float timeIncrement = 1 / coroutineSpeed;
-        float valueAdded = 0;
-
-        while (valueAdded < totalAmount)
+        StartCoroutine(AddValueOverTimeCoroutine());
+        IEnumerator AddValueOverTimeCoroutine()
         {
-            AddValue(valueIncrement);
-            valueAdded += valueIncrement;
-            yield return new WaitForSeconds(timeIncrement);
-        }
+            float valuePerSecond = totalAmount / totalTime;
+            float valueIncrement = valuePerSecond / coroutineSpeed;
+            float timeIncrement = 1 / coroutineSpeed;
+            float valueAdded = 0;
 
-        OnCoroutineCompleted();
+            while (valueAdded < totalAmount)
+            {
+                AddValue(valueIncrement);
+                valueAdded += valueIncrement;
+                yield return new WaitForSeconds(timeIncrement);
+            }
+
+            OnCoroutineCompleted();
+        }
+    }
+
+    public void AddConstantValue(float value, float ticks)
+    {
+        StartCoroutine(AddConstantValueCoroutine());
+        IEnumerator AddConstantValueCoroutine()
+        {
+            float increment = value / ticks;
+            float delay = 1 / ticks;
+
+            while (true)
+            {
+                yield return new WaitForSeconds(delay);
+                AddValue(increment);
+            }
+        }
     }
 
     private void OnMaxValueInitialized()
@@ -83,11 +101,6 @@ public abstract class Resource : MonoBehaviour
     private void OnCurrentValueUpdated()
     {
         CurrentValueUpdated?.Invoke(_currentValue);
-    }
-
-    private void OnValueRemoved(float amount)
-    {
-        ValueRemoved?.Invoke(amount);
     }
 
     private void OnCoroutineCompleted()

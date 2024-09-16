@@ -20,12 +20,12 @@ public class VolumeManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Stance.UltimateStart += VolumeManager_UltimateStart;
+        //StanceBase.UltimateStart += VolumeManager_UltimateStart;
     }
 
     private void OnDisable()
     {
-        Stance.UltimateStart -= VolumeManager_UltimateStart;
+        //StanceBase.UltimateStart -= VolumeManager_UltimateStart;
     }
 
     private void VolumeManager_UltimateStart(float duration)

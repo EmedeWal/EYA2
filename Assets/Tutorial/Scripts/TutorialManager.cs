@@ -52,11 +52,11 @@ public class TutorialManager : MonoBehaviour
     {
         UpdateMessage();
 
-        _playerObject.GetComponent<Mana>().Initialize();
+        _playerObject.GetComponent<Mana>().Init();
 
         foreach (Resource resource in _toInitializeArray)
         {
-            resource.Initialize();
+            resource.Init();
         }
 
         foreach (GameObject gameObject in _toDisableArray)
@@ -80,7 +80,7 @@ public class TutorialManager : MonoBehaviour
         EnemyManager.EnemyDeath -= TutorialManager_EnemyDeath;
         StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
         PlayerPause.Pause -= TutorialManager_Pause;
-        PlayerStanceManager.StanceSwap -= TutorialManager_StanceSwap;
+        //PlayerStanceManager.StanceSwappedDelegate -= TutorialManager_StanceSwap;
     }
 
     private void TutorialManager_PlayerHealed()
@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
         {
             IncreaseIndex();
             StancePurchaseMenu.UnlockStance -= TutorialManager_UnlockStance;
-            PlayerStanceManager.StanceSwap += TutorialManager_StanceSwap;
+            //PlayerStanceManager.StanceSwappedDelegate += TutorialManager_StanceSwap;
         }
     }
 
@@ -125,7 +125,7 @@ public class TutorialManager : MonoBehaviour
     private void TutorialManager_StanceSwap()
     {
         IncreaseIndex();
-        PlayerStanceManager.StanceSwap -= TutorialManager_StanceSwap;
+        //PlayerStanceManager.StanceSwappedDelegate -= TutorialManager_StanceSwap;
         PlayerPause.Pause += TutorialManager_Pause;
     }
 

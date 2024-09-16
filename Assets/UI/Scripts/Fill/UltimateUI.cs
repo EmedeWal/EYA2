@@ -11,13 +11,13 @@ public class UltimateUI : FillUI
     private void OnEnable()
     {
         //StancePurchaseMenu.UnlockStance += UltimateUI_UnlockStance;
-        Stance.UltimateStart += UltimateUI_UltimateStart;
+        //StanceBase.UltimateStart += UltimateUI_UltimateStart;
     }
 
     private void OnDisable()
     {
         //StancePurchaseMenu.UnlockStance -= UltimateUI_UnlockStance;
-        Stance.UltimateStart -= UltimateUI_UltimateStart;
+        //StanceBase.UltimateStart -= UltimateUI_UltimateStart;
     }
 
     //private void UltimateUI_UnlockStance(StanceType stanceType)

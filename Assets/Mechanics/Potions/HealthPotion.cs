@@ -23,7 +23,7 @@ public class HealthPotion : Potion, IPotion
     protected override void TriggerPotionEffect()
     {
         base.TriggerPotionEffect();
-        _health.HealOverTime(_RefillAmount, _RefillTime, _RefillSpeed);
+        _health.AddValueOverTime(_RefillAmount, _RefillTime, _RefillSpeed);
     }
 
     private bool CanConsume()

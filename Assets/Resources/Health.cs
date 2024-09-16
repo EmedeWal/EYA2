@@ -15,25 +15,23 @@ public class Health : Resource
         AddValue(amount);
     }
 
-    public void TakeDamage(float amount)
+    public float TakeDamage(float amount)
     {
-        if (_invincible) return;
+        if (_invincible) return 0f;  
 
-        float finalDamage = amount * _damageModifier;
-        RemoveValue(finalDamage);
+        float finalDamage = amount * _damageModifier;  
+        float damageDealt = Mathf.Min(finalDamage, _CurrentValue);
+
+        RemoveValue(damageDealt);
 
         if (AtMinValue())
         {
-            _invincible = true;
             OnDeath();
         }
-        //Debug.Log($"{gameObject.name} has taken {finalDamage} damage. Currenthealth: {CurrentValue}");
+
+        return damageDealt;
     }
 
-    public void HealOverTime(float totalAmount, float totalTime, float coroutineSpeed = 10)
-    {
-        StartCoroutine(AddValueOverTimeCoroutine(totalAmount, totalTime, coroutineSpeed));
-    }
 
     public void SetDamageReduction(float damageReduction)
     {

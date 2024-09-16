@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonBase
 {
     #region Singleton
     public static GameManager Instance;
 
-    private void Awake()
+    public override void SingletonSetup()
     {
         if (Instance == null)
         {
@@ -15,30 +16,32 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        _characterController = _playerObject.GetComponent<CharacterController>();
-        _playerInputManager = _playerObject.GetComponent<PlayerInputManager>();
-        _playerDataManager = _playerObject.GetComponent<PlayerDataManager>();
-        _playerMovement = _playerObject.GetComponent<PlayerMovement>();
-        _playerHealth = _playerObject.GetComponent<Health>();
     }
     #endregion
 
-    [Header("PLAYER OBJECT REFERENCE")]
-    [SerializeField] private GameObject _playerObject;
-    private CharacterController _characterController;
-    private PlayerInputManager _playerInputManager;
-    private PlayerDataManager _playerDataManager;
-    private PlayerMovement _playerMovement;
-    private Health _playerHealth;
-
-    private void Start()
+    private void Awake()
     {
-        _playerHealth.Death += GameManager_Death;
+        SingletonSetup();
+
+        SingletonBase[] singletons = FindObjectsByType<SingletonBase>(FindObjectsSortMode.None);
+        foreach (SingletonBase singleton in singletons)
+        {
+            if (singleton != this)
+            {
+                _singletons.Add(singleton);
+            }
+        }
+
+        foreach (SingletonBase singleton in _singletons)
+        {
+            singleton.SingletonSetup();
+        }
+
+        _playerManager.Init();
     }
 
-    private void GameManager_Death(GameObject playerObject)
-    {
-        Debug.Log("player has died");
-    }
+    private List<SingletonBase> _singletons = new();
+
+    [Header("INIT CALLS")]
+    [SerializeField] private PlayerManager _playerManager;
 }
