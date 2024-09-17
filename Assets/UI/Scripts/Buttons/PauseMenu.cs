@@ -1,110 +1,95 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class PauseMenu : ButtonUI
 {
-    //[SerializeField] private GameObject _holder;
-    //[SerializeField] private GameObject _firstSelected;
+    [Header("REFERENCES")]
+    [SerializeField] private GameObject _holder;
+    [SerializeField] private GameObject _firstSelected;
 
-    //[Header("HEADERS")]
-    //[SerializeField] private Image[] _headers;
-    //[SerializeField] private Color _defaultColor;
-    //[SerializeField] private Color _selectedColor;
+    [Header("HEADERS")]
+    [SerializeField] private Image[] _headers;
+    [SerializeField] private Color _defaultColor;
+    [SerializeField] private Color _selectedColor;
 
-    //[Header("MENUS")]
-    //[SerializeField] private GameObject[] _menus;
-    //[SerializeField] private int _menuIndex = 1;
+    [Header("MENUS")]
+    [SerializeField] private GameObject[] _menus;
+    [SerializeField] private int _menuIndex = 1;
 
-    //private void Start()
-    //{
-    //    SwapMenu();
-    //    ManageHolder(false);
-    //}
+    private PlayerInputHandler _playerInputHandler;
+    private TimeSystem _timeSystem;
 
-    //private void OnEnable()
-    //{
-    //    PlayerPause.Pause += PauseMenu_Pause;
-    //    PlayerPause.Resume += PauseMenu_Resume;
-    //    PlayerPause.SwapMenu += PauseMenu_SwapMenu;
-    //}
+    public void Retry()
+    {
+        _timeSystem.ResetTimeScale();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
-    //private void OnDisable()
-    //{
-    //    PlayerPause.Pause -= PauseMenu_Pause;
-    //    PlayerPause.Resume -= PauseMenu_Resume;
-    //    PlayerPause.SwapMenu -= PauseMenu_SwapMenu;
-    //}
+    public void QuitToMainMenu()
+    {
+        _timeSystem.ResetTimeScale();
+        SceneManager.LoadScene("MainMenu");
+    }
 
-    //private void PauseMenu_Pause()
-    //{
-    //    TimeSystem.Instance.SetTimeScale(0);
-    //    OpenPauseMenu();
-    //}
+    public void QuitToDesktop()
+    {
+        _timeSystem.ResetTimeScale();
+        Application.Quit();
+    }
 
-    //private void PauseMenu_Resume()
-    //{
-    //    TimeSystem.Instance.RevertToPreviousTimeScale();
-    //    ClosePauseMenu();
-    //}
+    public void Init()
+    {
+        _playerInputHandler = PlayerInputHandler.Instance;
+        _timeSystem = TimeSystem.Instance;
 
-    //private void PauseMenu_SwapMenu(int inputValue)
-    //{
-    //    int lastPosition = _menus.Length - 1;
+        _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
+        _holder.SetActive(false);
+        SwapMenu();
+    }
 
-    //    _menuIndex += inputValue;
+    private void PauseMenu_PauseInputPerformed()
+    {
+        if (_holder.activeSelf)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
 
-    //    if (_menuIndex < 0) _menuIndex = lastPosition;
-    //    else if (_menuIndex > lastPosition) _menuIndex = 0;
+    private void PauseMenu_SwapMenuInputPerformed(int inputValue)
+    {
+        _menuIndex = Helpers.GetIndexInBounds(_menuIndex, inputValue, _menus.Length); SwapMenu();
+    }
 
-    //    SwapMenu();
-    //}
 
-    //private void OpenPauseMenu()
-    //{
-    //    ManageHolder(true);
-    //    OnSetSelectedButton(_firstSelected);
-    //}
+    private void ResumeGame()
+    { 
+        _playerInputHandler.SwapMenuInputPerformed -= PauseMenu_SwapMenuInputPerformed;
+        _playerInputHandler.ListenToCombatActions(true);
+        _timeSystem.RevertToPreviousTimeScale();
+        _holder.SetActive(false);
+    }
 
-    //private void ClosePauseMenu()
-    //{
-    //    ManageHolder(false);
-    //}
+    private void PauseGame()
+    {
+        _playerInputHandler.SwapMenuInputPerformed += PauseMenu_SwapMenuInputPerformed;
+        _playerInputHandler.ListenToCombatActions(false);
+        _timeSystem.SetTimeScale(0);
+        _holder.SetActive(true);
 
-    //private void SwapMenu()
-    //{
-    //    foreach (var menu in _menus) menu.SetActive(false);
-    //    _menus[_menuIndex].SetActive(true);
+        OnSetSelectedButton(_firstSelected);
+    }
 
-    //    SwapHeader();
-    //}
+    private void SwapMenu()
+    {
+        foreach (var menu in _menus) menu.SetActive(false);
+        _menus[_menuIndex].SetActive(true);
 
-    //private void SwapHeader()
-    //{
-    //    foreach (var header in _headers) header.color = _defaultColor;
-    //    _headers[_menuIndex].color = _selectedColor;
-    //}
-
-    //private void ManageHolder(bool active)
-    //{
-    //    _holder.SetActive(active);
-    //}
-
-    //public void Retry()
-    //{
-    //    Time.timeScale = 1;
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    //}
-
-    //public void QuitToMainMenu()
-    //{
-    //    Time.timeScale = 1;
-    //    SceneManager.LoadScene("MainMenu");
-    //}
-
-    //public void QuitToDesktop()
-    //{
-    //    Time.timeScale = 1;
-    //    Application.Quit();
-    //}
+        foreach (var header in _headers) header.color = _defaultColor;
+        _headers[_menuIndex].color = _selectedColor;
+    }
 }

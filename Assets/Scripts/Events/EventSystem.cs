@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
-public class EventManager : MonoBehaviour 
+public class EventSystem : MonoBehaviour 
 {
     private void OnEnable()
     {
@@ -16,7 +15,7 @@ public class EventManager : MonoBehaviour
 
     private void EventManager_SetSelectedButton(GameObject buttonObject)
     {
-        EventSystem.current.SetSelectedGameObject(buttonObject);
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(buttonObject);
     }
 }
 

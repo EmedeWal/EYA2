@@ -43,6 +43,9 @@ public class PlayerInputHandler : SingletonBase
     public event Action LightAttackInputPerformed;
     public event Action HeavyAttackInputPerformed;
 
+    public event Action PauseInputPerformed;
+    public event Action<int> SwapMenuInputPerformed;
+
     #region Input Setup
     InputActions _inputActions;
 
@@ -55,11 +58,10 @@ public class PlayerInputHandler : SingletonBase
         _inputActions.Movement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
         _inputActions.Movement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
-        _inputActions.Actions.R3Press.performed += OnLockOnInputPerformed;
-        _inputActions.Actions.LeftTrigger.performed += OnUltimateInputPerformed;
-        _inputActions.Actions.LeftShoulder.performed += OnSwapStanceInputPerformed;
-        _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
-        _inputActions.Actions.RightTrigger.performed += OnHeavyAttackInputPerformed;
+        _inputActions.Actions.Options.performed += OnPauseInputPerformed;
+        _inputActions.Actions.Shoulders.performed += OnSwapMenuInputPerformed;
+
+        ListenToCombatActions(true);
 
         _inputActions.Enable();
     }
@@ -87,6 +89,26 @@ public class PlayerInputHandler : SingletonBase
         _RightStickY = _rightStickValue.y;
     }
 
+    public void ListenToCombatActions(bool subscribe)
+    {
+        if (subscribe)
+        {
+            _inputActions.Actions.R3Press.performed += OnLockOnInputPerformed;
+            _inputActions.Actions.LeftTrigger.performed += OnUltimateInputPerformed;
+            _inputActions.Actions.LeftShoulder.performed += OnSwapStanceInputPerformed;
+            _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
+            _inputActions.Actions.RightTrigger.performed += OnHeavyAttackInputPerformed;
+        }
+        else
+        {
+            _inputActions.Actions.R3Press.performed -= OnLockOnInputPerformed;
+            _inputActions.Actions.LeftTrigger.performed -= OnUltimateInputPerformed;
+            _inputActions.Actions.LeftShoulder.performed -= OnSwapStanceInputPerformed;
+            _inputActions.Actions.RightShoulder.performed -= OnLightAttackInputPerformed;
+            _inputActions.Actions.RightTrigger.performed -= OnHeavyAttackInputPerformed;
+        }
+    }
+
     private void HandleInput(Action action)
     {
         _lastAction = () => action.Invoke();
@@ -94,6 +116,7 @@ public class PlayerInputHandler : SingletonBase
         _lastAction.Invoke();
     }
 
+    #region Combat Actions
     private void OnLockOnInputPerformed(InputAction.CallbackContext context)
     {
         LockOnInputPerformed?.Invoke();
@@ -119,6 +142,17 @@ public class PlayerInputHandler : SingletonBase
     {
         HandleInput(() => HeavyAttackInputPerformed?.Invoke());
         HeavyAttackInputPerformed?.Invoke();
+    }
+    #endregion
+
+    private void OnPauseInputPerformed(InputAction.CallbackContext context)
+    {
+        PauseInputPerformed?.Invoke();
+    }
+
+    private void OnSwapMenuInputPerformed(InputAction.CallbackContext context)
+    {
+        SwapMenuInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
     }
 }
 

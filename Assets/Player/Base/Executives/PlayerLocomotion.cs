@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(Rigidbody))]
@@ -47,7 +48,6 @@ public class PlayerLocomotion : MonoBehaviour
 
         gameObject.layer = controllerLayer;
         _layersToIgnore = ~(1 << controllerLayer | 1 << damageColliderLayer);
-
     }
 
     public void Tick()

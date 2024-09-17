@@ -50,7 +50,7 @@ public class PlayerStanceManager : MonoBehaviour
             _inputHandler.SwapStanceInputPerformed -= PlayerStanceManager_SwapStanceInput_Performed;
             Invoke(nameof(ResubscribeToSwapStance), _swapCD);
 
-            _currentIndex = Helpers.GetIndexIncrement(_currentIndex, _stances.Count);
+            _currentIndex = Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count);
             SwapToStance(_stances[_currentIndex]);
         }
     }
@@ -64,7 +64,7 @@ public class PlayerStanceManager : MonoBehaviour
         StanceType nextStance;
         if (_stances.Count > 1)
         {
-            nextStance = _stances[Helpers.GetIndexIncrement(_currentIndex, _stances.Count)].StanceData.StanceType;
+            nextStance = _stances[Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count)].StanceData.StanceType;
         }
         else
         {

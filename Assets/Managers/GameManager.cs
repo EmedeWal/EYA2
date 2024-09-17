@@ -38,10 +38,12 @@ public class GameManager : SingletonBase
         }
 
         _playerManager.Init();
+        _pauseMenu.Init();
     }
 
     private List<SingletonBase> _singletons = new();
 
     [Header("INIT CALLS")]
     [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private PauseMenu _pauseMenu;
 }

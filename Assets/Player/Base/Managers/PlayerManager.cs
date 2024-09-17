@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerAttackHandler _attackHandler;
     private Health _health;
     private Mana _mana;
+    private MovementTracking _movementTracking;
     private CameraController _cameraManager;
     
     private float _delta;
@@ -28,6 +29,7 @@ public class PlayerManager : MonoBehaviour
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
         _mana = GetComponent<Mana>();
+        _movementTracking = GetComponent<MovementTracking>();
         _cameraManager = CameraController.Instance;
 
         _animatorManager.Init();
@@ -38,6 +40,7 @@ public class PlayerManager : MonoBehaviour
         _attackHandler.Init();
         _health.Init();
         _mana.Init();   
+        _movementTracking.Init();
         _cameraManager.Init(transform);
 
         _health.AddConstantValue(1, 1);
@@ -50,6 +53,7 @@ public class PlayerManager : MonoBehaviour
         _inputHandler.Tick();
         _locomotion.Tick();
         _attackHandler.Tick(_delta);
+        _movementTracking.Tick(_delta);
     }
 
     private void FixedUpdate()

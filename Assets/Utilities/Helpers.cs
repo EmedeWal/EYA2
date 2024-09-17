@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public static class Helpers
@@ -7,13 +8,19 @@ public static class Helpers
         return Physics.OverlapBox(attackPoint, attackSize * 0.5f, rotation, layerMask);
     }
 
-    public static int GetIndexIncrement(int index, int length)
+    public static int GetIndexInBounds(int index, int increment, int length)
     {
-        index++;
+        int lastPosition = length - 1;
 
-        if (index >= length)
+        index += increment;
+
+        if (index < 0)
         {
-            return 0;
+            index = lastPosition;
+        }
+        else if (index > lastPosition)
+        {
+            index = 0;
         }
 
         return index;

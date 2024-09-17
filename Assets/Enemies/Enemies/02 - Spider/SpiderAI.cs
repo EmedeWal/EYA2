@@ -14,7 +14,7 @@ public class SpiderAI : MeleeEnemyAI
 
     [Header("MOVEMENT INTERCEPTION")]
     [SerializeField] private float _predictionThreshold = 5f;
-    private PlayerMovement _playerMovement;
+    private MovementTracking _movementTracking;
     private Vector3 _expectedPosition;
 
     private void Awake()
@@ -22,14 +22,14 @@ public class SpiderAI : MeleeEnemyAI
         DetermineAttackData();
         SetReferences();
 
-        _playerMovement = PlayerTransform.gameObject.GetComponent<PlayerMovement>();
+        _movementTracking = PlayerTransform.gameObject.GetComponent<MovementTracking>();
     }
 
     protected override void MoveTowardsPlayer()
     {
         float distanceToPlayer = Vector3.Distance(PlayerTransform.position, transform.position);
         float timeToPlayer = distanceToPlayer / Agent.speed;
-        Vector3 targetPosition = PlayerTransform.position + _playerMovement.AverageVelocity * timeToPlayer;
+        Vector3 targetPosition = PlayerTransform.position + _movementTracking.AverageVelocity * timeToPlayer;
 
         if (distanceToPlayer < _predictionThreshold)
         {

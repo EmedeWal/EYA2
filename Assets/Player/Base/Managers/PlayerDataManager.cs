@@ -8,7 +8,7 @@ public class PlayerDataManager : MonoBehaviour
         LocomotionStruct.SpeedModifier = 1;
         AttackStruct.AttackModifier = 1;
         StanceStruct.DamageReduction = 0;
-        StanceStruct.LifeSteal = 1;
+        StanceStruct.LifeSteal = 0;
     }
 
     public ReferenceStruct ReferenceStruct;
