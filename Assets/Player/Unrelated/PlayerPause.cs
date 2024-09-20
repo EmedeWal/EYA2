@@ -11,7 +11,7 @@ public class PlayerPause : MonoBehaviour
     public static event PlayerPause_Resume Resume;
 
     //public delegate void PlayerPause_SwapMenu(int index);
-    //public static event PlayerPause_SwapMenu SwapMenu;
+    //public static event PlayerPause_SwapMenu SwapHeader;
 
     //private bool _paused = false;
 
@@ -52,7 +52,7 @@ public class PlayerPause : MonoBehaviour
     //    {
     //        int index = Mathf.FloorToInt(inputValue);
 
-    //        SwapMenu?.Invoke(index);
+    //        SwapHeader?.Invoke(index);
     //    }
     //}
 

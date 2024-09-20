@@ -230,6 +230,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-Pad (Up & Down)"",
+                    ""type"": ""Button"",
+                    ""id"": ""a7d7cbd6-3598-4af4-ae15-bae4230ec7d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -280,7 +289,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""d186d9ce-50c4-44c4-9d0c-02ff26f2b39e"",
-                    ""path"": ""1DAxis(minValue=0,whichSideWins=1)"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -291,7 +300,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""e2a419de-279e-443f-84b0-190e7390dfad"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -302,7 +311,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""2c4c0c0a-7427-4d9a-8cca-41d3fb8c4b27"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -313,7 +322,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""17209e9c-a74a-46d1-9684-20ee4a660389"",
-                    ""path"": ""1DAxis(minValue=0,whichSideWins=1)"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -540,6 +549,72 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""R3 Press"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""38a02dbb-68ab-4e29-a34d-aadd699882a1"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7a700362-8950-4489-9d01-3418bd1a2c46"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""350e2e3c-2e10-401b-8194-0ab9c0e57c7e"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""c845e9fd-2b3b-4bcb-9185-d0689fa417f9"",
+                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""550debaf-627f-4aa2-8306-f53de8d9e4eb"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1a49e20a-7c5e-4dd6-891c-d54a0c644016"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad (Up & Down)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -562,6 +637,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Actions_RightTrigger = m_Actions.FindAction("Right Trigger", throwIfNotFound: true);
         m_Actions_LeftShoulder = m_Actions.FindAction("Left Shoulder", throwIfNotFound: true);
         m_Actions_DPadLeftRight = m_Actions.FindAction("D-Pad (Left & Right)", throwIfNotFound: true);
+        m_Actions_DPadUpDown = m_Actions.FindAction("D-Pad (Up & Down)", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -687,6 +763,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Actions_RightTrigger;
     private readonly InputAction m_Actions_LeftShoulder;
     private readonly InputAction m_Actions_DPadLeftRight;
+    private readonly InputAction m_Actions_DPadUpDown;
     public struct ActionsActions
     {
         private @InputActions m_Wrapper;
@@ -701,6 +778,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @RightTrigger => m_Wrapper.m_Actions_RightTrigger;
         public InputAction @LeftShoulder => m_Wrapper.m_Actions_LeftShoulder;
         public InputAction @DPadLeftRight => m_Wrapper.m_Actions_DPadLeftRight;
+        public InputAction @DPadUpDown => m_Wrapper.m_Actions_DPadUpDown;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -740,6 +818,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DPadLeftRight.started += instance.OnDPadLeftRight;
             @DPadLeftRight.performed += instance.OnDPadLeftRight;
             @DPadLeftRight.canceled += instance.OnDPadLeftRight;
+            @DPadUpDown.started += instance.OnDPadUpDown;
+            @DPadUpDown.performed += instance.OnDPadUpDown;
+            @DPadUpDown.canceled += instance.OnDPadUpDown;
         }
 
         private void UnregisterCallbacks(IActionsActions instance)
@@ -774,6 +855,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DPadLeftRight.started -= instance.OnDPadLeftRight;
             @DPadLeftRight.performed -= instance.OnDPadLeftRight;
             @DPadLeftRight.canceled -= instance.OnDPadLeftRight;
+            @DPadUpDown.started -= instance.OnDPadUpDown;
+            @DPadUpDown.performed -= instance.OnDPadUpDown;
+            @DPadUpDown.canceled -= instance.OnDPadUpDown;
         }
 
         public void RemoveCallbacks(IActionsActions instance)
@@ -808,5 +892,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRightTrigger(InputAction.CallbackContext context);
         void OnLeftShoulder(InputAction.CallbackContext context);
         void OnDPadLeftRight(InputAction.CallbackContext context);
+        void OnDPadUpDown(InputAction.CallbackContext context);
     }
 }

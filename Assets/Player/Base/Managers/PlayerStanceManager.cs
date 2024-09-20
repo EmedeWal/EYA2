@@ -1,11 +1,25 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerStanceManager : MonoBehaviour
+public class PlayerStanceManager : SingletonBase
 {
-    //// DISCARD LATER. TESTING PURPOSES ONLY. ALONG WITH START FUNCTION
-    //public bool UnlockOnStart;
+    #region Singleton
+    public static PlayerStanceManager Instance;
+
+    public override void SingletonSetup()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    #endregion
 
     // References
     private PlayerInputHandler _inputHandler;
@@ -21,6 +35,9 @@ public class PlayerStanceManager : MonoBehaviour
 
     private AudioSystem _audioSystem;
 
+    public delegate void StanceUnlockedDelegate(StanceType stanceUnlocked);
+    public event StanceUnlockedDelegate StanceUnlocked;
+
     public delegate void StanceSwappedDelegate(StanceType currentStance, StanceType nextStance);
     public event StanceSwappedDelegate StanceSwapped;
 
@@ -33,6 +50,30 @@ public class PlayerStanceManager : MonoBehaviour
 
         _inputHandler.UltimateInputPerformed += PlayerStanceManager_UltimateInput_Performed;
         _inputHandler.SwapStanceInputPerformed += PlayerStanceManager_SwapStanceInput_Performed;
+    }
+
+    public void UnlockStance(StanceType stanceTypeToUnlock)
+    {
+        StanceBase[] stances = GetComponents<StanceBase>();
+        foreach (StanceBase stance in stances)
+        {
+            StanceType stanceTypeToCheck = stance.StanceData.StanceType;
+            if (stanceTypeToCheck == stanceTypeToUnlock)
+            {
+                if (_stances.Contains(stance))
+                {
+                    continue;
+                }
+                else
+                {
+                    stance.Init();
+                    _stances.Add(stance);
+                    _currentIndex = _stances.Count - 1;
+                    SwapToStance(stance);
+                    OnStanceUnlocked(stanceTypeToUnlock);
+                }
+            }
+        }
     }
 
     private void PlayerStanceManager_UltimateInput_Performed()
@@ -74,62 +115,15 @@ public class PlayerStanceManager : MonoBehaviour
         OnStanceSwapped(currentStance.StanceData.StanceType, nextStance);
     }
 
+    private void OnStanceUnlocked(StanceType unlockedStance)
+    {
+        StanceUnlocked?.Invoke(unlockedStance);
+    }
+
     private void OnStanceSwapped(StanceType currentStance, StanceType nextStance)
     {
         StanceSwapped?.Invoke(currentStance, nextStance);
     }
-
-
-    //public void UnlockVampireStance()
-    //{
-    //    IStance[] stances = GetComponents<IStance>();
-    //    UnlockStance(stances[0]);
-    //}
-
-    //public void UnlockOrcStance()
-    //{
-    //    IStance[] stances = GetComponents<IStance>();
-    //    UnlockStance(stances[1]);
-    //}
-
-    //public void UnlockGhostStance()
-    //{
-    //    IStance[] stances = GetComponents<IStance>();
-    //    UnlockStance(stances[2]);
-    //}
-
-    //private void UnlockStance(IStance stance)
-    //{
-    //    if (!_stances.Contains(stance))
-    //    {
-    //        _stances.Add(stance);
-    //        SwapStance(stance);
-    //    }
-    //}
-
-    //private void PlayerStanceManager_UnlockStance(StanceType stanceType)
-    //{
-    //    switch (stanceType)
-    //    {
-    //        case StanceType.Vampire:
-    //            UnlockVampireStance();
-    //            break;
-
-    //        case StanceType.Orc:
-    //            UnlockOrcStance();
-    //            break;
-
-    //        case StanceType.Ghost: 
-    //            UnlockGhostStance();
-    //            break;
-    //    }
-    //}
-
-
-    //public void OnStanceSwapped()
-    //{
-    //    StanceSwappedDelegate?.Invoke();
-    //}
 
     private void ResubscribeToSwapStance()
     {

@@ -210,13 +210,13 @@ public class PlayerController : MonoBehaviour
 
     //private void OnEnable()
     //{
-    //    StancePurchaseMenu.onStanceGranted += AddStance;
+    //    StancePurchaseMenu.onStanceGranted += UnlockStance;
     //    StancePurchaseMenu.onFirstStanceGranted += SwapToStance;
     //}
 
     //private void OnDisable()
     //{
-    //    StancePurchaseMenu.onStanceGranted -= AddStance;
+    //    StancePurchaseMenu.onStanceGranted -= UnlockStance;
     //    StancePurchaseMenu.onFirstStanceGranted -= SwapToStance;
     //}
 

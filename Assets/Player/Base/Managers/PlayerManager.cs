@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
         _movementTracking = GetComponent<MovementTracking>();
         _cameraManager = CameraController.Instance;
 
+        _inputHandler.Init();
         _animatorManager.Init();
         _stanceManager.Init();
         _dataManager.Init();

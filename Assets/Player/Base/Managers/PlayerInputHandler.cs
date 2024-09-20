@@ -44,12 +44,13 @@ public class PlayerInputHandler : SingletonBase
     public event Action HeavyAttackInputPerformed;
 
     public event Action PauseInputPerformed;
-    public event Action<int> SwapMenuInputPerformed;
+    public event Action<int> SwapHeaderInputPerformed;
+    public event Action<int> SwapSectionInputPerformed;
 
     #region Input Setup
     InputActions _inputActions;
 
-    private void OnEnable()
+    public void Init()
     {
         _inputActions ??= new InputActions();
 
@@ -59,16 +60,12 @@ public class PlayerInputHandler : SingletonBase
         _inputActions.Movement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
         _inputActions.Actions.Options.performed += OnPauseInputPerformed;
-        _inputActions.Actions.Shoulders.performed += OnSwapMenuInputPerformed;
+        _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
+        _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
 
         ListenToCombatActions(true);
 
         _inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputActions.Disable();   
     }
     #endregion
 
@@ -150,9 +147,14 @@ public class PlayerInputHandler : SingletonBase
         PauseInputPerformed?.Invoke();
     }
 
-    private void OnSwapMenuInputPerformed(InputAction.CallbackContext context)
+    private void OnSwapHeaderInputPerformed(InputAction.CallbackContext context)
     {
-        SwapMenuInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+        SwapHeaderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+    }
+
+    public void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
+    {
+        SwapSectionInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
     }
 }
 
