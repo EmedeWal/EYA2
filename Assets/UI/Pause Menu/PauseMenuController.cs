@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System.Collections;
+using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 public class PauseMenuController : MonoBehaviour
 {
-    //[Header("REFERENCES")]
-    //[SerializeField] private GameObject _firstSelected;
-
     [Header("HEADERS")]
     [SerializeField] private GameObject _headerHolderObject;
     [SerializeField] private Color _deselectedColor;
@@ -13,27 +14,17 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private int _headerIndex = 2;
     private List<Header> _headers = new();
 
+    [Header("CURSOR")]
+    [SerializeField] private Image _cursorImage; 
+    [SerializeField] private float _cursorSpeed = 5f;
+    private Vector3 _cursorPosition = new(Screen.width / 2, Screen.height / 2, 0);
+
     private PlayerInputHandler _playerInputHandler;
     private TimeSystem _timeSystem;
     private GameObject _holder;
+    private LayerMask _clickable;
 
-    //public void Retry()
-    //{
-    //    _timeSystem.ResetTimeScale();
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    //}
-
-    //public void QuitToMainMenu()
-    //{
-    //    _timeSystem.ResetTimeScale();
-    //    SceneManager.LoadScene("MainMenu");
-    //}
-
-    //public void QuitToDesktop()
-    //{
-    //    _timeSystem.ResetTimeScale();
-    //    Application.Quit();
-    //}
+    private IClickable _currentClickable;
 
     public void Init()
     {
@@ -48,7 +39,19 @@ public class PauseMenuController : MonoBehaviour
         _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
         _holder.SetActive(false);
 
+        _clickable = LayerMask.GetMask("Clickable");
+
         SwapHeader();
+    }
+
+    private void PauseMenu_BackInputPerformed()
+    {
+        ResumeGame();
+    }
+
+    private void PauseMenu_ClickInputPerformed()
+    {
+        _currentClickable?.OnClick();
     }
 
     private void PauseMenu_PauseInputPerformed()
@@ -73,30 +76,88 @@ public class PauseMenuController : MonoBehaviour
         _headers[_headerIndex].SwapSection(inputValue);
     }
 
-
     private void ResumeGame()
-    { 
+    {
+        _playerInputHandler.BackInputPerformed -= PauseMenu_BackInputPerformed;
+        _playerInputHandler.ClickInputPerformed -= PauseMenu_ClickInputPerformed;
         _playerInputHandler.SwapHeaderInputPerformed -= PauseMenu_SwapHeaderInputPerformed;
-        _playerInputHandler.SwapSectionInputPerformed += PauseMenu_SwapSectionInputPerformed;
+        _playerInputHandler.SwapSectionInputPerformed -= PauseMenu_SwapSectionInputPerformed;
         _playerInputHandler.ListenToCombatActions(true);
         _timeSystem.RevertToPreviousTimeScale();
         _holder.SetActive(false);
+
+        StopAllCoroutines();
     }
 
     private void PauseGame()
     {
+        _playerInputHandler.BackInputPerformed += PauseMenu_BackInputPerformed;
+        _playerInputHandler.ClickInputPerformed += PauseMenu_ClickInputPerformed;
         _playerInputHandler.SwapHeaderInputPerformed += PauseMenu_SwapHeaderInputPerformed;
         _playerInputHandler.SwapSectionInputPerformed += PauseMenu_SwapSectionInputPerformed;
         _playerInputHandler.ListenToCombatActions(false);
         _timeSystem.SetTimeScale(0);
         _holder.SetActive(true);
 
-        //OnSetSelectedButton(_firstSelected);
+        StartCoroutine(HandleCursorCoroutine());
     }
 
     private void SwapHeader()
     {
         foreach (var header in _headers) header.Deselect(_deselectedColor);
         _headers[_headerIndex].Select(_selectedColor);
+    }
+
+    private IEnumerator HandleCursorCoroutine()
+    {
+        while (true)
+        {
+            float horizontalInput = _playerInputHandler._LeftStickX;
+            float verticalInput = _playerInputHandler._LeftStickY;
+
+            _cursorPosition += _cursorSpeed * Time.unscaledDeltaTime * 100 * new Vector3(horizontalInput, verticalInput, 0);
+
+            _cursorPosition.x = Mathf.Clamp(_cursorPosition.x, 0, Screen.width);
+            _cursorPosition.y = Mathf.Clamp(_cursorPosition.y, 0, Screen.height);
+
+            _cursorImage.transform.position = _cursorPosition;
+
+            if (TryGetRayCast(_cursorPosition, _clickable, out GameObject hitObject))
+            {
+                if (hitObject.TryGetComponent(out IClickable clickable))
+                {
+                    if (_currentClickable != clickable)
+                    {
+                        clickable.OnEnter(); _currentClickable = clickable;
+                    }
+                }
+            }
+            else
+            {
+                if (_currentClickable != null)
+                {
+                    _currentClickable.OnExit(); _currentClickable = null;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    public bool TryGetRayCast(Vector3 cursorPosition, LayerMask layer, out GameObject hitObject)
+    {
+        EventSystem eventSystem = EventSystem.current;
+        var eventData = new PointerEventData(eventSystem) { position = cursorPosition };
+        var results = new List<RaycastResult>();
+
+        eventSystem.RaycastAll(eventData, results);
+        var uiResult = results.FirstOrDefault(r => (layer.value & (1 << r.gameObject.layer)) != 0);
+
+        if (uiResult.gameObject != null)
+        {
+            hitObject = uiResult.gameObject; return true;
+        }
+
+        hitObject = null; return false;
     }
 }

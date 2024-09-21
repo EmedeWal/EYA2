@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public abstract class StanceBase : MonoBehaviour
+public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
 {
     [Header("STANCE DATA")]
-    public StanceData StanceData;
+    [SerializeField] private StanceData _stanceData;
 
     protected PlayerDataManager _DataManager;
     protected PlayerAttackHandler _AttackHandler;
@@ -13,6 +13,8 @@ public abstract class StanceBase : MonoBehaviour
     private Renderer _sword;
 
     private GameObject _currentUltimateGFX;
+
+    public StanceData StanceData => _stanceData;
 
     public virtual void Init()
     {
@@ -26,8 +28,8 @@ public abstract class StanceBase : MonoBehaviour
 
     public virtual void Enter()
     {
-        Instantiate(StanceData.SwapVFX, _center);
-        _sword.material.color = StanceData.Color;
+        Instantiate(_stanceData.SwapVFX, _center);
+        _sword.material.color = _stanceData.Color;
     }
 
     public virtual void Exit()
@@ -38,8 +40,8 @@ public abstract class StanceBase : MonoBehaviour
     public virtual void CastUltimate()
     {
         _DataManager.UltimateStruct.IsUltimateActive = true;
-        _currentUltimateGFX = Instantiate(StanceData.UltimateGFX, _center);
-        Invoke(nameof(DeactivateUltimate), StanceData.UltimateDuration);
+        _currentUltimateGFX = Instantiate(_stanceData.UltimateGFX, _center);
+        Invoke(nameof(DeactivateUltimate), _stanceData.UltimateDuration);
         
         // Play audio
     }

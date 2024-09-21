@@ -23,13 +23,13 @@ public class VampireStance : StanceBase
     public override void CastUltimate()
     {
         base.CastUltimate();
-        _DataManager.StanceStruct.LifeSteal = _lifeStealPercentage / 100;
+        _DataManager.StanceStruct.LifeSteal += _lifeStealPercentage / 100;
     }
 
     public override void DeactivateUltimate()
     {
         base.DeactivateUltimate();
-        _DataManager.StanceStruct.LifeSteal = 0;
+        _DataManager.StanceStruct.LifeSteal -= _lifeStealPercentage / 100;
     }
 
     private void VampireStance_SuccesfulAttack(Collider hit, float damage)

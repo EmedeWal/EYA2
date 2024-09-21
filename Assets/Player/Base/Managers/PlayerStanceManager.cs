@@ -68,13 +68,15 @@ public class PlayerStanceManager : SingletonBase
                 {
                     stance.Init();
                     _stances.Add(stance);
-                    _currentIndex = _stances.Count - 1;
-                    SwapToStance(stance);
+                    Helpers.SortByStanceType(_stances);
+                    _currentIndex = _stances.IndexOf(stance);
                     OnStanceUnlocked(stanceTypeToUnlock);
+                    SwapToStance(stance);
                 }
             }
         }
     }
+
 
     private void PlayerStanceManager_UltimateInput_Performed()
     {

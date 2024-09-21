@@ -71,7 +71,6 @@ public class PlayerManager : MonoBehaviour
         Transform lockOnTargetTransform = _dataManager.LockOnStruct.LockOnTargetTransform;
         bool lockedOn = _dataManager.LockOnStruct.LockedOn;
 
-        _inputHandler.FixedTick();
         _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTargetTransform, lockedOn);
         _lockOn.FixedTick();
         _cameraManager.FixedTick(_delta, rightStickX, rightStickY, lockOnTargetTransform, lockedOn);

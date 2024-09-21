@@ -80,7 +80,7 @@ public class PlayerAttackHandler : MonoBehaviour
 
         _locomotion.RemoveForce();
 
-        Collider[] hits = Helpers.CastHitbox(_attackPoint.position, attackData.AttackSize * 0.5f, _attackPoint.rotation, _damageCollider);
+        Collider[] hits = Helpers.CastHitBox(_attackPoint.position, attackData.AttackSize * 0.5f, _attackPoint.rotation, _damageCollider);
 
         foreach (Collider hit in hits)
         {

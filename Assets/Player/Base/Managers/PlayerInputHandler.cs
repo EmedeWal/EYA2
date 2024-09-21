@@ -33,7 +33,7 @@ public class PlayerInputHandler : SingletonBase
 
     #region Right Stick
     private Vector2 _rightStickValue;
-    public float _RightStickX {  get; private set; }
+    public float _RightStickX { get; private set; }
     public float _RightStickY { get; private set; }
     #endregion
 
@@ -43,6 +43,8 @@ public class PlayerInputHandler : SingletonBase
     public event Action LightAttackInputPerformed;
     public event Action HeavyAttackInputPerformed;
 
+    public event Action BackInputPerformed;
+    public event Action ClickInputPerformed;
     public event Action PauseInputPerformed;
     public event Action<int> SwapHeaderInputPerformed;
     public event Action<int> SwapSectionInputPerformed;
@@ -59,6 +61,8 @@ public class PlayerInputHandler : SingletonBase
         _inputActions.Movement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
         _inputActions.Movement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
+        _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
+        _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
         _inputActions.Actions.Options.performed += OnPauseInputPerformed;
         _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
         _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
@@ -75,10 +79,7 @@ public class PlayerInputHandler : SingletonBase
         {
             _lastAction.Invoke();
         }
-    }
 
-    public void FixedTick()
-    {
         _LeftStickX = _leftStickValue.x;
         _LeftStickY = _leftStickValue.y;
 
@@ -141,6 +142,16 @@ public class PlayerInputHandler : SingletonBase
         HeavyAttackInputPerformed?.Invoke();
     }
     #endregion
+
+    private void OnBackInputPerformed(InputAction.CallbackContext context)
+    {
+        BackInputPerformed?.Invoke();   
+    }
+
+    private void OnClickInputPerformed(InputAction.CallbackContext context)
+    {
+        ClickInputPerformed?.Invoke();
+    }
 
     private void OnPauseInputPerformed(InputAction.CallbackContext context)
     {

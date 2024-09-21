@@ -239,6 +239,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Button East"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a740f7d-2b49-4863-8d0e-a9da5697cc71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Button South"",
+                    ""type"": ""Button"",
+                    ""id"": ""a6481634-a8ec-437e-822d-17c81e46420e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -562,7 +580,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""positive"",
                     ""id"": ""7a700362-8950-4489-9d01-3418bd1a2c46"",
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
@@ -573,7 +591,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""negative"",
                     ""id"": ""350e2e3c-2e10-401b-8194-0ab9c0e57c7e"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
@@ -595,7 +613,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""positive"",
                     ""id"": ""550debaf-627f-4aa2-8306-f53de8d9e4eb"",
                     ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
@@ -606,7 +624,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""negative"",
                     ""id"": ""1a49e20a-7c5e-4dd6-891c-d54a0c644016"",
                     ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
@@ -615,6 +633,50 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""D-Pad (Up & Down)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d74cfd98-1665-4d97-b310-7168808883c0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button East"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cc052ef-514a-4bf7-9f61-da183955ef12"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button East"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b044e8a-4225-4e57-b15b-e0ff32b9fd90"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button South"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4056f26d-c007-4246-8616-0312266b1131"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button South"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -638,6 +700,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Actions_LeftShoulder = m_Actions.FindAction("Left Shoulder", throwIfNotFound: true);
         m_Actions_DPadLeftRight = m_Actions.FindAction("D-Pad (Left & Right)", throwIfNotFound: true);
         m_Actions_DPadUpDown = m_Actions.FindAction("D-Pad (Up & Down)", throwIfNotFound: true);
+        m_Actions_ButtonEast = m_Actions.FindAction("Button East", throwIfNotFound: true);
+        m_Actions_ButtonSouth = m_Actions.FindAction("Button South", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -764,6 +828,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Actions_LeftShoulder;
     private readonly InputAction m_Actions_DPadLeftRight;
     private readonly InputAction m_Actions_DPadUpDown;
+    private readonly InputAction m_Actions_ButtonEast;
+    private readonly InputAction m_Actions_ButtonSouth;
     public struct ActionsActions
     {
         private @InputActions m_Wrapper;
@@ -779,6 +845,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @LeftShoulder => m_Wrapper.m_Actions_LeftShoulder;
         public InputAction @DPadLeftRight => m_Wrapper.m_Actions_DPadLeftRight;
         public InputAction @DPadUpDown => m_Wrapper.m_Actions_DPadUpDown;
+        public InputAction @ButtonEast => m_Wrapper.m_Actions_ButtonEast;
+        public InputAction @ButtonSouth => m_Wrapper.m_Actions_ButtonSouth;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -821,6 +889,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DPadUpDown.started += instance.OnDPadUpDown;
             @DPadUpDown.performed += instance.OnDPadUpDown;
             @DPadUpDown.canceled += instance.OnDPadUpDown;
+            @ButtonEast.started += instance.OnButtonEast;
+            @ButtonEast.performed += instance.OnButtonEast;
+            @ButtonEast.canceled += instance.OnButtonEast;
+            @ButtonSouth.started += instance.OnButtonSouth;
+            @ButtonSouth.performed += instance.OnButtonSouth;
+            @ButtonSouth.canceled += instance.OnButtonSouth;
         }
 
         private void UnregisterCallbacks(IActionsActions instance)
@@ -858,6 +932,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DPadUpDown.started -= instance.OnDPadUpDown;
             @DPadUpDown.performed -= instance.OnDPadUpDown;
             @DPadUpDown.canceled -= instance.OnDPadUpDown;
+            @ButtonEast.started -= instance.OnButtonEast;
+            @ButtonEast.performed -= instance.OnButtonEast;
+            @ButtonEast.canceled -= instance.OnButtonEast;
+            @ButtonSouth.started -= instance.OnButtonSouth;
+            @ButtonSouth.performed -= instance.OnButtonSouth;
+            @ButtonSouth.canceled -= instance.OnButtonSouth;
         }
 
         public void RemoveCallbacks(IActionsActions instance)
@@ -893,5 +973,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnLeftShoulder(InputAction.CallbackContext context);
         void OnDPadLeftRight(InputAction.CallbackContext context);
         void OnDPadUpDown(InputAction.CallbackContext context);
+        void OnButtonEast(InputAction.CallbackContext context);
+        void OnButtonSouth(InputAction.CallbackContext context);
     }
 }
