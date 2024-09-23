@@ -41,6 +41,8 @@ public class PauseMenuController : MonoBehaviour
 
         _clickable = LayerMask.GetMask("Clickable");
 
+        _cursorImage.gameObject.SetActive(true);
+
         SwapHeader();
     }
 
@@ -128,16 +130,16 @@ public class PauseMenuController : MonoBehaviour
                 {
                     if (_currentClickable != clickable)
                     {
-                        clickable.OnEnter(); _currentClickable = clickable;
+                        clickable.OnEnter();
+                        _currentClickable?.OnExit();
+                        _currentClickable = clickable;
                     }
                 }
             }
             else
             {
-                if (_currentClickable != null)
-                {
-                    _currentClickable.OnExit(); _currentClickable = null;
-                }
+                _currentClickable?.OnExit();
+                _currentClickable = null;
             }
 
             yield return null;

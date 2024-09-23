@@ -1,9 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PerkData", menuName = "ScriptableObjects/PerkData")]
+[CreateAssetMenu(fileName = "PerkData", menuName = "PerkData")]
 public class PerkData : ScriptableObject
 {
     public string Title;
     public string Description;
-    public bool IsUnlocked;
 }
