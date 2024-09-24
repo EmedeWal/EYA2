@@ -1,33 +1,19 @@
-using UnityEngine.UI;
 using UnityEngine;
 
-public class Header : MonoBehaviour
+public class Header : HeaderBase
 {
-    [Header("SECTION CONTROLLER")]
-    [SerializeField] private SectionController _sectionController;
-
-    private Image _image;
-
-    public void Init()
-    {   
-        _sectionController.Init();
-        _image = GetComponentInChildren<Image>();
+    public override void Init()
+    {
+        base.Init();
     }
 
-    public void Select(Color color)
+    public override void Select(Color color)
     {
-        _sectionController.EnableHolder(true);
-        _image.color = color;
+        base.Select(color);
     }
 
-    public void Deselect(Color color)
+    public override void Deselect(Color color)
     {
-        _sectionController.EnableHolder(false);
-        _image.color = color;
-    }
-
-    public void SwapSection(int inputValue)
-    {
-        _sectionController.SwapSection(inputValue);
+        base.Deselect(color);
     }
 }

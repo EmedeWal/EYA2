@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class StanceSection : SectionControllerBase
+public class PerkInitHelper : MonoBehaviour
 {
-    public override void Init()
+    private void Awake()
     {
-        base.Init();
-
         StancePerk[] stancePerks = GetComponentsInChildren<StancePerk>();
         foreach (var stancePerk in stancePerks)
         {
-            Debug.Log("Init");
-            stancePerk.Init();
+            stancePerk.Init(); Debug.Log("Init");
         }
     }
 }

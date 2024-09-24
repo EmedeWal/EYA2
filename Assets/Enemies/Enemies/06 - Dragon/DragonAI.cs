@@ -154,7 +154,7 @@ public class DragonAI : EnemyAI
 
 //        audioSource.clip = roar;
 //        audioSource.Play();
-//        Invoke(nameof(Activate), activationTime);
+//        Invoke(nameof(Select), activationTime);
 //    }
 
 //    private void Update()
@@ -667,7 +667,7 @@ public class DragonAI : EnemyAI
 //        Invoke(nameof(ShouldSwapState), maxStateTime);
 //    }
 
-//    private void Activate()
+//    private void Select()
 //    {
 //        active = true;
 //    }

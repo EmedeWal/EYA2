@@ -12,7 +12,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private Color _deselectedColor;
     [SerializeField] private Color _selectedColor;
     [SerializeField] private int _headerIndex = 2;
-    private List<Header> _headers = new();
+    private List<HeaderBase> _headers = new();
 
     [Header("CURSOR")]
     [SerializeField] private Image _cursorImage; 
@@ -30,11 +30,13 @@ public class PauseMenuController : MonoBehaviour
     {
         _holder = transform.GetChild(0).gameObject;
 
-        Header[] headers = _headerHolderObject.GetComponentsInChildren<Header>();
-        foreach (var header in headers) { _headers.Add(header); header.Init(); }
+        _headers.AddRange(GetComponentsInChildren<HeaderBase>());
+        foreach (var header in _headers) header.Init();
 
         _playerInputHandler = PlayerInputHandler.Instance;
         _timeSystem = TimeSystem.Instance;
+
+        PerkScreen.Instance.Init();
 
         _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
         _holder.SetActive(false);

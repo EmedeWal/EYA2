@@ -1,4 +1,4 @@
 public interface IStanceDataProvider
 {
-    StanceData StanceData { get; }
+    public StanceData StanceData { get; }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StancePerkUI : MonoBehaviour, IClickable, IStanceDataProvider
+public class StancePerk : Perk, IStanceDataProvider
 {
     [Header("STANCE DATA REFERENCE")]
     [SerializeField] private StanceData _stanceData;
@@ -8,27 +8,27 @@ public class StancePerkUI : MonoBehaviour, IClickable, IStanceDataProvider
 
     public StanceData StanceData => _stanceData;
 
-    private void Awake()
+    public override void Init()
     {
+        base.Init();
         _stanceIcon = GetComponent<StanceIcon>();
         _stanceIcon.Icon.sprite = _stanceData.IconSprite;
     }
 
-    public void OnEnter()
+    public override void OnEnter()
     {
-        Debug.Log("OnHover");
-
+        base.OnEnter();
         _stanceIcon.Background.color = _stanceData.Color;
     }
 
-    public void OnExit()
+    public override void OnExit()
     {
-        Debug.Log("OnExit");
+        base.OnExit();
         _stanceIcon.Background.color = Helpers.GetTransparentColor();
     }
 
-    public void OnClick()
+    public override void OnClick()
     {
-        Debug.Log("OnClick");
+        base.OnClick();
     }
 }
