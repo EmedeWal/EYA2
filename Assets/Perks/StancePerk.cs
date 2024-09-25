@@ -6,29 +6,50 @@ public class StancePerk : Perk, IStanceDataProvider
     [SerializeField] private StanceData _stanceData;
     private StanceIcon _stanceIcon;
 
+    private Sprite _defaultSprite;
+
     public StanceData StanceData => _stanceData;
 
     public override void Init()
     {
         base.Init();
         _stanceIcon = GetComponent<StanceIcon>();
-        _stanceIcon.Icon.sprite = _stanceData.IconSprite;
+        _defaultSprite = _stanceIcon.Icon.sprite;
+        _stanceIcon.Background.color = Helpers.GetTransparentColor();
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-        _stanceIcon.Background.color = _stanceData.Color;
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        _stanceIcon.Background.color = Helpers.GetTransparentColor();
     }
 
-    public override void OnClick()
+    public override void Unlock()
     {
-        base.OnClick();
+        base.Unlock();
+
+        if (Locked) return;
+        _stanceIcon.Icon.sprite = _stanceData.IconSprite;
+    }
+
+    public override void Purchase()
+    {
+        base.Purchase();
+
+        if (Purchased)
+        {
+            _stanceIcon.Background.color = _stanceData.Color;
+        }
+    }
+
+    public override void LockBranch()
+    {
+        base.LockBranch();
+
+        _stanceIcon.Icon.sprite = _defaultSprite;
     }
 }

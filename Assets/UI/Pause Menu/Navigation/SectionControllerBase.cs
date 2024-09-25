@@ -10,6 +10,11 @@ public class SectionControllerBase : MonoBehaviour
         _Holder.SetActive(false);
     }
 
+    public virtual void Added()
+    {
+        
+    }
+
     public virtual void Select()
     {
         _Holder.SetActive(true);

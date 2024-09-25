@@ -1,29 +1,21 @@
+using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 using UnityEngine;
 
 public class StanceHeader : HeaderBase
 {
-    [Header("HORIZONTAL LAYOUT GROUP")]
+    [Header("LAYOUT GROUP")]
     [SerializeField] private GameObject _horizontalLayoutGroupObject;
 
-    [Header("VERTICAL LAYOUT GROUP")]
-    [SerializeField] private GameObject _verticalLayoutGroupObject;
-
-    private List<SectionControllerBase> _sections = new();
-    private List<StaticStanceIcon> _staticStanceIcons = new();
-    private List<StanceType> _unlockedStances = new();
+    private List<SectionControllerBase> _sectionControllers = new();
 
     public override void Init()
     {
         base.Init();
 
         _horizontalLayoutGroupObject.SetActive(false);
-        _verticalLayoutGroupObject.SetActive(true);
-
-        _sections.AddRange(GetComponentsInChildren<SectionControllerBase>()); 
-        _staticStanceIcons.AddRange(_verticalLayoutGroupObject.GetComponentsInChildren<StaticStanceIcon>());
-
+        _sectionControllers.AddRange(GetComponentsInChildren<SectionControllerBase>());
         PlayerStanceManager.Instance.StanceUnlocked += StanceHeader_StanceUnlocked;
     }
 
@@ -37,27 +29,32 @@ public class StanceHeader : HeaderBase
         base.Deselect(color);
     }
 
-    protected override void SwapSection()
-    {
-        base.SwapSection();
-
-        foreach (var stanceIcon in _staticStanceIcons) stanceIcon.SetTransparentColor();
-        _staticStanceIcons[_SectionIndex].SetStanceColor();
-    }
-
     private void StanceHeader_StanceUnlocked(StanceType stanceType)
     {
         _horizontalLayoutGroupObject.SetActive(true);
 
-        _unlockedStances.Add(stanceType);
-        _unlockedStances = _unlockedStances.OrderBy(stance => stance.ToString()).ToList();
+        int index = 0;
 
-        int index = _unlockedStances.IndexOf(stanceType);
-        _Sections.Add(_sections[index]);
-        _SectionIndex = index;
+        switch (stanceType)
+        {
+            case StanceType.Ghost:
+                index = 0;
+                break;
 
-        _staticStanceIcons[_SectionIndex].SetStanceIcon();
+            case StanceType.Orc:
+                index = 1;
+                break;
 
+            case StanceType.Vampire:
+                index = 2;
+                break;
+        }
+
+        SectionControllerBase sectionController = _sectionControllers[index];
+
+        AddSectionController(sectionController);
+        _SectionsControllers = _SectionsControllers.OrderBy(section => section.ToString()).ToList();
+        _SectionIndex = _SectionsControllers.IndexOf(sectionController);
         SwapSection();
     }
 }

@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
-  m_Name: PassivePerkData
+  m_Name: Tier 1 Perk
   m_EditorClassIdentifier: 
-  Title: PASSIVE PERK
-  Description: This is a perk regarding the players passive. It can be purchased
-    to upgrade the passive ability of this stance.
+  Title: TIER 1 PERK
+  Description: This is a tier one perk that unlocks at tier one. The floor is made
+    out of floor.
   Tier: 1
-  Unlocked: 0
-  Purchased: 0

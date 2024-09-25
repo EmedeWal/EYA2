@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeaderBase : MonoBehaviour
 {
-    protected List<SectionControllerBase> _Sections = new();
+    protected List<SectionControllerBase> _SectionsControllers = new();
     protected int _SectionIndex = 0;
 
     private GameObject _holderObject;
@@ -17,8 +17,6 @@ public class HeaderBase : MonoBehaviour
 
         _holderObject = transform.GetChild(2).gameObject;
         _image = GetComponentInChildren<Image>();
-
-        // Derivative classes decide what to fill sections with
     }
 
     public virtual void Select(Color color)
@@ -35,14 +33,19 @@ public class HeaderBase : MonoBehaviour
 
     public void SwapSection(int inputValue)
     {
-        _SectionIndex = Helpers.GetIndexInBounds(_SectionIndex, inputValue, _Sections.Count); SwapSection();
+        _SectionIndex = Helpers.GetIndexInBounds(_SectionIndex, inputValue, _SectionsControllers.Count); SwapSection();
     }
 
-    protected virtual void SwapSection()
+    protected void AddSectionController(SectionControllerBase sectionController)
     {
-        if (_Sections.Count > 0)
+        _SectionsControllers.Add(sectionController); sectionController.Added();
+    }
+
+    protected void SwapSection()
+    {
+        if (_SectionsControllers.Count > 0)
         {
-            foreach (var section in _Sections) section.Deselect(); _Sections[_SectionIndex].Select();
+            foreach (var section in _SectionsControllers) section.Deselect(); _SectionsControllers[_SectionIndex].Select();
         }
     }
 }
