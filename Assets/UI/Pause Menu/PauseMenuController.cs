@@ -14,6 +14,10 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private int _headerIndex = 2;
     private List<HeaderBase> _headers = new();
 
+    [Header("RESOURCES")]
+    [SerializeField] private GameObject _resourceHolderObject;
+    private SoulsUI _soulsUI;
+
     [Header("CURSOR")]
     [SerializeField] private Image _cursorImage; 
     [SerializeField] private float _cursorSpeed = 5f;
@@ -30,8 +34,11 @@ public class PauseMenuController : MonoBehaviour
     {
         _holder = transform.GetChild(0).gameObject;
 
-        _headers.AddRange(GetComponentsInChildren<HeaderBase>());
+        _headers.AddRange(_headerHolderObject.GetComponentsInChildren<HeaderBase>());
         foreach (var header in _headers) header.Init();
+
+        _soulsUI = _resourceHolderObject.GetComponentInChildren<SoulsUI>();
+        _soulsUI.Init();
 
         _playerInputHandler = PlayerInputHandler.Instance;
         _timeSystem = TimeSystem.Instance;

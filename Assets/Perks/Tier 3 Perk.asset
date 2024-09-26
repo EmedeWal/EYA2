@@ -16,3 +16,4 @@ MonoBehaviour:
   Description: This is a tier three perk that unlocks at tier three. The floor is
     made out of floor.
   Tier: 3
+  Cost: 300

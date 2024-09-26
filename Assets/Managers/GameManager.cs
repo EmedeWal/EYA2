@@ -37,8 +37,8 @@ public class GameManager : SingletonBase
             singleton.SingletonSetup();
         }
 
-        _playerManager.Init();
         _pauseMenuController.Init();
+        _playerManager.Init();
     }
 
     private List<SingletonBase> _singletons = new();

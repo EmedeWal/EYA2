@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 5021334000909963461}
   - component: {fileID: 3452310873253900441}
   - component: {fileID: 716398785201116005}
+  - component: {fileID: 1062212347810143361}
   - component: {fileID: 605078075834916467}
   - component: {fileID: 897617002443829880}
   m_Layer: 0
@@ -363,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d3d29ace6447146b84d27938eba69e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StanceData: {fileID: 11400000, guid: 24cf505c74d77a54b87aa4109526296d, type: 2}
+  _stanceData: {fileID: 11400000, guid: 24cf505c74d77a54b87aa4109526296d, type: 2}
 --- !u!114 &5021334000909963461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347b23172ada2f44387b4a1e97ab1fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StanceData: {fileID: 11400000, guid: 62165ea34e04e5547945b3f8282591ed, type: 2}
+  _stanceData: {fileID: 11400000, guid: 62165ea34e04e5547945b3f8282591ed, type: 2}
   _splashPrefab: {fileID: 8567646505482069413, guid: 18739c74f1589f241b274ab563ecda26, type: 3}
   _damageReductionPercentage: 80
 --- !u!114 &3452310873253900441
@@ -391,7 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16863feb4e22ff84580d0f981e047c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StanceData: {fileID: 11400000, guid: 8fb802c08bcde144e8aed2e25e09616a, type: 2}
+  _stanceData: {fileID: 11400000, guid: 8fb802c08bcde144e8aed2e25e09616a, type: 2}
   _totalBleedDuration: 5
   _lifeStealPercentage: 50
 --- !u!114 &716398785201116005
@@ -408,6 +409,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxValue: 100
   _startingValue: 70
+--- !u!114 &1062212347810143361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095002070673219539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a022a42b33df64e46b5adefbb7a72858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxValue: 1000
+  _startingValue: 900
 --- !u!114 &605078075834916467
 MonoBehaviour:
   m_ObjectHideFlags: 0

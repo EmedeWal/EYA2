@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerLocomotion _locomotion;
     private PlayerAttackHandler _attackHandler;
     private Health _health;
+    private Souls _souls;
     private Mana _mana;
     private MovementTracking _movementTracking;
     private CameraController _cameraManager;
@@ -28,6 +29,7 @@ public class PlayerManager : MonoBehaviour
         _locomotion = GetComponent<PlayerLocomotion>();
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
+        _souls = GetComponent<Souls>();
         _mana = GetComponent<Mana>();
         _movementTracking = GetComponent<MovementTracking>();
         _cameraManager = CameraController.Instance;
@@ -40,6 +42,7 @@ public class PlayerManager : MonoBehaviour
         _locomotion.Init();
         _attackHandler.Init();
         _health.Init();
+        _souls.Init();
         _mana.Init();   
         _movementTracking.Init();
         _cameraManager.Init(transform);

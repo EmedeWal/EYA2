@@ -23,6 +23,8 @@ public class PerkTree : MonoBehaviour
             perk.Init();
             perk.OnPurchased += HandlePerkPurchased;
         }
+
+        Souls.Instance.CurrentValueUpdated += PerkTree_CurrentValueUpdated;
     }
 
     public void IncrementTier()
@@ -57,6 +59,25 @@ public class PerkTree : MonoBehaviour
                 {
                     line.SetColor(StanceData.Color);
                 }
+            }
+        }
+    }
+
+    private void PerkTree_CurrentValueUpdated(int currentValue)
+    {
+        foreach (var perk in _perks)
+        {
+            if (!perk.Unlocked) return;
+
+            int cost = perk.PerkData.Cost;
+
+            if (currentValue < cost)
+            {
+                perk.SetForedrop(true);
+            }
+            else
+            {
+                perk.SetForedrop(false);
             }
         }
     }

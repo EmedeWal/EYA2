@@ -12,6 +12,7 @@ public class Perk : MonoBehaviour, IClickable
     [SerializeField] private PerkData _perkData;
 
     private PerkScreen _perkScreen;
+    private Souls _souls;
 
     [Header("PERK POSITION IN TREE")]
     public List<Perk> NextPerks = new();
@@ -28,6 +29,8 @@ public class Perk : MonoBehaviour, IClickable
     public virtual void Init()
     {
         _perkScreen = PerkScreen.Instance;
+        _souls = Souls.Instance;
+
         _glowEffect.SetActive(false);
     }
 
@@ -36,7 +39,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(true);
-            _perkScreen.SetText(_perkData.Title, _perkData.Description);
+            _perkScreen.UpdatePerkScreen(_perkData.Title, _perkData.Description, _perkData.Cost, _souls.CanAfford(_perkData.Cost), Purchased);
         }
     }
 
@@ -45,7 +48,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(false);
-            _perkScreen.SetText("", "");
+            _perkScreen.UpdatePerkScreen();
         }
     }
 
@@ -62,17 +65,40 @@ public class Perk : MonoBehaviour, IClickable
         if (Locked) return;
 
         Unlocked = true;
-        _foredrop.SetActive(false);
+
+        if (_souls.CanAfford(_perkData.Cost))
+        {
+            _foredrop.SetActive(false);
+        }
     }
 
     public virtual void Purchase()
     {
-        if (Purchased || (PreviousPerk != null && !PreviousPerk.Purchased)) return;
+        if ((Purchased || (PreviousPerk != null && !PreviousPerk.Purchased)) || !_souls.CanAfford(_perkData.Cost)) return;
+
+        _souls.RemoveValue(_perkData.Cost);
 
         Purchased = true;
         OnPurchased?.Invoke(this);
 
         LockOtherBranch();
+    }
+
+    public virtual void LockBranch()
+    {
+        Locked = true;
+        Unlocked = false;
+        _foredrop.SetActive(true);
+
+        foreach (var nextPerk in NextPerks)
+        {
+            nextPerk.LockBranch();
+        }
+    }
+
+    public void SetForedrop(bool active)
+    {
+        _foredrop.SetActive(active);
     }
 
     private void LockOtherBranch()
@@ -86,18 +112,6 @@ public class Perk : MonoBehaviour, IClickable
                     nextPerk.LockBranch();
                 }
             }
-        }
-    }
-
-    public virtual void LockBranch()
-    {
-        Locked = true;
-        Unlocked = false;
-        _foredrop.SetActive(true);
-
-        foreach (var nextPerk in NextPerks)
-        {
-            nextPerk.LockBranch();
         }
     }
 }

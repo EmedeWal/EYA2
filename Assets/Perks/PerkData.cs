@@ -9,4 +9,5 @@ public class PerkData : ScriptableObject
 
     [Header("STATISTICS")]
     public int Tier;
+    public int Cost;
 }
