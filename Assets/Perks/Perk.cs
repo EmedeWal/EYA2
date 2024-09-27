@@ -65,30 +65,24 @@ public class Perk : MonoBehaviour, IClickable
         if (Locked) return;
 
         Unlocked = true;
-
-        if (_souls.CanAfford(_perkData.Cost))
-        {
-            _foredrop.SetActive(false);
-        }
     }
 
     public virtual void Purchase()
     {
-        if ((Purchased || (PreviousPerk != null && !PreviousPerk.Purchased)) || !_souls.CanAfford(_perkData.Cost)) return;
-
-        _souls.RemoveValue(_perkData.Cost);
-
-        Purchased = true;
-        OnPurchased?.Invoke(this);
-
-        LockOtherBranch();
+        if (CanPurchase())
+        {
+            Purchased = true;
+            OnPurchased?.Invoke(this);
+            _souls.RemoveValue(_perkData.Cost);
+            LockOtherBranch();
+        }
     }
 
     public virtual void LockBranch()
     {
         Locked = true;
         Unlocked = false;
-        _foredrop.SetActive(true);
+        SetForeDrop(true);
 
         foreach (var nextPerk in NextPerks)
         {
@@ -96,7 +90,7 @@ public class Perk : MonoBehaviour, IClickable
         }
     }
 
-    public void SetForedrop(bool active)
+    public void SetForeDrop(bool active)
     {
         _foredrop.SetActive(active);
     }
@@ -113,5 +107,11 @@ public class Perk : MonoBehaviour, IClickable
                 }
             }
         }
+    }
+
+    private bool CanPurchase()
+    {
+        if (Purchased || (PreviousPerk != null && !PreviousPerk.Purchased) || !_souls.CanAfford(_perkData.Cost)) return false;
+        return true;
     }
 }

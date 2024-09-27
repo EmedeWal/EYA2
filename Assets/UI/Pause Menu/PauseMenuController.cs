@@ -55,6 +55,11 @@ public class PauseMenuController : MonoBehaviour
         SwapHeader();
     }
 
+    public void Tick()
+    {
+        _headers[_headerIndex].Tick();
+    }
+
     private void PauseMenu_BackInputPerformed()
     {
         ResumeGame();

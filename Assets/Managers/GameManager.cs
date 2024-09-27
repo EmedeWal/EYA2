@@ -19,10 +19,14 @@ public class GameManager : SingletonBase
     }
     #endregion
 
+    private List<SingletonBase> _singletons = new();
+
+    [Header("INIT CALLS")]
+    [SerializeField] private PauseMenuController _pauseMenuController;
+    [SerializeField] private PlayerManager _playerManager;
+
     private void Awake()
     {
-        SingletonSetup();
-
         SingletonBase[] singletons = FindObjectsByType<SingletonBase>(FindObjectsSortMode.None);
         foreach (SingletonBase singleton in singletons)
         {
@@ -41,9 +45,8 @@ public class GameManager : SingletonBase
         _playerManager.Init();
     }
 
-    private List<SingletonBase> _singletons = new();
-
-    [Header("INIT CALLS")]
-    [SerializeField] private PlayerManager _playerManager;
-    [SerializeField] private PauseMenuController _pauseMenuController;
+    private void Update()
+    {
+        _pauseMenuController.Tick();
+    }
 }

@@ -19,6 +19,13 @@ public class PerkSectionController : SectionControllerBase
         foreach (var perkTree in _perkTrees) perkTree.Init();
     }
 
+    public override void Tick()
+    {
+        base.Tick();
+
+        foreach (var perkTree in _perkTrees) perkTree.Tick();
+    }
+
     public override void Added()
     {
         base.Added();

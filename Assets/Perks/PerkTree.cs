@@ -15,6 +15,8 @@ public class PerkTree : MonoBehaviour
     private List<Perk> _perks = new();
     private List<Line> _lines = new();
 
+    private int _currentValue;
+
     public void Init()
     {
         _perks.AddRange(GetComponentsInChildren<Perk>());
@@ -25,6 +27,27 @@ public class PerkTree : MonoBehaviour
         }
 
         Souls.Instance.CurrentValueUpdated += PerkTree_CurrentValueUpdated;
+    }
+
+    public void Tick()
+    {
+        foreach (var perk in _perks)
+        {
+            if (perk.Locked || perk.Purchased) continue;
+
+            if (perk.Unlocked)
+            {
+                int cost = perk.PerkData.Cost;
+                if (_currentValue < cost)
+                {
+                    perk.SetForeDrop(true);
+                }
+                else
+                {
+                    perk.SetForeDrop(false);
+                }
+            }
+        }
     }
 
     public void IncrementTier()
@@ -65,20 +88,6 @@ public class PerkTree : MonoBehaviour
 
     private void PerkTree_CurrentValueUpdated(int currentValue)
     {
-        foreach (var perk in _perks)
-        {
-            if (!perk.Unlocked) return;
-
-            int cost = perk.PerkData.Cost;
-
-            if (currentValue < cost)
-            {
-                perk.SetForedrop(true);
-            }
-            else
-            {
-                perk.SetForedrop(false);
-            }
-        }
+        _currentValue = currentValue;
     }
 }

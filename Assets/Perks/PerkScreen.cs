@@ -37,6 +37,7 @@ public class PerkScreen : SingletonBase
     public void Init()
     {
         _iconImage.sprite = _iconSprite;
+        
         UpdatePerkScreen();
     }
 

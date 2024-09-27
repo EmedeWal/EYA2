@@ -19,6 +19,11 @@ public class HeaderBase : MonoBehaviour
         _image = GetComponentInChildren<Image>();
     }
 
+    public virtual void Tick()
+    {
+        foreach (var sectionController in _SectionsControllers) sectionController.Tick();
+    }
+
     public virtual void Select(Color color)
     {
         _holderObject.SetActive(true);

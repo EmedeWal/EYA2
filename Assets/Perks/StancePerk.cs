@@ -4,6 +4,10 @@ public class StancePerk : Perk, IStanceDataProvider
 {
     [Header("STANCE DATA REFERENCE")]
     [SerializeField] private StanceData _stanceData;
+
+    [Header("SPRITE")]
+    [SerializeField] private Sprite _sprite;
+
     private StanceIcon _stanceIcon;
 
     private Sprite _defaultSprite;
@@ -33,7 +37,7 @@ public class StancePerk : Perk, IStanceDataProvider
         base.Unlock();
 
         if (Locked) return;
-        _stanceIcon.Icon.sprite = _stanceData.IconSprite;
+        _stanceIcon.Icon.sprite = _sprite;
     }
 
     public override void Purchase()
