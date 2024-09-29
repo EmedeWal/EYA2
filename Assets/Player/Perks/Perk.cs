@@ -4,33 +4,45 @@ using System;
 
 public class Perk : MonoBehaviour, IClickable
 {
-    [Header("VISUALISATION")]
-    [SerializeField] private GameObject _glowEffect;
-    [SerializeField] private GameObject _foredrop;
-
     [Header("PERK DATA REFERENCE")]
     [SerializeField] private PerkData _perkData;
-
-    private PerkScreen _perkScreen;
-    private Souls _souls;
 
     [Header("PERK POSITION IN TREE")]
     public List<Perk> NextPerks = new();
     public Perk PreviousPerk;
 
-    public PerkData PerkData => _perkData;
+    [Header("VISUALISATION")]
+    [SerializeField] private Sprite _sprite;
+    private Sprite _defaultSprite;
 
-    public bool Locked { get; private set; } = false;
-    public bool Unlocked { get; private set; } = false;
+    private StanceIcon _stanceIcon;
+    private GameObject _glowEffect;
+    private GameObject _foredrop;
+    private Color _purchasedColor;
+
+    private PerkScreen _perkScreen;
+    private Souls _souls;
+
+    public bool Locked { get; private set; } = false; 
+    public bool Unlocked { get; private set; } = false; 
     public bool Purchased { get; private set; } = false;
 
     public event Action<Perk> OnPurchased;
 
-    public virtual void Init()
+    public PerkData PerkData => _perkData;
+
+    public virtual void Init(Color purchasedColor)
     {
+        _purchasedColor = purchasedColor;
+        _stanceIcon = GetComponent<StanceIcon>();
+        _glowEffect = transform.GetChild(0).gameObject;
+        _foredrop = transform.GetChild(transform.childCount - 1).gameObject;
+
         _perkScreen = PerkScreen.Instance;
         _souls = Souls.Instance;
 
+        _stanceIcon.Background.color = Color.clear;
+        _defaultSprite = _stanceIcon.Icon.sprite;
         _glowEffect.SetActive(false);
     }
 
@@ -65,6 +77,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Locked) return;
 
         Unlocked = true;
+        _stanceIcon.Icon.sprite = _sprite;
     }
 
     public virtual void Purchase()
@@ -72,9 +85,10 @@ public class Perk : MonoBehaviour, IClickable
         if (CanPurchase())
         {
             Purchased = true;
+            LockOtherBranch();
             OnPurchased?.Invoke(this);
             _souls.RemoveValue(_perkData.Cost);
-            LockOtherBranch();
+            _stanceIcon.Background.color = _purchasedColor;
         }
     }
 
@@ -83,6 +97,7 @@ public class Perk : MonoBehaviour, IClickable
         Locked = true;
         Unlocked = false;
         SetForeDrop(true);
+        _stanceIcon.Icon.sprite = _defaultSprite;
 
         foreach (var nextPerk in NextPerks)
         {

@@ -6,6 +6,9 @@ public class PlayerAttackHandler : MonoBehaviour
     private Transform _transform;
     private float _delta;
 
+    [Header("PLAYER STATS")]
+    [SerializeField] private PlayerStats _stats;
+
     [Header("ATTACK DATA")]
     [SerializeField] private PlayerAttackData _lightAttackData;
     [SerializeField] private PlayerAttackData _heavyAttackData;
@@ -50,23 +53,24 @@ public class PlayerAttackHandler : MonoBehaviour
 
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
-        PrepareAttack(_lightAttackData);
+        if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
+        PrepareAttack(_lightAttackData, _stats.GetStat(Stat.LightAttackDamage));
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
-        PrepareAttack(_heavyAttackData);
+        if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
+        PrepareAttack(_heavyAttackData, _stats.GetStat(Stat.HeavyAttackDamage));
     }
 
-    private void PrepareAttack(PlayerAttackData attackData)
+    private void PrepareAttack(PlayerAttackData attackData, float finalDamage)
     {
-        if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
         _animatorManager.CrossFadeAnimation(_delta, attackData.AnimationName, 0.1f, 1);
         _audioSystem.PlayAudioClip(_dataManager.ReferenceStruct.AttackSource, attackData.AttackClip);
-        StartCoroutine(Attack(attackData));
+        StartCoroutine(Attack(attackData, finalDamage));
     }
 
-    private IEnumerator Attack(PlayerAttackData attackData)
+    private IEnumerator Attack(PlayerAttackData attackData, float finalDamage)
     {
         float animationDuration = _animatorManager._Animator.GetCurrentAnimatorStateInfo(1).length;
         float lungeDelay = animationDuration / 8f;
@@ -86,8 +90,8 @@ public class PlayerAttackHandler : MonoBehaviour
         {
             if (hit.TryGetComponent<Health>(out var health))
             {
-                OnSuccesfulAttack(hit, attackData.AttackDamage);
-                _health.Heal(health.TakeDamage(attackData.AttackDamage * _dataManager.AttackStruct.AttackModifier) * _dataManager.StanceStruct.LifeSteal);
+                OnSuccesfulAttack(hit, finalDamage);
+                float damage = health.TakeDamage(finalDamage);
             }
         }
 

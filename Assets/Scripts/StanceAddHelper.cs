@@ -6,13 +6,22 @@ public class StanceAddHelper : MonoBehaviour
     public UnityEvent IncreaseTier;
     public StanceType StanceType;
 
+    public PlayerStats PlayerStats;
+    public Stat StatToModify;
+    public float Increment;
+
     public void AddStance()
     {
-        PlayerStanceManager.Instance.UnlockStance(StanceType);
+        
     }
 
     public void OnIncreaseTier()
     {
         IncreaseTier.Invoke();
+    }
+
+    public void ChangeStat()
+    {
+        PlayerStats.IncrementStat(StatToModify, Increment);
     }
 }

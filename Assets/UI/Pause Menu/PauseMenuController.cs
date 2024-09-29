@@ -12,11 +12,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private Color _deselectedColor;
     [SerializeField] private Color _selectedColor;
     [SerializeField] private int _headerIndex = 2;
-    private List<HeaderBase> _headers = new();
-
-    [Header("RESOURCES")]
-    [SerializeField] private GameObject _resourceHolderObject;
-    private SoulsUI _soulsUI;
+    private List<Header> _headers = new();
 
     [Header("CURSOR")]
     [SerializeField] private Image _cursorImage; 
@@ -27,17 +23,18 @@ public class PauseMenuController : MonoBehaviour
     private TimeSystem _timeSystem;
     private GameObject _holder;
     private LayerMask _clickable;
-
     private IClickable _currentClickable;
+
+    private SoulsUI _soulsUI;
 
     public void Init()
     {
         _holder = transform.GetChild(0).gameObject;
 
-        _headers.AddRange(_headerHolderObject.GetComponentsInChildren<HeaderBase>());
+        _headers.AddRange(_headerHolderObject.GetComponentsInChildren<Header>());
         foreach (var header in _headers) header.Init();
 
-        _soulsUI = _resourceHolderObject.GetComponentInChildren<SoulsUI>();
+        _soulsUI = GetComponentInChildren<SoulsUI>(); 
         _soulsUI.Init();
 
         _playerInputHandler = PlayerInputHandler.Instance;
@@ -53,11 +50,6 @@ public class PauseMenuController : MonoBehaviour
         _cursorImage.gameObject.SetActive(true);
 
         SwapHeader();
-    }
-
-    public void Tick()
-    {
-        _headers[_headerIndex].Tick();
     }
 
     private void PauseMenu_BackInputPerformed()

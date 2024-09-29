@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStanceManager : SingletonBase
@@ -26,7 +24,7 @@ public class PlayerStanceManager : SingletonBase
     private PlayerDataManager _dataManager;
 
     // StanceBase Related
-    private List<StanceBase> _stances = new();
+    [SerializeField] private List<StanceBase> _stances = new();
     private StanceBase _currentStance;
     private int _currentIndex = 0;
 
@@ -34,9 +32,6 @@ public class PlayerStanceManager : SingletonBase
     [SerializeField] private float _swapCD = 0.5f;
 
     private AudioSystem _audioSystem;
-
-    public delegate void StanceUnlockedDelegate(StanceType stanceUnlocked);
-    public event StanceUnlockedDelegate StanceUnlocked;
 
     public delegate void StanceSwappedDelegate(StanceType currentStance, StanceType nextStance);
     public event StanceSwappedDelegate StanceSwapped;
@@ -50,37 +45,17 @@ public class PlayerStanceManager : SingletonBase
 
         _inputHandler.UltimateInputPerformed += PlayerStanceManager_UltimateInput_Performed;
         _inputHandler.SwapStanceInputPerformed += PlayerStanceManager_SwapStanceInput_Performed;
-    }
 
-    public void UnlockStance(StanceType stanceTypeToUnlock)
-    {
-        StanceBase[] stances = GetComponents<StanceBase>();
-        foreach (StanceBase stance in stances)
-        {
-            StanceType stanceTypeToCheck = stance.StanceData.StanceType;
-            if (stanceTypeToCheck == stanceTypeToUnlock)
-            {
-                if (_stances.Contains(stance))
-                {
-                    continue;
-                }
-                else
-                {
-                    stance.Init();
-                    _stances.Add(stance);
-                    Helpers.SortByStanceType(_stances);
-                    _currentIndex = _stances.IndexOf(stance);
-                    OnStanceUnlocked(stanceTypeToUnlock);
-                    SwapToStance(stance);
-                }
-            }
-        }
-    }
+        _stances.AddRange(GetComponents<StanceBase>());
+        foreach (var stance in _stances) stance.Init();
 
+        _currentStance = _stances[0];
+        SwapToStance(_currentStance);
+    }
 
     private void PlayerStanceManager_UltimateInput_Performed()
     {
-        if (_currentStance != null && !_dataManager.UltimateStruct.IsUltimateActive)
+        if (!_dataManager.UltimateStruct.IsUltimateActive)
         {
             _currentStance.CastUltimate();
         }
@@ -88,14 +63,11 @@ public class PlayerStanceManager : SingletonBase
 
     private void PlayerStanceManager_SwapStanceInput_Performed()
     {
-        if (_stances.Count > 1)
-        {
-            _inputHandler.SwapStanceInputPerformed -= PlayerStanceManager_SwapStanceInput_Performed;
-            Invoke(nameof(ResubscribeToSwapStance), _swapCD);
+        _inputHandler.SwapStanceInputPerformed -= PlayerStanceManager_SwapStanceInput_Performed;
+        Invoke(nameof(ResubscribeToSwapStance), _swapCD);
 
-            _currentIndex = Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count);
-            SwapToStance(_stances[_currentIndex]);
-        }
+        _currentIndex = Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count);
+        SwapToStance(_stances[_currentIndex]);
     }
 
     private void SwapToStance(StanceBase currentStance)
@@ -104,22 +76,8 @@ public class PlayerStanceManager : SingletonBase
         _currentStance = currentStance;
         currentStance.Enter();
 
-        StanceType nextStance;
-        if (_stances.Count > 1)
-        {
-            nextStance = _stances[Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count)].StanceData.StanceType;
-        }
-        else
-        {
-            nextStance = StanceType.None;
-        }
-
+        StanceType nextStance = _stances[Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count)].StanceData.StanceType;
         OnStanceSwapped(currentStance.StanceData.StanceType, nextStance);
-    }
-
-    private void OnStanceUnlocked(StanceType unlockedStance)
-    {
-        StanceUnlocked?.Invoke(unlockedStance);
     }
 
     private void OnStanceSwapped(StanceType currentStance, StanceType nextStance)

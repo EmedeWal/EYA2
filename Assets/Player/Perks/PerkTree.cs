@@ -4,32 +4,41 @@ using UnityEngine;
 public class PerkTree : MonoBehaviour
 {
     [Header("LINES")]
-    [SerializeField] private Transform _lineParent;
     [SerializeField] private Line _linePrefab;
-
-    [Header("UNLOCKED TIERS")]
-    [SerializeField] private int _unlockedTiers;
-
-    public StanceData StanceData;
+    private Transform _lineParent;
 
     private List<Perk> _perks = new();
     private List<Line> _lines = new();
 
-    private int _currentValue;
+    private Color _purchasedColor;
 
-    public void Init()
+    public void Init(Color purchasedColor)
     {
+        _purchasedColor = purchasedColor;
+        _lineParent = transform.GetChild(0);
+
         _perks.AddRange(GetComponentsInChildren<Perk>());
         foreach (var perk in _perks)
         {
-            perk.Init();
-            perk.OnPurchased += HandlePerkPurchased;
+            perk.Init(_purchasedColor);
+            perk.OnPurchased += PerkTree_Purchased;
         }
-
-        Souls.Instance.CurrentValueUpdated += PerkTree_CurrentValueUpdated;
     }
 
-    public void Tick()
+    public void UnlockPerksAtTier(int currentTier)
+    {
+        foreach (var perk in _perks)
+        {
+            int perkTier = perk.PerkData.Tier;
+
+            if (perkTier <= currentTier && !perk.Unlocked)
+            {
+                perk.Unlock();
+            }
+        }
+    }
+
+    public void UpdateForeDrop(int currentSouls)
     {
         foreach (var perk in _perks)
         {
@@ -38,7 +47,7 @@ public class PerkTree : MonoBehaviour
             if (perk.Unlocked)
             {
                 int cost = perk.PerkData.Cost;
-                if (_currentValue < cost)
+                if (currentSouls < cost)
                 {
                     perk.SetForeDrop(true);
                 }
@@ -50,28 +59,11 @@ public class PerkTree : MonoBehaviour
         }
     }
 
-    public void IncrementTier()
-    {
-        if (_unlockedTiers >= 5) return;
-
-        _unlockedTiers++;
-
-        foreach (var perk in _perks)
-        {
-            if (perk.PerkData.Tier <= _unlockedTiers && !perk.Unlocked)
-            {
-                perk.Unlock();
-            }
-        }
-    }
-
-    private void HandlePerkPurchased(Perk perk)
+    private void PerkTree_Purchased(Perk perk)
     {
         foreach (var nextPerk in perk.NextPerks)
         {
-            Line line = Instantiate(_linePrefab, transform);
-            line.DrawLine(perk, nextPerk, _lineParent, Color.grey);
-            _lines.Add(line);
+            DrawGreyLine(perk, nextPerk);
         }
 
         if (perk.PreviousPerk != null)
@@ -80,14 +72,16 @@ public class PerkTree : MonoBehaviour
             {
                 if (line.StartPerk == perk.PreviousPerk && line.EndPerk == perk)
                 {
-                    line.SetColor(StanceData.Color);
+                    line.SetColor(_purchasedColor);
                 }
             }
         }
     }
 
-    private void PerkTree_CurrentValueUpdated(int currentValue)
+    private void DrawGreyLine(Perk perk, Perk nextPerk)
     {
-        _currentValue = currentValue;
+        Line line = Instantiate(_linePrefab, transform);
+        line.DrawLine(perk, nextPerk, _lineParent, Color.grey);
+        _lines.Add(line);
     }
 }

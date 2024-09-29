@@ -13,7 +13,10 @@ public class PlayerLocomotion : MonoBehaviour
     private Transform _transform;
     private float _delta;
 
-    [Header("Movement")]
+    [Header("PLAYER STATS")]
+    [SerializeField] private PlayerStats _stats;
+
+    [Header("MOVEMENT")]
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 10f;
     private Vector3 _movementDirection;
@@ -83,7 +86,7 @@ public class PlayerLocomotion : MonoBehaviour
 
             if (_grounded)
             {
-                _rigidbody.velocity = _movementDirection * (_movementSpeed * _movementAmount * _dataManager.LocomotionStruct.SpeedModifier);
+                _rigidbody.velocity = _movementDirection * (_movementSpeed * _movementAmount * _stats.GetStat(Stat.MovementSpeedModifier));
             }
 
             HandleRotation(lockOnTarget, lockedOn);

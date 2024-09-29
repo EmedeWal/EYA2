@@ -15,8 +15,6 @@ public class PlayerManager : MonoBehaviour
     private MovementTracking _movementTracking;
     private CameraController _cameraManager;
     
-    private float _delta;
-
     public void Init()
     {
         DontDestroyOnLoad(gameObject);
@@ -37,7 +35,6 @@ public class PlayerManager : MonoBehaviour
         _inputHandler.Init();
         _animatorManager.Init();
         _stanceManager.Init();
-        _dataManager.Init();
         _lockOn.Init();
         _locomotion.Init();
         _attackHandler.Init();
@@ -50,20 +47,16 @@ public class PlayerManager : MonoBehaviour
         _health.AddConstantValue(1, 1);
     }
 
-    private void Update()
+    public void Tick(float delta)
     {
-        _delta = Time.deltaTime;
-
         _inputHandler.Tick();
         _locomotion.Tick();
-        _attackHandler.Tick(_delta);
-        _movementTracking.Tick(_delta);
+        _attackHandler.Tick(delta);
+        _movementTracking.Tick(delta);
     }
 
-    private void FixedUpdate()
+    public void FixedTick(float delta)
     {
-        _delta = Time.fixedDeltaTime;
-
         Vector3 xDirection = _cameraManager._CameraTransform.right;
         Vector3 yDirection = _cameraManager._CameraTransform.forward;
         float leftStickX = _inputHandler._LeftStickX;
@@ -74,8 +67,8 @@ public class PlayerManager : MonoBehaviour
         Transform lockOnTargetTransform = _dataManager.LockOnStruct.LockOnTargetTransform;
         bool lockedOn = _dataManager.LockOnStruct.LockedOn;
 
-        _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTargetTransform, lockedOn);
+        _locomotion.FixedTick(delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTargetTransform, lockedOn);
         _lockOn.FixedTick();
-        _cameraManager.FixedTick(_delta, rightStickX, rightStickY, lockOnTargetTransform, lockedOn);
+        _cameraManager.FixedTick(delta, rightStickX, rightStickY, lockOnTargetTransform, lockedOn);
     }
 }

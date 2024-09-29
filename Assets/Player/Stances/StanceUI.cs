@@ -51,8 +51,6 @@ public class StanceUI : MonoBehaviour
 
     private void UpdateStanceUI(StanceType stanceType, int index)
     {
-        if (stanceType == StanceType.None) return;
-
         StanceData currentData = null;
 
         foreach (var stanceData in _stanceData)

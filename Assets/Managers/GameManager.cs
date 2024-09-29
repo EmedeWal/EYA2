@@ -21,9 +21,14 @@ public class GameManager : SingletonBase
 
     private List<SingletonBase> _singletons = new();
 
+    [Header("SCRIPTABLE OBJECTS INIT")]
+    [SerializeField] private PlayerStats _playerStats;
+
     [Header("INIT CALLS")]
     [SerializeField] private PauseMenuController _pauseMenuController;
     [SerializeField] private PlayerManager _playerManager;
+
+    private float _delta;
 
     private void Awake()
     {
@@ -41,12 +46,23 @@ public class GameManager : SingletonBase
             singleton.SingletonSetup();
         }
 
+        _playerStats.Init();
+
         _pauseMenuController.Init();
         _playerManager.Init();
     }
 
     private void Update()
     {
-        _pauseMenuController.Tick();
+        _delta = Time.deltaTime;
+
+        _playerManager.Tick(_delta);
+    }
+
+    private void FixedUpdate()
+    {
+        _delta = Time.fixedDeltaTime;
+
+        _playerManager.FixedTick(_delta);
     }
 }
