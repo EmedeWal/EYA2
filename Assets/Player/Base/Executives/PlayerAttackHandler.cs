@@ -96,7 +96,7 @@ public class PlayerAttackHandler : MonoBehaviour
             if (hit.TryGetComponent<Health>(out var health))
             {
                 OnSuccesfulAttack(hit, finalDamage);
-                float damage = health.TakeDamage(finalDamage);
+                float damage = health.TakeDamage(gameObject, finalDamage);
             }
         }
 

@@ -89,7 +89,7 @@ public class HybridEnemyAI : EnemyAI
         {
             if (hit.TryGetComponent<Health>(out var health))
             {
-                health.TakeDamage(MeleeData.AttackDamage);
+                health.TakeDamage(gameObject, MeleeData.AttackDamage);
             }
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class StanceUI : MonoBehaviour
@@ -14,23 +13,12 @@ public class StanceUI : MonoBehaviour
     private int _currentStanceIndex = 1;
     private int _nextStanceIndex = 0;
 
-    private void Awake()
+    public void Init()
     {
-        _stanceIcons = GetComponentsInChildren<StanceIcon>();  
-    }
-
-    private void OnEnable()
-    {
+        _stanceIcons = GetComponentsInChildren<StanceIcon>();
         _playerStanceManager.StanceSwapped += StanceUI_StanceSwapped;
         _mana.MaxValueInitialized += StanceUI_MaxValueInitialised;
         _mana.CurrentValueUpdated += StanceUI_CurrentValueUpdated;
-    }
-
-    private void OnDisable()
-    {
-        _playerStanceManager.StanceSwapped -= StanceUI_StanceSwapped;
-        _mana.MaxValueInitialized -= StanceUI_MaxValueInitialised;
-        _mana.CurrentValueUpdated -= StanceUI_CurrentValueUpdated;
     }
 
     private void StanceUI_StanceSwapped(StanceType currentStance, StanceType nextStance)

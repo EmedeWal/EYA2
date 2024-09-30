@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11278a1dbbaf8e94f917f4364ab92eb6, type: 3}
+  m_Name: Retribution I
+  m_EditorClassIdentifier: 
+  StanceType: 0
+  Title: Retribution I
+  Description: Damage absorbed by the protective barrier is returned as damage to
+    the attacker
+  Tier: 4
+  Cost: 400
+  _playerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _maxEvasionChanceIncrease: 25
+  _completionTime: 10
+  _shieldPrefab: {fileID: 1289543790355709915, guid: 448d42e40f1322b4dabf0605c2569765, type: 3}
+  _shieldExplosionPrefab: {fileID: 0}
+  _shieldCount: 1
+  _damageReflection: 1
+  _manaRestoration: 0

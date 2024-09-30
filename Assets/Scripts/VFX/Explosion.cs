@@ -27,7 +27,10 @@ public class Explosion : MonoBehaviour
         {
             if (hit != _colliderToIgnore)
             {
-                if (hit.TryGetComponent<Health>(out var health)) health.TakeDamage(_damage);
+                if (hit.TryGetComponent<Health>(out var health))
+                {
+                    health.TakeDamage(gameObject, _damage);
+                }
             }
         }
     }
@@ -35,5 +38,11 @@ public class Explosion : MonoBehaviour
     public void SetColliderToIgnore(Collider collider)
     {
         _colliderToIgnore = collider;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _radius);
     }
 }

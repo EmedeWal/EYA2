@@ -5,8 +5,12 @@ public class Health : Resource
     public float DamageReduction { private get; set; } = 0;
     public float EvasionChance { private get; set; } = 0;
     public bool Invincible {  private get; set; } = false;
+    public bool Shielded { private get; set; } = false;
 
-    public delegate void DeathDelegate(GameObject gameObject);
+    public delegate void HitShieldedDelegate(GameObject attackerObject, float damageAbsorbed);
+    public event HitShieldedDelegate HitShielded; 
+
+    public delegate void DeathDelegate(GameObject deathObject);
     public event DeathDelegate Death;
 
     public void Heal(float amount)
@@ -14,12 +18,14 @@ public class Health : Resource
         AddValue(amount);
     }
 
-    public float TakeDamage(float amount)
+    public float TakeDamage(GameObject attackerObject, float amount)
     {
         if (Invincible || Helpers.GetChanceRoll(EvasionChance)) return 0f;  
 
         float finalDamage = amount * ((100 - DamageReduction) / 100);  
         float damageDealt = Mathf.Min(finalDamage, CurrentValue);
+
+        if (Shielded) { OnHitShielded(attackerObject, damageDealt); return 0f; }
 
         RemoveValue(damageDealt);
 
@@ -29,6 +35,11 @@ public class Health : Resource
         }
 
         return damageDealt;
+    }
+
+    private void OnHitShielded(GameObject attackerObject, float damageAbsorbed)
+    {
+        HitShielded?.Invoke(attackerObject, damageAbsorbed);
     }
 
     private void OnDeath()

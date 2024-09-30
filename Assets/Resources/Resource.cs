@@ -10,6 +10,7 @@ public abstract class Resource : MonoBehaviour
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
     public event Action CoroutineCompleted;
+    public event Action ValueRemoved;
 
     public float MaxValue => _maxValue; 
     public float CurrentValue => _currentValue;
@@ -51,6 +52,7 @@ public abstract class Resource : MonoBehaviour
         }
 
         OnCurrentValueUpdated();
+        OnValueRemoved();
     }
 
     public bool AtMinValue()
@@ -113,5 +115,10 @@ public abstract class Resource : MonoBehaviour
     private void OnCoroutineCompleted()
     {
         CoroutineCompleted?.Invoke();
+    }
+
+    private void OnValueRemoved()
+    {
+        ValueRemoved?.Invoke();
     }
 }

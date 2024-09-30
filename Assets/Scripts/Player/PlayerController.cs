@@ -484,7 +484,7 @@ public class PlayerController : MonoBehaviour
                     if (orcUltActive) OrcUltimateShockwave(hitObject, damage);
                 }
 
-                hitHhealth.TakeDamage(damage);
+                hitHhealth.TakeDamage(gameObject, damage);
             }
         }
     }
@@ -657,7 +657,7 @@ public class PlayerController : MonoBehaviour
             if (hit.gameObject == target) continue;
 
             Health eHealth = hit.GetComponent<Health>();
-            if (eHealth != null && !damagedEnemies.Contains(hit.gameObject)) eHealth.TakeDamage(damage / shockwaveModifier);
+            if (eHealth != null && !damagedEnemies.Contains(hit.gameObject)) eHealth.TakeDamage(gameObject, damage / shockwaveModifier);
         }
     }
 

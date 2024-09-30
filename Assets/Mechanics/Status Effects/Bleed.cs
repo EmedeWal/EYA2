@@ -30,7 +30,7 @@ public class Bleed : MonoBehaviour
         for (int i = 0; i < ticks; i++)
         {
             yield return new WaitForSeconds(0.1f);
-            _health.TakeDamage(damagePerTick);
+            _health.TakeDamage(gameObject, damagePerTick);
         }
 
         OnBleedUpdate(-1);

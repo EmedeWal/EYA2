@@ -10,10 +10,7 @@ public class StanceAddHelper : MonoBehaviour
     public Stat StatToModify;
     public float Increment;
 
-    public void AddStance()
-    {
-        
-    }
+    public Health PlayerHealth;
 
     public void OnIncreaseTier()
     {
@@ -23,5 +20,10 @@ public class StanceAddHelper : MonoBehaviour
     public void ChangeStat()
     {
         PlayerStats.IncrementStat(StatToModify, Increment);
+    }
+
+    public void DamagePlayer()
+    {
+        PlayerHealth.TakeDamage(gameObject, 10);
     }
 }

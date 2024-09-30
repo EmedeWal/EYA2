@@ -5,6 +5,9 @@ public class PlayerManager : MonoBehaviour
     [Header("PLAYER STAT REFERENCE")]
     [SerializeField] private PlayerStats _stats;
 
+    [Header("PLAYER UI REFERENCES")]
+    [SerializeField] private StanceUI _stanceUI;
+
     private PlayerInputHandler _inputHandler;
     private PlayerAnimatorManager _animatorManager;
     private PlayerStanceManager _stanceManager;
@@ -37,6 +40,8 @@ public class PlayerManager : MonoBehaviour
         _movementTracking = GetComponent<MovementTracking>();
         _cameraManager = CameraController.Instance;
 
+        _stanceUI.Init();
+
         _inputHandler.Init();
         _animatorManager.Init();
         _stanceManager.Init();
@@ -52,7 +57,10 @@ public class PlayerManager : MonoBehaviour
         _health.AddConstantValue(_stats.GetCurrentStat(Stat.HealthRegen), 1);
         _mana.AddConstantValue(_stats.GetCurrentStat(Stat.ManaRegen), 1);
         _health.DamageReduction = _stats.GetCurrentStat(Stat.DamageReduction);
-        _health.EvasionChance = _stats.GetCurrentStat(Stat.EvasionChance);  
+        _health.EvasionChance = _stats.GetCurrentStat(Stat.EvasionChance);
+
+        _health.CurrentValueUpdated += PlayerManager_CurrentHealthUpdated;
+        _mana.CurrentValueUpdated += PlayerManager_CurrentManaUpdated;
     }
 
     public void Tick(float delta)
@@ -100,5 +108,15 @@ public class PlayerManager : MonoBehaviour
                 _health.EvasionChance = value;
                 break;
         }
+    }
+
+    private void PlayerManager_CurrentHealthUpdated(float currentValue)
+    {
+        _stats.SetCurrentStat(Stat.Health, currentValue);
+    }
+
+    private void PlayerManager_CurrentManaUpdated(float currentValue)
+    {
+        _stats.SetCurrentStat(Stat.Mana, currentValue);
     }
 }

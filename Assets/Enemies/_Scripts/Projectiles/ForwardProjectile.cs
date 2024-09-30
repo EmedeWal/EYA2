@@ -24,7 +24,7 @@ public class ForwardProjectile : MonoBehaviour
 
         if (collision.TryGetComponent<Health>(out var health))
         {
-            health.TakeDamage(_damage);
+            health.TakeDamage(gameObject, _damage);
         }
 
         _active = false;

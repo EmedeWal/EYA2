@@ -45,7 +45,6 @@ public class PlayerStats : ScriptableObject
     {
         if (_currentStats.ContainsKey(stat))
         {
-            Debug.Log(amount);
             _currentStats[stat] += amount;
 
             ClampStat(stat);

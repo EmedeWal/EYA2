@@ -61,7 +61,7 @@ public class PlayerStanceManager : SingletonBase
 
             if (stanceType == perkType)
             {
-                stance.Perks.Add(perkData);
+                stance.AddPerk(perkData);
 
                 if (stance ==  _currentStance)
                 {

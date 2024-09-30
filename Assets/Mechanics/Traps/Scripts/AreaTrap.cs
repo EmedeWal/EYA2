@@ -6,6 +6,6 @@ public class AreaTrap : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent<Health>(out var health)) health.TakeDamage(_damage);
+        if (other.TryGetComponent<Health>(out var health)) health.TakeDamage(gameObject, _damage);
     }
 }

@@ -6,7 +6,7 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
     [Header("STANCE DATA")]
     [SerializeField] private StanceData _stanceData;
 
-    public List<PerkData> Perks;
+    [SerializeField] private List<PerkData> _perks = new();
 
     protected PlayerDataManager _DataManager;
     protected PlayerAttackHandler _AttackHandler;
@@ -34,7 +34,7 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
         Instantiate(_stanceData.SwapVFX, _center);
         _sword.material.color = _stanceData.Color;
 
-        foreach (var perk in Perks)
+        foreach (var perk in _perks)
         {
             perk.Activate();
         }
@@ -42,7 +42,7 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
 
     public virtual void Exit()
     {
-        foreach (var perk in Perks)
+        foreach (var perk in _perks)
         {
             perk.Deactivate();
         }
@@ -53,7 +53,7 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
         _DataManager.UltimateStruct.IsUltimateActive = true;
         _currentUltimateGFX = Instantiate(_stanceData.UltimateGFX, _center);
         Invoke(nameof(DeactivateUltimate), _stanceData.UltimateDuration);
-        
+
         // Play audio
     }
 
@@ -61,7 +61,12 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
     {
         _DataManager.UltimateStruct.IsUltimateActive = false;
         Destroy(_currentUltimateGFX);
-        
+
         // Stop audio
+    }
+
+    public void AddPerk(PerkData perk)
+    {
+        perk.Init(_perks, gameObject); _perks.Add(perk);
     }
 }
