@@ -724,7 +724,7 @@ public class DragonAI : EnemyAI
 
 //    private void OnDrawGizmosSelected()
 //    {
-//        //Gizmos.color = Color.red;
+//        //Gizmos._color = _color.red;
 //        //Gizmos.DrawWireCube(meleePoint.position, meleeSize);
 //    }
 }

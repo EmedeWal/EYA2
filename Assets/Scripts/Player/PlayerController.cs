@@ -697,7 +697,7 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Set special _active for the duration and initialise the _currentCD system based on the duration
-    /// Also set the color of the _currentCD text correct, to match the stance colors
+    /// Also set the _color of the _currentCD text correct, to match the stance colors
     /// Set the _currentCD text _active via an event
     /// </summary>
     public void UltimateEnd()

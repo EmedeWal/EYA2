@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Metabolism
   m_EditorClassIdentifier: 
   Title: Metabolism
-  Description: Increase health regen by 100%
+  Description: Increase health regen by 1/s
   Tier: 2
   Cost: 200

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header("PLAYER STAT REFERENCE")]
+    [SerializeField] private PlayerStats _stats;
+
     private PlayerInputHandler _inputHandler;
     private PlayerAnimatorManager _animatorManager;
     private PlayerStanceManager _stanceManager;
@@ -10,14 +13,16 @@ public class PlayerManager : MonoBehaviour
     private PlayerLocomotion _locomotion;
     private PlayerAttackHandler _attackHandler;
     private Health _health;
-    private Souls _souls;
     private Mana _mana;
+    private Souls _souls;
     private MovementTracking _movementTracking;
     private CameraController _cameraManager;
     
     public void Init()
     {
         DontDestroyOnLoad(gameObject);
+
+        _stats.StatChanged += PlayerManager_StatChanged;
 
         _inputHandler = GetComponent<PlayerInputHandler>();
         _animatorManager = GetComponent<PlayerAnimatorManager>();
@@ -27,8 +32,8 @@ public class PlayerManager : MonoBehaviour
         _locomotion = GetComponent<PlayerLocomotion>();
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
-        _souls = GetComponent<Souls>();
         _mana = GetComponent<Mana>();
+        _souls = GetComponent<Souls>();
         _movementTracking = GetComponent<MovementTracking>();
         _cameraManager = CameraController.Instance;
 
@@ -38,13 +43,16 @@ public class PlayerManager : MonoBehaviour
         _lockOn.Init();
         _locomotion.Init();
         _attackHandler.Init();
-        _health.Init();
+        _health.Init(_stats.GetBaseStat(Stat.MaxHealth), _stats.GetCurrentStat(Stat.Health));
+        _mana.Init(_stats.GetBaseStat(Stat.MaxMana), _stats.GetCurrentStat(Stat.Mana));
         _souls.Init();
-        _mana.Init();   
         _movementTracking.Init();
         _cameraManager.Init(transform);
 
-        _health.AddConstantValue(1, 1);
+        _health.AddConstantValue(_stats.GetCurrentStat(Stat.HealthRegen), 1);
+        _mana.AddConstantValue(_stats.GetCurrentStat(Stat.ManaRegen), 1);
+        _health.DamageReduction = _stats.GetCurrentStat(Stat.DamageReduction);
+        _health.EvasionChance = _stats.GetCurrentStat(Stat.EvasionChance);  
     }
 
     public void Tick(float delta)
@@ -70,5 +78,27 @@ public class PlayerManager : MonoBehaviour
         _locomotion.FixedTick(delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTargetTransform, lockedOn);
         _lockOn.FixedTick();
         _cameraManager.FixedTick(delta, rightStickX, rightStickY, lockOnTargetTransform, lockedOn);
+    }
+
+    private void PlayerManager_StatChanged(Stat stat, float value)
+    {
+        switch (stat)
+        {
+            case Stat.HealthRegen:
+                _health.RestorationModifier = value;
+                break;
+
+            case Stat.ManaRegen:
+                _mana.RestorationModifier = value;
+                break;
+
+            case Stat.DamageReduction:
+                _health.DamageReduction = value;
+                break;
+
+            case Stat.EvasionChance:
+                _health.EvasionChance = value;
+                break;
+        }
     }
 }

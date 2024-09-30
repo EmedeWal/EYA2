@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Unyielding II
   m_EditorClassIdentifier: 
   Title: Unyielding II
-  Description: While you are invulnerable, health regen is increased by 500%
+  Description: While you are invulnerable, health regen is increased by 5/s
   Tier: 5
   Cost: 500

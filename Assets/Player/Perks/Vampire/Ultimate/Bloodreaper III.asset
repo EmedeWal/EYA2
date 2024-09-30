@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bloodreaper III
   m_EditorClassIdentifier: 
   Title: Bloodreaper III
-  Description: Feasting grants +3% critical damage for each stack of bleeding inflicted
-    on the prey
+  Description: Feasting increases your critical multiplier by 0.05 for each stack
+    of bleeding inflicted on the prey
   Tier: 5
   Cost: 500

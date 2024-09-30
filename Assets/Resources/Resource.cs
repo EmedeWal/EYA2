@@ -4,20 +4,27 @@ using System;
 
 public abstract class Resource : MonoBehaviour
 {
-    [Header("RESOURCE VALUES")]
-    [SerializeField] private float _maxValue;
-    [SerializeField] private float _startingValue;
+    private float _maxValue;
     private float _currentValue;
 
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
     public event Action CoroutineCompleted;
 
-    public float _MaxValue => _maxValue; public float _CurrentValue => _currentValue;
+    public float MaxValue => _maxValue; 
+    public float CurrentValue => _currentValue;
+    public float RestorationModifier { private get; set; } = 1;
 
-    public virtual void Init()
+    public virtual void Init(float maxValue, float currentValue)
     {
-        _currentValue = _startingValue;
+        _maxValue = maxValue;
+        _currentValue = currentValue;
+
+        if (_maxValue < _currentValue)
+        {
+            Debug.LogWarning($"Current value exceeded max value in {gameObject.name}");
+        }
+
         OnMaxValueInitialized();
         OnCurrentValueUpdated();
     }
@@ -88,7 +95,7 @@ public abstract class Resource : MonoBehaviour
             while (true)
             {
                 yield return new WaitForSeconds(delay);
-                AddValue(increment);
+                AddValue(increment * RestorationModifier);
             }
         }
     }

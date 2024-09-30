@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public static class Helpers
@@ -7,18 +5,6 @@ public static class Helpers
     public static Collider[] CastHitBox(Vector3 attackPoint, Vector3 attackSize, Quaternion rotation, int layerMask)
     {
         return Physics.OverlapBox(attackPoint, attackSize * 0.5f, rotation, layerMask);
-    }
-
-    public static Color GetTransparentColor()
-    {
-        float r, g, b, a;
-
-        r = 0;
-        g = 0;
-        b = 0;
-        a = 0;
-
-        return new Color(r, g, b, a);
     }
 
     public static int GetIndexInBounds(int index, int increment, int length)
@@ -39,20 +25,72 @@ public static class Helpers
         return index;
     }
 
-    public static void SortByStanceType<T>(List<T> list) where T : class
+    public static string FormatStatName(Stat stat)
     {
-        var stanceItems = list.OfType<IStanceDataProvider>().ToList();
-        stanceItems.Sort((a, b) => a.StanceData?.StanceType.CompareTo(b.StanceData?.StanceType) ?? 0);
+        string statName = stat.ToString();
 
-        int stanceIndex = 0;
-        for (int i = 0; i < list.Count; i++)
+        System.Text.StringBuilder formattedName = new System.Text.StringBuilder();
+
+        for (int i = 0; i < statName.Length; i++)
         {
-            if (list[i] is IStanceDataProvider)
+            if (char.IsUpper(statName[i]) && i > 0)
             {
-                list[i] = stanceItems[stanceIndex] as T;
-                stanceIndex++;
+                formattedName.Append(' ');
             }
+
+            formattedName.Append(statName[i]);
+        }
+
+        return formattedName.ToString();
+    }
+
+    public static string GetStatLineEnd(Stat stat)
+    {
+        string lineEnd = "";
+
+        if (IsPercentageStat(stat))
+        {
+            lineEnd = "%";
+        }
+        else if (IsMultiplierStat(stat))
+        {
+            lineEnd = "x";
+        }
+        else if (IsRegenStat(stat))
+        {
+            lineEnd = "/s";
+        }
+
+        return lineEnd;
+
+        bool IsPercentageStat(Stat stat)
+        {
+            return stat == Stat.DamageReduction ||
+                   stat == Stat.CriticalChance ||
+                   stat == Stat.EvasionChance;
+        }
+
+        bool IsMultiplierStat(Stat stat)
+        {
+            return stat == Stat.CriticalMultiplier ||
+                   stat == Stat.StaggerMultiplier;
+        }
+
+        bool IsRegenStat(Stat stat)
+        {
+            return stat == Stat.HealthRegen ||
+                   stat == Stat.ManaRegen;
         }
     }
 
+    public static bool GetChanceRoll(float chance)
+    {
+        int random = Random.Range(0, 100);
+
+        if (chance > random)
+        {
+            return true;
+        }
+        return false;
+    }
 }

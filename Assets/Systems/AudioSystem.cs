@@ -16,14 +16,17 @@ public class AudioSystem : SingletonBase
             Destroy(gameObject);
         }
 
-        _MusicSource =GetComponent<AudioSource>();
+        MusicSource =GetComponent<AudioSource>();
     }
     #endregion
 
-    public AudioSource _MusicSource { get; private set; }
+    public AudioSource MusicSource { get; private set; }
+    public float VolumeModifier = 0.5f;
 
     public void PlayAudioClip(AudioSource source, AudioClip clip, float offset = 0, float volume = 0, bool overrideAudio = true)
     {
+        volume *= VolumeModifier;
+
         if (source.isPlaying)
         {
             if (overrideAudio)

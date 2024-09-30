@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stone Wall II
   m_EditorClassIdentifier: 
   Title: Stone Wall II
-  Description: While not moving, health regen is increased by 300%
+  Description: While not moving, health regen is increased by 3/s
   Tier: 5
   Cost: 500

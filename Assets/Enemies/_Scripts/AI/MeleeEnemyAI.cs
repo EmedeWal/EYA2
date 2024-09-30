@@ -119,7 +119,7 @@ public abstract class MeleeEnemyAI : EnemyAI
     //{
     //    if (MeleeData != null)
     //    {
-    //        Gizmos.color = Color.blue;
+    //        Gizmos._color = _color.blue;
     //        Gizmos.matrix = Matrix4x4.TRS(_attackPoint.position, _attackPoint.rotation, Vector3.one);
     //        Gizmos.DrawWireCube(Vector3.zero, MeleeData.AttackSize);
     //    }

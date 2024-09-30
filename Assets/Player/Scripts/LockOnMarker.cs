@@ -34,8 +34,8 @@ public class LockOnMarker :SingletonBase
         }
 
         _health = lockOnTarget._Health;
-        _maxValue = _health._MaxValue;
-        SetBackgroundFillAmount(_health._CurrentValue);
+        _maxValue = _health.MaxValue;
+        SetBackgroundFillAmount(_health.CurrentValue);
         _health.CurrentValueUpdated += LockOnMarker_CurrentValueUpdated;
     }
 

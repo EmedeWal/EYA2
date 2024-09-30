@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class Health : Resource
 {
-    // Variables
-    private float _damageModifier = 1;
-    private bool _invincible = false;
+    public float DamageReduction { private get; set; } = 0;
+    public float EvasionChance { private get; set; } = 0;
+    public bool Invincible {  private get; set; } = false;
 
-    // Events
     public delegate void DeathDelegate(GameObject gameObject);
     public event DeathDelegate Death;
 
@@ -17,10 +16,10 @@ public class Health : Resource
 
     public float TakeDamage(float amount)
     {
-        if (_invincible) return 0f;  
+        if (Invincible || Helpers.GetChanceRoll(EvasionChance)) return 0f;  
 
-        float finalDamage = amount * _damageModifier;  
-        float damageDealt = Mathf.Min(finalDamage, _CurrentValue);
+        float finalDamage = amount * ((100 - DamageReduction) / 100);  
+        float damageDealt = Mathf.Min(finalDamage, CurrentValue);
 
         RemoveValue(damageDealt);
 
@@ -30,17 +29,6 @@ public class Health : Resource
         }
 
         return damageDealt;
-    }
-
-
-    public void SetDamageReduction(float damageReduction)
-    {
-        _damageModifier = 1 - damageReduction;
-    }
-
-    public void SetInvincible(bool active)
-    {
-        _invincible = active;
     }
 
     private void OnDeath()

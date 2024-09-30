@@ -4,9 +4,9 @@ public class Mana : Resource
 {
     private PlayerAttackHandler _playerAttackHandler;
 
-    public override void Init()
+    public override void Init(float maxValue, float currentValue)
     {
-        base.Init();
+        base.Init(maxValue, currentValue);
 
         _playerAttackHandler = GetComponent<PlayerAttackHandler>();
         _playerAttackHandler.SuccessfulAttack += Mana_SuccesfulAttack;

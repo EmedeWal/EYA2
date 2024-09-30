@@ -83,7 +83,7 @@ namespace TMPro.Examples
                     TMP_LinkInfo linkInfo = m_TextMeshPro.textInfo.linkInfo[linkIndex];
 
                     // The following provides an example of how to access the link properties.
-                    //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link Text.
+                    //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link _text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link _text.
 
                     Vector3 worldPointInRectangle;
 
@@ -107,7 +107,7 @@ namespace TMPro.Examples
 
 
                 #region Example of Word Selection
-                // Check if Mouse intersects any words and if so assign a random color to that word.
+                // Check if Mouse intersects any words and if so assign a random _color to that word.
                 int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, Input.mousePosition, Camera.main);
                 if (wordIndex != -1 && wordIndex != m_lastWordIndex)
                 {

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Might II
   m_EditorClassIdentifier: 
   Title: Might II
-  Description: Increases stagger inflicted by 10%
+  Description: Increases stagger multiplier by 0.1 points
   Tier: 2
   Cost: 200

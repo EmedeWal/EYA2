@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Spectral Stride I
   m_EditorClassIdentifier: 
   Title: Spectral Stride I
-  Description: While moving, mana regeneration is increased by 100%
+  Description: While moving, mana regeneration is increased by 1/s
   Tier: 3
   Cost: 300

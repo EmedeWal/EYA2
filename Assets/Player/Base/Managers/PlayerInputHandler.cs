@@ -47,6 +47,7 @@ public class PlayerInputHandler : SingletonBase
     public event Action ClickInputPerformed;
     public event Action PauseInputPerformed;
     public event Action<int> SwapHeaderInputPerformed;
+    public event Action<int> MoveSliderInputPerformed;
     public event Action<int> SwapSectionInputPerformed;
 
     #region Input Setup
@@ -65,6 +66,7 @@ public class PlayerInputHandler : SingletonBase
         _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
         _inputActions.Actions.Options.performed += OnPauseInputPerformed;
         _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
+        _inputActions.Actions.DPadLeftRight.performed += OnMoveSliderInputPerformed;
         _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
 
         ListenToCombatActions(true);
@@ -163,7 +165,12 @@ public class PlayerInputHandler : SingletonBase
         SwapHeaderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
     }
 
-    public void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
+    private void OnMoveSliderInputPerformed(InputAction.CallbackContext context)
+    {
+        MoveSliderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+    }
+
+    private void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
     {
         SwapSectionInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
     }

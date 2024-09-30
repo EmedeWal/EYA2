@@ -34,6 +34,8 @@ public class PlayerLocomotion : MonoBehaviour
     private float _groundCheckOffset = 0.5f;
     private bool _grounded;
 
+    public float maxVelocity = 10;
+
     public void Init()
     {
         _transform = transform;
@@ -86,7 +88,18 @@ public class PlayerLocomotion : MonoBehaviour
 
             if (_grounded)
             {
-                _rigidbody.velocity = _movementDirection * (_movementSpeed * _movementAmount * _stats.GetStat(Stat.MovementSpeedModifier));
+                Vector3 movementDirection = _movementDirection * (_movementSpeed * _movementAmount * _stats.GetCurrentStat(Stat.MovementSpeedModifier));
+
+                //if (_rigidbody.velocity.magnitude >= maxVelocity)
+                //{
+                    
+                //}
+                //else
+                //{
+                //    _rigidbody.AddForce(movementDirection, ForceMode.Force);
+                //}
+
+                _rigidbody.velocity = movementDirection;
             }
 
             HandleRotation(lockOnTarget, lockedOn);

@@ -28,13 +28,11 @@ public class OrcStance : StanceBase
     public override void CastUltimate()
     {
         base.CastUltimate();
-        _Health.SetDamageReduction(_damageReductionPercentage / 100);
     }
 
     public override void DeactivateUltimate()
     {
         base.DeactivateUltimate();
-        _Health.SetDamageReduction(0);
     }
 
     private void OrcStance_SuccesfulAttack(Collider hit, float damage)

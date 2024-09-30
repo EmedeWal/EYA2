@@ -22,8 +22,8 @@ public class PlayerStats : ScriptableObject
 
         _currentStats.Clear();
 
-        _currentStats.Add(Stat.CurrentHealth, _baseStats[Stat.MaxHealth]);
-        _currentStats.Add(Stat.CurrentMana, _baseStats[Stat.MaxMana]);
+        _currentStats.Add(Stat.Health, _baseStats[Stat.MaxHealth]);
+        _currentStats.Add(Stat.Mana, _baseStats[Stat.MaxMana]);
         _currentStats.Add(Stat.HealthRegen, 1f);
         _currentStats.Add(Stat.ManaRegen, 1f);
         _currentStats.Add(Stat.CriticalChance, 0f);
@@ -36,9 +36,9 @@ public class PlayerStats : ScriptableObject
         _currentStats.Add(Stat.LightAttackDamageModifier, 1f);
         _currentStats.Add(Stat.HeavyAttackDamageModifier, 1f);
 
-        RecalculateTotal(Stat.MovementSpeed);
-        RecalculateTotal(Stat.LightAttackDamage);
-        RecalculateTotal(Stat.HeavyAttackDamage);
+        _currentStats.Add(Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed));
+        _currentStats.Add(Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage));
+        _currentStats.Add(Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage));
     }
 
     public void IncrementStat(Stat stat, float amount)
@@ -47,19 +47,19 @@ public class PlayerStats : ScriptableObject
         {
             _currentStats[stat] += amount;
 
-            if (stat == Stat.BaseLightAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
-            {
-                RecalculateTotal(Stat.LightAttackDamage);
-            }
-
-            if (stat == Stat.BaseHeavyAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
-            {
-                RecalculateTotal(Stat.HeavyAttackDamage);
-            }
+            ClampStat(stat);
 
             if (stat == Stat.MovementSpeedModifier || stat == Stat.BaseMovementSpeed)
             {
-                RecalculateTotal(Stat.MovementSpeed);
+                SetCurrentStat(Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed));
+            }
+            else if (stat == Stat.BaseLightAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
+            {
+                SetCurrentStat(Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage));
+            }
+            else if (stat == Stat.BaseHeavyAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
+            {
+                SetCurrentStat(Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage));
             }
 
             OnStatChanged(stat, _currentStats[stat]);
@@ -70,7 +70,20 @@ public class PlayerStats : ScriptableObject
         }
     }
 
-    public float GetStat(Stat stat)
+    public void SetCurrentStat(Stat stat, float value)
+    {
+        if (_currentStats.ContainsKey(stat))
+        {
+            _currentStats[stat] = value;
+            OnStatChanged(stat, value);
+        }
+        else
+        {
+            Debug.LogWarning($"Stat {stat} not found in dictionary.");
+        }
+    }
+
+    public float GetCurrentStat(Stat stat)
     {
         if (_currentStats.ContainsKey(stat))
         {
@@ -80,42 +93,80 @@ public class PlayerStats : ScriptableObject
         return 0f;
     }
 
-    private void RecalculateTotal(Stat totalStat)
+    public float GetBaseStat(Stat stat)
     {
-        if (totalStat == Stat.MovementSpeed)
+        if (_baseStats.ContainsKey(stat))
+        {
+            return _baseStats[stat];
+        }
+        Debug.LogWarning($"Stat {stat} not found in dictionary.");
+        return 0f;
+    }
+
+    private void ClampStat(Stat stat)
+    {
+        switch (stat)
+        {
+            case Stat.Health:
+                float clampedHealth = Mathf.Clamp(GetCurrentStat(Stat.Health), 0f, GetBaseStat(Stat.MaxHealth));
+                SetCurrentStat(Stat.Health, clampedHealth);
+                break;
+
+            case Stat.Mana:
+                float clampedMana = Mathf.Clamp(GetCurrentStat(Stat.Mana), 0f, GetBaseStat(Stat.MaxMana));
+                SetCurrentStat(Stat.Mana, clampedMana);
+                break;
+
+            case Stat.CriticalChance:
+                float clampedCriticalChance = Mathf.Clamp(GetCurrentStat(Stat.CriticalChance), 0f, 100f);
+                SetCurrentStat(Stat.CriticalChance, clampedCriticalChance);
+                break;
+
+            case Stat.EvasionChance:
+                float clampedEvasionChance = Mathf.Clamp(GetCurrentStat(Stat.EvasionChance), 0f, 100f);
+                SetCurrentStat(Stat.EvasionChance, clampedEvasionChance);
+                break;
+
+            case Stat.DamageReduction:
+                float clampedDamageReduction = Mathf.Clamp(GetCurrentStat(Stat.DamageReduction), 0f, 100f);
+                SetCurrentStat(Stat.DamageReduction, clampedDamageReduction);
+                break;
+        }
+    }
+
+    private float RecalculateTotal(Stat stat)
+    {
+        float totalStatValue = 0f;
+
+        if (stat == Stat.MovementSpeed)
         {
             float baseMovementSpeed = _baseStats[Stat.BaseMovementSpeed];
             float movementModifier = _currentStats[Stat.MovementSpeedModifier];
 
-            float totalMovementSpeed = baseMovementSpeed * movementModifier;
-
-            _currentStats[Stat.MovementSpeed] = totalMovementSpeed;
-            OnStatChanged(Stat.MovementSpeed, totalMovementSpeed);
+            totalStatValue = baseMovementSpeed * movementModifier;
         }
-
-        if (totalStat == Stat.LightAttackDamage)
+        else if (stat == Stat.LightAttackDamage)
         {
             float baseDamage = _baseStats[Stat.BaseLightAttackDamage];
-            float attackModifier = _currentStats[Stat.AttackDamageModifier];
-            float lightModifier = _currentStats[Stat.LightAttackDamageModifier];
+            float attackModifier = baseDamage * _currentStats[Stat.AttackDamageModifier] - baseDamage;
+            float lightModifier = baseDamage * _currentStats[Stat.LightAttackDamageModifier] - baseDamage;
 
-            float totalLightDamage = baseDamage * attackModifier * lightModifier;
-
-            _currentStats[Stat.LightAttackDamage] = totalLightDamage;
-            OnStatChanged(Stat.LightAttackDamage, totalLightDamage);
+            totalStatValue = baseDamage + attackModifier + lightModifier;
         }
-
-        if (totalStat == Stat.HeavyAttackDamage)
+        else if (stat == Stat.HeavyAttackDamage)
         {
             float baseDamage = _baseStats[Stat.BaseHeavyAttackDamage];
-            float attackModifier = _currentStats[Stat.AttackDamageModifier];
-            float heavyModifier = _currentStats[Stat.HeavyAttackDamageModifier];
+            float attackModifier = baseDamage * _currentStats[Stat.AttackDamageModifier] - baseDamage;
+            float heavyModifier = baseDamage * _currentStats[Stat.HeavyAttackDamageModifier] - baseDamage;
 
-            float totalHeavyDamage = baseDamage * attackModifier * heavyModifier;
-
-            _currentStats[Stat.HeavyAttackDamage] = totalHeavyDamage;
-            OnStatChanged(Stat.HeavyAttackDamage, totalHeavyDamage);
+            totalStatValue = baseDamage + attackModifier + heavyModifier;
         }
+        else
+        {
+            Debug.LogWarning("No total stat found to recalculate.");
+        }
+
+        return totalStatValue;
     }
 
     private void OnStatChanged(Stat stat, float value)

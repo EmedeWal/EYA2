@@ -54,13 +54,13 @@ public class PlayerAttackHandler : MonoBehaviour
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
         if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
-        PrepareAttack(_lightAttackData, _stats.GetStat(Stat.LightAttackDamage));
+        PrepareAttack(_lightAttackData, _stats.GetCurrentStat(Stat.LightAttackDamage));
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
         if (_animatorManager.GetBool("InAction") || _isAttacking) return; _isAttacking = true;
-        PrepareAttack(_heavyAttackData, _stats.GetStat(Stat.HeavyAttackDamage));
+        PrepareAttack(_heavyAttackData, _stats.GetCurrentStat(Stat.HeavyAttackDamage));
     }
 
     private void PrepareAttack(PlayerAttackData attackData, float finalDamage)
@@ -72,6 +72,11 @@ public class PlayerAttackHandler : MonoBehaviour
 
     private IEnumerator Attack(PlayerAttackData attackData, float finalDamage)
     {
+        if (Helpers.GetChanceRoll(_stats.GetCurrentStat(Stat.CriticalChance)))
+        {
+            finalDamage *= _stats.GetCurrentStat(Stat.CriticalMultiplier);
+        }
+
         float animationDuration = _animatorManager._Animator.GetCurrentAnimatorStateInfo(1).length;
         float lungeDelay = animationDuration / 8f;
         float attackDelay = animationDuration / 4f;

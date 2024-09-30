@@ -52,12 +52,12 @@ public class TutorialManager : MonoBehaviour
     {
         UpdateMessage();
 
-        _playerObject.GetComponent<Mana>().Init();
+        //_playerObject.GetComponent<Mana>().Init();
 
-        foreach (Resource resource in _toInitializeArray)
-        {
-            resource.Init();
-        }
+        //foreach (Resource resource in _toInitializeArray)
+        //{
+        //    resource.Init();
+        //}
 
         foreach (GameObject gameObject in _toDisableArray)
         {

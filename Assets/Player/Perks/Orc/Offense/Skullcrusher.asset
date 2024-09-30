@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Skullcrusher
   m_EditorClassIdentifier: 
   Title: Skullcrusher
-  Description: Critical hits deal 50% additional damage
+  Description: Increases critical hit multiplier by 1 point
   Tier: 5
   Cost: 500
