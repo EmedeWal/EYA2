@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Stone Wall II
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Stone Wall II
   Description: While not moving, health regen is increased by 3/s
   Tier: 5

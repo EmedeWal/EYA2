@@ -18,7 +18,7 @@ public class GhostStance : StanceBase
 
     public override void Exit()
     {
-        // Effect goes here
+        base.Exit();
     }
 
     public override void CastUltimate()

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Wrath of Nature
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Wrath of Nature
   Description: At the end of your ultimate, the initial three shockwaves are repeated
   Tier: 5

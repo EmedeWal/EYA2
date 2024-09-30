@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Concussive Blows I
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Concussive Blows I
   Description: Attacks cause a shockwave, inflicting stagger to nearby enemies
   Tier: 3

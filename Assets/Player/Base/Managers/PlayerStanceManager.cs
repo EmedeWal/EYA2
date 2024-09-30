@@ -24,7 +24,7 @@ public class PlayerStanceManager : SingletonBase
     private PlayerDataManager _dataManager;
 
     // StanceBase Related
-    [SerializeField] private List<StanceBase> _stances = new();
+    private List<StanceBase> _stances = new();
     private StanceBase _currentStance;
     private int _currentIndex = 0;
 
@@ -53,6 +53,24 @@ public class PlayerStanceManager : SingletonBase
         SwapToStance(_currentStance);
     }
 
+    public void AddPerk(PerkData perkData, StanceType perkType)
+    {
+        foreach (var stance in _stances)
+        {
+            StanceType stanceType = stance.StanceData.StanceType;
+
+            if (stanceType == perkType)
+            {
+                stance.Perks.Add(perkData);
+
+                if (stance ==  _currentStance)
+                {
+                    perkData.Activate();
+                }
+            }
+        }
+    }
+
     private void PlayerStanceManager_UltimateInput_Performed()
     {
         if (!_dataManager.UltimateStruct.IsUltimateActive)
@@ -72,7 +90,7 @@ public class PlayerStanceManager : SingletonBase
 
     private void SwapToStance(StanceBase currentStance)
     {
-        foreach (var stance in _stances) stance.Exit();
+        if (_currentStance != null) _currentStance.Exit();
         _currentStance = currentStance;
         currentStance.Enter();
 

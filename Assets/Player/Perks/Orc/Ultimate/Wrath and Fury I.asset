@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Wrath and Fury I
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Wrath and Fury I
   Description: Mark the ground. Inside this area, you gain +10% attack damage
   Tier: 2

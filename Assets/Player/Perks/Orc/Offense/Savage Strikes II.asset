@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Savage Strikes II
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Savage Strikes II
   Description: Attacks raise your critical hit chance by 5%, up to 25%
   Tier: 4

@@ -45,6 +45,7 @@ public class PlayerStats : ScriptableObject
     {
         if (_currentStats.ContainsKey(stat))
         {
+            Debug.Log(amount);
             _currentStats[stat] += amount;
 
             ClampStat(stat);
@@ -53,11 +54,13 @@ public class PlayerStats : ScriptableObject
             {
                 SetCurrentStat(Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed));
             }
-            else if (stat == Stat.BaseLightAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
+            
+            if (stat == Stat.BaseLightAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
             {
                 SetCurrentStat(Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage));
             }
-            else if (stat == Stat.BaseHeavyAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
+            
+            if (stat == Stat.BaseHeavyAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
             {
                 SetCurrentStat(Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage));
             }

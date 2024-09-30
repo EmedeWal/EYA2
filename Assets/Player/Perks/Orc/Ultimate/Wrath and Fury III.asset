@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Wrath and Fury III
   m_EditorClassIdentifier: 
+  StanceType: 1
   Title: Wrath and Fury III
   Description: Inside the area, you gain +10% critical chance
   Tier: 4

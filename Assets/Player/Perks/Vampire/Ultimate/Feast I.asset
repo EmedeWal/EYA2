@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Feast I
   m_EditorClassIdentifier: 
+  StanceType: 2
   Title: Feast I
   Description: Feast on your prey. Restore 10% of your maximum health when you slay
     an enemy

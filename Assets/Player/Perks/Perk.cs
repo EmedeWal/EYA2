@@ -20,9 +20,6 @@ public class Perk : MonoBehaviour, IClickable
     private GameObject _foredrop;
     private Color _purchasedColor;
 
-    private PerkScreen _perkScreen;
-    private Souls _souls;
-
     public bool Locked { get; private set; } = false; 
     public bool Unlocked { get; private set; } = false; 
     public bool Purchased { get; private set; } = false;
@@ -38,9 +35,6 @@ public class Perk : MonoBehaviour, IClickable
         _glowEffect = transform.GetChild(0).gameObject;
         _foredrop = transform.GetChild(transform.childCount - 1).gameObject;
 
-        _perkScreen = PerkScreen.Instance;
-        _souls = Souls.Instance;
-
         _stanceIcon.Background.color = Color.clear;
         _defaultSprite = _stanceIcon.Icon.sprite;
         _glowEffect.SetActive(false);
@@ -51,7 +45,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(true);
-            _perkScreen.UpdatePerkScreen(_perkData.Title, _perkData.Description, _perkData.Cost, _souls.CanAfford(_perkData.Cost), Purchased);
+            PerkScreen.Instance.UpdatePerkScreen(_perkData.Title, _perkData.Description, _perkData.Cost, Souls.Instance.CanAfford(_perkData.Cost), Purchased);
         }
     }
 
@@ -60,7 +54,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(false);
-            _perkScreen.UpdatePerkScreen();
+            PerkScreen.Instance.UpdatePerkScreen();
         }
     }
 
@@ -87,8 +81,10 @@ public class Perk : MonoBehaviour, IClickable
             Purchased = true;
             LockOtherBranch();
             OnPurchased?.Invoke(this);
-            _souls.RemoveValue(_perkData.Cost);
             _stanceIcon.Background.color = _purchasedColor;
+
+            Souls.Instance.RemoveValue(_perkData.Cost);
+            PlayerStanceManager.Instance.AddPerk(_perkData, _perkData.StanceType);
         }
     }
 
@@ -126,7 +122,7 @@ public class Perk : MonoBehaviour, IClickable
 
     private bool CanPurchase()
     {
-        if (Purchased || (PreviousPerk != null && !PreviousPerk.Purchased) || !_souls.CanAfford(_perkData.Cost)) return false;
+        if (Purchased || (PreviousPerk != null && !PreviousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost)) return false;
         return true;
     }
 }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Executioner II
   m_EditorClassIdentifier: 
+  StanceType: 2
   Title: Executioner II
   Description: 'Continue the combo to launch two more blood waves '
   Tier: 5

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
 {
     [Header("STANCE DATA")]
     [SerializeField] private StanceData _stanceData;
+
+    public List<PerkData> Perks;
 
     protected PlayerDataManager _DataManager;
     protected PlayerAttackHandler _AttackHandler;
@@ -30,11 +33,19 @@ public abstract class StanceBase : MonoBehaviour, IStanceDataProvider
     {
         Instantiate(_stanceData.SwapVFX, _center);
         _sword.material.color = _stanceData.Color;
+
+        foreach (var perk in Perks)
+        {
+            perk.Activate();
+        }
     }
 
     public virtual void Exit()
     {
-        // Exit logic is not commonly shared.
+        foreach (var perk in Perks)
+        {
+            perk.Deactivate();
+        }
     }
 
     public virtual void CastUltimate()

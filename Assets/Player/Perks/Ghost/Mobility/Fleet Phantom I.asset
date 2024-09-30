@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a96f4ec2d8879148849135f1e513e31, type: 3}
   m_Name: Fleet Phantom I
   m_EditorClassIdentifier: 
-  Title: Fleet Phantom I
+  StanceType: 0
+  Title: Fleet Phantom 1
   Description: +10% movement speed
   Tier: 1
   Cost: 100
+  PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  TargetStat: 14
+  Increment: 0.1
