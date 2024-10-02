@@ -23,7 +23,7 @@ public class HealthHelper : MonoBehaviour
         _health.LateTick(Time.deltaTime);
     }
 
-    private void HealthHelper_ValueExhausted()
+    private void HealthHelper_ValueExhausted(GameObject deathObject)
     {
         if (ShouldDestroy)
         {

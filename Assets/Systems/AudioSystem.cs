@@ -40,16 +40,8 @@ public class AudioSystem : SingletonBase
         }
 
         source.clip = clip;
-
-        if (volume != 0)
-        {
-            source.volume = volume;
-        }
-
-        if (offset != 0)
-        {
-            source.time = offset;
-        }
+        source.time = offset;
+        source.volume = volume;
 
         source.Play();
     }

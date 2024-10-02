@@ -10,9 +10,6 @@ public class Health : Resource
     public delegate void HitShieldedDelegate(GameObject attackerObject, float damageAbsorbed);
     public event HitShieldedDelegate HitShielded; 
 
-    public delegate void DeathDelegate(GameObject deathObject);
-    public event DeathDelegate Death;
-
     public void Heal(float amount)
     {
         AddValue(amount);
@@ -29,21 +26,11 @@ public class Health : Resource
 
         RemoveValue(damageDealt);
 
-        if (AtMinValue())
-        {
-            OnDeath();
-        }
-
         return damageDealt;
     }
 
     private void OnHitShielded(GameObject attackerObject, float damageAbsorbed)
     {
         HitShielded?.Invoke(attackerObject, damageAbsorbed);
-    }
-
-    private void OnDeath()
-    {
-        Death?.Invoke(gameObject);
     }
 }

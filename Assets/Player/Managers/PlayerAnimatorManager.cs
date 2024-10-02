@@ -5,9 +5,9 @@ public class PlayerAnimatorManager : AnimatorManager
     private int _animatorHorizontal;
     private int _animatorVertical;
 
-    public override void Init()
+    public override void Init(float movementSpeed = 1, float attackSpeed = 1)
     {
-        base.Init();
+        base.Init(movementSpeed, attackSpeed);
 
         _animatorHorizontal = Animator.StringToHash("Horizontal");
         _animatorVertical = Animator.StringToHash("Vertical");

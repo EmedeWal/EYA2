@@ -93,7 +93,7 @@ public class PlayerManager : MonoBehaviour
         _target = target;
     }
 
-    private void PlayerManager_ValueExhausted()
+    private void PlayerManager_ValueExhausted(GameObject deathObject)
     {
         _health.ValueExhausted -= PlayerManager_ValueExhausted;
 

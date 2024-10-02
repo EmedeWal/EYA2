@@ -4,9 +4,9 @@ public class CreatureAnimatorManager : AnimatorManager
 {
     private int _animatorMovement;
 
-    public override void Init()
+    public override void Init(float movementSpeed = 1, float attackSpeed = 1)
     {
-        base.Init();
+        base.Init(movementSpeed, attackSpeed);
 
         _animatorMovement = Animator.StringToHash("Movement");
     }

@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8687802c66f22254c83a540075db489d, type: 3}
-  m_Name: Clone Light Attack
+  m_Script: {fileID: 11500000, guid: 041d209c59b3e3746a539c28adbb6615, type: 3}
+  m_Name: Tier II Clone Data
   m_EditorClassIdentifier: 
-  AnimationName: Light Attack
-  AttackClip: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
-  Damage: 0
-  AttackOffset: {x: 0.25, y: 1, z: 0.5}
-  AttackRadius: 0.75
+  MovementSpeed: 4.4
+  ChaseDistance: 1.4
+  DetectionDistance: 5
+  Health: 150
+  DamageModifier: 1.5

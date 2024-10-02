@@ -9,7 +9,10 @@ public class CreatureData : ScriptableObject
     [Header("DISTANCE")]
     public float ChaseDistance;
 
+    [Header("DETECTTION")]
+    public float DetectionDistance;
+
     [Header("COMBAT")]
-    public float Recovery;
     public float Health;
+    public float DamageModifier;
 }

@@ -41,13 +41,10 @@ public abstract class AttackHandler : MonoBehaviour
 
     protected void HandleAttack(AttackData attackData)
     {
-        if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
-        {
-            IsAttacking = true;
-            _AttackData = attackData;
-            _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AttackClip);
-            _AnimatorManager.CrossFadeAnimation(_Delta, _AttackData.AnimationName, 0.1f, 1);
-        }
+        IsAttacking = true;
+        _AttackData = attackData;
+        _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AttackClip);
+        _AnimatorManager.CrossFadeAnimation(_Delta, _AttackData.AnimationName, 0.1f, 1);
     }
 
     protected virtual void HandleDamage(float damage, bool crit)

@@ -15,7 +15,7 @@ public class VFX : MonoBehaviour
 
     public virtual void Tick()
     {
-        if (_transform.position != _followTarget.position)
+        if (_followTarget != null && _transform.position != _followTarget.position)
         {
             _transform.position = _followTarget.position;
         }

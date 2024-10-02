@@ -24,6 +24,8 @@ public class PlayerLockOn : MonoBehaviour
     private Transform _lockOnTargetCenter;
     private Transform _lockOnMarkerPoint;
 
+    public Transform Target => _lockOnTargetCenter;
+
     public delegate void LockedOnDelegate(Transform target);
     public event LockedOnDelegate LockedOn;
 
@@ -116,7 +118,7 @@ public class PlayerLockOn : MonoBehaviour
     {
         if (_lockOnTarget != null)
         {
-            _lockOnTarget._Health.Death -= PlayerLockOn_Death;
+            _lockOnTarget._Health.ValueExhausted -= PlayerLockOn_ValueExhausted;
         }
 
         _lockOnTargetCenter = null;
@@ -135,7 +137,7 @@ public class PlayerLockOn : MonoBehaviour
 
         _lockOnMarker.SetLockOnTarget(target);
 
-        _lockOnTarget._Health.Death += PlayerLockOn_Death;
+        _lockOnTarget._Health.ValueExhausted += PlayerLockOn_ValueExhausted;
 
         StopAllCoroutines();
         UpdateData(_lockOnTargetCenter);
@@ -148,7 +150,7 @@ public class PlayerLockOn : MonoBehaviour
         _lockOnMarkerObject.SetActive(_lockedOn);
     }
 
-    private void PlayerLockOn_Death(GameObject deathObject)
+    private void PlayerLockOn_ValueExhausted(GameObject deathObject)
     {
         DisableLockOn();
         StartCoroutine(FindNewLockOnTarget());

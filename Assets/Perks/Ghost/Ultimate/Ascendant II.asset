@@ -9,11 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: bc9be107908cfe548a5cf2dafa26c968, type: 3}
   m_Name: Ascendant II
   m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 1
   Title: Ascendant II
   Description: Your clone gains an additional +50% health, +50% damage, and +10%
     movement speed
   Tier: 4
   Cost: 400
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _creatureData: {fileID: 11400000, guid: 6d4536bd02f235c43aa1f4589996ea8b, type: 2}
+  _clonePrefab: {fileID: 6845419745491991783, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
+  _cloneCount: 1
+  _minSpawnRadius: 3
+  _maxSpawnRadius: 5
+  _deathExplosionPrefab: {fileID: 0}
+  _deathExplosionRadius: 0
+  _manaRestoration: 0
+  _summonExplosionPrefab: {fileID: 0}
+  _summonExplosionRadius: 0
+  _sparkPrefab: {fileID: 4738637426108106652, guid: eaa8a8397cc105e42a3c050379d14473, type: 3}
+  _sparksDamage: 10
+  _sparksRadius: 1

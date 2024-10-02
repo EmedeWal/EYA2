@@ -49,11 +49,13 @@ public class PlayerAttackHandler : AttackHandler
 
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
+        if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
         HandleAttack(_lightAttackData);
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
+        if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
         HandleAttack(_heavyAttackData);
     }
 }

@@ -10,9 +10,12 @@ public abstract class AnimatorManager : MonoBehaviour
     protected int _AnimatorMovementSpeed;
     protected int _AnimatorAttackSpeed;
 
-    public virtual void Init()
+    public virtual void Init(float movementSpeed = 1, float attackSpeed = 1)
     {
         _Animator = GetComponent<Animator>();
+
+        MovementSpeed = movementSpeed;
+        AttackSpeed = attackSpeed;
 
         _AnimatorMovementSpeed = Animator.StringToHash("Movement Speed");
         _AnimatorAttackSpeed = Animator.StringToHash("Attack Speed");

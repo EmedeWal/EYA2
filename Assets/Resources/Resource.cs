@@ -10,9 +10,9 @@ public abstract class Resource : MonoBehaviour
     private float _currentValue;
     private float _pendingValueChange;
 
+    public event Action<GameObject> ValueExhausted;
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
-    public event Action ValueExhausted;
     public event Action ValueRemoved;
 
     private Coroutine _decrementCoroutine;
@@ -52,11 +52,16 @@ public abstract class Resource : MonoBehaviour
         {
             _currentValue += _pendingValueChange;
 
+            if (_pendingValueChange < 0)
+            {
+                OnValueRemoved();
+            }
+
             if (_currentValue > _maxValue)
             {
                 _currentValue = _maxValue;
             }
-            else if (_currentValue < 0)
+            else if (_currentValue <= 0)
             {
                 _currentValue = 0;
                 OnValueExhausted();
@@ -101,6 +106,11 @@ public abstract class Resource : MonoBehaviour
         }
     }
 
+    private void OnValueExhausted()
+    {
+        ValueExhausted?.Invoke(gameObject);
+    }
+
     private void OnMaxValueInitialized()
     {
         MaxValueInitialized?.Invoke(_maxValue);
@@ -109,11 +119,6 @@ public abstract class Resource : MonoBehaviour
     private void OnCurrentValueUpdated()
     {
         CurrentValueUpdated?.Invoke(_currentValue);
-    }
-
-    private void OnValueExhausted()
-    {
-        ValueExhausted?.Invoke();
     }
 
     private void OnValueRemoved()

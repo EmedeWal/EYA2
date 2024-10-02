@@ -12,6 +12,9 @@ public class AttackData : ScriptableObject
     [Header("DAMAGE")]
     public float Damage;
 
+    [Header("RECOVERY")]
+    public float Recovery;
+
     [Header("HITBOX")]
     public Vector3 AttackOffset;
     public float AttackRadius;

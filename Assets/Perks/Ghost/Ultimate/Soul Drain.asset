@@ -9,10 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: bc9be107908cfe548a5cf2dafa26c968, type: 3}
   m_Name: Soul Drain
   m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 1
   Title: Soul Drain
-  Description: 'Whenever one of your clones deals damage, restore 1 mana '
+  Description: 'Whenever one of your clones deals damage, restore 3 mana '
   Tier: 3
   Cost: 300
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _creatureData: {fileID: 11400000, guid: 69f3f5a18d341774d9e4b3f3fb20e6a5, type: 2}
+  _clonePrefab: {fileID: 6845419745491991783, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
+  _cloneCount: 2
+  _minSpawnRadius: 3
+  _maxSpawnRadius: 5
+  _deathExplosionPrefab: {fileID: 0}
+  _deathExplosionRadius: 0
+  _manaRestoration: 3
+  _summonExplosionPrefab: {fileID: 0}
+  _summonExplosionRadius: 0
+  _sparkPrefab: {fileID: 0}
+  _sparksDamage: 0
+  _sparksRadius: 0
