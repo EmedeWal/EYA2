@@ -45,9 +45,11 @@ public class CameraController : SingletonBase
         _CameraTransform = Camera.main.transform;
         _transform = transform;
         _pivot = _CameraTransform.parent;
+
+        _transform.position = _target.position;
     }
 
-    public void FixedTick(float delta, float horizontal, float vertical, Transform lockOnTarget, bool lockedOn)
+    public void Tick(float delta, float horizontal, float vertical, Transform lockOnTarget, bool lockedOn)
     {
         FollowTarget(delta);
 

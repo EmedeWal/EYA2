@@ -17,8 +17,9 @@ public class PlayerStats : ScriptableObject
         _baseStats.Add(Stat.MaxHealth, 100f);
         _baseStats.Add(Stat.MaxMana, 100f);
         _baseStats.Add(Stat.BaseMovementSpeed, 5f);
+        _baseStats.Add(Stat.AttackSpeed, 1f);
         _baseStats.Add(Stat.BaseLightAttackDamage, 10f);
-        _baseStats.Add(Stat.BaseHeavyAttackDamage, 20f);
+        _baseStats.Add(Stat.BaseHeavyAttackDamage, 30f);
 
         _currentStats.Clear();
 
@@ -30,13 +31,14 @@ public class PlayerStats : ScriptableObject
         _currentStats.Add(Stat.CriticalMultiplier, 2f);
         _currentStats.Add(Stat.DamageReduction, 0f);
         _currentStats.Add(Stat.EvasionChance, 0f);
-        _currentStats.Add(Stat.StaggerMultiplier, 1f);
+        _currentStats.Add(Stat.AttackSpeedModifier, 1f);
         _currentStats.Add(Stat.MovementSpeedModifier, 1f);
         _currentStats.Add(Stat.AttackDamageModifier, 1f);
         _currentStats.Add(Stat.LightAttackDamageModifier, 1f);
         _currentStats.Add(Stat.HeavyAttackDamageModifier, 1f);
 
         _currentStats.Add(Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed));
+        _currentStats.Add(Stat.AttackSpeed, RecalculateTotal(Stat.AttackSpeed));
         _currentStats.Add(Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage));
         _currentStats.Add(Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage));
     }
@@ -49,17 +51,22 @@ public class PlayerStats : ScriptableObject
 
             ClampStat(stat);
 
-            if (stat == Stat.MovementSpeedModifier || stat == Stat.BaseMovementSpeed)
+            if (stat == Stat.MovementSpeedModifier)
             {
                 SetCurrentStat(Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed));
             }
+
+            if (stat == Stat.AttackSpeedModifier)
+            {
+                SetCurrentStat(Stat.AttackSpeed, RecalculateTotal(Stat.AttackSpeed));
+            }
             
-            if (stat == Stat.BaseLightAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
+            if (stat == Stat.AttackDamageModifier || stat == Stat.LightAttackDamageModifier)
             {
                 SetCurrentStat(Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage));
             }
             
-            if (stat == Stat.BaseHeavyAttackDamage || stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
+            if (stat == Stat.AttackDamageModifier || stat == Stat.HeavyAttackDamageModifier)
             {
                 SetCurrentStat(Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage));
             }
@@ -74,6 +81,8 @@ public class PlayerStats : ScriptableObject
 
     public void SetCurrentStat(Stat stat, float value)
     {
+        value = Mathf.Round(value * 10f) / 10f;
+
         if (_currentStats.ContainsKey(stat))
         {
             _currentStats[stat] = value;
@@ -146,6 +155,13 @@ public class PlayerStats : ScriptableObject
             float movementModifier = _currentStats[Stat.MovementSpeedModifier];
 
             totalStatValue = baseMovementSpeed * movementModifier;
+        }
+        else if (stat == Stat.AttackSpeed)
+        {
+            float baseAttackSpeed = _baseStats[Stat.AttackSpeed];
+            float attackSpeedModifier = _currentStats[Stat.AttackSpeedModifier];
+
+            totalStatValue = baseAttackSpeed * attackSpeedModifier;
         }
         else if (stat == Stat.LightAttackDamage)
         {

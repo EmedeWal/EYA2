@@ -1,97 +1,123 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PerkData", menuName = "Perks/EvasionPerk")]
+[CreateAssetMenu(fileName = "EvasionPerk", menuName = "Perks/PassivePerks/EvasionPerk")]
 public class EvasionPerk : PerkData
 {
-    [Header("PLAYER STATS REFERENCE")]
-    [SerializeField] private PlayerStats _playerStats;
-
     [Header("VARIABLES")]
     [SerializeField] private float _maxEvasionChanceIncrease = 25f;
     [SerializeField] private float _completionTime = 10f;
     private float _currentEvasionChanceIncrease;
     private float _evasionChanceIncrement;
+    private float _evasionTimer;
 
     [Header("SHIELD")]
     [SerializeField] private GameObject _shieldPrefab;
-    [SerializeField] private GameObject _shieldExplosionPrefab;
     [SerializeField] private int _shieldCount = 1;
     [SerializeField] private bool _damageReflection = false;
     [SerializeField] private bool _manaRestoration = false;
     private GameObject _currentShield;
     private int _currentShieldCount;
+    private float _shieldTimer;
 
-    private GameObject _playerObject;
-    private Transform _playerTransform;
+    [Header("EXPLOSION")]
+    [SerializeField] private Explosion _shieldExplosionPrefab;
+    [SerializeField] private float _radius = 4;
+    private LayerMask _targetLayers;
+
     private Health _playerHealth;
     private Mana _playerMana;
 
-    private MonoHelperSystem _monoHelperSystem;
-
     public override void Init(List<PerkData> perks, GameObject playerObject)
     {
+        base.Init(perks, playerObject);
+
         for (int i = perks.Count - 1; i >= 0; i--)
         {
             PerkData perk = perks[i];
             if (perk.GetType() == GetType())
             {
-                perk.Deactivate();perks.RemoveAt(i); 
+                perk.Deactivate();
+                perks.RemoveAt(i);
             }
         }
 
         _evasionChanceIncrement = _maxEvasionChanceIncrease / _completionTime;
         _currentEvasionChanceIncrease = 0;
+        _evasionTimer = 0;
 
         _currentShieldCount = _shieldCount;
+        _shieldTimer = _completionTime;
 
-        _playerObject = playerObject;
-        _playerTransform = _playerObject.transform;
-        _playerHealth = _playerObject.GetComponent<Health>();
-        _playerMana = _playerObject.GetComponent<Mana>();
+        _targetLayers = LayerMask.NameToLayer("Damage Collider");
 
-        _monoHelperSystem = MonoHelperSystem.Instance;
+        _playerHealth = _PlayerObject.GetComponent<Health>();
+        _playerMana = _PlayerObject.GetComponent<Mana>();
     }
 
     public override void Activate()
     {
         _playerHealth.ValueRemoved += EvasionPerk_ValueRemoved;
-        StartCoroutines();
+        ResetPerk();
     }
 
     public override void Deactivate()
     {
         _playerHealth.ValueRemoved -= EvasionPerk_ValueRemoved;
-        StopCoroutines();
+        ResetPerk();
+    }
+
+    public override void Tick(float delta)
+    {
+        if (_currentEvasionChanceIncrease < _maxEvasionChanceIncrease)
+        {
+            _evasionTimer += delta;
+            if (_evasionTimer >= 1f)
+            {
+                _evasionTimer = 0f;
+                _currentEvasionChanceIncrease += _evasionChanceIncrement;
+                _PlayerStats.IncrementStat(Stat.EvasionChance, _evasionChanceIncrement);
+            }
+        }
+
+        if (_shieldPrefab != null && _currentShield == null)
+        {
+            _shieldTimer -= delta;
+            if (_shieldTimer <= 0)
+            {
+                EnableShield(true);
+                _shieldTimer = _completionTime;
+            }
+        }
     }
 
     private void EvasionPerk_ValueRemoved()
     {
-        StopCoroutines();
-        StartCoroutines();
+        ResetPerk();
     }
 
     private void EvasionPerk_HitShielded(GameObject attackerObject, float damageShielded)
-    { 
+    {
         _currentShieldCount--;
 
         if (_currentShieldCount <= 0)
         {
             EnableShield(false);
-            _monoHelperSystem.StartCoroutine(ShieldCoroutine());
         }
 
         if (_shieldExplosionPrefab != null)
         {
-            Instantiate(_shieldExplosionPrefab, _playerTransform);
+            Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
+            VFX explosionVFX = explosion.GetComponent<VFX>();
+            VFXManager.Instance.AddVFX(explosionVFX, explosion.transform, true, 5);
+            explosion.Init(_radius, _targetLayers);
         }
 
         if (_damageReflection)
         {
             if (attackerObject.TryGetComponent(out Health attackerHealth))
             {
-                attackerHealth.TakeDamage(_playerObject, damageShielded);
+                attackerHealth.TakeDamage(_PlayerObject, damageShielded);
             }
         }
 
@@ -101,31 +127,13 @@ public class EvasionPerk : PerkData
         }
     }
 
-    private void StartCoroutines()
-    {
-        _monoHelperSystem.StartCoroutine(IncreaseEvasionChanceCoroutine());
-
-        if (_shieldPrefab != null)
-        {
-            _monoHelperSystem.StartCoroutine(ShieldCoroutine());
-        }
-    }
-
-    private void StopCoroutines()
-    {
-        _playerStats.IncrementStat(Stat.EvasionChance, -_currentEvasionChanceIncrease);
-        _monoHelperSystem.StopAllCoroutines();
-        _currentEvasionChanceIncrease = 0;
-        EnableShield(false);
-    }
-
     private void EnableShield(bool enabled)
     {
         if (enabled)
         {
             _playerHealth.Shielded = true;
             _playerHealth.HitShielded += EvasionPerk_HitShielded;
-            _currentShield = Instantiate(_shieldPrefab, _playerTransform);
+            _currentShield = Instantiate(_shieldPrefab, _PlayerTransform);
         }
         else if (_currentShield != null)
         {
@@ -136,21 +144,13 @@ public class EvasionPerk : PerkData
         }
     }
 
-    private IEnumerator IncreaseEvasionChanceCoroutine()
+    private void ResetPerk()
     {
-        while (_currentEvasionChanceIncrease < _maxEvasionChanceIncrease)
-        {
-            yield return new WaitForSeconds(1);
+        _PlayerStats.IncrementStat(Stat.EvasionChance, -_currentEvasionChanceIncrease);
+        _currentEvasionChanceIncrease = 0;
+        _evasionTimer = 0;
 
-            _currentEvasionChanceIncrease += _evasionChanceIncrement;
-            _playerStats.IncrementStat(Stat.EvasionChance, _evasionChanceIncrement);
-        }
-    }
-
-    private IEnumerator ShieldCoroutine()
-    {
-        yield return new WaitForSeconds(_completionTime);
-
-        EnableShield(true);
+        EnableShield(false);
+        _shieldTimer = _completionTime;
     }
 }

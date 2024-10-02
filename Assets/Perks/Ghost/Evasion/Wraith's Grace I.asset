@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Wraith's Grace I
   m_EditorClassIdentifier: 
   StanceType: 0
+  PerkType: 0
   Title: Wraith's Grace I
   Description: +5% evasion chance
   Tier: 1
   Cost: 100
-  PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  TargetStat: 12
-  Increment: 5
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _targetStat: 13
+  _increment: 5

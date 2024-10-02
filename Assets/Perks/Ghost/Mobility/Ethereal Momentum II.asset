@@ -9,10 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: bac6adbb79c3c3245aa7e0c6e2c78431, type: 3}
   m_Name: Ethereal Momentum II
   m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 0
   Title: Ethereal Momentum II
-  Description: While moving, build up attack damage, up to a maximum of 30%
+  Description: Momentum also increases attack damage up to 30%
   Tier: 4
   Cost: 400
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _iceCloudPrefab: {fileID: 0}
+  _iceCloudRadius: 0
+  _iceCloudCooldown: 0
+  _evasionChanceIncrease: 0
+  _manaRegenIncrease: 0
+  _momentumEffectPrefab: {fileID: 3939255730295264292, guid: 3cf2b72bdf95d054bb0bfb2cf997e3aa, type: 3}
+  _momentumIncreaseRate: 20
+  _momentumDecreaseRate: 30
+  _maxMovementSpeedBonus: 0.3
+  _maxAttackDamageBonus: 0.3

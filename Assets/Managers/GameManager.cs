@@ -28,6 +28,9 @@ public class GameManager : SingletonBase
     [SerializeField] private PauseMenuController _pauseMenuController;
     [SerializeField] private PlayerManager _playerManager;
 
+    [Header("TICK CALLS")]
+    [SerializeField] private VFXManager _VFXManager;
+
     private float _delta;
 
     private void Awake()
@@ -57,12 +60,19 @@ public class GameManager : SingletonBase
         _delta = Time.deltaTime;
 
         _playerManager.Tick(_delta);
+        _VFXManager.Tick(_delta);
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        _delta = Time.fixedDeltaTime;
+        _delta = Time.deltaTime;
 
-        _playerManager.FixedTick(_delta);
+        _playerManager.LateTick(_delta);
+    }
+
+    private void OnDisable()
+    {
+        _pauseMenuController.Cleanup();
+        _playerManager.Cleanup();
     }
 }

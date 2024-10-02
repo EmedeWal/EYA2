@@ -1,20 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Perks/StatIncreasePerk")]
+[CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Perks/PassivePerk/StatIncreasePerk")]
 public class StatIncreasePerkData : PerkData
 {
     [Header("STAT INCREASE DETAILS")]
-    public PlayerStats PlayerStats;
-    public Stat TargetStat; 
-    public float Increment;
+    [SerializeField] private Stat _targetStat; 
+    [SerializeField] private float _increment;
 
     public override void Activate()
     {
-        PlayerStats.IncrementStat(TargetStat, Increment);
+        _PlayerStats.IncrementStat(_targetStat, _increment);
     }
 
     public override void Deactivate()
     {
-        PlayerStats.IncrementStat(TargetStat, -Increment);
+        _PlayerStats.IncrementStat(_targetStat, -_increment);
     }
 }

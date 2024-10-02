@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Wraith's Grace II
   m_EditorClassIdentifier: 
   StanceType: 0
+  PerkType: 0
   Title: Wraith's Grace II
   Description: Continuously build up evasion chance while not taking damage, up to
     25% over 10 seconds
   Tier: 2
   Cost: 200
-  _playerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _maxEvasionChanceIncrease: 25
   _completionTime: 10
   _shieldPrefab: {fileID: 0}
-  _shieldExplosionPrefab: {fileID: 0}
   _shieldCount: 0
   _damageReflection: 0
   _manaRestoration: 0
+  _shieldExplosionPrefab: {fileID: 0}
+  _radius: 4

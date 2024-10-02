@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Retribution I
   m_EditorClassIdentifier: 
   StanceType: 0
+  PerkType: 0
   Title: Retribution I
   Description: Damage absorbed by the protective barrier is returned as damage to
     the attacker
   Tier: 4
   Cost: 400
-  _playerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _maxEvasionChanceIncrease: 25
   _completionTime: 10
   _shieldPrefab: {fileID: 1289543790355709915, guid: 448d42e40f1322b4dabf0605c2569765, type: 3}
-  _shieldExplosionPrefab: {fileID: 0}
   _shieldCount: 1
   _damageReflection: 1
   _manaRestoration: 0
+  _shieldExplosionPrefab: {fileID: 0}
+  _radius: 0

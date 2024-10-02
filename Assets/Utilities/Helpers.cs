@@ -72,8 +72,7 @@ public static class Helpers
 
         bool IsMultiplierStat(Stat stat)
         {
-            return stat == Stat.CriticalMultiplier ||
-                   stat == Stat.StaggerMultiplier;
+            return stat == Stat.CriticalMultiplier;
         }
 
         bool IsRegenStat(Stat stat)

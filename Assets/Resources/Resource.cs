@@ -4,27 +4,31 @@ using System;
 
 public abstract class Resource : MonoBehaviour
 {
+    private float _delta;
+
     private float _maxValue;
     private float _currentValue;
+    private float _pendingValueChange;
 
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
-    public event Action CoroutineCompleted;
+    public event Action ValueExhausted;
     public event Action ValueRemoved;
 
-    public float MaxValue => _maxValue; 
+    private Coroutine _decrementCoroutine;
+
+    public float MaxValue => _maxValue;
     public float CurrentValue => _currentValue;
     public float RestorationModifier { private get; set; } = 1;
+
+    public bool AtMinValue() => _currentValue <= 0;
+    public bool AtMaxValue() => _currentValue >= _maxValue;
 
     public virtual void Init(float maxValue, float currentValue)
     {
         _maxValue = maxValue;
         _currentValue = currentValue;
-
-        if (_maxValue < _currentValue)
-        {
-            Debug.LogWarning($"Current value exceeded max value in {gameObject.name}");
-        }
+        _pendingValueChange = 0;
 
         OnMaxValueInitialized();
         OnCurrentValueUpdated();
@@ -32,73 +36,68 @@ public abstract class Resource : MonoBehaviour
 
     protected void AddValue(float amount)
     {
-        _currentValue += amount;
-
-        if (_currentValue > _maxValue)
-        {
-            _currentValue = _maxValue;
-        }
-
-        OnCurrentValueUpdated();
+        _pendingValueChange += amount;
     }
 
     protected void RemoveValue(float amount)
     {
-        _currentValue -= amount;
-
-        if (_currentValue < 0)
-        {
-            _currentValue = 0;
-        }
-
-        OnCurrentValueUpdated();
-        OnValueRemoved();
+        _pendingValueChange -= amount;
     }
 
-    public bool AtMinValue()
+    public void LateTick(float delta)
     {
-        return _currentValue <= 0;
-    }    
+        _delta = delta;
 
-    public bool AtMaxValue()
-    {
-        return _currentValue >= _maxValue;
-    }
-
-    public void AddValueOverTime(float totalAmount, float totalTime, float coroutineSpeed = 10)
-    {
-        StartCoroutine(AddValueOverTimeCoroutine());
-        IEnumerator AddValueOverTimeCoroutine()
+        if (_pendingValueChange != 0)
         {
-            float valuePerSecond = totalAmount / totalTime;
-            float valueIncrement = valuePerSecond / coroutineSpeed;
-            float timeIncrement = 1 / coroutineSpeed;
-            float valueAdded = 0;
+            _currentValue += _pendingValueChange;
 
-            while (valueAdded < totalAmount)
+            if (_currentValue > _maxValue)
             {
-                AddValue(valueIncrement);
-                valueAdded += valueIncrement;
-                yield return new WaitForSeconds(timeIncrement);
+                _currentValue = _maxValue;
+            }
+            else if (_currentValue < 0)
+            {
+                _currentValue = 0;
+                OnValueExhausted();
+
+                if (_decrementCoroutine != null)
+                {
+                    StopCoroutine(_decrementCoroutine);
+                }
             }
 
-            OnCoroutineCompleted();
+            _pendingValueChange = 0;
+            OnCurrentValueUpdated();
         }
     }
 
-    public void AddConstantValue(float value, float ticks)
+    public void AddConstantValue(float value)
     {
-        StartCoroutine(AddConstantValueCoroutine());
-        IEnumerator AddConstantValueCoroutine()
-        {
-            float increment = value / ticks;
-            float delay = 1 / ticks;
+        StartCoroutine(ModifyConstantValueCoroutine(value, true));
+    }
 
-            while (true)
+    public void RemoveConstantValue(float value)
+    {
+        _decrementCoroutine = StartCoroutine(ModifyConstantValueCoroutine(value, false));
+    }
+
+    private IEnumerator ModifyConstantValueCoroutine(float value, bool isAddition)
+    {
+        while (true)
+        {
+            float deltaValue = value * _delta;
+
+            if (isAddition)
             {
-                yield return new WaitForSeconds(delay);
-                AddValue(increment * RestorationModifier);
+                AddValue(deltaValue * RestorationModifier);
             }
+            else
+            {
+                RemoveValue(deltaValue);
+            }
+
+            yield return null;
         }
     }
 
@@ -112,9 +111,9 @@ public abstract class Resource : MonoBehaviour
         CurrentValueUpdated?.Invoke(_currentValue);
     }
 
-    private void OnCoroutineCompleted()
+    private void OnValueExhausted()
     {
-        CoroutineCompleted?.Invoke();
+        ValueExhausted?.Invoke();
     }
 
     private void OnValueRemoved()

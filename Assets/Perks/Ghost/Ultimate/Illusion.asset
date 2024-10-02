@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
   m_Name: Illusion
   m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 0
   Title: Illusion
   Description: Manifest a clone to fight beside you. Recast this ability while locked
     on to set its target
   Tier: 1
   Cost: 100
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}

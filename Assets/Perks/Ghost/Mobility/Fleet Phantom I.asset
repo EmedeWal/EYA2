@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Fleet Phantom I
   m_EditorClassIdentifier: 
   StanceType: 0
+  PerkType: 0
   Title: Fleet Phantom 1
   Description: +10% movement speed
   Tier: 1
   Cost: 100
-  PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  TargetStat: 14
-  Increment: 0.1
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _targetStat: 14
+  _increment: 0.1

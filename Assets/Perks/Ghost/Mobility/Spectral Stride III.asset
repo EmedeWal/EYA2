@@ -9,11 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: bac6adbb79c3c3245aa7e0c6e2c78431, type: 3}
   m_Name: Spectral Stride III
   m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 0
   Title: Spectral Stride III
-  Description: Every 3 seconds while moving, cast a chilling aura that slows enemies
+  Description: Every 5 seconds while moving, cast a chilling aura that slows enemies
     by 50% for 5 seconds
   Tier: 5
   Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _iceCloudPrefab: {fileID: 4471241465923951860, guid: 79eb26bdfe1531d4d9b40d1fffecacd1, type: 3}
+  _iceCloudRadius: 5
+  _iceCloudCooldown: 5
+  _evasionChanceIncrease: 30
+  _manaRegenIncrease: 1
+  _momentumEffectPrefab: {fileID: 0}
+  _momentumIncreaseRate: 0
+  _momentumDecreaseRate: 0
+  _maxMovementSpeedBonus: 0
+  _maxAttackDamageBonus: 0

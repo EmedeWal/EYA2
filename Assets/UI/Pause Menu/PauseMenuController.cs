@@ -52,6 +52,15 @@ public class PauseMenuController : MonoBehaviour
         SwapHeader();
     }
 
+    public void Cleanup()
+    {
+        _playerInputHandler.BackInputPerformed -= PauseMenu_BackInputPerformed;
+        _playerInputHandler.ClickInputPerformed -= PauseMenu_ClickInputPerformed;
+        _playerInputHandler.PauseInputPerformed -= PauseMenu_PauseInputPerformed;
+        _playerInputHandler.SwapHeaderInputPerformed -= PauseMenu_SwapHeaderInputPerformed;
+        _playerInputHandler.SwapSectionInputPerformed -= PauseMenu_SwapSectionInputPerformed;
+    }
+
     private void PauseMenu_BackInputPerformed()
     {
         ResumeGame();

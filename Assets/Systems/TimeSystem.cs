@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class TimeSystem : MonoBehaviour
+public class TimeSystem : SingletonBase
 {
     #region Singleton
     public static TimeSystem Instance;
 
-    private void Awake()
+    public override void SingletonSetup()
     {
         if (Instance == null)
         {
@@ -15,24 +15,34 @@ public class TimeSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        CurrentTimeScale = Time.timeScale;
+        _previousTimeScale = CurrentTimeScale;
     }
     #endregion
 
-    private float _previousTimeScale = 1.0f;
+    public float CurrentTimeScale { get; private set; }
+    private float _previousTimeScale;
 
     public void SetTimeScale(float scale)
     {
-        _previousTimeScale = Time.timeScale;
-        Time.timeScale = scale;
+        SetLocalTimeScale(scale);
     }
 
     public void ResetTimeScale()
     {
-        Time.timeScale = 1f;
+        SetLocalTimeScale(1);
     }
 
     public void RevertToPreviousTimeScale()
     {
-        Time.timeScale = _previousTimeScale;
+        SetLocalTimeScale(_previousTimeScale);
+    }
+
+    private void SetLocalTimeScale(float scale)
+    {
+        _previousTimeScale = CurrentTimeScale;
+        CurrentTimeScale = scale;
+        Time.timeScale = scale;
     }
 }

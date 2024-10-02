@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Retribution II
   m_EditorClassIdentifier: 
   StanceType: 0
+  PerkType: 0
   Title: Retribution II
   Description: When the barrier breaks, it explodes, dealing 50 damage to all nearby
     enemies
   Tier: 5
   Cost: 500
-  _playerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _maxEvasionChanceIncrease: 25
   _completionTime: 10
   _shieldPrefab: {fileID: 1289543790355709915, guid: 448d42e40f1322b4dabf0605c2569765, type: 3}
-  _shieldExplosionPrefab: {fileID: 100010, guid: e6648ed2859c12343bfa6b0e5e0ae765, type: 3}
   _shieldCount: 1
   _damageReflection: 1
   _manaRestoration: 0
+  _shieldExplosionPrefab: {fileID: 7225499947587275162, guid: e6648ed2859c12343bfa6b0e5e0ae765, type: 3}
+  _radius: 4

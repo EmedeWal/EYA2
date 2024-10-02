@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   UltimateDuration: 10
-  UltimateGFX: {fileID: 7053385775836331393, guid: 354b6251e950209409c75ab984acf000, type: 3}
-  SwapVFX: {fileID: 2595616042855377800, guid: a82f00040a9568145a215e702bdf92ba, type: 3}
   IconSprite: {fileID: 21300000, guid: 89a07986cf1441b40b1ea5cd9c632346, type: 3}
   Color: {r: 0, g: 0.78431374, b: 1, a: 1}
+  Smoke: {fileID: 9217561253790756185, guid: 350eb7c60a48f44439cee0ededb6feea, type: 3}
   UltimateClip: {fileID: 8300000, guid: 618be86712ffac947997f96463301683, type: 3}
   AudioVolume: 0
   AudioOffset: 0

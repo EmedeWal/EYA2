@@ -10,10 +10,11 @@ public class StanceData : ScriptableObject
     public float UltimateDuration = 10;
 
     [Header("VISUALIZATION")]
-    public GameObject UltimateGFX;
-    public GameObject SwapVFX;
     public Sprite IconSprite;
     public Color Color;
+
+    [Header("VFX")]
+    public VFX Smoke;
 
     [Header("AUDIO")]
     public AudioClip UltimateClip;
