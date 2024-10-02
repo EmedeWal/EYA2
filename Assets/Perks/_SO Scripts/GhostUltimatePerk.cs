@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GhostUltimatePerk", menuName = "Perks/UltimatePerks/GhostUltimate")]
+[CreateAssetMenu(fileName = "GhostUltimatePerk", menuName = "Scriptable Object/Perks/Ultimate Perk/Ghost")]
 public class GhostUltimatePerk : PerkData
 {
     [Header("CLONE SETTINGS")]
     [SerializeField] private CreatureAI _clonePrefab;
     [SerializeField] private int _cloneCount = 1; // spawn default 1 clone
 
-
     private List<CreatureAI> _clones;
 
+    private PlayerLockOn _playerLockOn;
     private Mana _mana;
+
+    private LayerMask _targetLayer;
 
     public override void Init(List<PerkData> perks, GameObject playerObject)
     {
@@ -29,7 +31,10 @@ public class GhostUltimatePerk : PerkData
 
         _clones = new List<CreatureAI>();
 
+        _playerLockOn = _PlayerObject.GetComponent<PlayerLockOn>();
         _mana = _PlayerObject.GetComponent<Mana>();
+
+        _targetLayer = LayerMask.GetMask("DamageCollider");
     }
 
     public override void Activate()
@@ -41,10 +46,11 @@ public class GhostUltimatePerk : PerkData
             Quaternion spawnRotation = Quaternion.identity;
 
             CreatureAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
+            currentClone.Init(_targetLayer);
             _clones.Add(currentClone);
-            currentClone.Init();
         }
 
+        _playerLockOn.LockedOn += GhostUltimatePerk_LockedOn;
         _mana.ValueExhausted += GhostUltimatePerk_ValueExhausted;
 
         _mana.RemoveConstantValue(10);
@@ -55,7 +61,9 @@ public class GhostUltimatePerk : PerkData
     {
         for (int i = 0; i < _clones.Count; i++)
         {
-            _clones[i].Tick(delta);
+            CreatureAI currentClone = _clones[i];
+            currentClone.Tick(delta);
+            currentClone.LateTick(delta); 
         }
     }
 
@@ -67,6 +75,29 @@ public class GhostUltimatePerk : PerkData
         }
 
         _clones.Clear();
+    }
+
+    //private Vector3 GetRandomSpawnPosition()
+    //{
+
+    //}
+
+    private void GhostUltimatePerk_LockedOn(Transform target)
+    {
+        if (target)
+        {
+            for (int i = 0; i < _clones.Count; i++)
+            {
+                _clones[i].SetChaseTarget(target);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _clones.Count; i++)
+            {
+                _clones[i].CurrentState = CreatureState.Idle;
+            }
+        }
     }
 
     private void GhostUltimatePerk_ValueExhausted()

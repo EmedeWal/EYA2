@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EvasionPerk", menuName = "Perks/PassivePerks/EvasionPerk")]
+[CreateAssetMenu(fileName = "EvasionPerk", menuName = "Scriptable Object/Perks/Passive Perk/Evasion")]
 public class EvasionPerk : PerkData
 {
     [Header("VARIABLES")]

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "PlayerStats", menuName = "Stats/PlayerStats")]
+[CreateAssetMenu(fileName = "PlayerStats", menuName = "Scriptable Object/Stats/PlayerStats")]
 public class PlayerStats : ScriptableObject
 {
     private Dictionary<Stat, float> _baseStats = new Dictionary<Stat, float>();

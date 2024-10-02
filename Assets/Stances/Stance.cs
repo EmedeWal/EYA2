@@ -13,7 +13,6 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     [SerializeField] private List<PerkData> _passivePerks = new();
     [SerializeField] private List<PerkData> _ultimatePerks = new();
 
-    private PlayerDataManager _playerDataManager;
     private VFX _stanceSmoke;
 
     private bool _active = false;
@@ -25,8 +24,6 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     public void Init()
     {
         _transform = transform;
-
-        _playerDataManager = GetComponent<PlayerDataManager>();
 
         _VFXManager = VFXManager.Instance;
     }

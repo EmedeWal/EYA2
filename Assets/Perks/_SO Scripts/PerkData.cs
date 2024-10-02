@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PerkData", menuName = "Perks/PerkData")]
 public class PerkData : ScriptableObject
 {
     [Header("TYPE")]

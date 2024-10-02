@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Perks/PassivePerk/StatIncreasePerk")]
+[CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Scriptable Object/Perks/Stat Increase")]
 public class StatIncreasePerkData : PerkData
 {
     [Header("STAT INCREASE DETAILS")]

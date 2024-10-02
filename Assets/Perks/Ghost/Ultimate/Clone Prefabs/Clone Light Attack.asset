@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8687802c66f22254c83a540075db489d, type: 3}
-  m_Name: Heavy Attack
+  m_Name: Clone Light Attack
   m_EditorClassIdentifier: 
-  AnimationName: Heavy Attack
-  AttackClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
+  AnimationName: Light Attack
+  AttackClip: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
   Damage: 0
-  AttackOffset: {x: 0, y: 1, z: -0.5}
-  AttackRadius: 1.5
+  AttackOffset: {x: 0.25, y: 1, z: 0.5}
+  AttackRadius: 0.75

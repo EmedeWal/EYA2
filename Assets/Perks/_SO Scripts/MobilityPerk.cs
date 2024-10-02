@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MobilityPerk", menuName = "Perks/PassivePerks/MobilityPerk")]
+[CreateAssetMenu(fileName = "MobilityPerk", menuName = "Scriptable Object/Perks/Passive Perk/Mobility")]
 public class MobilityPerk : PerkData
 {
     private PlayerLocomotion _playerLocomotion;

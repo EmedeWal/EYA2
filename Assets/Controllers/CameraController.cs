@@ -49,7 +49,7 @@ public class CameraController : SingletonBase
         _transform.position = _target.position;
     }
 
-    public void Tick(float delta, float horizontal, float vertical, Transform lockOnTarget, bool lockedOn)
+    public void Tick(float delta, float horizontal, float vertical, Transform lockOnTarget)
     {
         FollowTarget(delta);
 
@@ -69,7 +69,7 @@ public class CameraController : SingletonBase
         _tiltAngle = Mathf.Clamp(_tiltAngle, _mimimumAngle, _maximumAngle);
         _pivot.localRotation = Quaternion.Euler(_tiltAngle, 0, 0);
 
-        if (lockedOn && lockOnTarget != null)
+        if (lockOnTarget != null)
         {
             Vector3 targetDirection = lockOnTarget.position - _transform.position;
             targetDirection.Normalize();

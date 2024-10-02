@@ -785,7 +785,6 @@ GameObject:
   - component: {fileID: 6536165895462621784}
   - component: {fileID: 7654338806339167194}
   - component: {fileID: 4777351641286125768}
-  - component: {fileID: 8578974333054506299}
   - component: {fileID: 351255723678609061}
   - component: {fileID: 8548221072610735012}
   - component: {fileID: 230302129111193560}
@@ -916,6 +915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3492b57c7a0c1340ae7e081a2d46c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MovementSpeed: 0
+  AttackSpeed: 0
 --- !u!114 &4777351641286125768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,23 +930,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swapCD: 1
---- !u!114 &8578974333054506299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095002070673219539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab386a48e8e6342499a2b75a26fe71e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReferenceStruct:
-    FootstepSource: {fileID: 5357242251038079792}
-    GeneralSource: {fileID: 2040016102235803746}
-    AttackSource: {fileID: 1061900165925547253}
-    Center: {fileID: 4856997359477087160}
 --- !u!114 &351255723678609061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,6 +943,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _lightAttackData: {fileID: 11400000, guid: 12db997fa294b85489321541b22cb771, type: 2}
+  _heavyAttackData: {fileID: 11400000, guid: b9c0e973e4c584845a56cfc6aa22b24a, type: 2}
 --- !u!114 &8548221072610735012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,7 +972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36712b6613e30bc4fbdd0ab187301b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _rotationSpeed: 10
   _gravity: 15
 --- !u!114 &8956720991761083535
@@ -1001,6 +986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b67756a90369646a481ceddd8dfd6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttacking: 0
+  _audioSource: {fileID: 1061900165925547253}
   _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _lightAttackData: {fileID: 11400000, guid: 12db997fa294b85489321541b22cb771, type: 2}
   _heavyAttackData: {fileID: 11400000, guid: b9c0e973e4c584845a56cfc6aa22b24a, type: 2}

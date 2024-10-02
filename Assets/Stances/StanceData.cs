@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Stance Data", menuName = "Stance Data")]
+[CreateAssetMenu(fileName = "New Stance Data", menuName = "Scriptable Object/Data/Stance Data")]
 public class StanceData : ScriptableObject
 {
     [Header("STANCETYPE")]

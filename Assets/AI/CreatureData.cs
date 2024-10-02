@@ -1,11 +1,15 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CreatureData", menuName = "Data/CreatureData")]
+[CreateAssetMenu(fileName = "CreatureData", menuName = "Scriptable Object/Data/CreatureData")]
 public class CreatureData : ScriptableObject
 {
-    [Header("AGENT STATS")]
+    [Header("AGENT")]
     public float MovementSpeed;
 
-    [Header("COMBAT STATS")]
+    [Header("DISTANCE")]
+    public float ChaseDistance;
+
+    [Header("COMBAT")]
+    public float Recovery;
     public float Health;
 }

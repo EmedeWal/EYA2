@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -8,16 +9,18 @@ public class PlayerManager : MonoBehaviour
     private PlayerInputHandler _inputHandler;
     private PlayerStanceManager _stanceManager;
     private PlayerStatManager _statManager;
-    private PlayerDataManager _dataManager;
     private PlayerLockOn _lockOn;
     private PlayerLocomotion _locomotion;
     private PlayerAttackHandler _attackHandler;
     private Health _health;
-    private Mana _mana;
     private Souls _souls;
     private MovementTracking _movementTracking;
     private CameraController _cameraController;
     private TimeSystem _timeSystem;
+
+    private Transform _target = null;
+
+    public static event Action PlayerDied;
 
     public void Init()
     {
@@ -25,13 +28,11 @@ public class PlayerManager : MonoBehaviour
 
         _inputHandler = GetComponent<PlayerInputHandler>();
         _stanceManager = GetComponent<PlayerStanceManager>();
-        _dataManager = GetComponent<PlayerDataManager>();
         _statManager = GetComponent<PlayerStatManager>();
         _lockOn = GetComponent<PlayerLockOn>();
         _locomotion = GetComponent<PlayerLocomotion>();
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
-        _mana = GetComponent<Mana>();
         _souls = GetComponent<Souls>();
         _movementTracking = GetComponent<MovementTracking>();
         _cameraController = CameraController.Instance;
@@ -44,10 +45,13 @@ public class PlayerManager : MonoBehaviour
         _statManager.Init();
         _lockOn.Init();
         _locomotion.Init();
-        _attackHandler.Init();
+        _attackHandler.Init(LayerMask.GetMask("DamageCollider"));
         _souls.Init();
         _movementTracking.Init();
         _cameraController.Init(transform);
+
+        _lockOn.LockedOn += PlayerManager_LockedOn;
+        _health.ValueExhausted += PlayerManager_ValueExhausted;
     }
 
     public void Tick(float delta)
@@ -59,19 +63,16 @@ public class PlayerManager : MonoBehaviour
         float rightStickX = _inputHandler._RightStickX;
         float rightStickY = _inputHandler._RightStickY;
 
-        Transform lockOnTargetTransform = _dataManager.LockOnStruct.LockOnTargetTransform;
-        bool lockedOn = _dataManager.LockOnStruct.LockedOn;
-
         _inputHandler.Tick();
 
         if (_timeSystem.CurrentTimeScale == 0) return;
 
         _stanceManager.Tick(delta);
         _lockOn.Tick();
-        _locomotion.Tick(delta, xDirection, yDirection, leftStickX, leftStickY, lockOnTargetTransform, lockedOn);
+        _locomotion.Tick(delta, xDirection, yDirection, leftStickX, leftStickY, _target);
         _attackHandler.Tick(delta);
         _movementTracking.Tick(delta);
-        _cameraController.Tick(delta, rightStickX, rightStickY, lockOnTargetTransform, lockedOn);
+        _cameraController.Tick(delta, rightStickX, rightStickY, _target);
     }
 
     public void LateTick(float delta)
@@ -85,5 +86,24 @@ public class PlayerManager : MonoBehaviour
         _statManager.Cleanup();
         _lockOn.Cleanup();
         _attackHandler.Cleanup();
+    }
+
+    private void PlayerManager_LockedOn(Transform target)
+    {
+        _target = target;
+    }
+
+    private void PlayerManager_ValueExhausted()
+    {
+        _health.ValueExhausted -= PlayerManager_ValueExhausted;
+
+        OnPlayerDied(); 
+    }
+
+    private void OnPlayerDied()
+    {
+        PlayerDied?.Invoke();
+
+        Debug.Log("The player has died. Not implemented");
     }
 }

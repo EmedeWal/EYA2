@@ -9,9 +9,6 @@ public class PlayerLocomotion : MonoBehaviour
     private PlayerAnimatorManager _animatorManager;
     private CharacterController _characterController;
 
-    [Header("STAT REFERENCE")]
-    [SerializeField] private PlayerStats _stats;
-
     [Header("ROTATION")]
     [SerializeField] private float _rotationSpeed = 10f;
 
@@ -49,30 +46,43 @@ public class PlayerLocomotion : MonoBehaviour
         gameObject.layer = controllerLayer;
     }
 
-    public void Tick(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput, Transform lockOnTarget, bool lockedOn)
+    public void Tick(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput, Transform lockOnTarget)
     {
         _delta = delta;
 
         _grounded = IsGrounded();
         ManageVerticalPosition();
-        IsMoving = _characterController.velocity.magnitude > 0;
 
-        if (_animatorManager.GetBool("InAction") || !_grounded) return;
+        if (_animatorManager.GetBool("InAction") || !_grounded)
+        {
+            IsMoving = false;
+        }
+        else
+        {
+            _horizontal = horizontalInput;
+            _vertical = verticalInput;
 
-        _horizontal = horizontalInput;
-        _vertical = verticalInput;
+            if (_horizontal > 0 || _vertical > 0)
+            {
+                IsMoving = true;
+            }
+            else
+            {
+                IsMoving = false;
+            }
 
-        Vector3 horizontal = _horizontal * horizontalDirection;
-        Vector3 vertical = _vertical * verticalDirection;
-        float movement = Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput);
-        _movementDirection = (horizontal + vertical).normalized;
-        _movementAmount = Mathf.Clamp01(movement);
-        _movementDirection *= MovementSpeed;
-        _movementDirection.y = 0;
+            Vector3 horizontal = _horizontal * horizontalDirection;
+            Vector3 vertical = _vertical * verticalDirection;
+            float movement = Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput);
+            _movementDirection = (horizontal + vertical).normalized;
+            _movementAmount = Mathf.Clamp01(movement);
+            _movementDirection *= MovementSpeed;
+            _movementDirection.y = 0;
 
-        ManageHorizontalPosition();
-        HandleAnimations(lockedOn);
-        ManageRotation(lockOnTarget, lockedOn);
+            ManageHorizontalPosition();
+            HandleAnimations(lockOnTarget);
+            ManageRotation(lockOnTarget);
+        }
     }
 
     private void ManageVerticalPosition()
@@ -94,9 +104,9 @@ public class PlayerLocomotion : MonoBehaviour
         _characterController.Move(_movementDirection * _delta);
     }
 
-    private void ManageRotation(Transform lockOnTarget, bool lockedOn)
+    private void ManageRotation(Transform lockOnTarget)
     {
-        Vector3 targetDirection = lockedOn ? lockOnTarget.position - _transform.position : _movementDirection;
+        Vector3 targetDirection = lockOnTarget ? lockOnTarget.position - _transform.position : _movementDirection;
         targetDirection.y = 0;
 
         if (targetDirection == Vector3.zero) targetDirection = _transform.forward;

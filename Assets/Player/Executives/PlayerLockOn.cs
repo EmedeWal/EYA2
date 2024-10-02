@@ -6,7 +6,6 @@ public class PlayerLockOn : MonoBehaviour
     private Transform _transform;
 
     private PlayerInputHandler _inputHandler;
-    private PlayerDataManager _dataManager;
     private LockOnMarker _lockOnMarker;
     private Camera _camera;
     private LayerMask _damageColliderLayer;
@@ -25,12 +24,14 @@ public class PlayerLockOn : MonoBehaviour
     private Transform _lockOnTargetCenter;
     private Transform _lockOnMarkerPoint;
 
+    public delegate void LockedOnDelegate(Transform target);
+    public event LockedOnDelegate LockedOn;
+
     public void Init()
     {
         _transform = GetComponent<Transform>();
 
         _inputHandler = GetComponent<PlayerInputHandler>();
-        _dataManager = GetComponent<PlayerDataManager>();
         _lockOnMarker = LockOnMarker.Instance;
         _camera = Camera.main;
 
@@ -89,7 +90,7 @@ public class PlayerLockOn : MonoBehaviour
             }
         }
 
-        if (bestTarget != null && bestTarget != _dataManager.LockOnStruct.LockOnTargetTransform)
+        if (bestTarget != null && bestTarget._Center != _lockOnTargetCenter)
         {
             EnableLockOn(bestTarget);
         }
@@ -97,7 +98,7 @@ public class PlayerLockOn : MonoBehaviour
 
     private void PlayerLockOn_LockOnInputPerformed()
     {
-        if (_lockedOn)
+        if (_lockOnTargetCenter != null)
         {
             DisableLockOn();
         }
@@ -118,9 +119,10 @@ public class PlayerLockOn : MonoBehaviour
             _lockOnTarget._Health.Death -= PlayerLockOn_Death;
         }
 
+        _lockOnTargetCenter = null;
         _lockedOn = false;
 
-        UpdateData();
+        UpdateData(null);
         StopAllCoroutines();
     }
 
@@ -135,15 +137,14 @@ public class PlayerLockOn : MonoBehaviour
 
         _lockOnTarget._Health.Death += PlayerLockOn_Death;
 
-        UpdateData();
         StopAllCoroutines();
+        UpdateData(_lockOnTargetCenter);
         StartCoroutine(UpdateLockOnMarkerPositionCoroutine());
     }
 
-    private void UpdateData()
+    private void UpdateData(Transform target)
     {
-        _dataManager.LockOnStruct.LockOnTargetTransform = _lockOnTargetCenter;
-        _dataManager.LockOnStruct.LockedOn = _lockedOn;
+        OnLockedOn(target);
         _lockOnMarkerObject.SetActive(_lockedOn);
     }
 
@@ -207,4 +208,8 @@ public class PlayerLockOn : MonoBehaviour
         }
     }
 
+    private void OnLockedOn(Transform target)
+    {
+        LockedOn?.Invoke(target);
+    }
 }

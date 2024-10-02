@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Enemy Melee Data", menuName = "Enemy Melee Data", order = 51)]
+[CreateAssetMenu(fileName = "New Enemy Melee Data", menuName = "Scriptable Object/Data/Enemy Melee Data", order = 51)]
 public class EnemyMeleeData : ScriptableObject
 {
     [Header("TIMING")]

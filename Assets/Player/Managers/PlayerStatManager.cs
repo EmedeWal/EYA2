@@ -5,6 +5,10 @@ public class PlayerStatManager : MonoBehaviour
     [Header("PLAYER STAT REFERENCE")]
     [SerializeField] private PlayerStats _stats;
 
+    [Header("ATTACK DATA REFERENCES")]
+    [SerializeField] private AttackData _lightAttackData;
+    [SerializeField] private AttackData _heavyAttackData;
+
     private PlayerAnimatorManager _animatorManager;
     private PlayerLocomotion _locomotion;
     private Health _health;
@@ -26,7 +30,10 @@ public class PlayerStatManager : MonoBehaviour
         _health.AddConstantValue(_stats.GetCurrentStat(Stat.HealthRegen));
         _mana.AddConstantValue(_stats.GetCurrentStat(Stat.ManaRegen));
 
-        _animatorManager.MovementModifier = _stats.GetCurrentStat(Stat.MovementSpeedModifier);
+        _lightAttackData.Damage = _stats.GetCurrentStat(Stat.LightAttackDamage);
+        _heavyAttackData.Damage = _stats.GetCurrentStat(Stat.HeavyAttackDamage);
+
+        _animatorManager.MovementSpeed = _stats.GetCurrentStat(Stat.MovementSpeedModifier);
         _animatorManager.AttackSpeed = _stats.GetCurrentStat(Stat.AttackSpeed);
         _locomotion.MovementSpeed = _stats.GetCurrentStat(Stat.MovementSpeed);
         _health.DamageReduction = _stats.GetCurrentStat(Stat.DamageReduction);
@@ -51,33 +58,32 @@ public class PlayerStatManager : MonoBehaviour
     {
         switch (stat)
         {
+            case Stat.LightAttackDamage:
+                _lightAttackData.Damage = value; break;
+
+            case Stat.HeavyAttackDamage:
+                _heavyAttackData.Damage = value; break;
+
             case Stat.AttackSpeed:
-                _animatorManager.AttackSpeed = value;
-                break;
+                _animatorManager.AttackSpeed = value; break;
 
             case Stat.MovementSpeedModifier:
-                _animatorManager.MovementModifier = value;
-                break;
+                _animatorManager.MovementSpeed = value; break;
 
             case Stat.MovementSpeed:
-                _locomotion.MovementSpeed = value;
-                break;
+                _locomotion.MovementSpeed = value; break;
 
             case Stat.HealthRegen:
-                _health.RestorationModifier = value;
-                break;
+                _health.RestorationModifier = value; break;
 
             case Stat.ManaRegen:
-                _mana.RestorationModifier = value;
-                break;
+                _mana.RestorationModifier = value; break;
 
             case Stat.DamageReduction:
-                _health.DamageReduction = value;
-                break;
+                _health.DamageReduction = value; break;
 
             case Stat.EvasionChance:
-                _health.EvasionChance = value;
-                break;
+                _health.EvasionChance = value; break;
         }
     }
 
