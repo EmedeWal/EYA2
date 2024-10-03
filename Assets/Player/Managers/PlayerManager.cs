@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     private Health _health;
     private Souls _souls;
     private MovementTracking _movementTracking;
+    private FootstepHandler _footstepHandler;
     private CameraController _cameraController;
     private TimeSystem _timeSystem;
 
@@ -35,6 +36,7 @@ public class PlayerManager : MonoBehaviour
         _health = GetComponent<Health>();
         _souls = GetComponent<Souls>();
         _movementTracking = GetComponent<MovementTracking>();
+        _footstepHandler = GetComponent<FootstepHandler>();
         _cameraController = CameraController.Instance;
         _timeSystem = TimeSystem.Instance;  
 
@@ -48,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         _attackHandler.Init(LayerMask.GetMask("DamageCollider"));
         _souls.Init();
         _movementTracking.Init();
+        _footstepHandler.Init();
         _cameraController.Init(transform);
 
         _lockOn.LockedOn += PlayerManager_LockedOn;

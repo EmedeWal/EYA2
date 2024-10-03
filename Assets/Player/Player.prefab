@@ -796,6 +796,7 @@ GameObject:
   - component: {fileID: 605078075834916467}
   - component: {fileID: 1062212347810143361}
   - component: {fileID: 897617002443829880}
+  - component: {fileID: 1514965300875784595}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1005,7 +1006,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 24cf505c74d77a54b87aa4109526296d, type: 2}
   _passivePerks: []
-  _ultimatePerks: []
+  _statPerks: []
+  _ultimatePerk: {fileID: 0}
 --- !u!114 &1521285261085473912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 62165ea34e04e5547945b3f8282591ed, type: 2}
   _passivePerks: []
-  _ultimatePerks: []
+  _statPerks: []
+  _ultimatePerk: {fileID: 0}
 --- !u!114 &6603697760115918923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,7 +1038,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 8fb802c08bcde144e8aed2e25e09616a, type: 2}
   _passivePerks: []
-  _ultimatePerks: []
+  _statPerks: []
+  _ultimatePerk: {fileID: 0}
 --- !u!114 &716398785201116005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,6 +1091,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _historicalPositionDuration: 1
   _historicalPositionInterval: 0.1
+--- !u!114 &1514965300875784595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095002070673219539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e061970f782fc4146ab56847015635ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepSource: {fileID: 5357242251038079792}
 --- !u!1 &1100944176040279480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2223,7 +2240,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a15c0f3fe74004cf89b51cfd5604f582, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6138,7 +6155,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

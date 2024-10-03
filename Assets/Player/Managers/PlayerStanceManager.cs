@@ -25,6 +25,9 @@ public class PlayerStanceManager : SingletonBase
     private Stance _currentStance;
     private int _currentIndex = 0;
 
+    [Header("AUDIO SOURCE")]
+    [SerializeField] private AudioSource _audioSource;
+
     [Header("VARIABLES")]
     [SerializeField] private float _swapCD = 1f;
     private float _swapCooldownRemaining = 0f;
@@ -43,10 +46,10 @@ public class PlayerStanceManager : SingletonBase
         _inputHandler.SwapStanceInputPerformed += PlayerStanceManager_SwapStanceInputPerformed;
 
         _stances.AddRange(GetComponents<Stance>());
-        foreach (var stance in _stances) stance.Init();
+        foreach (var stance in _stances) stance.Init(_audioSource);
 
         _currentStance = _stances[0];
-        SwapToStance(_currentStance);
+        SwapToStance(_currentStance, false);
     }
 
     public void Tick(float delta)
@@ -99,11 +102,11 @@ public class PlayerStanceManager : SingletonBase
         SwapToStance(_stances[_currentIndex]);
     }
 
-    private void SwapToStance(Stance newStance)
+    private void SwapToStance(Stance newStance, bool sound = true)
     {
         if (_currentStance != null) _currentStance.Exit();
         _currentStance = newStance;
-        newStance.Enter();
+        newStance.Enter(sound);
 
         StanceType nextStance = _stances[Helpers.GetIndexInBounds(_currentIndex, 1, _stances.Count)].StanceData.StanceType;
         OnStanceSwapped(newStance.StanceData.StanceType, nextStance);

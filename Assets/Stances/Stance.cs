@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using System;
 
 public class Stance : MonoBehaviour, IStanceDataProvider
 {
     private Transform _transform;
     private float _delta;
 
+    private AudioSource _audioSource;
     private Mana _mana;
 
     [Header("STANCE DATA")]
@@ -21,19 +21,21 @@ public class Stance : MonoBehaviour, IStanceDataProvider
 
     private bool _active = false;
 
+    private AudioSystem _audioSystem;
     private VFXManager _VFXManager;
 
     public StanceData StanceData => _stanceData;
 
-    public void Init()
+    public void Init(AudioSource audioSource)
     {
         _transform = transform;
-
+        _audioSource = audioSource; 
         _mana = GetComponent<Mana>();
 
         _passivePerks = new List<PerkData>();
         _statPerks = new List<PerkData>();
 
+        _audioSystem = AudioSystem.Instance;
         _VFXManager = VFXManager.Instance;
     }
 
@@ -60,12 +62,18 @@ public class Stance : MonoBehaviour, IStanceDataProvider
         }
     }
 
-    public virtual void Enter()
+    public virtual void Enter(bool sound)
     {
+        if (sound)
+        {
+            _audioSystem.PlayAudioClip(_audioSource, _stanceData.SwapClip, _stanceData.SwapVolume, _stanceData.SwapOffset);
+        }
+
         _active = true;
 
         _stanceSmoke = Instantiate(_stanceData.Smoke, _transform);
         _VFXManager.AddVFX(_stanceSmoke, _transform);
+
 
         foreach (var perk in _passivePerks)
         {

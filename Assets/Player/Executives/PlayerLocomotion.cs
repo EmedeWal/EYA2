@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerLocomotion : MonoBehaviour
+public class PlayerLocomotion : MonoBehaviour, IMovingProvider
 {
     private Transform _transform;
     private float _delta;
@@ -25,9 +25,10 @@ public class PlayerLocomotion : MonoBehaviour
     private float _movementSpeed;
     private float _horizontal;
     private float _vertical;
+    private bool _moving;
 
     public float MovementSpeed { private get; set; }
-    public bool IsMoving { get; private set; }
+    public bool Moving => _moving;
 
     public void Init()
     {
@@ -55,20 +56,20 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (_animatorManager.GetBool("InAction") || !_grounded)
         {
-            IsMoving = false;
+            _moving = false;
         }
         else
         {
             _horizontal = horizontalInput;
             _vertical = verticalInput;
 
-            if (_horizontal > 0 || _vertical > 0)
+            if (_horizontal != 0 || _vertical != 0)
             {
-                IsMoving = true;
+                _moving = true;
             }
             else
             {
-                IsMoving = false;
+                _moving = false;
             }
 
             Vector3 horizontal = _horizontal * horizontalDirection;

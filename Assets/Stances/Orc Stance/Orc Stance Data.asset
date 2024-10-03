@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Orc Stance Data
   m_EditorClassIdentifier: 
   StanceType: 1
-  UltimateDuration: 10
   IconSprite: {fileID: 21300000, guid: 0d2ab8ca4c5a47b42ad45b4fe5097be3, type: 3}
   Color: {r: 1, g: 1, b: 0, a: 1}
   Smoke: {fileID: 6016684557453266944, guid: 57ed2c085e54e46499b38af31f3cc4ad, type: 3}
+  SwapClip: {fileID: 8300000, guid: b46c0f568e716794492c5ac8c0639e8e, type: 3}
+  SwapVolume: 0.25
+  SwapOffset: 0.125
   UltimateClip: {fileID: 8300000, guid: bea1f1f3a1b134f508156835fb15516a, type: 3}
-  AudioVolume: 0
-  AudioOffset: 10
+  UltimateVolume: 0
+  UltimateOffset: 0

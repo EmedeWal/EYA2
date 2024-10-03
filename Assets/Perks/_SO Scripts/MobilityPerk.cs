@@ -58,7 +58,7 @@ public class MobilityPerk : PerkData
 
     public override void Tick(float delta)
     {
-        bool isMoving = _playerLocomotion.IsMoving;
+        bool isMoving = _playerLocomotion.Moving;
 
         if (_isMoving != isMoving)
         {

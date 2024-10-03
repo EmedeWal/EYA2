@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Vampire Stance Data
   m_EditorClassIdentifier: 
   StanceType: 2
-  UltimateDuration: 10
   IconSprite: {fileID: 21300000, guid: b07756aaa1ab62f4a885720fc1631d00, type: 3}
   Color: {r: 1, g: 0, b: 0, a: 1}
   Smoke: {fileID: 5640370928464195234, guid: 2f2353caa6dce384baba6ca879df110d, type: 3}
+  SwapClip: {fileID: 8300000, guid: abd8140d4d5e5794a866b80b2c9d366e, type: 3}
+  SwapVolume: 0.2
+  SwapOffset: 0
   UltimateClip: {fileID: 8300000, guid: 7e34e57f4296727459eb521806c3b466, type: 3}
-  AudioVolume: 0
-  AudioOffset: 0
+  UltimateVolume: 0
+  UltimateOffset: 0
