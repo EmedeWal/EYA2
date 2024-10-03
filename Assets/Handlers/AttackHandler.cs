@@ -43,8 +43,8 @@ public abstract class AttackHandler : MonoBehaviour
     {
         IsAttacking = true;
         _AttackData = attackData;
-        _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AttackClip);
         _AnimatorManager.CrossFadeAnimation(_Delta, _AttackData.AnimationName, 0.1f, 1);
+        _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
     }
 
     protected virtual void HandleDamage(float damage, bool crit)

@@ -13,7 +13,7 @@ public class Header : MonoBehaviour
     private List<SectionControllerBase> _sectionControllers = new();
     private int _sectionIndex = 0;
 
-    public void Init()
+    public void Init(AudioDataUI audio)
     {
         _holderObject = transform.GetChild(2).gameObject;
         _iconParent = _holderObject.transform.GetChild(0).gameObject;
@@ -22,7 +22,7 @@ public class Header : MonoBehaviour
         foreach (var sectionIcon in _sectionIcons) sectionIcon.Init();
 
         _sectionControllers.AddRange(_holderObject.GetComponentsInChildren<SectionControllerBase>());
-        foreach (var sectionController in _sectionControllers) sectionController.Init();
+        foreach (var sectionController in _sectionControllers) sectionController.Init(audio);
 
         _image = GetComponentInChildren<Image>();
         _holderObject.SetActive(false);

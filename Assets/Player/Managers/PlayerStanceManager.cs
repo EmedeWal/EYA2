@@ -20,7 +20,6 @@ public class PlayerStanceManager : SingletonBase
     #endregion
 
     private PlayerInputHandler _inputHandler;
-    private Mana _mana;
 
     private List<Stance> _stances = new();
     private Stance _currentStance;
@@ -39,7 +38,6 @@ public class PlayerStanceManager : SingletonBase
     public void Init()
     {
         _inputHandler = GetComponent<PlayerInputHandler>();
-        _mana = GetComponent<Mana>();   
 
         _inputHandler.UltimateInputPerformed += PlayerStanceManager_UltimateInputPerformed;
         _inputHandler.SwapStanceInputPerformed += PlayerStanceManager_SwapStanceInputPerformed;
@@ -88,11 +86,7 @@ public class PlayerStanceManager : SingletonBase
 
     private void PlayerStanceManager_UltimateInputPerformed()
     {
-        if (_mana.AtMaxValue())
-        {
-            Debug.Log("you do not currently have a way to track whether there is an active ultimate.");
-            _currentStance.CastUltimate();
-        }
+        _currentStance.CastUltimate();
     }
 
     private void PlayerStanceManager_SwapStanceInputPerformed()

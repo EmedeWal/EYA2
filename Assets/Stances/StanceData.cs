@@ -6,9 +6,6 @@ public class StanceData : ScriptableObject
     [Header("STANCETYPE")]
     public StanceType StanceType;
 
-    [Header("GENERAL")]
-    public float UltimateDuration = 10;
-
     [Header("VISUALIZATION")]
     public Sprite IconSprite;
     public Color Color;
@@ -16,8 +13,13 @@ public class StanceData : ScriptableObject
     [Header("VFX")]
     public VFX Smoke;
 
-    [Header("AUDIO")]
+    [Header("SWAP AUDIO")]
+    public AudioClip SwapClip;
+    public float SwapVolume;
+    public float SwapOffset;
+
+    [Header("ULTIMATE AUDIO")]
     public AudioClip UltimateClip;
-    public float AudioVolume;
-    public float AudioOffset;
+    public float UltimateVolume;
+    public float UltimateOffset;
 }

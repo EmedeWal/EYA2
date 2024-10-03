@@ -39,19 +39,9 @@ public class GhostUltimatePerk : PerkData
 
     private List<CloneAI> _clones;
 
-    public override void Init(List<PerkData> perks, GameObject playerObject)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null)
     {
-        base.Init(perks, playerObject);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
-        {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
+        base.Init(playerObject, perks);
 
         _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
         _targetLayer = LayerMask.GetMask("DamageCollider");
@@ -91,7 +81,7 @@ public class GhostUltimatePerk : PerkData
 
             CloneAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
             currentClone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulAttack;
-            currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_HealthExhausted;
+            currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
             currentClone.CreatureData = _creatureData;
             currentClone.Init(_targetLayer);
             _clones.Add(currentClone);
@@ -121,9 +111,6 @@ public class GhostUltimatePerk : PerkData
         }
 
         _playerLockOn.LockedOn += GhostUltimatePerk_LockedOn;
-        _mana.ValueExhausted += GhostUltimatePerk_ManaExhausted;
-
-        _mana.RemoveConstantValue(10);
     }
 
     public override void Tick(float delta)
@@ -161,7 +148,7 @@ public class GhostUltimatePerk : PerkData
 
     private void RemoveClone(CloneAI clone)
     {
-        clone.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_HealthExhausted;
+        clone.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
         _clones.Remove(clone);
         clone.Cleanup();
     }
@@ -189,7 +176,7 @@ public class GhostUltimatePerk : PerkData
         }
     }
 
-    private void GhostUltimatePerk_HealthExhausted(GameObject cloneObject)
+    private void GhostUltimatePerk_ValueExhausted(GameObject cloneObject)
     {
         if (_currentSparks != null)
         {
@@ -205,12 +192,6 @@ public class GhostUltimatePerk : PerkData
         }
 
         RemoveClone(cloneObject.GetComponent<CloneAI>());
-    }
-
-    private void GhostUltimatePerk_ManaExhausted(GameObject manaObject)
-    {
-        _mana.ValueExhausted -= GhostUltimatePerk_ManaExhausted;
-        Deactivate();
     }
 
     private Vector3 GetRandomSpawnPosition(Vector3 center)

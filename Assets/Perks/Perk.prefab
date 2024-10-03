@@ -56,12 +56,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a802114ed9778204d9abb07d61ba8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _glowEffect: {fileID: 0}
-  _foredrop: {fileID: 0}
+  _audioData: {fileID: 11400000, guid: 4e8b1883935d9a148b8dc70aabf1de02, type: 2}
   _perkData: {fileID: 0}
   NextPerks: []
   PreviousPerk: {fileID: 0}
-  _stanceData: {fileID: 0}
   _sprite: {fileID: 0}
 --- !u!114 &4267058841131716431
 MonoBehaviour:

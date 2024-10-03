@@ -44,7 +44,7 @@ public class DragonAI : EnemyAI
 //    [SerializeField] private AudioClip roar;
 //    [SerializeField] private AudioClip bite;
 //    [SerializeField] private AudioClip tail;
-//    private AudioSource audioSource;
+//    private UncommonSource audioSource;
 //    #endregion
 
 //    // End of References
@@ -149,7 +149,7 @@ public class DragonAI : EnemyAI
 //        playerMovement = playerObject.GetComponent<PlayerMovement>();
 //        player = playerObject.transform;
 
-//        audioSource = GetComponent<AudioSource>();
+//        audioSource = GetComponent<UncommonSource>();
 //        agent = GetComponent<NavMeshAgent>();
 
 //        audioSource.clip = roar;

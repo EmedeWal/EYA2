@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Servants I
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 1
+  PerkType: 2
   Title: Servants I
   Description: Manifest an additional clone
   Tier: 2

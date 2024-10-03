@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc15db75c791bdf4cb29a3fecfd42a3e, type: 3}
+  m_Name: UI Audio Data
+  m_EditorClassIdentifier: 
+  UncommonSource: {fileID: 0}
+  CommonSource: {fileID: 0}
+  System: {fileID: 0}
+  PauseClip: {fileID: 8300000, guid: b83bf8726a7fac349a54389f0c57cda6, type: 3}
+  PauseVolume: 1
+  PauseOffset: 0.1
+  ResumeClip: {fileID: 8300000, guid: e58d8bd078f188a4ba314e933b98528b, type: 3}
+  ResumeVolume: 1
+  ResumeOffset: 0.1
+  SwapClip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
+  SwapVolume: 0.5
+  SwapOffset: 0.05
+  SelectClip: {fileID: 8300000, guid: 7cc057bed53baf34799f52aab3c84800, type: 3}
+  SelectVolume: 0.25
+  SelectOffset: 0.05
+  UnlockClip: {fileID: 8300000, guid: 3729cfd5e13305a4fa958e0533fcc465, type: 3}
+  UnlockVolume: 1
+  UnlockOffset: 0.25
+  FailedClip: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
+  FailedVolume: 0.5
+  FailedOffset: 0.1

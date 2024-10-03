@@ -15,5 +15,5 @@ MonoBehaviour:
   MovementSpeed: 4.8
   ChaseDistance: 1.4
   DetectionDistance: 5
-  Health: 200
+  Health: 100
   DamageModifier: 2

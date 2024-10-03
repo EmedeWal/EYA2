@@ -12,7 +12,8 @@ public class PerkTree : MonoBehaviour
 
     private Color _purchasedColor;
 
-    public void Init(Color purchasedColor)
+
+    public void Init(AudioDataUI audioDataUI, Color purchasedColor)
     {
         _purchasedColor = purchasedColor;
         _lineParent = transform.GetChild(0);
@@ -20,8 +21,8 @@ public class PerkTree : MonoBehaviour
         _perks.AddRange(GetComponentsInChildren<Perk>());
         foreach (var perk in _perks)
         {
-            perk.Init(_purchasedColor);
-            perk.OnPurchased += PerkTree_Purchased;
+            perk.Init(audioDataUI, _purchasedColor);
+            perk.PerkPurchased += PerkTree_PerkPurchased;
 
             foreach (var nextPerk in perk.NextPerks)
             {
@@ -64,7 +65,7 @@ public class PerkTree : MonoBehaviour
         }
     }
 
-    private void PerkTree_Purchased(Perk perk)
+    private void PerkTree_PerkPurchased(Perk perk)
     {
         foreach (var line in _lines)
         {

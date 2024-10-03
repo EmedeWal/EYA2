@@ -33,9 +33,9 @@ public class MobilityPerk : PerkData
 
     private bool _isMoving;
 
-    public override void Init(List<PerkData> perks, GameObject playerObject)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null)
     {
-        base.Init(perks, playerObject);
+        base.Init(playerObject, perks);
 
         for (int i = perks.Count - 1; i >= 0; i--)
         {

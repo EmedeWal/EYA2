@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ethereal Momentum III
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Ethereal Momentum III
   Description: Your momentum will decrease much slower
   Tier: 5

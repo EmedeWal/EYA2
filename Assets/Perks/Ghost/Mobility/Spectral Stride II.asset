@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spectral Stride II
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Spectral Stride II
   Description: While moving, evasion chance is increased by 30%
   Tier: 4

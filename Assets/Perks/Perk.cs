@@ -18,18 +18,20 @@ public class Perk : MonoBehaviour, IClickable
     private StanceIcon _stanceIcon;
     private GameObject _glowEffect;
     private GameObject _foredrop;
+    private AudioDataUI _audio;
     private Color _purchasedColor;
 
     public bool Locked { get; private set; } = false; 
     public bool Unlocked { get; private set; } = false; 
     public bool Purchased { get; private set; } = false;
 
-    public event Action<Perk> OnPurchased;
+    public event Action<Perk> PerkPurchased;
 
     public PerkData PerkData => _perkData;
 
-    public virtual void Init(Color purchasedColor)
+    public virtual void Init(AudioDataUI audio, Color purchasedColor)
     {
+        _audio = audio;
         _purchasedColor = purchasedColor;
         _stanceIcon = GetComponent<StanceIcon>();
         _glowEffect = transform.GetChild(0).gameObject;
@@ -45,6 +47,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(true);
+            _audio.System.PlaySilentClip(_audio.CommonSource, _audio.UncommonSource, _audio.SelectClip, _audio.SelectVolume, _audio.SelectOffset);
             PerkScreen.Instance.UpdatePerkScreen(_perkData.Title, _perkData.Description, _perkData.Cost, Souls.Instance.CanAfford(_perkData.Cost), Purchased);
         }
     }
@@ -80,11 +83,11 @@ public class Perk : MonoBehaviour, IClickable
         {
             Purchased = true;
             LockOtherBranch();
-            OnPurchased?.Invoke(this);
+            OnPerkPurchased(this);
             _stanceIcon.Background.color = _purchasedColor;
-
-            Souls.Instance.RemoveValue(_perkData.Cost);
+            _audio.System.PlayAudioClip(_audio.UncommonSource, _audio.UnlockClip, _audio.UnlockVolume, _audio.UnlockOffset);
             PlayerStanceManager.Instance.AddPerk(_perkData, _perkData.StanceType);
+            Souls.Instance.RemoveValue(_perkData.Cost);
         }
     }
 
@@ -118,13 +121,22 @@ public class Perk : MonoBehaviour, IClickable
                 }
             }
         }
+    }
 
-        
+    private void OnPerkPurchased(Perk perk)
+    {
+        PerkPurchased?.Invoke(perk);
     }
 
     private bool CanPurchase()
     {
-        if (Purchased || (PreviousPerk != null && !PreviousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost)) return false;
+        if (Purchased) return false;
+
+        if ((PreviousPerk != null && !PreviousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost))
+        {
+            _audio.System.PlayAudioClip(_audio.FailedSource, _audio.FailedClip, _audio.FailedVolume, _audio.FailedOffset, false); 
+            return false;
+        }
         return true;
     }
 }

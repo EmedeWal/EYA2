@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Player Heavy Attack
   m_EditorClassIdentifier: 
   AnimationName: Heavy Attack
-  AttackClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
-  Damage: 0
+  AudioClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
+  AudioOffset: 0
+  AudioVolume: 0.5
+  Damage: 30
+  Recovery: 0
   AttackOffset: {x: 0, y: 1, z: -0.5}
   AttackRadius: 1.5

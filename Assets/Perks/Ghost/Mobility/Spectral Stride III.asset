@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spectral Stride III
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Spectral Stride III
   Description: Every 5 seconds while moving, cast a chilling aura that slows enemies
     by 50% for 5 seconds

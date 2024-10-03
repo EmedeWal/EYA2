@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Retribution II
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Retribution II
   Description: When the barrier breaks, it explodes, dealing 50 damage to all nearby
     enemies

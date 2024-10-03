@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Soul Ward II
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Soul Ward II
   Description: The protective barrier can absorb one additional hit before breaking
   Tier: 5

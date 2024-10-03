@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Retribution I
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Retribution I
   Description: Damage absorbed by the protective barrier is returned as damage to
     the attacker

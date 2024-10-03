@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Soul Ward I
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Soul Ward I
   Description: Damage absorbed by the protective barrier is restored as mana
   Tier: 4

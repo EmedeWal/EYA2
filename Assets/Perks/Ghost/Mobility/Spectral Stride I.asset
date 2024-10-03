@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spectral Stride I
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 0
+  PerkType: 1
   Title: Spectral Stride I
   Description: While moving, mana regeneration is increased by 1/s
   Tier: 3

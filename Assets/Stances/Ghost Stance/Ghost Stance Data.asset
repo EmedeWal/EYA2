@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Ghost Stance Data
   m_EditorClassIdentifier: 
   StanceType: 0
-  UltimateDuration: 10
   IconSprite: {fileID: 21300000, guid: 89a07986cf1441b40b1ea5cd9c632346, type: 3}
   Color: {r: 0, g: 0.78431374, b: 1, a: 1}
   Smoke: {fileID: 9217561253790756185, guid: 350eb7c60a48f44439cee0ededb6feea, type: 3}
+  SwapClip: {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+  SwapVolume: 0
+  SwapOffset: 0
   UltimateClip: {fileID: 8300000, guid: 618be86712ffac947997f96463301683, type: 3}
-  AudioVolume: 0
-  AudioOffset: 0
+  UltimateVolume: 0.1
+  UltimateOffset: 0

@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class Stance : MonoBehaviour, IStanceDataProvider
 {
     private Transform _transform;
     private float _delta;
 
+    private Mana _mana;
+
     [Header("STANCE DATA")]
     [SerializeField] private StanceData _stanceData;
 
-    [SerializeField] private List<PerkData> _passivePerks = new();
-    [SerializeField] private List<PerkData> _ultimatePerks = new();
+    [SerializeField] private List<PerkData> _passivePerks;
+    [SerializeField] private List<PerkData> _statPerks;
+    [SerializeField] private PerkData _ultimatePerk;
 
     private VFX _stanceSmoke;
 
@@ -24,6 +28,11 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     public void Init()
     {
         _transform = transform;
+
+        _mana = GetComponent<Mana>();
+
+        _passivePerks = new List<PerkData>();
+        _statPerks = new List<PerkData>();
 
         _VFXManager = VFXManager.Instance;
     }
@@ -45,7 +54,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
             perk.Deactivate();
         }
 
-        foreach (var perk in _ultimatePerks)
+        foreach (var perk in _statPerks)
         {
             perk.Deactivate();
         }
@@ -62,6 +71,11 @@ public class Stance : MonoBehaviour, IStanceDataProvider
         {
             perk.Activate();
         }
+
+        foreach (var perk in _statPerks)
+        {
+            perk.Activate();
+        }
     }
 
     public virtual void Exit()
@@ -74,44 +88,70 @@ public class Stance : MonoBehaviour, IStanceDataProvider
         {
             perk.Deactivate();
         }
+
+        foreach (var perk in _statPerks)
+        {
+            perk.Deactivate();
+        }
     }
 
     public virtual void CastUltimate()
     {
-        foreach (var perk in _ultimatePerks)
+        if (_ultimatePerk != null && _mana.AtMaxValue())
         {
-            perk.Activate();
-
-            StartCoroutine(UltimateTickCoroutine(perk));
+            _mana.ValueExhausted += Stance_ValueExhausted;
+            StartCoroutine(UltimateTickCoroutine());
+            _mana.RemoveConstantValue(10);
+            _ultimatePerk.Activate();
         }
     }
 
     public void AddPerk(PerkData perk)
     {
-        if (perk.PerkType == PerkType.Passive)
+        switch (perk.PerkType)
         {
-            AddPerk(_passivePerks, perk);
+            case PerkType.Stat:
+                AddPerk(_statPerks, perk);
+                break;
 
-            if (_active) perk.Activate();
-        }
-        else
-        {
-            AddPerk(_ultimatePerks, perk);
+            case PerkType.Passive:
+                AddPerk(_passivePerks, perk);
+                break;
+
+            case PerkType.Ultimate:
+
+                if (_ultimatePerk != null)
+                {
+                    _mana.StopRemoveValueCoroutine();
+                    _ultimatePerk.Deactivate();
+                }
+
+                _ultimatePerk = perk; 
+                _ultimatePerk.Init(gameObject);
+                break;
         }
     }
 
     private void AddPerk(List<PerkData> perkList, PerkData perk)
     {
-        perk.Init(perkList, gameObject); perkList.Add(perk);
+        perk.Init(gameObject, perkList);
+        if (_active) perk.Activate();
+        perkList.Add(perk);
     }
 
-    private IEnumerator UltimateTickCoroutine(PerkData perk)
+    private void Stance_ValueExhausted(GameObject manaObject)
+    {
+        _mana.ValueExhausted -= Stance_ValueExhausted;
+        _mana.StopRemoveValueCoroutine();
+        _ultimatePerk.Deactivate();
+    }
+
+    private IEnumerator UltimateTickCoroutine()
     {
         while (true)
         {
             yield return null;
-
-            perk.Tick(_delta);
+            _ultimatePerk.Tick(_delta);
         }
     }
 }

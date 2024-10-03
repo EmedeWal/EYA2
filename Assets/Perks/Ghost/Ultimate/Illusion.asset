@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Illusion
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 1
+  PerkType: 2
   Title: Illusion
   Description: Manifest a clone to fight beside you. Recast this ability while locked
     on to set its target
@@ -26,8 +26,8 @@ MonoBehaviour:
   _minSpawnRadius: 3
   _maxSpawnRadius: 5
   _deathExplosionPrefab: {fileID: 0}
-  _deathExplosionRadius: 2
-  _manaRestoration: 5
+  _deathExplosionRadius: 0
+  _manaRestoration: 0
   _summonExplosionPrefab: {fileID: 0}
   _summonExplosionRadius: 0
   _sparkPrefab: {fileID: 0}

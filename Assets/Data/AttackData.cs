@@ -7,7 +7,9 @@ public class AttackData : ScriptableObject
     public string AnimationName;
 
     [Header("AUDIO")]
-    public AudioClip AttackClip;
+    public AudioClip AudioClip;
+    public float AudioOffset;
+    public float AudioVolume;
 
     [Header("DAMAGE")]
     public float Damage;

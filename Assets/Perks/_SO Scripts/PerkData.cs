@@ -20,7 +20,7 @@ public class PerkData : ScriptableObject
     protected GameObject _PlayerObject;
     protected Transform _PlayerTransform;
 
-    public virtual void Init(List<PerkData> perks, GameObject playerObject)
+    public virtual void Init(GameObject playerObject, List<PerkData> perks = null)
     {
         _PlayerObject = playerObject;
         _PlayerTransform = _PlayerObject.transform;

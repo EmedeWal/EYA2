@@ -61,15 +61,11 @@ public abstract class Resource : MonoBehaviour
             {
                 _currentValue = _maxValue;
             }
-            else if (_currentValue <= 0)
+            else if (_currentValue < 0)
             {
                 _currentValue = 0;
-                OnValueExhausted();
-
-                if (_decrementCoroutine != null)
-                {
-                    StopCoroutine(_decrementCoroutine);
-                }
+                StopRemoveValueCoroutine();
+                OnValueExhausted(gameObject);
             }
 
             _pendingValueChange = 0;
@@ -85,6 +81,14 @@ public abstract class Resource : MonoBehaviour
     public void RemoveConstantValue(float value)
     {
         _decrementCoroutine = StartCoroutine(ModifyConstantValueCoroutine(value, false));
+    }
+
+    public void StopRemoveValueCoroutine()
+    {
+        if (_decrementCoroutine != null)
+        {
+            StopCoroutine(_decrementCoroutine);
+        }
     }
 
     private IEnumerator ModifyConstantValueCoroutine(float value, bool isAddition)
@@ -106,7 +110,7 @@ public abstract class Resource : MonoBehaviour
         }
     }
 
-    private void OnValueExhausted()
+    private void OnValueExhausted(GameObject exhaustedObject)
     {
         ValueExhausted?.Invoke(gameObject);
     }

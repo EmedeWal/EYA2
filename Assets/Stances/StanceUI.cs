@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 public class StanceUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class StanceUI : MonoBehaviour
 
     [Header("STANCE DATA")]
     [SerializeField] private StanceData[] _stanceData;
+    private StanceData _currentData;
     private StanceIcon[] _stanceIcons;
     private float _maxMana;
     private int _currentStanceIndex = 1;
@@ -28,10 +30,24 @@ public class StanceUI : MonoBehaviour
         _mana.CurrentValueUpdated += StanceUI_CurrentValueUpdated;
     }
 
+    public void Cleanup()
+    {
+        _playerStanceManager.StanceSwapped -= StanceUI_StanceSwapped;
+        _playerStanceManager.SwapCooldownUpdated -= SwapCooldownUpdated;
+
+        _mana.MaxValueInitialized -= StanceUI_MaxValueInitialised;
+        _mana.CurrentValueUpdated -= StanceUI_CurrentValueUpdated;
+    }
+
     private void StanceUI_StanceSwapped(StanceType currentStance, StanceType nextStance)
     {
         UpdateStanceUI(currentStance, _currentStanceIndex);
         UpdateStanceUI(nextStance, _nextStanceIndex);
+    }
+
+    private void SwapCooldownUpdated(float progress)
+    {
+        _foredrop.fillAmount = 1 - progress;
     }
 
     private void StanceUI_MaxValueInitialised(float maxValue)
@@ -42,11 +58,6 @@ public class StanceUI : MonoBehaviour
     private void StanceUI_CurrentValueUpdated(float currentValue)
     {
         _stanceIcons[_currentStanceIndex].Background.fillAmount = currentValue / _maxMana;
-    }
-
-    private void SwapCooldownUpdated(float progress)
-    {
-        _foredrop.fillAmount = 1 - progress;
     }
 
     private void UpdateStanceUI(StanceType stanceType, int index)
@@ -62,7 +73,7 @@ public class StanceUI : MonoBehaviour
             }
         }
 
-        _stanceIcons[index].Background.color = currentData.Color;
         _stanceIcons[index].Icon.sprite = currentData.IconSprite;
+        _stanceIcons[index].Background.color = currentData.Color;
     }
 }

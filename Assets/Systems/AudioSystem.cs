@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AudioSystem : SingletonBase
@@ -16,14 +17,15 @@ public class AudioSystem : SingletonBase
             Destroy(gameObject);
         }
 
-        MusicSource =GetComponent<AudioSource>();
+        MusicSource = GetComponent<AudioSource>();
+        MusicSource.volume = MusicSource.volume * VolumeModifier;
     }
     #endregion
 
     public AudioSource MusicSource { get; private set; }
     public float VolumeModifier = 0.5f;
 
-    public void PlayAudioClip(AudioSource source, AudioClip clip, float offset = 0, float volume = 0, bool overrideAudio = true)
+    public void PlayAudioClip(AudioSource source, AudioClip clip, float volume, float offset = 0, bool overrideAudio = true)
     {
         volume *= VolumeModifier;
 
@@ -44,5 +46,23 @@ public class AudioSystem : SingletonBase
         source.volume = volume;
 
         source.Play();
+    }
+
+    public void PlaySilentClip(AudioSource mainSource, AudioSource secondSource, AudioClip clip, float volume, float offset = 0)
+    {
+        volume *= VolumeModifier;
+
+        if (secondSource.isPlaying)
+        {
+            return;
+        }
+
+        mainSource.Stop();
+
+        mainSource.clip = clip;
+        mainSource.time = offset;
+        mainSource.volume = volume;
+
+        mainSource.Play();
     }
 }

@@ -12,12 +12,12 @@ public class PerkSectionController : SectionControllerBase
 
     private List<PerkTree> _perkTrees = new();
 
-    public override void Init()
+    public override void Init(AudioDataUI audioDataUI)
     {
-        base.Init();
+        base.Init(audioDataUI);
 
         _perkTrees.AddRange(_Holder.GetComponentsInChildren<PerkTree>());
-        foreach (var perkTree in _perkTrees) perkTree.Init(_stanceData.Color);
+        foreach (var perkTree in _perkTrees) perkTree.Init(audioDataUI, _stanceData.Color);
         Souls.Instance.CurrentValueUpdated += PerkSectionController_CurrentValueUpdated;
 
         IncrementTier();

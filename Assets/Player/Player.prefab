@@ -789,9 +789,9 @@ GameObject:
   - component: {fileID: 8548221072610735012}
   - component: {fileID: 230302129111193560}
   - component: {fileID: 8956720991761083535}
-  - component: {fileID: 8603778950325910405}
-  - component: {fileID: 5021334000909963461}
-  - component: {fileID: 3452310873253900441}
+  - component: {fileID: 6872548370679991034}
+  - component: {fileID: 1521285261085473912}
+  - component: {fileID: 6603697760115918923}
   - component: {fileID: 716398785201116005}
   - component: {fileID: 605078075834916467}
   - component: {fileID: 1062212347810143361}
@@ -991,7 +991,7 @@ MonoBehaviour:
   _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _lightAttackData: {fileID: 11400000, guid: 12db997fa294b85489321541b22cb771, type: 2}
   _heavyAttackData: {fileID: 11400000, guid: b9c0e973e4c584845a56cfc6aa22b24a, type: 2}
---- !u!114 &8603778950325910405
+--- !u!114 &6872548370679991034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1000,13 +1000,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0d3d29ace6447146b84d27938eba69e, type: 3}
+  m_Script: {fileID: 11500000, guid: f135fadbdf2ad2c4d898b102a8ab9df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 24cf505c74d77a54b87aa4109526296d, type: 2}
   _passivePerks: []
   _ultimatePerks: []
---- !u!114 &5021334000909963461
+--- !u!114 &1521285261085473912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1015,13 +1015,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 347b23172ada2f44387b4a1e97ab1fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: f135fadbdf2ad2c4d898b102a8ab9df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 62165ea34e04e5547945b3f8282591ed, type: 2}
   _passivePerks: []
   _ultimatePerks: []
---- !u!114 &3452310873253900441
+--- !u!114 &6603697760115918923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1030,7 +1030,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16863feb4e22ff84580d0f981e047c83, type: 3}
+  m_Script: {fileID: 11500000, guid: f135fadbdf2ad2c4d898b102a8ab9df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 8fb802c08bcde144e8aed2e25e09616a, type: 2}

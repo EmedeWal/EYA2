@@ -82,6 +82,8 @@ public class PlayerManager : MonoBehaviour
 
     public void Cleanup()
     {
+        _stanceUI.Cleanup();
+
         _stanceManager.Cleanup();
         _statManager.Cleanup();
         _lockOn.Cleanup();

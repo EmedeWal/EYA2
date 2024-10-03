@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ascendant II
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 1
+  PerkType: 2
   Title: Ascendant II
   Description: Your clone gains an additional +50% health, +50% damage, and +10%
     movement speed

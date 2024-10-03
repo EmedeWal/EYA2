@@ -12,9 +12,9 @@ public class StatSectionController : SectionControllerBase
 
     private List<StatUI> _statUIList = new();
 
-    public override void Init()
+    public override void Init(AudioDataUI audioDataUI)
     {
-        base.Init();
+        base.Init(audioDataUI);
 
         _playerStats.StatChanged += OnStatChanged;
 

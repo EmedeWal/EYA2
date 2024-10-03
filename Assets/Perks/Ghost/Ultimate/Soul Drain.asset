@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Soul Drain
   m_EditorClassIdentifier: 
   StanceType: 0
-  PerkType: 1
+  PerkType: 2
   Title: Soul Drain
   Description: 'Whenever one of your clones deals damage, restore 3 mana '
   Tier: 3
