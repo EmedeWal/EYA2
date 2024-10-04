@@ -17,16 +17,28 @@ public class Health : Resource
 
     public float TakeDamage(GameObject attackerObject, float amount)
     {
-        if (Invincible || Helpers.GetChanceRoll(EvasionChance)) return 0f;  
+        if (Invincible) return 0f;
+        
+        if (Helpers.GetChanceRoll(EvasionChance))
+        {
+            HandleEvasion(attackerObject); return 0f;
+        }
+        else
+        {
+            float finalDamage = amount * ((100 - DamageReduction) / 100);
+            float damageDealt = Mathf.Min(finalDamage, CurrentValue);
 
-        float finalDamage = amount * ((100 - DamageReduction) / 100);  
-        float damageDealt = Mathf.Min(finalDamage, CurrentValue);
+            if (Shielded) { OnHitShielded(attackerObject, damageDealt); return 0f; }
 
-        if (Shielded) { OnHitShielded(attackerObject, damageDealt); return 0f; }
+            RemoveValue(damageDealt);
 
-        RemoveValue(damageDealt);
+            return damageDealt;
+        }
+    }
 
-        return damageDealt;
+    private void HandleEvasion(GameObject attackerObject)
+    {
+
     }
 
     private void OnHitShielded(GameObject attackerObject, float damageAbsorbed)

@@ -5,6 +5,7 @@ public class CreatureData : ScriptableObject
 {
     [Header("AGENT")]
     public float MovementSpeed;
+    public float MovementModifier;
 
     [Header("DISTANCE")]
     public float ChaseDistance;
@@ -14,5 +15,6 @@ public class CreatureData : ScriptableObject
 
     [Header("COMBAT")]
     public float Health;
+    public float AttackSpeed;
     public float DamageModifier;
 }

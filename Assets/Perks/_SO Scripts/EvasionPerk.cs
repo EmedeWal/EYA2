@@ -19,6 +19,7 @@ public class EvasionPerk : PerkData
     private VFX _currentShield;
     private int _currentShieldCount;
     private float _shieldTimer;
+    private bool _shielded = false;
 
     [Header("EXPLOSION")]
     [SerializeField] private Explosion _shieldExplosionPrefab;
@@ -51,7 +52,7 @@ public class EvasionPerk : PerkData
         _currentShieldCount = _shieldCount;
         _shieldTimer = _completionTime;
 
-        _targetLayers = LayerMask.NameToLayer("Damage Collider");
+        _targetLayers = LayerMask.NameToLayer("DamageCollider");
 
         _playerHealth = _PlayerObject.GetComponent<Health>();
         _playerMana = _PlayerObject.GetComponent<Mana>();
@@ -85,7 +86,7 @@ public class EvasionPerk : PerkData
             }
         }
 
-        if (_shieldPrefab != null && _currentShield == null)
+        if (_shieldPrefab != null && !_shielded)
         {
             _shieldTimer -= delta;
             if (_shieldTimer <= 0)
@@ -109,11 +110,11 @@ public class EvasionPerk : PerkData
         if (_currentShieldCount <= 0)
         {
             EnableShield(false);
+            StartShieldGFX();
         }
 
         if (_shieldExplosionPrefab != null)
         {
-            Debug.Log("explosion was not null");
             Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
             VFX explosionVFX = explosion.GetComponent<VFX>();
             VFXManager.Instance.AddVFX(explosionVFX, explosion.transform, true, 5);
@@ -136,15 +137,20 @@ public class EvasionPerk : PerkData
 
     private void EnableShield(bool enabled)
     {
-        Debug.Log("FULL Shield dont work");
+        if (_currentShield == null) return;
+
+        _shielded = enabled;
 
         if (enabled)
         {
             _playerHealth.Shielded = true;
             _playerHealth.HitShielded += EvasionPerk_HitShielded;
             _currentShield.GetComponent<VFXPlayer>().PlayVFXInChildren();
+
+            AudioSource source = _currentShield.GetComponent<AudioSource>();
+            AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
         }
-        else if (_currentShield != null)
+        else
         {
             _playerHealth.HitShielded -= EvasionPerk_HitShielded;
             _VFXManager.RemoveVFX(_currentShield);

@@ -117,9 +117,9 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
         _transform.rotation = targetRotation;
     }
 
-    private void HandleAnimations(bool lockedOn)
+    private void HandleAnimations(bool locked)
     {
-        _animatorManager.UpdateAnimatorValues(_delta, _horizontal, _vertical, _grounded, lockedOn);
+        _animatorManager.UpdateAnimatorValues(_delta, _horizontal, _vertical, _grounded, locked, Moving);
     }
 
     private bool IsGrounded()

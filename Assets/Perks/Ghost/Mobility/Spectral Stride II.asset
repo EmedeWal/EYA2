@@ -22,6 +22,8 @@ MonoBehaviour:
   _iceCloudPrefab: {fileID: 0}
   _iceCloudRadius: 0
   _iceCloudCooldown: 0
+  _movementBuff: {fileID: 2020503045015299057, guid: 84bc1d14ee6c00f4697cac52193b683d, type: 3}
+  _buffEmissionRate: 5
   _evasionChanceIncrease: 30
   _manaRegenIncrease: 1
   _momentumEffectPrefab: {fileID: 0}

@@ -93,6 +93,9 @@ public class GhostUltimatePerk : PerkData
 
                 Explosion summonExplosion = summonVFX.GetComponent<Explosion>();
                 summonExplosion.Init(_summonExplosionRadius, _targetLayer);
+
+                AudioSource source = summonExplosion.GetComponent<AudioSource>();
+                AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
             }
 
             if (_sparkPrefab != null)
@@ -135,11 +138,13 @@ public class GhostUltimatePerk : PerkData
             _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
         }
 
-        for (int i = 0; i < _clones.Count; i++)
+        List<CloneAI> clonesToRemove = new List<CloneAI>(_clones);
+
+        for (int i = 0; i < clonesToRemove.Count; i++)
         {
-            if (_clones[i] != null)
+            if (clonesToRemove[i] != null)
             {
-                RemoveClone(_clones[i]);
+                RemoveClone(clonesToRemove[i]);
             }
         }
 
