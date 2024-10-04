@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerInputHandler _inputHandler;
     private PlayerStanceManager _stanceManager;
     private PlayerStatManager _statManager;
-    private PlayerLockOn _lockOn;
+    private PlayerLock _lock;
     private PlayerLocomotion _locomotion;
     private PlayerAttackHandler _attackHandler;
     private Health _health;
@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
         _inputHandler = GetComponent<PlayerInputHandler>();
         _stanceManager = GetComponent<PlayerStanceManager>();
         _statManager = GetComponent<PlayerStatManager>();
-        _lockOn = GetComponent<PlayerLockOn>();
+        _lock = GetComponent<PlayerLock>();
         _locomotion = GetComponent<PlayerLocomotion>();
         _attackHandler = GetComponent<PlayerAttackHandler>();
         _health = GetComponent<Health>();
@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         _inputHandler.Init();
         _stanceManager.Init();
         _statManager.Init();
-        _lockOn.Init();
+        _lock.Init();
         _locomotion.Init();
         _attackHandler.Init(LayerMask.GetMask("DamageCollider"));
         _souls.Init();
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
         _footstepHandler.Init();
         _cameraController.Init(transform);
 
-        _lockOn.LockedOn += PlayerManager_LockedOn;
+        _lock.Locked += PlayerManager_LockedOn;
         _health.ValueExhausted += PlayerManager_ValueExhausted;
     }
 
@@ -71,7 +71,6 @@ public class PlayerManager : MonoBehaviour
         if (_timeSystem.CurrentTimeScale == 0) return;
 
         _stanceManager.Tick(delta);
-        _lockOn.Tick();
         _locomotion.Tick(delta, xDirection, yDirection, leftStickX, leftStickY, _target);
         _attackHandler.Tick(delta);
         _movementTracking.Tick(delta);
@@ -89,7 +88,7 @@ public class PlayerManager : MonoBehaviour
 
         _stanceManager.Cleanup();
         _statManager.Cleanup();
-        _lockOn.Cleanup();
+        _lock.Cleanup();
         _attackHandler.Cleanup();
     }
 

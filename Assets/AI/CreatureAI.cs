@@ -1,7 +1,7 @@
 using UnityEngine.AI;
 using UnityEngine;
 
-public class CreatureAI : MonoBehaviour
+public class CreatureAI : MonoBehaviour, IMovingProvider
 {
     [Header("CREATURE BASE DATA")]
     public CreatureData CreatureData;
@@ -12,11 +12,14 @@ public class CreatureAI : MonoBehaviour
 
     private CreatureAnimatorManager _animatorManager;
     private CreatureAttackHandler _attackHandler;
+    private FootstepHandler _footstepHandler;
     private NavMeshAgent _agent;
     private Health _health;
 
     private Transform _chaseTarget;
     private LayerMask _targetLayer;
+
+    public bool Moving { get; private set; } = false;
 
     public virtual void Init(LayerMask targetLayer)
     {
@@ -24,6 +27,7 @@ public class CreatureAI : MonoBehaviour
 
         _animatorManager = GetComponent<CreatureAnimatorManager>();
         _attackHandler = GetComponent<CreatureAttackHandler>();
+        _footstepHandler = GetComponent<FootstepHandler>();
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
 
@@ -33,6 +37,7 @@ public class CreatureAI : MonoBehaviour
 
         _animatorManager.Init();
         _attackHandler.Init(_targetLayer);
+        _footstepHandler.Init();
         _agent.speed = CreatureData.MovementSpeed;
         _health.Init(CreatureData.Health, CreatureData.Health);
     }
@@ -41,7 +46,8 @@ public class CreatureAI : MonoBehaviour
     {
         UpdateStateBehavior();
 
-        float velocity = _agent.velocity.magnitude > 0.1f ? 1 : 0;
+        Moving = _agent.velocity.magnitude > 0.1f;
+        float velocity = Moving ? 1 : 0;
         _animatorManager.UpdateAnimatorValues(delta, velocity);
     }
 
@@ -113,15 +119,16 @@ public class CreatureAI : MonoBehaviour
         {
             CurrentState = CreatureState.Idle;
         }
-        else if (_attackHandler.IsAttacking) return;
-
-        if (TargetInRange())
+        else if (!_attackHandler.IsAttacking)
         {
-            _attackHandler.StartAttack();
-        }
-        else
-        {
-            CurrentState = CreatureState.Chasing;
+            if (TargetInRange())
+            {
+                _attackHandler.StartAttack();
+            }
+            else
+            {
+                CurrentState = CreatureState.Chasing;
+            }
         }
     }
 
@@ -146,6 +153,8 @@ public class CreatureAI : MonoBehaviour
 
     private bool TargetInRange()
     {
+        if (_chaseTarget == null) return false;
+
         Vector3 transformPosition = _Transform.position;
         Vector3 targetPosition = _chaseTarget.position;
 

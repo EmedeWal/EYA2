@@ -20,5 +20,5 @@ MonoBehaviour:
   SwapVolume: 0.3
   SwapOffset: 0
   UltimateClip: {fileID: 8300000, guid: 618be86712ffac947997f96463301683, type: 3}
-  UltimateVolume: 0.1
-  UltimateOffset: 0
+  UltimateVolume: 0.25
+  UltimateOffset: 0.25

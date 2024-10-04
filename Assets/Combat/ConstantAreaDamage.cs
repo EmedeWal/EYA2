@@ -19,6 +19,11 @@ public class ConstantAreaDamage : MonoBehaviour
         _targetLayer = targetLayer;
         _damage = damage;
         _radius = radius;
+
+        if (TryGetComponent(out AudioSource audioSource))
+        {
+            AudioSystem.Instance.PlayAudioClip(audioSource, audioSource.clip, audioSource.volume);
+        }
     }
 
     public void Tick(float delta)

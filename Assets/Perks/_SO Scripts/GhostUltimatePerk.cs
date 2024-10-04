@@ -32,7 +32,7 @@ public class GhostUltimatePerk : PerkData
     private LayerMask _avoidLayers;
     private LayerMask _targetLayer;
 
-    private PlayerLockOn _playerLockOn;
+    private PlayerLock _playerLock;
     private Mana _mana;
 
     private VFXManager _VFXManager;
@@ -46,7 +46,7 @@ public class GhostUltimatePerk : PerkData
         _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
         _targetLayer = LayerMask.GetMask("DamageCollider");
 
-        _playerLockOn = _PlayerObject.GetComponent<PlayerLockOn>();
+        _playerLock = _PlayerObject.GetComponent<PlayerLock>();
         _mana = _PlayerObject.GetComponent<Mana>();
 
         _VFXManager = VFXManager.Instance;
@@ -56,7 +56,7 @@ public class GhostUltimatePerk : PerkData
 
     public override void Activate()
     {
-        Transform target = _playerLockOn.Target;
+        Transform target = _playerLock.Target;
         _currentSparks = null;
 
         for (int i = 0; i < _cloneCount; i++)
@@ -110,7 +110,7 @@ public class GhostUltimatePerk : PerkData
             }
         }
 
-        _playerLockOn.LockedOn += GhostUltimatePerk_LockedOn;
+        _playerLock.Locked += GhostUltimatePerk_Locked;
     }
 
     public override void Tick(float delta)
@@ -158,7 +158,7 @@ public class GhostUltimatePerk : PerkData
         _mana.GainMana(_manaRestoration);   
     }
 
-    private void GhostUltimatePerk_LockedOn(Transform target)
+    private void GhostUltimatePerk_Locked(Transform target)
     {
         if (target)
         {

@@ -617,7 +617,7 @@ public class DragonAI : EnemyAI
 //                // Check if the new position is within fire range and not too close to the current position
 //                if (toPlayer.magnitude <= fireRange && fromDragon.magnitude >= minRepositionDistance)
 //                {
-//                    // Ensure the _target position is not surrounded by walls
+//                    // Ensure the _targetCenter position is not surrounded by walls
 //                    Collider[] colliders = Physics.OverlapBox(hit.position, new Vector3(5f, 5f, 5f), Quaternion.identity, LayerMask.GetMask("Terrain"));
 
 //                    if (colliders.Length == 0)

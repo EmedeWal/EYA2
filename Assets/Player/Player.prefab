@@ -241,11 +241,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: df7087e4d8a8bb546bc08ce68632903f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -786,7 +786,7 @@ GameObject:
   - component: {fileID: 7654338806339167194}
   - component: {fileID: 4777351641286125768}
   - component: {fileID: 351255723678609061}
-  - component: {fileID: 8548221072610735012}
+  - component: {fileID: 667581335090660681}
   - component: {fileID: 230302129111193560}
   - component: {fileID: 8956720991761083535}
   - component: {fileID: 6872548370679991034}
@@ -930,6 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 224ab861144a55a4f9c063d943ed58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioSource: {fileID: 2040016102235803746}
   _swapCD: 1
 --- !u!114 &351255723678609061
 MonoBehaviour:
@@ -946,7 +947,7 @@ MonoBehaviour:
   _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _lightAttackData: {fileID: 11400000, guid: 12db997fa294b85489321541b22cb771, type: 2}
   _heavyAttackData: {fileID: 11400000, guid: b9c0e973e4c584845a56cfc6aa22b24a, type: 2}
---- !u!114 &8548221072610735012
+--- !u!114 &667581335090660681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -955,10 +956,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a3181685a1f34d439a96fa7bf1fb9e6, type: 3}
+  m_Script: {fileID: 11500000, guid: ce8c97a9827ce504e9f3af937b29b896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockOnRadius: 15
+  _lockRadius: 15
   _viewThreshold: 0.75
   _stickSensitivity: 0.5
 --- !u!114 &230302129111193560
@@ -1103,7 +1104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e061970f782fc4146ab56847015635ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _footstepSource: {fileID: 5357242251038079792}
+  _footstepData: {fileID: 11400000, guid: 01bc7e7543c3e804da0b01b1968e0641, type: 2}
+  _audioSource: {fileID: 5357242251038079792}
 --- !u!1 &1100944176040279480
 GameObject:
   m_ObjectHideFlags: 0

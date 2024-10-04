@@ -12,11 +12,11 @@ public class EvasionPerk : PerkData
     private float _evasionTimer;
 
     [Header("SHIELD")]
-    [SerializeField] private GameObject _shieldPrefab;
+    [SerializeField] private VFX _shieldPrefab;
     [SerializeField] private int _shieldCount = 1;
     [SerializeField] private bool _damageReflection = false;
     [SerializeField] private bool _manaRestoration = false;
-    private GameObject _currentShield;
+    private VFX _currentShield;
     private int _currentShieldCount;
     private float _shieldTimer;
 
@@ -27,6 +27,8 @@ public class EvasionPerk : PerkData
 
     private Health _playerHealth;
     private Mana _playerMana;
+
+    private VFXManager _VFXManager;
 
     public override void Init(GameObject playerObject, List<PerkData> perks = null)
     {
@@ -53,18 +55,21 @@ public class EvasionPerk : PerkData
 
         _playerHealth = _PlayerObject.GetComponent<Health>();
         _playerMana = _PlayerObject.GetComponent<Mana>();
+
+        _VFXManager = VFXManager.Instance;
     }
 
     public override void Activate()
     {
         _playerHealth.ValueRemoved += EvasionPerk_ValueRemoved;
-        ResetPerk();
+        ResetPerkState();
+        StartShieldGFX();
     }
 
     public override void Deactivate()
     {
         _playerHealth.ValueRemoved -= EvasionPerk_ValueRemoved;
-        ResetPerk();
+        ResetPerkState();
     }
 
     public override void Tick(float delta)
@@ -93,7 +98,8 @@ public class EvasionPerk : PerkData
 
     private void EvasionPerk_ValueRemoved()
     {
-        ResetPerk();
+        ResetPerkState();
+        StartShieldGFX();
     }
 
     private void EvasionPerk_HitShielded(GameObject attackerObject, float damageShielded)
@@ -107,6 +113,7 @@ public class EvasionPerk : PerkData
 
         if (_shieldExplosionPrefab != null)
         {
+            Debug.Log("explosion was not null");
             Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
             VFX explosionVFX = explosion.GetComponent<VFX>();
             VFXManager.Instance.AddVFX(explosionVFX, explosion.transform, true, 5);
@@ -129,22 +136,33 @@ public class EvasionPerk : PerkData
 
     private void EnableShield(bool enabled)
     {
+        Debug.Log("FULL Shield dont work");
+
         if (enabled)
         {
             _playerHealth.Shielded = true;
             _playerHealth.HitShielded += EvasionPerk_HitShielded;
-            _currentShield = Instantiate(_shieldPrefab, _PlayerTransform);
+            _currentShield.GetComponent<VFXPlayer>().PlayVFXInChildren();
         }
         else if (_currentShield != null)
         {
             _playerHealth.HitShielded -= EvasionPerk_HitShielded;
+            _VFXManager.RemoveVFX(_currentShield);
             _currentShieldCount = _shieldCount;
             _playerHealth.Shielded = false;
-            Destroy(_currentShield);
         }
     }
 
-    private void ResetPerk()
+    private void StartShieldGFX()
+    {
+        if (_shieldPrefab != null)
+        {
+            _currentShield = Instantiate(_shieldPrefab, _PlayerTransform);
+            _VFXManager.AddVFX(_currentShield, _PlayerTransform);
+        }
+    }
+
+    private void ResetPerkState()
     {
         _PlayerStats.IncrementStat(Stat.EvasionChance, -_currentEvasionChanceIncrease);
         _currentEvasionChanceIncrease = 0;

@@ -27,6 +27,7 @@ public class GameManager : SingletonBase
     [Header("INIT CALLS")]
     [SerializeField] private PauseMenuController _pauseMenuController;
     [SerializeField] private PlayerManager _playerManager;
+    [SerializeField] private AudioSystem _audioSystem;
 
     [Header("TICK CALLS")]
     [SerializeField] private VFXManager _VFXManager;
@@ -53,6 +54,7 @@ public class GameManager : SingletonBase
 
         _pauseMenuController.Init();
         _playerManager.Init();
+        _audioSystem.Init();
     }
 
     private void Update()

@@ -25,7 +25,6 @@ public class VolumeSlider : MonoBehaviour
     private void VolumeSlider_MoveSliderInputPerformed(int inputValue)
     {
         _slider.value = Mathf.Clamp(_slider.value + inputValue * _volumeStep, _minVolume, _maxVolume);
-        AudioSystem.Instance.VolumeModifier = _slider.value;
-        AudioSystem.Instance.MusicSource.volume = _slider.value;
+        AudioSystem.Instance.SetVolumeModifier(_slider.value);
     }
 }

@@ -5,7 +5,7 @@ public abstract class AreaOfEffect : MonoBehaviour
     [Header("GIZMOS. INSPECTOR ONLY")]
     public float _radius = 4;
 
-    public void Init(float radius, LayerMask targetLayers, Collider colliderToIgnore = null)
+    public virtual void Init(float radius, LayerMask targetLayers, Collider colliderToIgnore = null)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayers);
 

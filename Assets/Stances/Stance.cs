@@ -64,16 +64,12 @@ public class Stance : MonoBehaviour, IStanceDataProvider
 
     public virtual void Enter(bool sound)
     {
-        if (sound)
-        {
-            _audioSystem.PlayAudioClip(_audioSource, _stanceData.SwapClip, _stanceData.SwapVolume, _stanceData.SwapOffset);
-        }
-
         _active = true;
+
+        if (sound) _audioSystem.PlayAudioClip(_audioSource, _stanceData.SwapClip, _stanceData.SwapVolume, _stanceData.SwapOffset);
 
         _stanceSmoke = Instantiate(_stanceData.Smoke, _transform);
         _VFXManager.AddVFX(_stanceSmoke, _transform);
-
 
         foreach (var perk in _passivePerks)
         {
@@ -107,6 +103,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     {
         if (_ultimatePerk != null && _mana.AtMaxValue())
         {
+            _audioSystem.PlayExtraMusic(_stanceData.UltimateClip, _stanceData.UltimateVolume, _stanceData.UltimateOffset);
             _mana.ValueExhausted += Stance_ValueExhausted;
             StartCoroutine(UltimateTickCoroutine());
             _mana.RemoveConstantValue(10);
@@ -151,6 +148,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     {
         _mana.ValueExhausted -= Stance_ValueExhausted;
         _mana.StopRemoveValueCoroutine();
+        _audioSystem.StopExtraMusic();
         _ultimatePerk.Deactivate();
     }
 

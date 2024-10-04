@@ -61,7 +61,7 @@ public abstract class Resource : MonoBehaviour
             {
                 _currentValue = _maxValue;
             }
-            else if (_currentValue < 0)
+            else if (_currentValue <= 0)
             {
                 _currentValue = 0;
                 StopRemoveValueCoroutine();
