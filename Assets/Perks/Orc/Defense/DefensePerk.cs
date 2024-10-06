@@ -9,10 +9,8 @@ public class DefensePerk : PerkData
 
     [Header("STONE WALL")]
     [SerializeField] private VFX _buff;
-    [SerializeField] private float _buffEmissionRate = 5f;
     [SerializeField] private float _damageReductionIncrease = 10f;
     [SerializeField] private float _healthRegenIncrease = 3f;
-    private VFXEmission _buffEmission;
     private VFX _currentBuff;
     private bool _isMoving;
 
@@ -123,15 +121,12 @@ public class DefensePerk : PerkData
     {
         if (_buff == null) return;
 
-        if (enable)
+        if (_currentBuff == null && enable)
         {
             _currentBuff = Instantiate(_buff, _PlayerTransform);
             _VFXManager.AddVFX(_currentBuff, _PlayerTransform);
-
-            _buffEmission = _currentBuff.GetComponent<VFXEmission>();
-            _buffEmission.Init(0);
         }
-        else if (_currentBuff != null)
+        else
         {
             _VFXManager.RemoveVFX(_currentBuff, 1f);
         }
@@ -146,9 +141,9 @@ public class DefensePerk : PerkData
 
     private void StartedMoving()
     {
-        if (_buffEmission != null)
+        if (_currentBuff != null)
         {
-            _buffEmission.Tick(0);
+            _currentBuff.Deactivate();
         }
 
         _PlayerStats.IncrementStat(Stat.HealthRegen, -_healthRegenIncrease);
@@ -157,9 +152,9 @@ public class DefensePerk : PerkData
 
     private void StoppedMoving()
     {
-        if (_buffEmission != null)
+        if (_currentBuff != null)
         {
-            _buffEmission.Tick(_buffEmissionRate);
+            _currentBuff.Activate();
         }
 
         _PlayerStats.IncrementStat(Stat.HealthRegen, _healthRegenIncrease);

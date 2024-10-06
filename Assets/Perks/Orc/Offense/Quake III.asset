@@ -9,12 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: d134cd5848bcdef42b4c47d0b93cdbea, type: 3}
   m_Name: Quake III
   m_EditorClassIdentifier: 
   StanceType: 1
-  Title: Opportunist
-  Description: Striking a staggered enemy with a heavy attack will execute them when
-    they are under 30% health.
+  PerkType: 1
+  Title: Quake III
+  Description: Shockwaves no longer ignore your closest target
   Tier: 5
   Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _quakeVFX: {fileID: 2187127703201070337, guid: a491e4208bfa8aa40a3dfbc80202065a, type: 3}
+  _quakeRadius: 1
+  _quakeDamagePercentage: 30
+  _ignoreInitialTarget: 0
+  _quakeBuffVFX: {fileID: 2020503045015299057, guid: aa9c4b104a781c64fa06cbcdd8d175c2, type: 3}
+  _quakeBuffDuration: 3
+  _quakeBuffTargetRequirement: 3
+  _quakeBuffDamageIncrease: 0.3
+  _gritVFX: {fileID: 0}
+  _maximumInactivity: 0
+  _maxAttackDamageBonus: 0
+  _maxCriticalChanceBonus: 0
+  _maxCriticalMultiplierBonus: 0

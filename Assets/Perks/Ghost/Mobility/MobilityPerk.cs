@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MobilityPerk", menuName = "Scriptable Object/Perks/Passive Perk/Mobility")]
+[CreateAssetMenu(fileName = "Mobility Perk", menuName = "Scriptable Object/Perks/Passive Perk/Mobility")]
 public class MobilityPerk : PerkData
 {
     private PlayerLocomotion _playerLocomotion;
@@ -57,7 +57,7 @@ public class MobilityPerk : PerkData
         _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
         _playerMana = _PlayerObject.GetComponent<Mana>();
 
-        _targetLayers = LayerMask.NameToLayer("DamageCollider");
+        _targetLayers = LayerMask.GetMask("DamageCollider");
 
         _VFXManager = VFXManager.Instance;
 

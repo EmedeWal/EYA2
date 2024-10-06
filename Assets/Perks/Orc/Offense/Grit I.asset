@@ -9,11 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: d134cd5848bcdef42b4c47d0b93cdbea, type: 3}
   m_Name: Grit I
   m_EditorClassIdentifier: 
   StanceType: 1
-  Title: Savage Strikes I
-  Description: Attacks raise your attack damage by 5%, up to 25%
+  PerkType: 1
+  Title: Grit I
+  Description: Attacks against isolated targets will build grit. Grit increases attack
+    damage up to 30%. Prolonged Inactivity and non isolated attacks will reset grit
   Tier: 3
   Cost: 300
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _quakeVFX: {fileID: 0}
+  _quakeRadius: 0
+  _quakeDamagePercentage: 0
+  _ignoreInitialTarget: 0
+  _quakeBuffVFX: {fileID: 0}
+  _quakeBuffDuration: 3
+  _quakeBuffTargetRequirement: 3
+  _quakeBuffDamageIncrease: 0.3
+  _gritVFX: {fileID: 3939255730295264292, guid: a83cb2a12e3f5b040b1946573542533c, type: 3}
+  _maximumInactivity: 3
+  _maxAttackDamageBonus: 0.3
+  _maxCriticalChanceBonus: 0
+  _maxCriticalMultiplierBonus: 0

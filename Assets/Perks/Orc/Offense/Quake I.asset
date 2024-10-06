@@ -9,11 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: d134cd5848bcdef42b4c47d0b93cdbea, type: 3}
   m_Name: Quake I
   m_EditorClassIdentifier: 
   StanceType: 1
-  Title: Concussive Blows I
-  Description: Attacks cause a shockwave, inflicting stagger to nearby enemies
+  PerkType: 1
+  Title: Qauke I
+  Description: Attacks cause shockwaves around your closest target, dealing 30% of
+    the original damage to nearby targets
   Tier: 3
   Cost: 300
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _quakeVFX: {fileID: 2187127703201070337, guid: a491e4208bfa8aa40a3dfbc80202065a, type: 3}
+  _quakeRadius: 1
+  _quakeDamagePercentage: 30
+  _ignoreInitialTarget: 1
+  _quakeBuffVFX: {fileID: 0}
+  _quakeBuffDuration: 0
+  _quakeBuffTargetRequirement: 0
+  _quakeBuffDamageIncrease: 0
+  _gritVFX: {fileID: 0}
+  _maximumInactivity: 0
+  _maxAttackDamageBonus: 0
+  _maxCriticalChanceBonus: 0
+  _maxCriticalMultiplierBonus: 0

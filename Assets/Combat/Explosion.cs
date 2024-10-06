@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Explosion : AreaOfEffect
 {
-    [Header("VARIABLES")]
-    [SerializeField] private float _damage;
+    [Header("DAMAGE")]
+    public float Damage;
 
     public override void Init(float radius, LayerMask targetLayers, Collider colliderToIgnore = null)
     {
@@ -19,7 +19,7 @@ public class Explosion : AreaOfEffect
     {
         if (hit.TryGetComponent<Health>(out var health))
         {
-            health.TakeDamage(gameObject, _damage);
+            health.TakeDamage(gameObject, Damage);
         }
     }
 }

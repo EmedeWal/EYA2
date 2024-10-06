@@ -29,7 +29,7 @@ public class VFXManager : SingletonBase
         if (!_activeVFXList.Contains(vfx))
         {
             vfx.transform.SetParent(_transform, true);
-            vfx.Activate(followTarget);
+            vfx.Init(followTarget);
             _activeVFXList.Add(vfx);
 
             if (queueDestruction)

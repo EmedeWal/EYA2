@@ -4,9 +4,9 @@ public class StanceSmoke : VFX
 {
     private ParticleSystem _particleSystem;
 
-    public override void Activate(Transform followTarget)
+    public override void Init(Transform followTarget)
     {
-        base.Activate(followTarget);
+        base.Init(followTarget);
 
         _particleSystem = GetComponent<ParticleSystem>();
     }

@@ -6,11 +6,19 @@ public class VFX : MonoBehaviour
     private Transform _followTarget;
     private Transform _transform;
 
-    public virtual void Activate(Transform followTarget)
+    public virtual void Init(Transform followTarget)
     {
         _particleSystem = GetComponent<ParticleSystem>();
         _followTarget = followTarget;
         _transform = transform;
+    }
+
+    public virtual void Activate()
+    {
+        if (_particleSystem != null)
+        {
+            _particleSystem.Play();
+        }
     }
 
     public virtual void Tick()

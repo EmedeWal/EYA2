@@ -60,11 +60,13 @@ public class Health : Resource
 
     private void HandleEvasion(GameObject attackerObject)
     {
-        // Calculate the directions to the enemy and the offset from the player center
-        // Then instantiate the VFX for a short duration on that position, following the player's transform
-        VFX evasionVFX = Instantiate(_evasionVFX, transform);
+        Vector3 directionToAttacker = attackerObject.transform.position - transform.position;
+        directionToAttacker.y = 0;
+
+        VFX evasionVFX = Instantiate(_evasionVFX, _center.position, Quaternion.LookRotation(directionToAttacker));
+        VFXManager.Instance.AddVFX(evasionVFX, _center, true, 1f);
+
         AudioSource source = evasionVFX.GetComponent<AudioSource>();
-        VFXManager.Instance.AddVFX(evasionVFX, transform, true, 1f);
         AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
     }
 

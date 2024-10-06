@@ -19,10 +19,9 @@ MonoBehaviour:
   Tier: 5
   Cost: 500
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _buff: {fileID: 2020503045015299057, guid: aa9c4b104a781c64fa06cbcdd8d175c2, type: 3}
-  _buffEmissionRate: 5
+  _buff: {fileID: -5093769480058398699, guid: 805755f672b1b4d4d876c374aa949f0b, type: 3}
   _damageReductionIncrease: 10
   _healthRegenIncrease: 3
-  _invincibleHealthRegenIncrease: 5
-  _invincibleDuration: 3
-  _cooldown: 120
+  _enableResurrection: 0
+  _resurrectionHealThreshold: 0
+  _cooldown: 0

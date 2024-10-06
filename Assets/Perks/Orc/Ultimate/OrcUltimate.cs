@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "GhostUltimatePerk", menuName = "Scriptable Object/Perks/Ultimate Perk/Ghost")]
-public class GhostUltimatePerk : PerkData
+[CreateAssetMenu(fileName = "Orc Ultimate", menuName = "Scriptable Object/Perks/Ultimate Perk/Orc Ultimate")]
+public class OrcUltimate : PerkData
 {
     [Header("CLONE DATA")]
     [SerializeField] private CreatureData _creatureData;
@@ -161,7 +161,7 @@ public class GhostUltimatePerk : PerkData
 
     private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
     {
-        _mana.GainMana(_manaRestoration);   
+        _mana.GainMana(_manaRestoration);
     }
 
     private void GhostUltimatePerk_Locked(Transform target)
@@ -233,4 +233,5 @@ public class GhostUltimatePerk : PerkData
 
         return finalPosition;
     }
+
 }

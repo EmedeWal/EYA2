@@ -24,7 +24,7 @@ public class EvasionPerk : PerkData
     [Header("EXPLOSION")]
     [SerializeField] private Explosion _shieldExplosionPrefab;
     [SerializeField] private float _radius = 4;
-    private LayerMask _targetLayers;
+    private LayerMask _targetLayer;
 
     private Health _playerHealth;
     private Mana _playerMana;
@@ -52,7 +52,7 @@ public class EvasionPerk : PerkData
         _currentShieldCount = _shieldCount;
         _shieldTimer = _completionTime;
 
-        _targetLayers = LayerMask.NameToLayer("DamageCollider");
+        _targetLayer = LayerMask.NameToLayer("DamageCollider");
 
         _playerHealth = _PlayerObject.GetComponent<Health>();
         _playerMana = _PlayerObject.GetComponent<Mana>();
@@ -118,7 +118,7 @@ public class EvasionPerk : PerkData
             Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
             VFX explosionVFX = explosion.GetComponent<VFX>();
             VFXManager.Instance.AddVFX(explosionVFX, explosion.transform, true, 5);
-            explosion.Init(_radius, _targetLayers);
+            explosion.Init(_radius, _targetLayer);
         }
 
         if (_damageReflection)
