@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9042014239857212230}
   - component: {fileID: 5357242251038079792}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Footsteps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: -2198750239582975557}
   - component: {fileID: 4294180797862903265}
   - component: {fileID: 900162220475065758}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Clone Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2825,7 +2825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2728626943657942341}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Audio Sources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9849,7 +9849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2390670910585327443}
   - component: {fileID: 1061900165925547253}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}

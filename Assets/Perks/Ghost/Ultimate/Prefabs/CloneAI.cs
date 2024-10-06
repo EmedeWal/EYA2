@@ -7,9 +7,9 @@ public class CloneAI : CreatureAI
     [SerializeField] private VFX[] _constantVFXArray;
     private VFXManager _VFXManager;
 
-    public override void Init(LayerMask targetLayer)
+    public override void Init(LayerMask creatureLayer, LayerMask targetLayer, CreatureData creatureData)
     {
-        base.Init(targetLayer);
+        base.Init(creatureLayer, targetLayer, creatureData);
 
         _VFXManager = VFXManager.Instance;
 

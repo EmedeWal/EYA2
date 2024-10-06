@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "MobilityPerk", menuName = "Scriptable Object/Perks/Passive Perk/Mobility")]
 public class MobilityPerk : PerkData

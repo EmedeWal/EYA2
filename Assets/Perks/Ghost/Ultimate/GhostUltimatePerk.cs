@@ -29,8 +29,9 @@ public class GhostUltimatePerk : PerkData
     [SerializeField] private float _sparksRadius = 1f;
     private ConstantAreaDamage _currentSparks;
 
-    private LayerMask _avoidLayers;
+    private LayerMask _creatureLayer;
     private LayerMask _targetLayer;
+    private LayerMask _avoidLayers;
 
     private PlayerLock _playerLock;
     private Mana _mana;
@@ -43,8 +44,9 @@ public class GhostUltimatePerk : PerkData
     {
         base.Init(playerObject, perks);
 
-        _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
+        _creatureLayer = LayerMask.GetMask("Controller");
         _targetLayer = LayerMask.GetMask("DamageCollider");
+        _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
 
         _playerLock = _PlayerObject.GetComponent<PlayerLock>();
         _mana = _PlayerObject.GetComponent<Mana>();
@@ -82,8 +84,7 @@ public class GhostUltimatePerk : PerkData
             CloneAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
             currentClone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulAttack;
             currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
-            currentClone.CreatureData = _creatureData;
-            currentClone.Init(_targetLayer);
+            currentClone.Init(_creatureLayer, _targetLayer, _creatureData);
             _clones.Add(currentClone);
 
             if (_summonExplosionPrefab != null)

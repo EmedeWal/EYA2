@@ -9,11 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: a492ee27016a33f4bb8fdd94035786df, type: 3}
   m_Name: Stone Wall II
   m_EditorClassIdentifier: 
   StanceType: 1
+  PerkType: 1
   Title: Stone Wall II
   Description: While not moving, health regen is increased by 3/s
   Tier: 5
   Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _buff: {fileID: 2020503045015299057, guid: aa9c4b104a781c64fa06cbcdd8d175c2, type: 3}
+  _buffEmissionRate: 5
+  _damageReductionIncrease: 10
+  _healthRegenIncrease: 3
+  _invincibleHealthRegenIncrease: 5
+  _invincibleDuration: 3
+  _cooldown: 120

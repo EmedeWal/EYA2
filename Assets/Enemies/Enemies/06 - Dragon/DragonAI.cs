@@ -420,7 +420,7 @@ public class DragonAI : EnemyAI
 
 //    private void FireRecovery()
 //    {
-//        // The dragon can fire again after the _timer
+//        // The dragon can fire again after the _cooldownTimer
 //        Invoke(nameof(FireReset), fireCD);
 
 //        // Determine whether the enemy should chase or find a new position

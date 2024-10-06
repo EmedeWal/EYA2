@@ -4,16 +4,22 @@ public abstract class AttackHandler : MonoBehaviour
 {
     [HideInInspector] public bool IsAttacking = false;
 
+
+    [Header("CRIT EFFECTS")]
+    [SerializeField] private VFX _critVFX;
+
     [Header("AUDIO SOURCE")]
     [SerializeField] private AudioSource _audioSource;
 
     // Inherited properties
     protected AnimatorManager _AnimatorManager;
     protected AudioSystem _AudioSystem;
+    protected VFXManager _VFXManager;
     protected AttackData _AttackData;
     protected Transform _Transform;
-    private LayerMask _TargetLayer;
     protected float _Delta;
+
+    private LayerMask _targetLayer;
 
     public delegate void Delegate_SuccessfulAttack(Collider hit, float damage, bool crit);
     public event Delegate_SuccessfulAttack SuccessfulAttack;
@@ -22,7 +28,8 @@ public abstract class AttackHandler : MonoBehaviour
     {
         _AnimatorManager = GetComponent<AnimatorManager>();
         _AudioSystem = AudioSystem.Instance;
-        _TargetLayer = targetLayer;
+        _VFXManager = VFXManager.Instance;
+        _targetLayer = targetLayer;
         _Transform = transform;
     }
 
@@ -51,12 +58,21 @@ public abstract class AttackHandler : MonoBehaviour
     {
         Vector3 attackPosition = _Transform.position + _Transform.TransformDirection(_AttackData.AttackOffset);
 
-        Collider[] hits = Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _TargetLayer);
+        Collider[] hits = Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
 
         foreach (Collider hit in hits)
         {
             if (hit.TryGetComponent<Health>(out var health))
             {
+                if (crit && hit.TryGetComponent(out LockTarget lockTarget))
+                {
+                    Transform center = lockTarget.Center;
+                    VFX critVFX = Instantiate(_critVFX, center.position, center.rotation);
+                    AudioSource source = critVFX.GetComponent<AudioSource>();
+                    _AudioSystem.PlayAudioClip(source, source.clip, source.volume);
+                    _VFXManager.AddVFX(critVFX, center, true, 1f);
+                }
+
                 OnSuccesfulAttack(hit, damage, crit);
                 health.TakeDamage(gameObject, damage);
             }

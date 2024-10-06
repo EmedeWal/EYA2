@@ -22,8 +22,6 @@ public class CreatureAttackHandler : AttackHandler
 
     protected override void HandleDamage(float damage, bool crit)
     {
-
-
         base.HandleDamage(damage, crit);
     }
 

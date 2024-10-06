@@ -4,7 +4,7 @@ using UnityEngine;
 public class CreatureAI : MonoBehaviour, IMovingProvider
 {
     [Header("CREATURE BASE DATA")]
-    public CreatureData CreatureData;
+    [SerializeField] private CreatureData _creatureData;
 
     public CreatureState CurrentState = CreatureState.Idle;
 
@@ -21,9 +21,14 @@ public class CreatureAI : MonoBehaviour, IMovingProvider
 
     public bool Moving { get; private set; } = false;
 
-    public virtual void Init(LayerMask targetLayer)
+    public virtual void Init(LayerMask creatureLayer, LayerMask targetLayer, CreatureData creatureData = null)
     {
         _Transform = transform;
+
+        if (creatureData != null )
+        {
+            _creatureData = creatureData;
+        }
 
         _animatorManager = GetComponent<CreatureAnimatorManager>();
         _attackHandler = GetComponent<CreatureAttackHandler>();
@@ -31,15 +36,16 @@ public class CreatureAI : MonoBehaviour, IMovingProvider
         _agent = GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
 
-        _attackHandler.DamageModifier = CreatureData.DamageModifier;
+        _attackHandler.DamageModifier = _creatureData.DamageModifier;
 
+        gameObject.layer = creatureLayer;
         _targetLayer = targetLayer;
 
         _animatorManager.Init();
         _attackHandler.Init(_targetLayer);
         _footstepHandler.Init();
-        _agent.speed = CreatureData.MovementSpeed;
-        _health.Init(CreatureData.Health, CreatureData.Health);
+        _agent.speed = _creatureData.MovementSpeed;
+        _health.Init(_creatureData.Health, _creatureData.Health);
     }
 
     public virtual void Tick(float delta)
@@ -89,7 +95,7 @@ public class CreatureAI : MonoBehaviour, IMovingProvider
     {
         _agent.SetDestination(_Transform.position);
 
-        Collider[] hitColliders = Physics.OverlapSphere(_Transform.position, CreatureData.DetectionDistance, _targetLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(_Transform.position, _creatureData.DetectionDistance, _targetLayer);
         if (hitColliders.Length > 0)
         {
             Transform nearestTarget = GetNearestTarget(hitColliders);
@@ -119,15 +125,22 @@ public class CreatureAI : MonoBehaviour, IMovingProvider
         {
             CurrentState = CreatureState.Idle;
         }
-        else if (!_attackHandler.IsAttacking)
+        else
         {
-            if (TargetInRange())
+            if (!_animatorManager.GetBool("InAction"))
             {
-                _attackHandler.StartAttack();
+                // Look at the enemy while you are not attacking or have started your attack animation
             }
-            else
+            else if (!_attackHandler.IsAttacking)
             {
-                CurrentState = CreatureState.Chasing;
+                if (TargetInRange())
+                {
+                    _attackHandler.StartAttack();
+                }
+                else
+                {
+                    CurrentState = CreatureState.Chasing;
+                }
             }
         }
     }
@@ -163,7 +176,7 @@ public class CreatureAI : MonoBehaviour, IMovingProvider
 
         float distance = Vector3.Distance(transformPosition, targetPosition);
 
-        if (distance > CreatureData.ChaseDistance)
+        if (distance > _creatureData.ChaseDistance)
         {
             _agent.SetDestination(targetPosition);
             return false;

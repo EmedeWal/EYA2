@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Metabolism
   m_EditorClassIdentifier: 
   StanceType: 1
+  PerkType: 0
   Title: Metabolism
   Description: Increase health regen by 1/s
-  Tier: 2
-  Cost: 200
-  PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  TargetStat: 7
-  Increment: 1
+  Tier: 3
+  Cost: 300
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _targetStat: 8
+  _increment: 1
