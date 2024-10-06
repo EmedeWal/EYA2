@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63e6a91dad3ca6b449addcb168e3fae2, type: 3}
-  m_Name: Aftershock I
+  m_Name: Shatter Earth II
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 2
-  Title: Aftershock I
-  Description: The ground continues to shake at the epicenter. These tremors cause
-    constant damage to enemies in the area
-  Tier: 2
-  Cost: 200
+  Title: Shatter Earth II
+  Description: Shockwaves deal up to 100% increased damage to close targets
+  Tier: 3
+  Cost: 300
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _shockwaveVFX: {fileID: 9148684078751338392, guid: 9c4e8813fbd20e74e82dd44cd8d3f337, type: 3}
-  _shockwaveScaling: 1
+  _shockwaveScaling: 2
   _repeatShockwaves: 0
   _tremorVFX: {fileID: -124718739322429350, guid: 781b86573f475764b9e841b71e4e8f41, type: 3}
   _tremorRadius: 4

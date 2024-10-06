@@ -1,237 +1,143 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "Orc Ultimate", menuName = "Scriptable Object/Perks/Ultimate Perk/Orc Ultimate")]
+[CreateAssetMenu(fileName = "Orc Ultimate", menuName = "Scriptable Object/Perks/Ultimate Perk/Orc")]
 public class OrcUltimate : PerkData
 {
-    [Header("CLONE DATA")]
-    [SerializeField] private CreatureData _creatureData;
+    [Header("SHOCKWAVES")]
+    [SerializeField] private VFX _shockwaveVFX;
+    [SerializeField] private float _shockwaveScaling = 1f;
+    [SerializeField] private bool _repeatShockwaves = false;
 
-    [Header("SPAWN SETTINGS")]
-    [SerializeField] private CloneAI _clonePrefab;
-    [SerializeField] private int _cloneCount = 1;
-    [SerializeField] private float _minSpawnRadius = 2f;
-    [SerializeField] private float _maxSpawnRadius = 3f;
+    [Header("TREMORS")]
+    [SerializeField] private VFX _tremorVFX;
+    [SerializeField] private float _tremorRadius = 4f;
+    [SerializeField] private float _tremorDamage = 10f;
+    [SerializeField] private float _tremorSlowSpeed = 15f;
+    [SerializeField] private float _tremorSlowPercentage = 70f;
+    private Tremor _currentTremor;
+    private VFX _currentTremorVFX;
 
-    [Header("CLONE SETTINGS")]
-    [SerializeField] private VFX _deathExplosionPrefab;
-    [SerializeField] private float _deathExplosionRadius = 2f;
-    [SerializeField] private float _manaRestoration = 5f;
+    [Header("BATTLE ZONE")]
+    [SerializeField] private VFX _battleZoneVFX;
+    [SerializeField] private float _criticalChance = 25f;
+    [SerializeField] private float _criticalMultiplier = 0.5f;
+    [SerializeField] private float _damageReduction = 5f;
+    [SerializeField] private float _healthRegen = 1;
+    private BattleZone _currentBattleZone;
+    private VFX _currentBattleZoneVFX;
 
-    [Header("EXPLOSIVE SUMMON")]
-    [SerializeField] private VFX _summonExplosionPrefab;
-    [SerializeField] private float _summonExplosionRadius = 4f;
+    [Header("WIND EFFECT")]
+    [SerializeField] private VFX _windVFX;
 
-    [Header("SPARK SETTINGS")]
-    [SerializeField] private ConstantAreaDamage _sparkPrefab;
-    [SerializeField] private float _sparksDamage = 10f;
-    [SerializeField] private float _sparksRadius = 1f;
-    private ConstantAreaDamage _currentSparks;
-
-    private LayerMask _creatureLayer;
+    private AttackHandler _attackHandler;
     private LayerMask _targetLayer;
-    private LayerMask _avoidLayers;
 
-    private PlayerLock _playerLock;
-    private Mana _mana;
-
+    private AudioSystem _audioSystem;
     private VFXManager _VFXManager;
-
-    private List<CloneAI> _clones;
 
     public override void Init(GameObject playerObject, List<PerkData> perks = null)
     {
         base.Init(playerObject, perks);
 
-        _creatureLayer = LayerMask.GetMask("Controller");
+        _attackHandler = _PlayerObject.GetComponent<AttackHandler>();
         _targetLayer = LayerMask.GetMask("DamageCollider");
-        _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
 
-        _playerLock = _PlayerObject.GetComponent<PlayerLock>();
-        _mana = _PlayerObject.GetComponent<Mana>();
-
+        _audioSystem = AudioSystem.Instance;
         _VFXManager = VFXManager.Instance;
 
-        _clones = new List<CloneAI>();
+        _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
     }
 
     public override void Activate()
     {
-        Transform target = _playerLock.Target;
-        _currentSparks = null;
+        _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
 
-        for (int i = 0; i < _cloneCount; i++)
+        if (_shockwaveVFX != null)
         {
-            Vector3 spawnPosition;
-            Quaternion spawnRotation;
-
-            if (target)
-            {
-                spawnPosition = GetRandomSpawnPosition(target.position);
-
-                Vector3 directionToTarget = target.position - spawnPosition;
-                directionToTarget.y = 0;
-
-                spawnRotation = Quaternion.LookRotation(directionToTarget);
-            }
-            else
-            {
-                spawnPosition = GetRandomSpawnPosition(_PlayerTransform.position);
-                spawnRotation = _PlayerTransform.rotation;
-            }
-
-            CloneAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
-            currentClone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
-            currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
-            currentClone.Init(_creatureLayer, _targetLayer, _creatureData);
-            _clones.Add(currentClone);
-
-            if (_summonExplosionPrefab != null)
-            {
-                VFX summonVFX = Instantiate(_summonExplosionPrefab, currentClone.transform);
-                _VFXManager.AddVFX(summonVFX, summonVFX.transform);
-
-                Explosion summonExplosion = summonVFX.GetComponent<Explosion>();
-                summonExplosion.Init(_summonExplosionRadius, _targetLayer);
-
-                AudioSource source = summonExplosion.GetComponent<AudioSource>();
-                AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
-            }
-
-            if (_sparkPrefab != null)
-            {
-                Transform cloneTransform = currentClone.transform;
-                _currentSparks = Instantiate(_sparkPrefab, cloneTransform);
-                _currentSparks.Init(_sparksRadius, _sparksDamage, _targetLayer);
-                VFX sparkVFX = _currentSparks.GetComponent<VFX>();
-                _VFXManager.AddVFX(sparkVFX, cloneTransform);
-            }
-
-            if (target)
-            {
-                currentClone.SetChaseTarget(target);
-            }
+            CastShockwaves();
         }
 
-        _playerLock.Locked += GhostUltimatePerk_Locked;
+        if (_tremorVFX != null)
+        {
+            CastTremor();
+        }
+
+        if (_battleZoneVFX != null)
+        {
+            CastBattleZone();
+        }
     }
 
     public override void Tick(float delta)
     {
-        for (int i = 0; i < _clones.Count; i++)
+        if (_currentTremor != null)
         {
-            CloneAI currentClone = _clones[i];
-            currentClone.Tick(delta);
-            currentClone.LateTick(delta);
-
-            if (_currentSparks != null)
-            {
-                _currentSparks.Tick(delta);
-            }
+            _currentTremor.Tick(delta);
         }
     }
 
     public override void Deactivate()
     {
-        if (_currentSparks != null)
+        _attackHandler.SuccessfulAttack -= OrcUltimate_SuccessfulAttack;
+
+        if (_shockwaveVFX != null && _repeatShockwaves)
         {
-            _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
+            CastShockwaves();
         }
 
-        List<CloneAI> clonesToRemove = new List<CloneAI>(_clones);
-
-        for (int i = 0; i < clonesToRemove.Count; i++)
+        if (_currentTremorVFX != null)
         {
-            if (clonesToRemove[i] != null)
-            {
-                RemoveClone(clonesToRemove[i]);
-            }
+            _VFXManager.RemoveVFX(_currentTremorVFX, 1f);
+            _currentTremor.Deactivate();
+            _currentTremorVFX = null;
+            _currentTremor = null;
         }
 
-        _clones.Clear();
+        if (_currentBattleZoneVFX != null)
+        {
+            _VFXManager.RemoveVFX(_currentBattleZoneVFX, 1f);
+            _currentBattleZone.Cleanup();
+            _currentBattleZoneVFX = null;
+            _currentBattleZone = null;
+        }
     }
 
-    private void RemoveClone(CloneAI clone)
+    private void CastShockwaves()
     {
-        clone.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
-        _clones.Remove(clone);
-        clone.Cleanup();
+        VFX shockwaveVFX = Instantiate(_shockwaveVFX, _PlayerTransform);
+        _VFXManager.AddVFX(shockwaveVFX, shockwaveVFX.transform, true, 3f);
+
+        AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
+        _audioSystem.PlayAudioClip(source, source.clip, source.volume);
+
+        shockwaveVFX.GetComponent<Shockwave>().Init(_targetLayer, _shockwaveScaling);
     }
 
-    private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
+    private void CastTremor()
     {
-        _mana.GainMana(_manaRestoration);
+        _currentTremorVFX = Instantiate(_tremorVFX, _PlayerTransform);
+        _VFXManager.AddVFX(_currentTremorVFX, _currentTremorVFX.transform);
+
+        _currentTremor = _currentTremorVFX.GetComponent<Tremor>();
+        _currentTremor.InitTremor(_tremorRadius, _tremorDamage, _tremorSlowSpeed, _tremorSlowPercentage, _targetLayer);
     }
 
-    private void GhostUltimatePerk_Locked(Transform target)
+    private void CastBattleZone()
     {
-        if (target)
-        {
-            for (int i = 0; i < _clones.Count; i++)
-            {
-                _clones[i].SetChaseTarget(target);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < _clones.Count; i++)
-            {
-                _clones[i].CurrentState = CreatureState.Idle;
-            }
-        }
+        _currentBattleZoneVFX = Instantiate(_battleZoneVFX, _PlayerTransform);
+        _VFXManager.AddVFX(_currentBattleZoneVFX, _currentBattleZoneVFX.transform);
+
+        _currentBattleZone = _currentBattleZoneVFX.GetComponent<BattleZone>();
+        _currentBattleZone.Init(_PlayerStats, _criticalChance, _criticalMultiplier, _damageReduction, _healthRegen);
     }
 
-    private void GhostUltimatePerk_ValueExhausted(GameObject cloneObject)
+    private void OrcUltimate_SuccessfulAttack(Collider hit, int colliders, float damage, bool crit)
     {
-        if (_currentSparks != null)
+        if (_windVFX != null)
         {
-            _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
+            VFX windVFX = Instantiate(_windVFX, _PlayerTransform);
+            _VFXManager.AddVFX(windVFX, _windVFX.transform, true, 3f);
         }
-
-        if (_deathExplosionPrefab != null)
-        {
-            VFX cloneExplosion = Instantiate(_deathExplosionPrefab, cloneObject.transform);
-            _VFXManager.AddVFX(cloneExplosion, cloneExplosion.transform, true, 3f);
-            Explosion explosion = cloneExplosion.GetComponent<Explosion>();
-            explosion.Init(_deathExplosionRadius, _targetLayer);
-        }
-
-        RemoveClone(cloneObject.GetComponent<CloneAI>());
     }
-
-    private Vector3 GetRandomSpawnPosition(Vector3 center)
-    {
-        Vector3 randomDirection;
-        Vector3 finalPosition = center;
-
-        float spawnRadius = _maxSpawnRadius;
-        int attemptsPerRadius = 10;
-        int maxAttempts = 30;
-
-        for (int i = 0; i < maxAttempts; i++)
-        {
-            randomDirection = Random.insideUnitSphere * spawnRadius;
-            randomDirection += center;
-            randomDirection.y = center.y;
-
-            Collider[] nearbyColliders = Physics.OverlapSphere(randomDirection, _minSpawnRadius, _avoidLayers);
-            if (nearbyColliders.Length == 0)
-            {
-                if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, _maxSpawnRadius, NavMesh.AllAreas))
-                {
-                    finalPosition = hit.position;
-                    break;
-                }
-            }
-
-            if (i > 0 && i % attemptsPerRadius == 0)
-            {
-                spawnRadius += _minSpawnRadius;
-            }
-        }
-
-        return finalPosition;
-    }
-
 }

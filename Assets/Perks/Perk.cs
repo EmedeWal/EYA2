@@ -8,8 +8,9 @@ public class Perk : MonoBehaviour, IClickable
     [SerializeField] private PerkData _perkData;
 
     [Header("PERK POSITION IN TREE")]
-    public List<Perk> NextPerks = new();
-    public Perk PreviousPerk;
+    [SerializeField] private List<Perk> _nextPerks = new();
+    [SerializeField] private Perk _otherBranchPerk;
+    [SerializeField] private Perk _previousPerk;
 
     [Header("VISUALISATION")]
     [SerializeField] private Sprite _sprite;
@@ -28,6 +29,7 @@ public class Perk : MonoBehaviour, IClickable
     public event Action<Perk> PerkPurchased;
 
     public PerkData PerkData => _perkData;
+    public List<Perk> NextPerks => _nextPerks;
 
     public virtual void Init(AudioDataUI audio, Color purchasedColor)
     {
@@ -82,10 +84,15 @@ public class Perk : MonoBehaviour, IClickable
         if (CanPurchase())
         {
             Purchased = true;
-            LockOtherBranch();
             OnPerkPurchased(this);
             _stanceIcon.Background.color = _purchasedColor;
             _audio.System.PlayAudioClip(_audio.UncommonSource, _audio.UnlockClip, _audio.UnlockVolume, _audio.UnlockOffset);
+
+            if (_otherBranchPerk != null) 
+            {
+                _otherBranchPerk.LockBranch();
+            }
+
             PlayerStanceManager.Instance.AddPerk(_perkData, _perkData.StanceType);
             Souls.Instance.RemoveValue(_perkData.Cost);
         }
@@ -109,20 +116,6 @@ public class Perk : MonoBehaviour, IClickable
         _foredrop.SetActive(active);
     }
 
-    private void LockOtherBranch()
-    {
-        if (PreviousPerk != null)
-        {
-            foreach (var nextPerk in PreviousPerk.NextPerks)
-            {
-                if (nextPerk != this)
-                {
-                    nextPerk.LockBranch();
-                }
-            }
-        }
-    }
-
     private void OnPerkPurchased(Perk perk)
     {
         PerkPurchased?.Invoke(perk);
@@ -132,7 +125,7 @@ public class Perk : MonoBehaviour, IClickable
     {
         if (Purchased) return false;
 
-        if ((PreviousPerk != null && !PreviousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost))
+        if ((_previousPerk != null && !_previousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost))
         {
             _audio.System.PlayAudioClip(_audio.FailedSource, _audio.FailedClip, _audio.FailedVolume, _audio.FailedOffset, false); 
             return false;

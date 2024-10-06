@@ -10,7 +10,7 @@ public class ConstantAreaDamage : MonoBehaviour
     private float _damage;
     private float _radius;
 
-    public void Init(float radius, float damage, LayerMask targetLayer, Collider colliderToIgnore = null)
+    public virtual void Init(float radius, float damage, LayerMask targetLayer, Collider colliderToIgnore = null)
     {
         _gameObject = gameObject;
         _transform = transform;
@@ -33,11 +33,16 @@ public class ConstantAreaDamage : MonoBehaviour
         foreach (Collider collider in colliders)
         {
             if (collider == _colliderToIgnore) continue;
-            
-            if (collider.TryGetComponent(out Health health))
-            {
-                health.TakeDamage(_gameObject, _damage * delta);
-            }
+
+            Effect(collider, delta);
+        }
+    }
+
+    protected virtual void Effect(Collider collider, float delta)
+    {
+        if (collider.TryGetComponent(out Health health))
+        {
+            health.TakeDamage(_gameObject, _damage * delta);
         }
     }
 }
