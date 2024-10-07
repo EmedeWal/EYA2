@@ -27,8 +27,10 @@ public class OrcUltimate : PerkData
     private BattleZone _currentBattleZone;
     private VFX _currentBattleZoneVFX;
 
-    [Header("WIND EFFECT")]
-    [SerializeField] private VFX _windVFX;
+    [Header("SLASH EFFECT")]
+    [SerializeField] private VFX _slashVFX;
+    [SerializeField] private float _slashRadius = 1f;
+    [SerializeField] private float _slashDamagePercentage = 50f;
 
     private AttackHandler _attackHandler;
     private LayerMask _targetLayer;
@@ -45,14 +47,10 @@ public class OrcUltimate : PerkData
 
         _audioSystem = AudioSystem.Instance;
         _VFXManager = VFXManager.Instance;
-
-        _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
     }
 
     public override void Activate()
     {
-        _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
-
         if (_shockwaveVFX != null)
         {
             CastShockwaves();
@@ -79,8 +77,6 @@ public class OrcUltimate : PerkData
 
     public override void Deactivate()
     {
-        _attackHandler.SuccessfulAttack -= OrcUltimate_SuccessfulAttack;
-
         if (_shockwaveVFX != null && _repeatShockwaves)
         {
             CastShockwaves();
@@ -100,6 +96,11 @@ public class OrcUltimate : PerkData
             _currentBattleZone.Cleanup();
             _currentBattleZoneVFX = null;
             _currentBattleZone = null;
+
+            if (_slashVFX != null)
+            {
+                _attackHandler.SuccessfulAttack -= OrcUltimate_SuccessfulAttack;
+            }
         }
     }
 
@@ -130,14 +131,23 @@ public class OrcUltimate : PerkData
 
         _currentBattleZone = _currentBattleZoneVFX.GetComponent<BattleZone>();
         _currentBattleZone.Init(_PlayerStats, _criticalChance, _criticalMultiplier, _damageReduction, _healthRegen);
+
+        if (_slashVFX != null)
+        {
+            _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
+        }
     }
 
     private void OrcUltimate_SuccessfulAttack(Collider hit, int colliders, float damage, bool crit)
     {
-        if (_windVFX != null)
+        if (_currentBattleZone.PlayerInside && crit)
         {
-            VFX windVFX = Instantiate(_windVFX, _PlayerTransform);
-            _VFXManager.AddVFX(windVFX, _windVFX.transform, true, 3f);
+            VFX slashVFX = Instantiate(_slashVFX, _PlayerTransform);
+            _VFXManager.AddVFX(slashVFX, slashVFX.transform, true, 1f);
+
+            Explosion explosion = slashVFX.GetComponent<Explosion>();
+            float finalDamage = damage / 100 * _slashDamagePercentage;
+            explosion.InitExplosion(_slashRadius, finalDamage, _targetLayer, 0.05f);
         }
     }
 }

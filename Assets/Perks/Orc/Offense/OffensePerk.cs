@@ -131,8 +131,8 @@ public class OffensePerk : PerkData
                 _currentExplosion.HitsDetected += OffensePerk_HitsDetected;
             }
 
-            _currentExplosion.Damage = damage / 100 * _quakeDamagePercentage;
-            _currentExplosion.Init(_quakeRadius, _targetLayer, hit);
+            float finalDamage = damage / 100 * _quakeDamagePercentage;
+            _currentExplosion.InitExplosion(_quakeRadius, finalDamage, _targetLayer);
         }
 
         if (_gritVFX != null)

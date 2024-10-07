@@ -29,3 +29,10 @@ MonoBehaviour:
   _tremorSlowSpeed: 0
   _tremorSlowPercentage: 0
   _battleZoneVFX: {fileID: 5177020097236791314, guid: f4b1ded481027aa4a87e96df96ed5d95, type: 3}
+  _criticalChance: 25
+  _criticalMultiplier: 0.5
+  _damageReduction: 5
+  _healthRegen: 1
+  _slashVFX: {fileID: 1471233285595021482, guid: 57d46d1d032bd5b4fb31b4fd1fdd5ed1, type: 3}
+  _slashRadius: 1
+  _slashDamagePercentage: 50

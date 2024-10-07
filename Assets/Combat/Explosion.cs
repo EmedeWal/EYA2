@@ -3,15 +3,17 @@ using UnityEngine;
 public class Explosion : AreaOfEffect
 {
     [Header("DAMAGE")]
-    public float Damage;
+    [SerializeField] private float Damage;
 
-    public override void Init(float radius, LayerMask targetLayers, Collider colliderToIgnore = null)
+    public void InitExplosion(float radius, float damage, LayerMask targetLayers, float audioOffset = 0, Collider colliderToIgnore = null)
     {
+        Damage = damage;
+
         base.Init(radius, targetLayers, colliderToIgnore);
 
         if (TryGetComponent(out AudioSource audioSource))
         {
-            AudioSystem.Instance.PlayAudioClip(audioSource, audioSource.clip, audioSource.volume);
+            AudioSystem.Instance.PlayAudioClip(audioSource, audioSource.clip, audioSource.volume, audioOffset);
         }
     }
 

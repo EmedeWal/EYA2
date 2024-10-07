@@ -12,7 +12,8 @@ public class BattleZone : MonoBehaviour
     private float _healthRegenBonus = 0;
 
     private int _enemyCounter = 0;
-    private bool _playerInside = false;
+
+    public bool PlayerInside { get; private set; } = false;
 
     public void Init(PlayerStats playerStats, float criticalChanceBonus, float criticalMultiplierBonus, float damageReductionBonus, float healthRegenBonus)
     {
@@ -23,10 +24,10 @@ public class BattleZone : MonoBehaviour
         _damageReductionBonus = damageReductionBonus;
         _healthRegenBonus = healthRegenBonus;
 
-        _statChanges.Add(Stat.CriticalChance, _criticalChanceBonus);
-        _statChanges.Add(Stat.CriticalMultiplier, _criticalMultiplierBonus);
-        _statChanges.Add(Stat.DamageReduction, _damageReductionBonus);
-        _statChanges.Add(Stat.HealthRegen, _healthRegenBonus);
+        _statChanges.Add(Stat.CriticalChance, 0);
+        _statChanges.Add(Stat.CriticalMultiplier, 0);
+        _statChanges.Add(Stat.DamageReduction, 0);
+        _statChanges.Add(Stat.HealthRegen, 0);
     }
 
     public void Cleanup()
@@ -39,7 +40,7 @@ public class BattleZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _playerInside = true;
+            PlayerInside = true;
 
             IncrementStat(Stat.CriticalChance, _criticalChanceBonus);
             IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBonus);
@@ -51,7 +52,7 @@ public class BattleZone : MonoBehaviour
         {
             _enemyCounter++;
 
-            if (_playerInside)
+            if (PlayerInside)
             {
                 IncrementStat(Stat.DamageReduction, _damageReductionBonus);
                 IncrementStat(Stat.HealthRegen, _healthRegenBonus);
@@ -63,8 +64,7 @@ public class BattleZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _playerInside = false;
-
+            PlayerInside = false;
             ResetStatChanges();
         }
 
@@ -72,11 +72,11 @@ public class BattleZone : MonoBehaviour
         {
             _enemyCounter--;
 
-            //if (_playerInside)
-            //{
-            //    IncrementStat(Stat.DamageReduction, -_damageReductionBonus);
-            //    IncrementStat(Stat.HealthRegen, -_healthRegenBonus);
-            //}
+            if (PlayerInside)
+            {
+                IncrementStat(Stat.DamageReduction, -_damageReductionBonus);
+                IncrementStat(Stat.HealthRegen, -_healthRegenBonus);
+            }
         }
     }
 
@@ -88,11 +88,15 @@ public class BattleZone : MonoBehaviour
 
     private void ResetStatChanges()
     {
-        List<KeyValuePair<Stat, float>> statChangeList = new List<KeyValuePair<Stat, float>>(_statChanges);
+        var statChangeCopy = new Dictionary<Stat, float>(_statChanges);
 
-        foreach (var statChange in statChangeList)
+        foreach (var statChange in statChangeCopy)
         {
-            _playerStats.IncrementStat(statChange.Key, -statChange.Value);
+            if (statChange.Value != 0)
+            {
+                _playerStats.IncrementStat(statChange.Key, -statChange.Value);
+                _statChanges[statChange.Key] = 0;
+            }
         }
     }
 }
