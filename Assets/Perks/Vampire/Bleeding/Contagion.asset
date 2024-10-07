@@ -9,12 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: 55fb3057025ed2e41bc34d068202e67b, type: 3}
   m_Name: Contagion
   m_EditorClassIdentifier: 
   StanceType: 2
+  PerkType: 1
   Title: Contagion
   Description: When an enemy dies while inflicted by bleeding, blood erupts from
     its corpse, inflicting its remaining stacks on nearby enemies
   Tier: 5
   Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _maxStacks: 5
+  _damage: 1
+  _duration: 5
+  _stacksBonus: 1
+  _damageBonus: 1
+  _durationBonus: 1
+  _bloodEruptionVFX: {fileID: 8647482758638296469, guid: cea0c0ffc6f02494aa414cbcc0457e97, type: 3}
+  _bloodEruptionRadius: 2.5
+  _healthGain: 0
+  _damageModifier: 1
+  _durationModifier: 1

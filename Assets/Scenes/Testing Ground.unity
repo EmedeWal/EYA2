@@ -2716,6 +2716,7 @@ GameObject:
   - component: {fileID: 354635455}
   - component: {fileID: 354635454}
   - component: {fileID: 354635453}
+  - component: {fileID: 354635459}
   m_Layer: 21
   m_Name: Capsule (1)
   m_TagString: Enemy
@@ -2856,6 +2857,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354635451}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &354635459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354635451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!1001 &363167038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2879,6 +2893,10 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
@@ -5151,6 +5169,7 @@ GameObject:
   - component: {fileID: 525742757}
   - component: {fileID: 525742761}
   - component: {fileID: 525742762}
+  - component: {fileID: 525742763}
   m_Layer: 21
   m_Name: Capsule
   m_TagString: Enemy
@@ -5291,6 +5310,19 @@ MonoBehaviour:
   MaxHealth: 100
   CurrentHealth: 100
   ShouldDestroy: 1
+--- !u!114 &525742763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525742755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!224 &526880944 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4802166721160616515, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -5579,6 +5611,10 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
@@ -6238,6 +6274,7 @@ GameObject:
   - component: {fileID: 600446031}
   - component: {fileID: 600446030}
   - component: {fileID: 600446029}
+  - component: {fileID: 600446035}
   m_Layer: 21
   m_Name: Capsule (2)
   m_TagString: Enemy
@@ -6378,6 +6415,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600446027}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &600446035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600446027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!1 &604602921
 GameObject:
   m_ObjectHideFlags: 0
@@ -6393,6 +6443,7 @@ GameObject:
   - component: {fileID: 604602925}
   - component: {fileID: 604602924}
   - component: {fileID: 604602923}
+  - component: {fileID: 604602929}
   m_Layer: 21
   m_Name: Capsule
   m_TagString: Enemy
@@ -6533,6 +6584,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604602921}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &604602929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604602921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!1 &605319822
 GameObject:
   m_ObjectHideFlags: 0
@@ -7496,9 +7560,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 0cfad02076e37504faa4d5ac67c8ea9e, type: 2}
+      objectReference: {fileID: 11400000, guid: 5809c20c78ae054499cc8a0d18ff66e1, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 2110911486}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 2110911486}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -7506,7 +7574,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 1359244757}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 1359244757}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -15502,6 +15578,7 @@ GameObject:
   - component: {fileID: 1156551123}
   - component: {fileID: 1156551122}
   - component: {fileID: 1156551121}
+  - component: {fileID: 1156551127}
   m_Layer: 21
   m_Name: Capsule (1)
   m_TagString: Enemy
@@ -15642,6 +15719,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156551119}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1156551127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156551119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!1001 &1162229877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15657,17 +15747,33 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 78f36c1c8233fee41ba68846e8fae829, type: 2}
+      objectReference: {fileID: 11400000, guid: c580e5aed2fc6cd4d960b6872c148a02, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
       value: 
       objectReference: {fileID: 1905312709}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
+      value: 
+      objectReference: {fileID: 1905312709}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _otherBranchPerk
+      value: 
+      objectReference: {fileID: 1913837374}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 2053329882}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 2053329882}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -16203,9 +16309,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 9b966fbd7e2cdb944bb3957f0e7fcbdb, type: 2}
+      objectReference: {fileID: 11400000, guid: f9294f6520fcdc1469aed5310119cfb7, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 2053329882}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 2053329882}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -16213,7 +16323,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 2041162113}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 2041162113}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -17761,9 +17879,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: e21f86b0865ccba45a72fe5a9fce2189, type: 2}
+      objectReference: {fileID: 11400000, guid: a0b6659592ddc4840b5921299fc80092, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 1391645367}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 1391645367}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -17929,9 +18051,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: afef24bdc18c86c4f990dea21c85e26e, type: 2}
+      objectReference: {fileID: 11400000, guid: 282a3f0a9c0cf8341be2dee3fce97eb8, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 1309714660}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 1309714660}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -17939,7 +18065,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 2094105196}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 2094105196}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -18265,9 +18399,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 2b43d0ac4e8660e4e8a91cbc4eadf47d, type: 2}
+      objectReference: {fileID: 11400000, guid: 52456d2e7ce5c8e4fbc1c07764845eb3, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 1913837374}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 1913837374}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -18275,7 +18413,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 1391645367}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 1391645367}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -22808,6 +22954,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 402015988}
@@ -23342,6 +23492,7 @@ GameObject:
   - component: {fileID: 1821751389}
   - component: {fileID: 1821751388}
   - component: {fileID: 1821751387}
+  - component: {fileID: 1821751393}
   m_Layer: 21
   m_Name: Capsule (1)
   m_TagString: Enemy
@@ -23482,6 +23633,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821751385}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1821751393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821751385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!1 &1824519126
 GameObject:
   m_ObjectHideFlags: 0
@@ -24412,9 +24576,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 55ea3f87d74fef74bbd33fd56483f610, type: 2}
+      objectReference: {fileID: 11400000, guid: 2e2aa5beecc2c0e4c9311a9b346bd51c, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -24423,6 +24591,14 @@ PrefabInstance:
       objectReference: {fileID: 1309714660}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[1]
+      value: 
+      objectReference: {fileID: 1913837374}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 1309714660}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[1]
       value: 
       objectReference: {fileID: 1913837374}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -24645,17 +24821,33 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 77eb49d89e78fff4fbb1b0d3f64b4545, type: 2}
+      objectReference: {fileID: 11400000, guid: 3dba1a84108ac3f46a4ced17ebd28f29, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
       value: 
       objectReference: {fileID: 1905312709}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
+      value: 
+      objectReference: {fileID: 1905312709}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _otherBranchPerk
+      value: 
+      objectReference: {fileID: 1309714660}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: NextPerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 2110911486}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _nextPerks.Array.data[0]
       value: 
       objectReference: {fileID: 2110911486}
     - target: {fileID: 834958228247409534, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -25659,6 +25851,7 @@ GameObject:
   - component: {fileID: 1954955395}
   - component: {fileID: 1954955394}
   - component: {fileID: 1954955393}
+  - component: {fileID: 1954955399}
   m_Layer: 21
   m_Name: Capsule (2)
   m_TagString: Enemy
@@ -25799,6 +25992,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954955391}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1954955399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954955391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!224 &1960018486 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4802166721160616515, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -26977,9 +27183,13 @@ PrefabInstance:
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: _perkData
       value: 
-      objectReference: {fileID: 11400000, guid: 9befab6b68bf0d54086aaca5927a60c9, type: 2}
+      objectReference: {fileID: 11400000, guid: c53db58ed010a6d4fbbd3d6aeb415c83, type: 2}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
       propertyPath: PreviousPerk
+      value: 
+      objectReference: {fileID: 2094105196}
+    - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
+      propertyPath: _previousPerk
       value: 
       objectReference: {fileID: 2094105196}
     - target: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
