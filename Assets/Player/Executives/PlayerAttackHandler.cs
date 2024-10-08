@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerAttackHandler : AttackHandler
 {
@@ -10,6 +11,9 @@ public class PlayerAttackHandler : AttackHandler
     [SerializeField] private AttackData _heavyAttackData;
 
     private PlayerInputHandler _inputHandler;
+
+    public event Action LightAttack;
+    public event Action HeavyAttack;
 
     public override void Init(LayerMask targetLayer)
     {
@@ -51,11 +55,23 @@ public class PlayerAttackHandler : AttackHandler
     {
         if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
         HandleAttack(_lightAttackData);
+        OnLightAttack();
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
         if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
         HandleAttack(_heavyAttackData);
+        OnHeavyAttack();
+    }
+
+    private void OnLightAttack()
+    {
+        LightAttack?.Invoke();
+    }
+
+    private void OnHeavyAttack()
+    {
+        HeavyAttack?.Invoke();
     }
 }

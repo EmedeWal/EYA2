@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a96f4ec2d8879148849135f1e513e31, type: 3}
-  m_Name: Precision I
+  m_Name: Tempo II
   m_EditorClassIdentifier: 
   StanceType: 2
-  Title: Precision I
-  Description: Gain +10% damage
-  Tier: 1
-  Cost: 100
-  PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  TargetStat: 15
-  Increment: 0.1
+  PerkType: 0
+  Title: Tempo II
+  Description: Increases attack speed by an additional 10%
+  Tier: 2
+  Cost: 200
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _targetStat: 20
+  _increment: 0.1
