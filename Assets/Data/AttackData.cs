@@ -3,6 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data", order = 51)]
 public class AttackData : ScriptableObject
 {
+    [Header("TYPE")]
+    public AttackType AttackType;
+
     [Header("ANIMATION")]
     public string AnimationName;
 

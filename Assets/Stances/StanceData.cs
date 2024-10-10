@@ -11,7 +11,7 @@ public class StanceData : ScriptableObject
     public Color Color;
 
     [Header("VFX")]
-    public VFX Smoke;
+    public VFX SmokeVFX;
 
     [Header("SWAP AUDIO")]
     public AudioClip SwapClip;

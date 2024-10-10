@@ -116,9 +116,10 @@ public class EvasionPerk : PerkData
         if (_shieldExplosionPrefab != null)
         {
             Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
-            VFX explosionVFX = explosion.GetComponent<VFX>();
-            VFXManager.Instance.AddVFX(explosionVFX, explosion.transform, true, 5);
+            Transform transform = explosion.transform;
             explosion.Init(_radius, _targetLayer);
+
+            VFXManager.Instance.AddVFX(explosion.GetComponent<VFX>(), true, 5, transform.position, transform.rotation, transform);
         }
 
         if (_damageReflection)
@@ -131,7 +132,7 @@ public class EvasionPerk : PerkData
 
         if (_manaRestoration)
         {
-            _playerMana.GainMana(damageShielded);
+            _playerMana.Gain(damageShielded);
         }
     }
 

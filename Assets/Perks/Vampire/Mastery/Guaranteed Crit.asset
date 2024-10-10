@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
-  m_Name: Executioner II
+  m_Script: {fileID: 11500000, guid: 0ad140f892cb8b142a257ced7ef81cdf, type: 3}
+  m_Name: Guaranteed Crit
   m_EditorClassIdentifier: 
-  StanceType: 2
-  Title: Executioner II
-  Description: 'Continue the combo to launch two more blood waves '
-  Tier: 5
-  Cost: 500
+  _comboSequence: 0200000002000000
+  _finisherSequence: 0100000001000000
+  _pauseDuration: 0.5
+  _completedVFX: {fileID: 8585560126847221390, guid: 8335dab55e76c394caf62597f9986951, type: 3}

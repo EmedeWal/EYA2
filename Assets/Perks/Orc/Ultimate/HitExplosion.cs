@@ -28,9 +28,8 @@ public class HitExplosion : AreaOfEffect
         {
             health.TakeDamage(gameObject, _damage);
             
-            Transform hitTransform = hit.transform;
-            VFX hitVFX = Instantiate(_hitVFX, hitTransform.position, hitTransform.rotation);
-            _VFXManager.AddVFX(hitVFX, hitVFX.transform, true, 1f);
+            Transform transform = hit.transform;
+            _VFXManager.AddVFX(_hitVFX, true, 1f, transform.position, transform.rotation);
         }
     }
 }

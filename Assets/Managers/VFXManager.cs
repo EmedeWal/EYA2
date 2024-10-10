@@ -24,19 +24,26 @@ public class VFXManager : SingletonBase
 
     private List<VFX> _activeVFXList = new();
 
-    public void AddVFX(VFX vfx, Transform followTarget, bool queueDestruction = false, float destroyDelay = 0f)
+    public VFX AddVFX(VFX vfxPrefab, bool queueDestruction = false, float destroyDelay = 0f, Vector3 position = default, Quaternion rotation = default, Transform followTarget = null)
     {
-        if (!_activeVFXList.Contains(vfx))
-        {
-            vfx.transform.SetParent(_transform, true);
-            vfx.Init(followTarget);
-            _activeVFXList.Add(vfx);
+        VFX vfxInstance = Instantiate(vfxPrefab, position, rotation);
 
-            if (queueDestruction)
-            {
-                StartCoroutine(DestroyVFXAfterDelay(vfx, destroyDelay));
-            }
+        vfxInstance.transform.SetParent(_transform, true);
+
+        if (followTarget == null)
+        {
+            followTarget = vfxInstance.transform;
         }
+
+        vfxInstance.Init(followTarget);
+        _activeVFXList.Add(vfxInstance);
+
+        if (queueDestruction)
+        {
+            StartCoroutine(DestroyVFXAfterDelay(vfxInstance, destroyDelay));
+        }
+
+        return vfxInstance; 
     }
 
     public void Tick(float delta)

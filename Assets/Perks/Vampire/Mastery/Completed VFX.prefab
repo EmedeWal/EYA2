@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574927649420647294}
+  - component: {fileID: 8585560126847221390}
   - component: {fileID: 6539817711910147040}
   - component: {fileID: 8178600593643089869}
-  - component: {fileID: 1498749688209220860}
   m_Layer: 0
-  m_Name: Vampire Swap Effect
+  m_Name: Completed VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,6 +35,18 @@ Transform:
   - {fileID: 8305674739892711785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8585560126847221390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914400386765283814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31208a677da68dd4aa214ecd16f5d479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &6539817711910147040
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4899,20 +4911,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &1498749688209220860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914400386765283814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a886a85c2df094e84c5b8083063870, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lifeTime: 1
-  _countDownOnStart: 1
 --- !u!1 &1580075362481363687
 GameObject:
   m_ObjectHideFlags: 0
@@ -4961,7 +4959,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

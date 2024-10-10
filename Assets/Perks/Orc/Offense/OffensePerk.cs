@@ -105,19 +105,18 @@ public class OffensePerk : PerkData
     {
         if (_quakeVFX != null)
         {
-            Transform hitTransform;
+            Transform transform;
 
             if (hit.TryGetComponent(out LockTarget lockTarget))
             {
-                hitTransform = lockTarget.Center;
+                transform = lockTarget.Center;
             }
             else
             {
-                hitTransform = hit.transform;
+                transform = hit.transform;
             }
 
-            VFX quakeVFX = Instantiate(_quakeVFX, hitTransform.position, hitTransform.rotation);
-            _VFXManager.AddVFX(quakeVFX, hitTransform, true, 1f);
+            VFX quakeVFX = _VFXManager.AddVFX(_quakeVFX, true, 1f, transform.position, transform.rotation, transform);
 
             AudioSource source = quakeVFX.GetComponent<AudioSource>();
             _audioSystem.PlayAudioClip(source, source.clip, source.volume);

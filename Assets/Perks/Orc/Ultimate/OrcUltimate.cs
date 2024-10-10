@@ -106,8 +106,7 @@ public class OrcUltimate : PerkData
 
     private void CastShockwaves()
     {
-        VFX shockwaveVFX = Instantiate(_shockwaveVFX, _PlayerTransform);
-        _VFXManager.AddVFX(shockwaveVFX, shockwaveVFX.transform, true, 3f);
+        VFX shockwaveVFX = _VFXManager.AddVFX(_shockwaveVFX, true, 3f, _PlayerTransform.position, _PlayerTransform.rotation);
 
         AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
         _audioSystem.PlayAudioClip(source, source.clip, source.volume);
@@ -142,8 +141,7 @@ public class OrcUltimate : PerkData
     {
         if (_currentBattleZone.PlayerInside && crit)
         {
-            VFX slashVFX = Instantiate(_slashVFX, _PlayerTransform);
-            _VFXManager.AddVFX(slashVFX, slashVFX.transform, true, 1f);
+            VFX slashVFX = _VFXManager.AddVFX(_slashVFX, true, 1f, _PlayerTransform.position, _PlayerTransform.rotation);
 
             Explosion explosion = slashVFX.GetComponent<Explosion>();
             float finalDamage = damage / 100 * _slashDamagePercentage;

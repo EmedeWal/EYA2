@@ -36,6 +36,16 @@ public class BleedingPerk : PerkData
     {
         base.Init(playerObject, perks);
 
+        for (int i = perks.Count - 1; i >= 0; i--)
+        {
+            PerkData perk = perks[i];
+            if (perk.GetType() == GetType())
+            {
+                perk.Deactivate();
+                perks.RemoveAt(i);
+            }
+        }
+
         _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
         _playerHealth = _PlayerObject.GetComponent<Health>();
 
@@ -94,11 +104,10 @@ public class BleedingPerk : PerkData
             Transform transform = healthObject.transform;
             int stacks = healthObject.GetComponent<BleedHandler>().CurrentStacks;
 
-            VFX vfx = Instantiate(_bloodEruptionVFX, transform.position, transform.rotation);
-            _VFXManager.AddVFX(vfx, vfx.transform, true, 3f);
+            VFX bloodEruptionVFX = _VFXManager.AddVFX(_bloodEruptionVFX, true, 3f, transform.position, transform.rotation);
 
             UpdateBleedingStats();
-            BloodEruption bloodEruption = vfx.GetComponent<BloodEruption>();
+            BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
             bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _targetLayer);
         }
     }

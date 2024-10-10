@@ -161,7 +161,7 @@ public class GhostUltimatePerk : PerkData
 
     private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
     {
-        _mana.GainMana(_manaRestoration);   
+        _mana.Gain(_manaRestoration);   
     }
 
     private void GhostUltimatePerk_Locked(Transform target)
@@ -191,8 +191,7 @@ public class GhostUltimatePerk : PerkData
 
         if (_deathExplosionPrefab != null)
         {
-            VFX cloneExplosion = Instantiate(_deathExplosionPrefab, cloneObject.transform);
-            _VFXManager.AddVFX(cloneExplosion, cloneExplosion.transform, true, 3f);
+            VFX cloneExplosion = _VFXManager.AddVFX(_deathExplosionPrefab, true, 3f);
             Explosion explosion = cloneExplosion.GetComponent<Explosion>();
             explosion.Init(_deathExplosionRadius, _targetLayer);
         }

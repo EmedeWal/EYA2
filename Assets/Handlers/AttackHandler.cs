@@ -76,10 +76,10 @@ public abstract class AttackHandler : MonoBehaviour
                     if (crit && hit.TryGetComponent(out LockTarget lockTarget))
                     {
                         Transform center = lockTarget.Center;
-                        VFX critVFX = Instantiate(_critVFX, center.position, center.rotation);
+                        VFX critVFX = _VFXManager.AddVFX(_critVFX, true, 1f, center.position, center.rotation, center);
+
                         AudioSource source = critVFX.GetComponent<AudioSource>();
                         _AudioSystem.PlayAudioClip(source, source.clip, source.volume, 0.05f);
-                        _VFXManager.AddVFX(critVFX, center, true, 1f);
                     }
 
                     OnsuccesfulHit(hit, damage, crit);

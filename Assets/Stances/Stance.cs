@@ -13,11 +13,11 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     [Header("STANCE DATA")]
     [SerializeField] private StanceData _stanceData;
 
-    [SerializeField] private List<PerkData> _passivePerks;
-    [SerializeField] private List<PerkData> _statPerks;
-    [SerializeField] private PerkData _ultimatePerk;
+    private List<PerkData> _passivePerks;
+    private List<PerkData> _statPerks;
+    private PerkData _ultimatePerk;
 
-    private VFX _stanceSmoke;
+    private VFX _currentSmokeVFX;
 
     private bool _active = false;
 
@@ -68,8 +68,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
 
         if (sound) _audioSystem.PlayAudioClip(_audioSource, _stanceData.SwapClip, _stanceData.SwapVolume, _stanceData.SwapOffset);
 
-        _stanceSmoke = Instantiate(_stanceData.Smoke, _transform);
-        _VFXManager.AddVFX(_stanceSmoke, _transform);
+        _currentSmokeVFX = _VFXManager.AddVFX(_stanceData.SmokeVFX, false, 0f, _transform.position, _transform.rotation, _transform);
 
         foreach (var perk in _passivePerks)
         {
@@ -86,7 +85,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
     {
         _active = false;
 
-        _VFXManager.RemoveVFX(_stanceSmoke, 1);
+        _VFXManager.RemoveVFX(_currentSmokeVFX, 1f);
 
         foreach (var perk in _passivePerks)
         {

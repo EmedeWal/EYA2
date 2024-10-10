@@ -14,8 +14,8 @@ public class FreezingExplosion : AreaOfEffect
     {
         if (hit.TryGetComponent(out AnimatorManager animatorManager))
         {
-            VFX freezeVFX = Instantiate(_freezeVFX, hit.transform);
-            VFXManager.Instance.AddVFX(freezeVFX, hit.transform, true, _slowDuration);
+            Transform transform = hit.transform;
+            VFXManager.Instance.AddVFX(_freezeVFX, true, _slowDuration, transform.position, transform.rotation, transform);
 
             float originalMovementSpeed = animatorManager.MovementSpeed;
             float originalAttackSpeed = animatorManager.AttackSpeed;

@@ -12,8 +12,10 @@ public class PlayerAttackHandler : AttackHandler
 
     private PlayerInputHandler _inputHandler;
 
-    public event Action LightAttack;
-    public event Action HeavyAttack;
+    public bool GuaranteedCrit { private get; set; } = false;
+
+    public event Action<AttackType> AttackStarted;
+    public event Action<AttackType> AttackFinished;
 
     public override void Init(LayerMask targetLayer)
     {
@@ -43,35 +45,40 @@ public class PlayerAttackHandler : AttackHandler
 
     protected override void AttackEnd()
     {
+        OnAttackFinished(_AttackData.AttackType);
         IsAttacking = false;
     }
 
     protected override bool RollCritical()
     {
-        return Helpers.GetChanceRoll(_stats.GetCurrentStat(Stat.CriticalChance));
+        if (GuaranteedCrit || Helpers.GetChanceRoll(_stats.GetCurrentStat(Stat.CriticalChance)))
+        {
+            GuaranteedCrit = false; return true;
+        }
+        return false;
     }
 
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
         if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
+        OnAttackStarted(_lightAttackData.AttackType);
         HandleAttack(_lightAttackData);
-        OnLightAttack();
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
         if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
+        OnAttackStarted(_heavyAttackData.AttackType);
         HandleAttack(_heavyAttackData);
-        OnHeavyAttack();
     }
 
-    private void OnLightAttack()
+    private void OnAttackStarted(AttackType attackType)
     {
-        LightAttack?.Invoke();
+        AttackStarted?.Invoke(attackType);
     }
 
-    private void OnHeavyAttack()
+    private void OnAttackFinished(AttackType attackType)
     {
-        HeavyAttack?.Invoke();
+        AttackFinished?.Invoke(attackType);
     }
 }

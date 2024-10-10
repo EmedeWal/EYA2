@@ -23,7 +23,7 @@ public class AudioSystem : SingletonBase
     [SerializeField] private AudioSource _extraMusicSource;
     private float _defaultVolume;
 
-    public float VolumeModifier { get; private set; } = 0.5f;
+    public float VolumeModifier = 0.5f;
 
     public void Init()
     {

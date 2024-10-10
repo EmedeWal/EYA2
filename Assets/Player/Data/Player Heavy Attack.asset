@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8687802c66f22254c83a540075db489d, type: 3}
   m_Name: Player Heavy Attack
   m_EditorClassIdentifier: 
+  AttackType: 2
   AnimationName: Heavy Attack
   AudioClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
   AudioOffset: 0

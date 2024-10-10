@@ -1,6 +1,6 @@
 public class Mana : Resource
 {
-    public void GainMana(float amount)
+    public void Gain(float amount)
     {
         AddValue(amount);
     }

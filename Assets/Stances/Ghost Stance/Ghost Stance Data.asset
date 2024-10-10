@@ -15,7 +15,7 @@ MonoBehaviour:
   StanceType: 0
   IconSprite: {fileID: 21300000, guid: 89a07986cf1441b40b1ea5cd9c632346, type: 3}
   Color: {r: 0, g: 0.78431374, b: 1, a: 1}
-  Smoke: {fileID: 9217561253790756185, guid: 350eb7c60a48f44439cee0ededb6feea, type: 3}
+  SmokeVFX: {fileID: 9217561253790756185, guid: 350eb7c60a48f44439cee0ededb6feea, type: 3}
   SwapClip: {fileID: 8300000, guid: 9a36571ac29da8a4baae1bfe3223ab2d, type: 3}
   SwapVolume: 0.3
   SwapOffset: 0

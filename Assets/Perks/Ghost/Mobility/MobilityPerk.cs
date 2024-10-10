@@ -106,11 +106,12 @@ public class MobilityPerk : PerkData
                 if (_iceCloudTimer >= _iceCloudCooldown)
                 {
                     _iceCloudTimer = 0;
-                    VFX iceCloud = Instantiate(_iceCloudPrefab, _PlayerTransform);
-                    _VFXManager.AddVFX(iceCloud, iceCloud.transform, true, 4f);
+
+                    VFX iceCloud = _VFXManager.AddVFX(_iceCloudPrefab, true, 4f, _PlayerTransform.position, _PlayerTransform.rotation);
+                    iceCloud.GetComponent<FreezingExplosion>().Init(_iceCloudRadius, _targetLayers);
+
                     AudioSource source = iceCloud.GetComponent<AudioSource>();
                     AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
-                    iceCloud.GetComponent<FreezingExplosion>().Init(_iceCloudRadius, _targetLayers);
                 }
             }
             else

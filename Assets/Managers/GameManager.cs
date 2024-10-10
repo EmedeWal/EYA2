@@ -22,6 +22,7 @@ public class GameManager : SingletonBase
     private List<SingletonBase> _singletons = new();
 
     [Header("SCRIPTABLE OBJECTS INIT")]
+    [SerializeField] private BloodwaveStats _bloodwaveStats;
     [SerializeField] private PlayerStats _playerStats;
 
     [Header("INIT CALLS")]
@@ -39,10 +40,7 @@ public class GameManager : SingletonBase
         SingletonBase[] singletons = FindObjectsByType<SingletonBase>(FindObjectsSortMode.None);
         foreach (SingletonBase singleton in singletons)
         {
-            if (singleton != this)
-            {
-                _singletons.Add(singleton);
-            }
+            _singletons.Add(singleton);
         }
 
         foreach (SingletonBase singleton in _singletons)
@@ -50,6 +48,7 @@ public class GameManager : SingletonBase
             singleton.SingletonSetup();
         }
 
+        _bloodwaveStats.Init();
         _playerStats.Init();
 
         _pauseMenuController.Init();
