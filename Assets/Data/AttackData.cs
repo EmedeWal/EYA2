@@ -22,5 +22,6 @@ public class AttackData : ScriptableObject
 
     [Header("HITBOX")]
     public Vector3 AttackOffset;
+    public Vector3 AttackHitBox;
     public float AttackRadius;
 }

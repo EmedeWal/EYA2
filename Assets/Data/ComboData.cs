@@ -55,10 +55,14 @@ public abstract class ComboData : ScriptableObject
 
     public void RegisterAttackFinished(AttackType attackType)
     {
-        if (_currentComboIndex < _comboSequence.Count)
+        if (_currentFinisherIndex >= _finisherSequence.Count)
+        {
+            OnComboFinisherPerformed();
+        }
+        else if (_currentComboIndex < _comboSequence.Count)
         {
             if (_comboSequence[_currentComboIndex] == attackType)
-            { 
+            {
                 _currentComboIndex++;
                 if (_currentComboIndex >= _comboSequence.Count)
                 {
@@ -71,11 +75,6 @@ public abstract class ComboData : ScriptableObject
             {
                 ResetCombo();
             }
-        }
-
-        if (_currentFinisherIndex >= _finisherSequence.Count)
-        {
-            OnComboFinisherPerformed();
         }
     }
 
@@ -97,7 +96,7 @@ public abstract class ComboData : ScriptableObject
             else if (_ready)
             {
                 _timer += delta;
-                if (_timer >= _leeway)
+                if (_timer >= _leeway * 2)
                 {
                     ResetCombo();
                 }

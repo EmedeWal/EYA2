@@ -25,12 +25,12 @@ public class PlayerAnimatorManager : AnimatorManager
 
         float speed = moving ? 1 : 0;
 
-        _Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed, 0.1f, delta);
-        _Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed, 0.1f, delta);
-        _Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, delta);
-        _Animator.SetFloat(_animatorVertical, vertical, 0.1f, delta);
-        _Animator.SetFloat(_animatorSpeed, speed, 0.1f, delta);
-        _Animator.SetBool("Grounded", grounded);
-        _Animator.SetBool("Locked", locked);
+        Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed, 0.1f, delta);
+        Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed, 0.1f, delta);
+        Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, delta);
+        Animator.SetFloat(_animatorVertical, vertical, 0.1f, delta);
+        Animator.SetFloat(_animatorSpeed, speed, 0.1f, delta);
+        Animator.SetBool("Grounded", grounded);
+        Animator.SetBool("Locked", locked);
     }
 }

@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 4478099895059525625}
   - component: {fileID: 5704649201074262296}
   - component: {fileID: -6603986095318887726}
-  - component: {fileID: 6845419745491991783}
+  - component: {fileID: 5008616264670171006}
   - component: {fileID: 411027475808266268}
   - component: {fileID: -7096915515149961137}
   - component: {fileID: -2198750239582975557}
@@ -879,7 +879,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6845419745491991783
+--- !u!114 &5008616264670171006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -888,13 +888,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 296a14fc27e2e62478727a2d1edc5da1, type: 3}
+  m_Script: {fileID: 11500000, guid: c75abef3b7894aa43bb84cd90119746a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreatureData: {fileID: 0}
+  _creatureData: {fileID: 0}
   CurrentState: 0
-  _initialVFXArray: []
-  _constantVFXArray: []
 --- !u!114 &411027475808266268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,6 +920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAttacking: 0
+  _critVFX: {fileID: 0}
   _audioSource: {fileID: 1061900165925547253}
   _attackDataList:
   - {fileID: 11400000, guid: 43fb1bb4ef023134ea4d8a61bef591f2, type: 2}
@@ -964,6 +963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _center: {fileID: 0}
+  _evasionVFX: {fileID: 0}
 --- !u!1 &1100944176040279480
 GameObject:
   m_ObjectHideFlags: 0

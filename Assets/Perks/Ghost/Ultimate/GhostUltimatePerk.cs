@@ -84,7 +84,7 @@ public class GhostUltimatePerk : PerkData
             CloneAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
             currentClone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
             currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
-            currentClone.Init(_creatureLayer, _targetLayer, _creatureData);
+            currentClone.Init(_creatureLayer, _targetLayer);
             _clones.Add(currentClone);
 
             if (_summonExplosionPrefab != null)
@@ -110,7 +110,7 @@ public class GhostUltimatePerk : PerkData
 
             if (target)
             {
-                currentClone.SetChaseTarget(target);
+                //currentClone.SetChaseTarget(_target);
             }
         }
 
@@ -123,7 +123,7 @@ public class GhostUltimatePerk : PerkData
         {
             CloneAI currentClone = _clones[i];
             currentClone.Tick(delta);
-            currentClone.LateTick(delta);
+            //currentClone.LateTick(delta);
 
             if (_currentSparks != null)
             {
@@ -156,7 +156,7 @@ public class GhostUltimatePerk : PerkData
     {
         clone.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
         _clones.Remove(clone);
-        clone.Cleanup();
+        //clone.CleanupCreature();
     }
 
     private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
@@ -170,14 +170,14 @@ public class GhostUltimatePerk : PerkData
         {
             for (int i = 0; i < _clones.Count; i++)
             {
-                _clones[i].SetChaseTarget(target);
+                //_clones[i].SetChaseTarget(_target);
             }
         }
         else
         {
             for (int i = 0; i < _clones.Count; i++)
             {
-                _clones[i].CurrentState = CreatureState.Idle;
+                //_clones[i].CurrentState = CreatureState.Idle;
             }
         }
     }

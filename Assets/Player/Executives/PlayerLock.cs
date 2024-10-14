@@ -44,12 +44,23 @@ public class PlayerLock : MonoBehaviour
 
         _lockMarkerObject.SetActive(false);
 
+        CreatureManager.CreatureDeath += PlayerLock_CreatureDeath;
         _inputHandler.LockOnInputPerformed += PlayerLockOn_LockOnInputPerformed;
     }
 
     public void Cleanup()
     {
+        CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
         _inputHandler.LockOnInputPerformed -= PlayerLockOn_LockOnInputPerformed;
+    }
+
+    private void PlayerLock_CreatureDeath(CreatureAI creature)
+    {
+        if (_lockTarget != null && _lockTarget == creature.LockTarget)
+        {
+            DisableLock();
+            StartCoroutine(FindLockOnTarget());
+        }
     }
 
     private void PlayerLockOn_LockOnInputPerformed()
@@ -66,7 +77,6 @@ public class PlayerLock : MonoBehaviour
 
     private void DisableLock()
     {
-        _lockTarget.Health.ValueExhausted -= PlayerLockOn_ValueExhausted;
         _lockMarkerObject.SetActive(false);
         StopAllCoroutines();
         _lockTarget = null;
@@ -82,7 +92,6 @@ public class PlayerLock : MonoBehaviour
         StartCoroutine(LockCoroutine());
         _lockMarkerObject.SetActive(true);
         _lockMarker.SetLockOnTarget(lockTarget);
-        lockTarget.Health.ValueExhausted += PlayerLockOn_ValueExhausted;
     }
 
     private void ManageLockMarker()
@@ -102,14 +111,6 @@ public class PlayerLock : MonoBehaviour
         {
             StartCoroutine(SwapLockOnTarget(rightStickX, rightStickY));
         }
-    }
-
-    private void PlayerLockOn_ValueExhausted(GameObject deathObject)
-    {
-        Debug.Log("Once you have enemy manager, revamp this logic. Because the event unsubscription raises bugs.");
-
-        DisableLock();
-        StartCoroutine(FindLockOnTarget());
     }
 
     private void OnLockedOn(Transform target)

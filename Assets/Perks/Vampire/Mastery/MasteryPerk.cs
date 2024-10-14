@@ -67,8 +67,8 @@ public class MasteryPerk : PerkData
 
     public override void Activate()
     {
-        _playerAttackHandler.AttackStarted += MasteryPerk_AttackStarted;
-        _playerAttackHandler.AttackFinished += MasteryPerk_AttackFinished;
+        _playerAttackHandler.AttackBegun += MasteryPerk_AttackBegun;
+        _playerAttackHandler.AttackEnded += MasteryPerk_AttackEnded;
 
         _statChanges.Add(Stat.LightAttackDamageModifier, 0);
         _statChanges.Add(Stat.HeavyAttackDamageModifier, 0);
@@ -94,8 +94,8 @@ public class MasteryPerk : PerkData
 
     public override void Deactivate()
     {
-        _playerAttackHandler.AttackStarted -= MasteryPerk_AttackStarted;
-        _playerAttackHandler.AttackFinished -= MasteryPerk_AttackFinished;
+        _playerAttackHandler.AttackBegun -= MasteryPerk_AttackBegun;
+        _playerAttackHandler.AttackEnded -= MasteryPerk_AttackEnded;
 
         ResetStatChanges();
         _statChanges.Clear();
@@ -154,7 +154,7 @@ public class MasteryPerk : PerkData
         }
     }
 
-    private void MasteryPerk_AttackStarted(AttackType attackType)
+    private void MasteryPerk_AttackBegun(AttackType attackType)
     {
         foreach (var comboData in _comboDataList)
         {
@@ -162,7 +162,7 @@ public class MasteryPerk : PerkData
         }
     }
 
-    private void MasteryPerk_AttackFinished(AttackType attackType)
+    private void MasteryPerk_AttackEnded(AttackType attackType)
     {
         foreach (var comboData in _comboDataList)
         {

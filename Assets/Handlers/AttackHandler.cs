@@ -1,12 +1,10 @@
 using System.Linq;
 using UnityEngine;
+using System;
 
 public abstract class AttackHandler : MonoBehaviour
 {
     [HideInInspector] public bool IsAttacking = false;
-
-    [Header("CRIT EFFECTS")]
-    [SerializeField] private VFX _critVFX;
 
     [Header("AUDIO SOURCE")]
     [SerializeField] private AudioSource _audioSource;
@@ -16,6 +14,7 @@ public abstract class AttackHandler : MonoBehaviour
     protected AudioSystem _AudioSystem;
     protected VFXManager _VFXManager;
     protected AttackData _AttackData;
+    protected GameObject _GameObject;
     protected Transform _Transform;
     protected float _Delta;
 
@@ -27,13 +26,19 @@ public abstract class AttackHandler : MonoBehaviour
     public delegate void SuccessfulHitDelegate(Collider hit, float damage, bool crit);
     public event SuccessfulHitDelegate SuccessfulHit;
 
+    public event Action<AttackType> AttackBegun;
+    public event Action<AttackType> AttackHalfway;
+    public event Action<AttackType> AttackEnded;
+
     public virtual void Init(LayerMask targetLayer)
     {
         _AnimatorManager = GetComponent<AnimatorManager>();
         _AudioSystem = AudioSystem.Instance;
         _VFXManager = VFXManager.Instance;
-        _targetLayer = targetLayer;
+        _GameObject = gameObject;
         _Transform = transform;
+
+        _targetLayer = targetLayer;
     }
 
     public void Tick(float delta)
@@ -41,12 +46,23 @@ public abstract class AttackHandler : MonoBehaviour
         _Delta = delta;
     }
 
-    public void Attack()
+    public virtual void AttackBegin()
     {
+        OnAttackBegun(_AttackData.AttackType);
+    }
+
+    public virtual void AttackMiddle()
+    {
+        OnAttackHalfway(_AttackData.AttackType);
+
         float damage = _AttackData.Damage;
         bool crit = RollCritical();
-
         HandleDamage(damage, crit);
+    }
+
+    public virtual void AttackEnd()
+    {
+        OnAttackEnded(_AttackData.AttackType);
     }
 
     protected void HandleAttack(AttackData attackData)
@@ -57,13 +73,9 @@ public abstract class AttackHandler : MonoBehaviour
         _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
     }
 
-    protected virtual void HandleDamage(float damage, bool crit)
+    private void HandleDamage(float damage, bool crit)
     {
-        Vector3 attackPosition = _Transform.position + _Transform.TransformDirection(_AttackData.AttackOffset);
-
-        Collider[] hits = Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
-        Collider[] validHits = hits.Where(hit => hit.GetComponent<Health>() != null).ToArray();
-
+        Collider[] validHits = GetHits().Where(hit => hit.GetComponent<Health>() != null).ToArray();
         if (validHits.Length > 0)
         {
             Collider firstHit = validHits[0];
@@ -73,29 +85,19 @@ public abstract class AttackHandler : MonoBehaviour
             {
                 if (hit.TryGetComponent<Health>(out var health))
                 {
-                    if (crit && hit.TryGetComponent(out LockTarget lockTarget))
-                    {
-                        Transform center = lockTarget.Center;
-                        VFX critVFX = _VFXManager.AddVFX(_critVFX, true, 1f, center.position, center.rotation, center);
-
-                        AudioSource source = critVFX.GetComponent<AudioSource>();
-                        _AudioSystem.PlayAudioClip(source, source.clip, source.volume, 0.05f);
-                    }
-
+                    damage = HandleCritical(hit, damage, crit);
+                    health.TakeDamage(_GameObject, damage);
                     OnsuccesfulHit(hit, damage, crit);
-                    health.TakeDamage(gameObject, damage);
                 }
             }
 
             OnSuccesfulAttack(firstHit, colliders, damage, crit);
         }
-
-        AttackEnd();
     }
 
-    protected abstract void AttackEnd();
+    protected virtual float HandleCritical(Collider hit, float damage, bool crit) { return damage; }
 
-    protected abstract bool RollCritical();
+    protected virtual bool RollCritical() { return false; }
 
     private void OnSuccesfulAttack(Collider hit, int colliders, float damage, bool crit)
     {
@@ -105,5 +107,34 @@ public abstract class AttackHandler : MonoBehaviour
     private void OnsuccesfulHit(Collider hit, float damage, bool crit)
     {
         SuccessfulHit?.Invoke(hit, damage, crit);
+    }
+
+    private void OnAttackBegun(AttackType attackType)
+    {
+        AttackBegun?.Invoke(attackType);
+    }
+
+    private void OnAttackHalfway(AttackType attackType)
+    {
+        AttackHalfway?.Invoke(attackType);
+    }
+
+    private void OnAttackEnded(AttackType attackType)
+    {
+        AttackEnded?.Invoke(attackType);
+    }
+
+    private Collider[] GetHits()
+    {
+        Vector3 attackPosition = _Transform.position + _Transform.TransformDirection(_AttackData.AttackOffset);
+
+        if (_AttackData.AttackRadius > 0)
+        {
+            return Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
+        }
+        else
+        {
+            return Physics.OverlapBox(attackPosition, _AttackData.AttackHitBox, _Transform.rotation, _targetLayer);
+        }
     }
 }

@@ -30,6 +30,13 @@ public class Souls : SingletonBase
     {
         _currentValue = _startingValue;
         OnCurrentValueUpdated();
+
+        CreatureManager.CreatureDeath += Souls_CreatureDeath;
+    }
+
+    public void Cleanup()
+    {
+        CreatureManager.CreatureDeath -= Souls_CreatureDeath;
     }
 
     public void AddValue(int amount)
@@ -61,6 +68,11 @@ public class Souls : SingletonBase
             return false;
         }
         return true;
+    }
+
+    private void Souls_CreatureDeath(CreatureAI creature)
+    {
+        AddValue(creature.CreatureData.Souls);
     }
 
     private void OnCurrentValueUpdated()

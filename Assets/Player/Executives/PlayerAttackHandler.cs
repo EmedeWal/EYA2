@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public class PlayerAttackHandler : AttackHandler
 {
@@ -10,12 +9,12 @@ public class PlayerAttackHandler : AttackHandler
     [SerializeField] private AttackData _lightAttackData;
     [SerializeField] private AttackData _heavyAttackData;
 
+    [Header("CRIT EFFECTS")]
+    [SerializeField] private VFX _critVFX;
+
     private PlayerInputHandler _inputHandler;
 
     public bool GuaranteedCrit { private get; set; } = false;
-
-    public event Action<AttackType> AttackStarted;
-    public event Action<AttackType> AttackFinished;
 
     public override void Init(LayerMask targetLayer)
     {
@@ -33,20 +32,42 @@ public class PlayerAttackHandler : AttackHandler
         _inputHandler.HeavyAttackInputPerformed -= PlayerAttackHandler_HeavyAttackInputPerformed;
     }
 
-    protected override void HandleDamage(float damage, bool crit)
+    public override void AttackBegin()
+    {
+        base.AttackBegin();
+    }
+
+    public override void AttackMiddle()
+    {
+        base.AttackMiddle();
+    }
+
+    public override void AttackEnd()
+    {
+        base.AttackEnd();
+
+        IsAttacking = false;
+    }
+
+    protected override float HandleCritical(Collider hit, float damage, bool crit)
     {
         if (crit)
         {
-            damage *= _stats.GetCurrentStat(Stat.CriticalMultiplier);
+            if (hit.TryGetComponent(out LockTarget lockTarget))
+            {
+                Transform center = lockTarget.Center;
+                VFX critVFX = _VFXManager.AddVFX(_critVFX, true, 1f, center.position, center.rotation, center);
+
+                AudioSource source = critVFX.GetComponent<AudioSource>();
+                _AudioSystem.PlayAudioClip(source, source.clip, source.volume, 0.05f);
+            }
+
+            return damage * _stats.GetCurrentStat(Stat.CriticalMultiplier);
         }
-
-        base.HandleDamage(damage, crit);
-    }
-
-    protected override void AttackEnd()
-    {
-        OnAttackFinished(_AttackData.AttackType);
-        IsAttacking = false;
+        else
+        {
+            return damage;
+        }
     }
 
     protected override bool RollCritical()
@@ -60,25 +81,13 @@ public class PlayerAttackHandler : AttackHandler
 
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
-        if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
-        OnAttackStarted(_lightAttackData.AttackType);
+        if (IsAttacking || _AnimatorManager.GetBool("InAction")) return;
         HandleAttack(_lightAttackData);
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
-        if (_AnimatorManager.GetBool("InAction") || IsAttacking) return;
-        OnAttackStarted(_heavyAttackData.AttackType);
+        if (IsAttacking || _AnimatorManager.GetBool("InAction")) return;
         HandleAttack(_heavyAttackData);
-    }
-
-    private void OnAttackStarted(AttackType attackType)
-    {
-        AttackStarted?.Invoke(attackType);
-    }
-
-    private void OnAttackFinished(AttackType attackType)
-    {
-        AttackFinished?.Invoke(attackType);
     }
 }

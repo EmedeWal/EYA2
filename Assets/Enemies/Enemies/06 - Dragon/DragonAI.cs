@@ -19,7 +19,7 @@ public class DragonAI : EnemyAI
 //        Moving
 //    }
 
-//    public EnemyState currentState = EnemyState.Chasing;
+//    public EnemyState _currentState = EnemyState.Chasing;
 //    #endregion
 
 //    // End of Enum
@@ -170,7 +170,7 @@ public class DragonAI : EnemyAI
 
 //    private void UpdateBehaviour()
 //    {
-//        switch (currentState)
+//        switch (_currentState)
 //        {
 //            case EnemyState.Chasing:
 //                Chase();
@@ -227,7 +227,7 @@ public class DragonAI : EnemyAI
 //        {
 //            shouldSwap = false;
 //            CancelMovement();
-//            currentState = EnemyState.Flying;
+//            _currentState = EnemyState.Flying;
 //            return;
 //        }
 
@@ -235,7 +235,7 @@ public class DragonAI : EnemyAI
 //        if (InMeleeRange() && !isFlying)
 //        {
 //            CancelMovement();
-//            currentState = EnemyState.Attacking;
+//            _currentState = EnemyState.Attacking;
 //            return;
 //        }
 
@@ -243,7 +243,7 @@ public class DragonAI : EnemyAI
 //        if (InFireRange() && canFire)
 //        {
 //            CancelMovement();
-//            currentState = EnemyState.Firing;
+//            _currentState = EnemyState.Firing;
 //            return;
 //        }
 
@@ -283,7 +283,7 @@ public class DragonAI : EnemyAI
 //            audioSource.volume = 0.1f;
 
 //            // The enemy tracks the player until damage is dealt
-//            currentState = EnemyState.Charging;
+//            _currentState = EnemyState.Charging;
 //        }
 //        else
 //        {
@@ -305,7 +305,7 @@ public class DragonAI : EnemyAI
 //        MeleeAttack();
 
 //        // Tracking is disabled
-//        currentState = EnemyState.Attacking;
+//        _currentState = EnemyState.Attacking;
 
 //        // Start recovery of the attack, after the attackduration
 //        Invoke(nameof(MeleeRecovery), meleeDuration);
@@ -319,7 +319,7 @@ public class DragonAI : EnemyAI
 //        // Booleans
 //        canMelee = true;
 
-//        currentState = EnemyState.Chasing;
+//        _currentState = EnemyState.Chasing;
 //    }
 
 //    private void MeleeRecovery()
@@ -328,7 +328,7 @@ public class DragonAI : EnemyAI
 //        DetermineMelee();
 
 //        // And start chasing the enemy until the melee can be used again
-//        currentState = EnemyState.Charging;
+//        _currentState = EnemyState.Charging;
 //        StartCoroutine(MeleeReset());
 //    }
 
@@ -395,7 +395,7 @@ public class DragonAI : EnemyAI
 //        audioSource.Play();
 
 //        // The enemy should rotate towards the player until the projectile is launched
-//        currentState = EnemyState.Charging;
+//        _currentState = EnemyState.Charging;
 
 //        // Start the spell after short delay
 //        Invoke(nameof(FireStart), fireChargeTime);
@@ -404,7 +404,7 @@ public class DragonAI : EnemyAI
 //    private void FireStart()
 //    {
 //        // Lock enemy rotation
-//        currentState = EnemyState.Firing;
+//        _currentState = EnemyState.Firing;
 
 //        // Shoot a fireball
 //        ShootFireball();
@@ -424,8 +424,8 @@ public class DragonAI : EnemyAI
 //        Invoke(nameof(FireReset), fireCD);
 
 //        // Determine whether the enemy should chase or find a new position
-//        if (isFlying) currentState = EnemyState.Moving;
-//        else currentState = EnemyState.Chasing;
+//        if (isFlying) _currentState = EnemyState.Moving;
+//        else _currentState = EnemyState.Chasing;
 //    }
 
 //    private void ShootFireball()
@@ -535,7 +535,7 @@ public class DragonAI : EnemyAI
 //        }
 
 //        // At the end of flying, go back to regular behavior
-//        currentState = EnemyState.Chasing;
+//        _currentState = EnemyState.Chasing;
 
 //        // The enemy is no longer ascending or descending
 //        isAscendingOrDescending = false;
@@ -570,7 +570,7 @@ public class DragonAI : EnemyAI
 //        if (predictionCoroutine != null) StopCoroutine(PredictPlayerMovement());
 
 //        // At the end of flying, go back to regular behavior
-//        currentState = EnemyState.Charging;
+//        _currentState = EnemyState.Charging;
 //        Invoke(nameof(StartChase), 1f);
 //    }
 
@@ -643,14 +643,14 @@ public class DragonAI : EnemyAI
 //        agent.SetDestination(transform.position);
 
 //        // The enemy is done retreating and should rotate until the faces the player, before starting the chase
-//        currentState = EnemyState.Charging;
+//        _currentState = EnemyState.Charging;
 //        Invoke(nameof(StartChase), 1f);
 
 //    }
 
 //    private void StartChase()
 //    {
-//        currentState = EnemyState.Chasing;
+//        _currentState = EnemyState.Chasing;
 //    }
 //    #endregion
 

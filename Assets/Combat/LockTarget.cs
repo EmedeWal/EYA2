@@ -11,8 +11,8 @@ public class LockTarget : MonoBehaviour
 
     public Health Health { get; private set; }
 
-    private void Awake()
+    public void Init()
     {
-        Health = GetComponent<Health>();       
+        Health = GetComponent<Health>();
     }
 }

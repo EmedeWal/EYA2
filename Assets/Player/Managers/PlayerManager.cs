@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -90,6 +90,7 @@ public class PlayerManager : MonoBehaviour
         _statManager.Cleanup();
         _lock.Cleanup();
         _attackHandler.Cleanup();
+        _souls.Cleanup();
     }
 
     private void PlayerManager_LockedOn(Transform target)
