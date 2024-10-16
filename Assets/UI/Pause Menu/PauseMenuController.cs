@@ -103,20 +103,20 @@ public class PauseMenuController : MonoBehaviour
 
     private void PauseMenu_SwapHeaderInputPerformed(int inputValue)
     {
-        _audio.System.PlayAudioClip(_audio.CommonSource, _audio.SwapClip, _audio.SwapVolume, _audio.SwapOffset);
+        _audio.System.PlayAudio(_audio.CommonSource, _audio.SwapClip, _audio.SwapVolume, _audio.SwapOffset);
         _headerIndex = Helpers.GetIndexInBounds(_headerIndex, inputValue, _headers.Count); 
         SwapHeader();
     }
 
     private void PauseMenu_SwapSectionInputPerformed(int inputValue)
     {
-        _audio.System.PlayAudioClip(_audio.CommonSource, _audio.SwapClip, _audio.SwapVolume, _audio.SwapOffset);
+        _audio.System.PlayAudio(_audio.CommonSource, _audio.SwapClip, _audio.SwapVolume, _audio.SwapOffset);
         _headers[_headerIndex].SwapSection(inputValue);
     }
 
     private void ResumeGame()
     {
-        _audio.System.PlayAudioClip(_audio.UncommonSource, _audio.ResumeClip, _audio.ResumeVolume, _audio.ResumeOffset);
+        _audio.System.PlayAudio(_audio.UncommonSource, _audio.ResumeClip, _audio.ResumeVolume, _audio.ResumeOffset);
 
         _playerInputHandler.BackInputPerformed -= PauseMenu_BackInputPerformed;
         _playerInputHandler.ClickInputPerformed -= PauseMenu_ClickInputPerformed;
@@ -131,7 +131,7 @@ public class PauseMenuController : MonoBehaviour
 
     private void PauseGame()
     {
-        _audio.System.PlayAudioClip(_audio.UncommonSource, _audio.PauseClip, _audio.PauseVolume, _audio.PauseOffset);
+        _audio.System.PlayAudio(_audio.UncommonSource, _audio.PauseClip, _audio.PauseVolume, _audio.PauseOffset);
 
         _playerInputHandler.BackInputPerformed += PauseMenu_BackInputPerformed;
         _playerInputHandler.ClickInputPerformed += PauseMenu_ClickInputPerformed;

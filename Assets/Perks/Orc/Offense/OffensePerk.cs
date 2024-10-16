@@ -119,7 +119,7 @@ public class OffensePerk : PerkData
             VFX quakeVFX = _VFXManager.AddVFX(_quakeVFX, true, 1f, transform.position, transform.rotation, transform);
 
             AudioSource source = quakeVFX.GetComponent<AudioSource>();
-            _audioSystem.PlayAudioClip(source, source.clip, source.volume);
+            _audioSystem.PlayAudio(source, source.clip, source.volume);
 
             if (!_ignoreInitialTarget) hit = null;
 

@@ -13,7 +13,7 @@ public class Explosion : AreaOfEffect
 
         if (TryGetComponent(out AudioSource audioSource))
         {
-            AudioSystem.Instance.PlayAudioClip(audioSource, audioSource.clip, audioSource.volume, audioOffset);
+            AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume, audioOffset);
         }
     }
 

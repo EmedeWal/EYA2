@@ -66,7 +66,7 @@ public class Health : Resource
         VFX evasionVFX = VFXManager.Instance.AddVFX(_evasionVFX, true, 1f, _center.position, Quaternion.LookRotation(directionToAttacker), _center);
 
         AudioSource source = evasionVFX.GetComponent<AudioSource>();
-        AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
+        AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
     }
 
     private void OnHitShielded(GameObject attackerObject, float damageAbsorbed)

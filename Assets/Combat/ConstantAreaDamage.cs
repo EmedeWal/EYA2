@@ -22,7 +22,7 @@ public class ConstantAreaDamage : MonoBehaviour
 
         if (TryGetComponent(out AudioSource audioSource))
         {
-            AudioSystem.Instance.PlayAudioClip(audioSource, audioSource.clip, audioSource.volume);
+            AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume);
         }
     }
 

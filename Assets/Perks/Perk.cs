@@ -86,7 +86,7 @@ public class Perk : MonoBehaviour, IClickable
             Purchased = true;
             OnPerkPurchased(this);
             _stanceIcon.Background.color = _purchasedColor;
-            _audio.System.PlayAudioClip(_audio.UncommonSource, _audio.UnlockClip, _audio.UnlockVolume, _audio.UnlockOffset);
+            _audio.System.PlayAudio(_audio.UncommonSource, _audio.UnlockClip, _audio.UnlockVolume, _audio.UnlockOffset);
 
             if (_otherBranchPerk != null) 
             {
@@ -127,7 +127,7 @@ public class Perk : MonoBehaviour, IClickable
 
         if ((_previousPerk != null && !_previousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost))
         {
-            _audio.System.PlayAudioClip(_audio.FailedSource, _audio.FailedClip, _audio.FailedVolume, _audio.FailedOffset, false); 
+            _audio.System.PlayAudio(_audio.FailedSource, _audio.FailedClip, _audio.FailedVolume, _audio.FailedOffset, false); 
             return false;
         }
         return true;

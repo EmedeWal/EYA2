@@ -37,7 +37,7 @@ public class AudioSystem : SingletonBase
         _defaultMusicSource.volume = _defaultVolume * VolumeModifier;
     }
 
-    public void PlayAudioClip(AudioSource source, AudioClip clip, float volume, float offset = 0, bool overrideAudio = true)
+    public void PlayAudio(AudioSource source, AudioClip clip, float volume, float offset = 0, bool overrideAudio = true)
     {
         volume *= VolumeModifier;
 

@@ -21,7 +21,7 @@ public abstract class AttackHandler : MonoBehaviour
     private LayerMask _targetLayer;
 
     public delegate void SuccessfulAttackDelegate(Collider hit, int colliders, float damage, bool crit);
-    public event SuccessfulAttackDelegate SuccessfulAttack;   
+    public event SuccessfulAttackDelegate SuccessfulAttack;
 
     public delegate void SuccessfulHitDelegate(Collider hit, float damage, bool crit);
     public event SuccessfulHitDelegate SuccessfulHit;
@@ -70,7 +70,7 @@ public abstract class AttackHandler : MonoBehaviour
         IsAttacking = true;
         _AttackData = attackData;
         _AnimatorManager.CrossFadeAnimation(_Delta, _AttackData.AnimationName, 0.1f, 1);
-        _AudioSystem.PlayAudioClip(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
+        _AudioSystem.PlayAudio(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
     }
 
     private void HandleDamage(float damage, bool crit)

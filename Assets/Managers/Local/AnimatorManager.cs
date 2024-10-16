@@ -17,8 +17,8 @@ public abstract class AnimatorManager : MonoBehaviour
         MovementSpeed = movementSpeed;
         AttackSpeed = attackSpeed;
 
-        _AnimatorMovementSpeed = Animator.StringToHash("Movement Speed");
-        _AnimatorAttackSpeed = Animator.StringToHash("Attack Speed");
+        _AnimatorMovementSpeed = Animator.StringToHash("MovementSpeed");
+        _AnimatorAttackSpeed = Animator.StringToHash("AttackSpeed");
     }
 
     public void CrossFadeAnimation(float delta, string animationName, float transitionDuration = 0.1f, int layer = 1)

@@ -21,7 +21,7 @@ public class FootstepHandler : MonoBehaviour
     {
         if (_movingProvider.Moving)
         {
-            _audioSystem.PlayAudioClip(_audioSource, _footstepData.Clip, _footstepData.Volume, _footstepData.Offset);
+            _audioSystem.PlayAudio(_audioSource, _footstepData.Clip, _footstepData.Volume, _footstepData.Offset);
         }
     }
 }

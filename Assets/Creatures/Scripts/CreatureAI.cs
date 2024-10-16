@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class CreatureAI : MonoBehaviour
 {
-    [SerializeField] private CreatureState _currentState;
+    private CreatureState _currentState;
 
     [Header("CREATURE BASE DATA")]
     public CreatureData CreatureData;
-
-    [Header("CREATURE REFERENCES")]
-    public AudioSource DeathSource;
 
     public CreatureAnimatorManager AnimatorManager { get; private set; }
     public CreatureAttackHandler AttackHandler { get; private set; }

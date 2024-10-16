@@ -59,11 +59,13 @@ public class CreatureManager : MonoBehaviour
 
     private void RemoveCreature(GameObject creatureObject)
     {
-        CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
-        AudioSource source = creature.DeathSource;
+        if (creatureObject.TryGetComponent(out AudioSource source))
+        {
+            _audioSystem.PlayAudio(source, source.clip, source.volume);
+        }
 
+        CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
         creature.Health.ValueExhausted -= CreatureManager_ValueExhausted;
-        _audioSystem.PlayAudioClip(source, source.clip, source.volume);
         creature.AnimatorManager.CrossFadeAnimation(_delta, "Die");
         _activeCreatureList.Remove(creature);
         OnCreatureDeath(creature);

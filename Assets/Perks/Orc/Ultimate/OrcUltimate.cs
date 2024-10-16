@@ -109,7 +109,7 @@ public class OrcUltimate : PerkData
         VFX shockwaveVFX = _VFXManager.AddVFX(_shockwaveVFX, true, 3f, _PlayerTransform.position, _PlayerTransform.rotation);
 
         AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
-        _audioSystem.PlayAudioClip(source, source.clip, source.volume);
+        _audioSystem.PlayAudio(source, source.clip, source.volume);
 
         shockwaveVFX.GetComponent<Shockwave>().Init(_targetLayer, _shockwaveScaling);
     }

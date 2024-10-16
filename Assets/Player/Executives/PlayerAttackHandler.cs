@@ -59,7 +59,7 @@ public class PlayerAttackHandler : AttackHandler
                 VFX critVFX = _VFXManager.AddVFX(_critVFX, true, 1f, center.position, center.rotation, center);
 
                 AudioSource source = critVFX.GetComponent<AudioSource>();
-                _AudioSystem.PlayAudioClip(source, source.clip, source.volume, 0.05f);
+                _AudioSystem.PlayAudio(source, source.clip, source.volume, 0.05f);
             }
 
             return damage * _stats.GetCurrentStat(Stat.CriticalMultiplier);

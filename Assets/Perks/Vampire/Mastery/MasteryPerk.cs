@@ -6,9 +6,8 @@ using UnityEngine;
 public class MasteryPerk : PerkData
 {
     private PlayerAttackHandler _playerAttackHandler;
+    private StatTracker _statTracker;
     private VFXManager _VFXManager;
-
-    private Dictionary<Stat, float> _statChanges;
     private List<float> _timerList;
 
     [Header("VARIABLES")]
@@ -52,7 +51,16 @@ public class MasteryPerk : PerkData
         _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
         _VFXManager = VFXManager.Instance;
 
-        _statChanges = new Dictionary<Stat, float>();
+        Dictionary<Stat, float> statChanges = new()
+        {
+            { Stat.LightAttackDamageModifier, 0 },
+            { Stat.HeavyAttackDamageModifier, 0 },
+            { Stat.CriticalChance, 0 },
+            { Stat.CriticalMultiplier, 0 }
+        };
+
+        _statTracker = new StatTracker(statChanges, _PlayerStats);
+
         _timerList = new() { 0, 0, 0 };
 
         foreach (var comboData in _comboDataList)
@@ -69,11 +77,6 @@ public class MasteryPerk : PerkData
     {
         _playerAttackHandler.AttackBegun += MasteryPerk_AttackBegun;
         _playerAttackHandler.AttackEnded += MasteryPerk_AttackEnded;
-
-        _statChanges.Add(Stat.LightAttackDamageModifier, 0);
-        _statChanges.Add(Stat.HeavyAttackDamageModifier, 0);
-        _statChanges.Add(Stat.CriticalChance, 0);
-        _statChanges.Add(Stat.CriticalMultiplier, 0);
 
         _previousAttack = AttackType.None;
 
@@ -97,8 +100,7 @@ public class MasteryPerk : PerkData
         _playerAttackHandler.AttackBegun -= MasteryPerk_AttackBegun;
         _playerAttackHandler.AttackEnded -= MasteryPerk_AttackEnded;
 
-        ResetStatChanges();
-        _statChanges.Clear();
+        _statTracker.ResetStatChanges();
 
         if (_currentFlowVFX != null)
         {
@@ -145,12 +147,12 @@ public class MasteryPerk : PerkData
 
         if (_timerList[1] >= _lightAttackBoostDuration)
         {
-            _timerList[1] = HandleIdle(Stat.LightAttackDamageModifier, -_statChanges[Stat.LightAttackDamageModifier], _timerList[1]);
+            _timerList[1] = HandleIdle(Stat.LightAttackDamageModifier, -_statTracker.GetStatChange(Stat.LightAttackDamageModifier), _timerList[1]);
         }
 
         if (_timerList[2] >= _heavyAttackBoostDuration)
         {
-            _timerList[2] = HandleIdle(Stat.HeavyAttackDamageModifier, -_statChanges[Stat.HeavyAttackDamageModifier], _timerList[2]);
+            _timerList[2] = HandleIdle(Stat.HeavyAttackDamageModifier, -_statTracker.GetStatChange(Stat.HeavyAttackDamageModifier), _timerList[2]);
         }
     }
 
@@ -218,43 +220,23 @@ public class MasteryPerk : PerkData
     {
         _currentFlow++;
         _emission.Tick(_currentFlow * 5f);
-        IncrementStat(Stat.CriticalChance, _criticalChanceBoost);
-        IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBoost);
+        _statTracker.IncrementStat(Stat.CriticalChance, _criticalChanceBoost);
+        _statTracker.IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBoost);
     }
 
     private void ResetFlow()
     {
         _currentFlow = 0;
         _emission.Tick(_currentFlow * 5f);
-        IncrementStat(Stat.CriticalChance, -_statChanges[Stat.CriticalChance]);
-        IncrementStat(Stat.CriticalMultiplier, -_statChanges[Stat.CriticalMultiplier]);
-    }
-
-    private void IncrementStat(Stat stat, float value)
-    {
-        _statChanges[stat] += value;
-        _PlayerStats.IncrementStat(stat, value);
-    }
-
-    private void ResetStatChanges()
-    {
-        var statChangeCopy = new Dictionary<Stat, float>(_statChanges);
-
-        foreach (var statChange in statChangeCopy)
-        {
-            if (statChange.Value != 0)
-            {
-                _PlayerStats.IncrementStat(statChange.Key, -statChange.Value);
-                _statChanges[statChange.Key] = 0;
-            }
-        }
+        _statTracker.IncrementStat(Stat.CriticalChance, -_statTracker.GetStatChange(Stat.CriticalChance));
+        _statTracker.IncrementStat(Stat.CriticalMultiplier, -_statTracker.GetStatChange(Stat.CriticalMultiplier));
     }
 
     private float HandleIdle(Stat stat, float value, float timer)
     {
-        if (_statChanges[stat] > 0)
+        if (_statTracker.GetStatChange(stat) > 0)
         {
-            IncrementStat(stat, value);
+            _statTracker.IncrementStat(stat, value);
         }
         else
         {
@@ -265,9 +247,9 @@ public class MasteryPerk : PerkData
 
     private float HandleAttack(Stat stat)
     {
-        if (_statChanges[stat] < _attackDamageBoostMax)
+        if (_statTracker.GetStatChange(stat) < _attackDamageBoostMax)
         {
-            IncrementStat(stat, _attackDamageBoost);
+            _statTracker.IncrementStat(stat, _attackDamageBoost);
         }
 
         return 0;

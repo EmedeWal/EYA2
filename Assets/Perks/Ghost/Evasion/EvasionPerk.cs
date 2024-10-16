@@ -4,26 +4,28 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EvasionPerk", menuName = "Scriptable Object/Perks/Passive Perk/Evasion")]
 public class EvasionPerk : PerkData
 {
+    private StatTracker _statTracker;
+
     [Header("VARIABLES")]
     [SerializeField] private float _maxEvasionChanceIncrease = 25f;
     [SerializeField] private float _completionTime = 10f;
-    private float _currentEvasionChanceIncrease;
     private float _evasionChanceIncrement;
     private float _evasionTimer;
 
     [Header("SHIELD")]
-    [SerializeField] private VFX _shieldPrefab;
+    [SerializeField] private VFX _shieldVFX;
     [SerializeField] private int _shieldCount = 1;
     [SerializeField] private bool _damageReflection = false;
     [SerializeField] private bool _manaRestoration = false;
-    private VFX _currentShield;
+    private VFX _currentShieldVFX;
     private int _currentShieldCount;
     private float _shieldTimer;
     private bool _shielded = false;
 
     [Header("EXPLOSION")]
-    [SerializeField] private Explosion _shieldExplosionPrefab;
-    [SerializeField] private float _radius = 4;
+    [SerializeField] private VFX _shieldExplosionVFX;
+    [SerializeField] private float _radius = 4f;
+    [SerializeField] private float _damage = 50f;
     private LayerMask _targetLayer;
 
     private Health _playerHealth;
@@ -46,8 +48,14 @@ public class EvasionPerk : PerkData
         }
 
         _evasionChanceIncrement = _maxEvasionChanceIncrease / _completionTime;
-        _currentEvasionChanceIncrease = 0;
         _evasionTimer = 0;
+
+        Dictionary<Stat, float> statChanges = new()
+        {
+            { Stat.EvasionChance, 0 }
+        };
+
+        _statTracker = new StatTracker(statChanges, _PlayerStats);
 
         _currentShieldCount = _shieldCount;
         _shieldTimer = _completionTime;
@@ -63,7 +71,6 @@ public class EvasionPerk : PerkData
     public override void Activate()
     {
         _playerHealth.ValueRemoved += EvasionPerk_ValueRemoved;
-        ResetPerkState();
         StartShieldGFX();
     }
 
@@ -75,18 +82,17 @@ public class EvasionPerk : PerkData
 
     public override void Tick(float delta)
     {
-        if (_currentEvasionChanceIncrease < _maxEvasionChanceIncrease)
+        if (_statTracker.GetStatChange(Stat.EvasionChance) < _maxEvasionChanceIncrease)
         {
             _evasionTimer += delta;
             if (_evasionTimer >= 1f)
             {
                 _evasionTimer = 0f;
-                _currentEvasionChanceIncrease += _evasionChanceIncrement;
-                _PlayerStats.IncrementStat(Stat.EvasionChance, _evasionChanceIncrement);
+                _statTracker.IncrementStat(Stat.EvasionChance, _evasionChanceIncrement);
             }
         }
 
-        if (_shieldPrefab != null && !_shielded)
+        if (_shieldVFX != null && !_shielded)
         {
             _shieldTimer -= delta;
             if (_shieldTimer <= 0)
@@ -95,12 +101,6 @@ public class EvasionPerk : PerkData
                 _shieldTimer = _completionTime;
             }
         }
-    }
-
-    private void EvasionPerk_ValueRemoved()
-    {
-        ResetPerkState();
-        StartShieldGFX();
     }
 
     private void EvasionPerk_HitShielded(GameObject attackerObject, float damageShielded)
@@ -113,13 +113,14 @@ public class EvasionPerk : PerkData
             StartShieldGFX();
         }
 
-        if (_shieldExplosionPrefab != null)
+        if (_shieldExplosionVFX != null)
         {
-            Explosion explosion = Instantiate(_shieldExplosionPrefab, _PlayerTransform);
-            Transform transform = explosion.transform;
-            explosion.Init(_radius, _targetLayer);
+            VFX explosionVFX = _VFXManager.AddVFX(_shieldExplosionVFX, true, 5);
+            Explosion explosion = explosionVFX.GetComponent<Explosion>();
+            explosion.InitExplosion(_radius, _damage, _targetLayer);
 
-            VFXManager.Instance.AddVFX(explosion.GetComponent<VFX>(), true, 5, transform.position, transform.rotation, transform);
+            AudioSource source = explosionVFX.GetComponent<AudioSource>();
+            AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
         }
 
         if (_damageReflection)
@@ -136,25 +137,29 @@ public class EvasionPerk : PerkData
         }
     }
 
+    private void EvasionPerk_ValueRemoved()
+    {
+        ResetPerkState();
+        StartShieldGFX();
+    }
+
     private void EnableShield(bool enabled)
     {
-        if (_currentShield == null) return;
-
         _shielded = enabled;
 
         if (enabled)
         {
             _playerHealth.Shielded = true;
             _playerHealth.HitShielded += EvasionPerk_HitShielded;
-            _currentShield.GetComponent<VFXPlayer>().PlayVFXInChildren();
+            _currentShieldVFX.GetComponent<VFXPlayer>().PlayVFXInChildren();
 
-            AudioSource source = _currentShield.GetComponent<AudioSource>();
-            AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
+            AudioSource source = _currentShieldVFX.GetComponent<AudioSource>();
+            AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
         }
         else
         {
             _playerHealth.HitShielded -= EvasionPerk_HitShielded;
-            _VFXManager.RemoveVFX(_currentShield);
+            _VFXManager.RemoveVFX(_currentShieldVFX);
             _currentShieldCount = _shieldCount;
             _playerHealth.Shielded = false;
         }
@@ -162,20 +167,21 @@ public class EvasionPerk : PerkData
 
     private void StartShieldGFX()
     {
-        if (_shieldPrefab != null)
+        if (_shieldVFX != null)
         {
-            _currentShield = Instantiate(_shieldPrefab, _PlayerTransform);
-            _VFXManager.AddVFX(_currentShield, _PlayerTransform);
+            _currentShieldVFX = _VFXManager.AddVFX(_shieldVFX, false, 0, _PlayerTransform.position, _PlayerTransform.rotation, _PlayerTransform);
         }
     }
 
     private void ResetPerkState()
     {
-        _PlayerStats.IncrementStat(Stat.EvasionChance, -_currentEvasionChanceIncrease);
-        _currentEvasionChanceIncrease = 0;
+        _statTracker.ResetStatChanges();
+        _shieldTimer = _completionTime;
         _evasionTimer = 0;
 
-        EnableShield(false);
-        _shieldTimer = _completionTime;
+        if (_currentShieldVFX != null)
+        {
+            EnableShield(false);
+        }
     }
 }

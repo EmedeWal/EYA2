@@ -96,7 +96,7 @@ public class GhostUltimatePerk : PerkData
                 summonExplosion.Init(_summonExplosionRadius, _targetLayer);
 
                 AudioSource source = summonExplosion.GetComponent<AudioSource>();
-                AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
+                AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
             }
 
             if (_sparkPrefab != null)

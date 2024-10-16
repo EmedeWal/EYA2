@@ -111,7 +111,7 @@ public class MobilityPerk : PerkData
                     iceCloud.GetComponent<FreezingExplosion>().Init(_iceCloudRadius, _targetLayers);
 
                     AudioSource source = iceCloud.GetComponent<AudioSource>();
-                    AudioSystem.Instance.PlayAudioClip(source, source.clip, source.volume);
+                    AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
                 }
             }
             else

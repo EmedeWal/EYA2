@@ -22,7 +22,7 @@ MonoBehaviour:
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _maxEvasionChanceIncrease: 25
   _completionTime: 10
-  _shieldPrefab: {fileID: 0}
+  _shieldVFX: {fileID: 0}
   _shieldCount: 0
   _damageReflection: 0
   _manaRestoration: 0
