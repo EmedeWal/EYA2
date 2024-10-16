@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Catfish Data
   m_EditorClassIdentifier: 
   RotationSpeed: 2
-  WalkSpeed: 2
+  WalkSpeed: 1.5
   RunSpeed: 5
-  RetreatDistance: 6
   AttackDistance: 3
-  WalkDistance: 9
-  RunDistance: 6
+  RunDistance: 7.5
   Souls: 20
   Health: 70
+  RetreatPoints: 9
+  RetreatRadius: 3
+  RetreatDegrees: 270

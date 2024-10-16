@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class CreatureAI : MonoBehaviour
 {
-    private Transform _transform;
+    [SerializeField] private CreatureState _currentState;
 
     [Header("CREATURE BASE DATA")]
     public CreatureData CreatureData;
-    private CreatureState _currentState;
+
+    [Header("CREATURE REFERENCES")]
+    public AudioSource DeathSource;
 
     public CreatureAnimatorManager AnimatorManager { get; private set; }
     public CreatureAttackHandler AttackHandler { get; private set; }
     public CreatureLocomotion Locomotion { get; private set; }
     public LockTarget LockTarget { get; private set; }
+    public Transform DefaultTarget { get; private set; }
+    public Transform Transform { get; private set; }
     public Health Health { get; private set; }
     public LayerMask TargetLayer { get; private set; }
 
-    public void Init(LayerMask creatureLayer, LayerMask targetLayer)
+    public void Init(LayerMask creatureLayer, LayerMask targetLayer, Transform defaultTarget = null)
     {
-        _transform = transform;
+        Transform = transform;
 
         gameObject.layer = Mathf.RoundToInt(Mathf.Log(creatureLayer.value, 2));
         TargetLayer = targetLayer;
+        DefaultTarget = defaultTarget;
 
         AnimatorManager = GetComponent<CreatureAnimatorManager>();
         AttackHandler = GetComponent<CreatureAttackHandler>();
@@ -56,7 +61,7 @@ public class CreatureAI : MonoBehaviour
     public void Tick(float delta)
     {
         AnimatorManager.Tick(delta, Locomotion.GetLocomotionValue());
-        _currentState.Tick(delta);
+        _currentState?.Tick(delta);
     }
 
     public void LateTick(float delta)
@@ -64,19 +69,23 @@ public class CreatureAI : MonoBehaviour
         Health.LateTick(delta);
     }
 
-    public Transform GetNearestTarget(Collider[] hitColliders)
+    public Transform GetNearestTarget(float maxDistance)
     {
+        Collider[] hitColliders = Physics.OverlapSphere(Transform.position, maxDistance, TargetLayer);
         Transform nearestTarget = null;
         float shortestDistance = Mathf.Infinity;
 
-        foreach (Collider hitCollider in hitColliders)
+        if (hitColliders.Length > 0)
         {
-            float distance = Vector3.Distance(_transform.position, hitCollider.transform.position);
-
-            if (distance < shortestDistance)
+            foreach (Collider hitCollider in hitColliders)
             {
-                shortestDistance = distance;
-                nearestTarget = hitCollider.transform;
+                float distance = Vector3.Distance(Transform.position, hitCollider.transform.position);
+
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestTarget = hitCollider.transform;
+                }
             }
         }
 
@@ -85,7 +94,7 @@ public class CreatureAI : MonoBehaviour
 
     public bool TargetInRange(Transform target)
     {
-        float distance = Vector3.Distance(_transform.position, target.position);
+        float distance = Vector3.Distance(Transform.position, target.position);
         return distance <= CreatureData.AttackDistance;
     }
 }

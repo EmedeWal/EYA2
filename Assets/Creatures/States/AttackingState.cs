@@ -41,7 +41,7 @@ public class AttackingState : CreatureState
             }
             else
             {
-                _CreatureAI.SetState(new ChasingState(_CreatureAI, _target));
+                _CreatureAI.SetState(new IdleState(_CreatureAI));
             }
         }
     }
@@ -65,7 +65,7 @@ public class AttackingState : CreatureState
 
     private void AttackingState_AttackEnded(AttackType attackType)
     {
-        if (attackType == AttackType.Heavy && _CreatureAI.CreatureData.RetreatDistance > 0 && IsPlayerBehind())
+        if (attackType == AttackType.Heavy && _CreatureAI.CreatureData.RetreatRadius > 0 && IsPlayerBehind())
         {
             _CreatureAI.AnimatorManager.CrossFadeAnimation(_delta, "Empty Override");
             _CreatureAI.SetState(new RepositioningState(_CreatureAI, _target));

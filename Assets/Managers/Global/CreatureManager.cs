@@ -7,6 +7,8 @@ public class CreatureManager : MonoBehaviour
 {
     private float _delta;
 
+    public Transform PlayerTransform;
+
     [Header("CREATURE PREFABS")]
     [SerializeField] private List<CreatureAI> _creaturePrefabList = new();
     private List<CreatureAI> _activeCreatureList = new();
@@ -16,10 +18,14 @@ public class CreatureManager : MonoBehaviour
 
     public static event Action<CreatureAI> CreatureDeath;
 
+    private AudioSystem _audioSystem;
+
     public void Init()
     {
         _creatureLayer = LayerMask.GetMask("DamageCollider");
         _targetLayer = LayerMask.GetMask("Controller");
+
+        _audioSystem = AudioSystem.Instance;
 
         CollectCreatures();
     }
@@ -47,14 +53,17 @@ public class CreatureManager : MonoBehaviour
     private void AddCreature(CreatureAI creature)
     {
         _activeCreatureList.Add(creature);
-        creature.Init(_creatureLayer, _targetLayer);
+        creature.Init(_creatureLayer, _targetLayer, PlayerTransform);
         creature.Health.ValueExhausted += CreatureManager_ValueExhausted;
     }
 
     private void RemoveCreature(GameObject creatureObject)
     {
         CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
+        AudioSource source = creature.DeathSource;
+
         creature.Health.ValueExhausted -= CreatureManager_ValueExhausted;
+        _audioSystem.PlayAudioClip(source, source.clip, source.volume);
         creature.AnimatorManager.CrossFadeAnimation(_delta, "Die");
         _activeCreatureList.Remove(creature);
         OnCreatureDeath(creature);

@@ -9,12 +9,15 @@ public class CreatureData : ScriptableObject
     public float RunSpeed;
 
     [Header("DISTANCES")]
-    public float RetreatDistance;
     public float AttackDistance;
-    public float WalkDistance;
     public float RunDistance;
 
     [Header("VALUES")]
     public int Souls;
     public float Health;
+
+    [Header("REPOSITIONING")]
+    public int RetreatPoints = 0;
+    public float RetreatRadius = 0;
+    public float RetreatDegrees = 360;
 }

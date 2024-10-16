@@ -1,39 +1,82 @@
+using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class RepositioningState : CreatureState
 {
     private Transform _target;
-    private Vector3 _repositionTarget;
+    private Queue<Vector3> _waypoints;
+    private Vector3 _currentWaypoint;
+    private float _reachedDistanceThreshold = 1f;
+    //private bool _rotateClockwise;
 
     public RepositioningState(CreatureAI creatureAI, Transform target) : base(creatureAI)
     {
         _target = target;
-        _repositionTarget = GetRepositionTarget();
+      //  _rotateClockwise = Random.value > 0.5f;
+        _waypoints = GenerateCircularWaypoints();
     }
 
     public override void Enter()
     {
         _CreatureAI.Locomotion.StopAgent(false);
-        _CreatureAI.Locomotion.SetDestination(_repositionTarget);
+        MoveToNextWaypoint();
     }
 
     public override void Tick(float delta)
     {
-        if (Vector3.Distance(_CreatureAI.transform.position, _repositionTarget) < 1f)
+        if (_waypoints.Count > 0)
         {
-            _CreatureAI.SetState(new ChasingState(_CreatureAI, _target));
+            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _reachedDistanceThreshold)
+            {
+                MoveToNextWaypoint();
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _reachedDistanceThreshold)
+            {
+                _CreatureAI.SetState(new IdleState(_CreatureAI));
+            }
         }
     }
 
-    private Vector3 GetRepositionTarget()
+    private Queue<Vector3> GenerateCircularWaypoints()
     {
-        Vector3 direction = (_CreatureAI.transform.position - _target.position).normalized;
-        return _CreatureAI.transform.position + direction * _CreatureAI.CreatureData.RetreatDistance +
-               (Quaternion.Euler(0, Random.Range(-60, 60), 0) * direction) * 2f;
+        Queue<Vector3> waypoints = new();
+        Vector3 startPos = _CreatureAI.Transform.position; 
+        Vector3 directionTowardsPlayer = (_CreatureAI.DefaultTarget.position - startPos).normalized;
+        Vector3 directionAwayFromPlayer = -directionTowardsPlayer;
+
+        int numWaypoints = _CreatureAI.CreatureData.RetreatPoints;
+        float currentRadius = _CreatureAI.CreatureData.RetreatRadius;
+        float circleDegrees = _CreatureAI.CreatureData.RetreatDegrees;
+
+        Vector3 leftDirection = Vector3.Cross(Vector3.up, directionAwayFromPlayer).normalized;
+        float angleStep = circleDegrees / numWaypoints;
+
+        for (int i = 0; i < numWaypoints; i++)
+        {
+            float angle = -(circleDegrees / 2) + (i * angleStep);
+            Quaternion rotationOffset = Quaternion.Euler(0, 90, 0);
+            Quaternion totalRotation = rotationOffset * Quaternion.Euler(0, angle, 0);
+            Vector3 waypointDirection = totalRotation * directionAwayFromPlayer;
+            Vector3 waypoint = startPos + waypointDirection * currentRadius + leftDirection * currentRadius;
+
+            if (NavMesh.SamplePosition(waypoint, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            {
+                waypoints.Enqueue(hit.position);
+            }
+        }
+        return waypoints;
     }
 
-    public override void Exit()
+    private void MoveToNextWaypoint()
     {
-
+        if (_waypoints.Count > 0)
+        {
+            _currentWaypoint = _waypoints.Dequeue();
+            _CreatureAI.Locomotion.SetDestination(_currentWaypoint);
+        }
     }
 }

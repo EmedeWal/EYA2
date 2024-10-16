@@ -7298,6 +7298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0925c730ff428aa4eab25a3107baaa68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerTransform: {fileID: 965500537}
   _creaturePrefabList: []
 --- !u!1 &669394614
 GameObject:
@@ -11647,6 +11648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &965500537 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8751218226705034595, guid: ec780c43710c9d34495d04df4e8b91ea, type: 3}
+  m_PrefabInstance: {fileID: 980483847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &974565959 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 704210160714127085, guid: fcf7716201ede6c4bb1b8f7611166865, type: 3}
@@ -28542,17 +28548,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 354463949985205063, guid: 814906ca5949d554dbf23f134a4aac2c, type: 3}
-      propertyPath: MaxDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 354463949985205063, guid: 814906ca5949d554dbf23f134a4aac2c, type: 3}
-      propertyPath: MinDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1235492605697417619, guid: 814906ca5949d554dbf23f134a4aac2c, type: 3}
       propertyPath: m_Name
       value: Catfish
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533590231691577620, guid: 814906ca5949d554dbf23f134a4aac2c, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 6830875203589299156, guid: 814906ca5949d554dbf23f134a4aac2c, type: 3}
       propertyPath: m_LocalPosition.x

@@ -3,16 +3,15 @@ using UnityEngine;
 public class ChasingState : CreatureState
 {
     private Transform _target;
-    private float _walkDistance;
     private float _runDistance;
     private float _maxLocomotionSpeed;
 
     public ChasingState(CreatureAI creatureAI, Transform target) : base(creatureAI)
     {
         _target = target;
-        _walkDistance = _CreatureAI.CreatureData.WalkDistance;
         _runDistance = _CreatureAI.CreatureData.RunDistance;    
-        _maxLocomotionSpeed = _CreatureAI.Locomotion.GetMaxSpeed(); 
+        _maxLocomotionSpeed = _CreatureAI.Locomotion.GetMaxSpeed();
+        _CreatureAI.Health.ValueRemoved += ChasingState_ValueRemoved;
     }
 
     public override void Enter()
@@ -36,22 +35,27 @@ public class ChasingState : CreatureState
 
     public override void Exit()
     {
-
+        _CreatureAI.Health.ValueRemoved -= ChasingState_ValueRemoved;
     }
 
     private void UpdateLocomotion(float distanceToTarget)
     {
-        float speed = 0;
+        float speed;
 
         if (distanceToTarget <= _runDistance)
         {
             speed = _CreatureAI.CreatureData.RunSpeed;
         }
-        else if (distanceToTarget <= _walkDistance)
+        else
         {
             speed = _CreatureAI.CreatureData.WalkSpeed;
         }
 
         _CreatureAI.Locomotion.SetSpeed(speed);
+    }
+
+    private void ChasingState_ValueRemoved()
+    {
+        _CreatureAI.SetState(new IdleState(_CreatureAI));
     }
 }
