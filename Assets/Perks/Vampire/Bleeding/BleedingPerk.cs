@@ -104,7 +104,7 @@ public class BleedingPerk : PerkData
             Transform transform = healthObject.transform;
             int stacks = healthObject.GetComponent<BleedHandler>().CurrentStacks;
 
-            VFX bloodEruptionVFX = _VFXManager.AddVFX(_bloodEruptionVFX, true, 3f, transform.position, transform.rotation);
+            VFX bloodEruptionVFX = _VFXManager.AddStaticVFX(_bloodEruptionVFX, transform.position, transform.rotation, 3f);
 
             UpdateBleedingStats();
             BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();

@@ -115,7 +115,7 @@ public class EvasionPerk : PerkData
 
         if (_shieldExplosionVFX != null)
         {
-            VFX explosionVFX = _VFXManager.AddVFX(_shieldExplosionVFX, true, 5);
+            VFX explosionVFX = _VFXManager.AddStaticVFX(_shieldExplosionVFX, _PlayerTransform.position, _PlayerTransform.rotation, 5f);
             Explosion explosion = explosionVFX.GetComponent<Explosion>();
             explosion.InitExplosion(_radius, _damage, _targetLayer);
 
@@ -169,7 +169,7 @@ public class EvasionPerk : PerkData
     {
         if (_shieldVFX != null)
         {
-            _currentShieldVFX = _VFXManager.AddVFX(_shieldVFX, false, 0, _PlayerTransform.position, _PlayerTransform.rotation, _PlayerTransform);
+            _currentShieldVFX = _VFXManager.AddMovingVFX(_shieldVFX, _PlayerTransform);
         }
     }
 

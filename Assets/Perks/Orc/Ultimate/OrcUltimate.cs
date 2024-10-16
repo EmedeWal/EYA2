@@ -106,7 +106,7 @@ public class OrcUltimate : PerkData
 
     private void CastShockwaves()
     {
-        VFX shockwaveVFX = _VFXManager.AddVFX(_shockwaveVFX, true, 3f, _PlayerTransform.position, _PlayerTransform.rotation);
+        VFX shockwaveVFX = _VFXManager.AddStaticVFX(_shockwaveVFX, _PlayerTransform.position, _PlayerTransform.rotation, 3f);
 
         AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
         _audioSystem.PlayAudio(source, source.clip, source.volume);
@@ -117,7 +117,7 @@ public class OrcUltimate : PerkData
     private void CastTremor()
     {
         _currentTremorVFX = Instantiate(_tremorVFX, _PlayerTransform);
-        _VFXManager.AddVFX(_currentTremorVFX, _currentTremorVFX.transform);
+        _VFXManager.AddMovingVFX(_currentTremorVFX, _currentTremorVFX.transform);
 
         _currentTremor = _currentTremorVFX.GetComponent<Tremor>();
         _currentTremor.InitTremor(_tremorRadius, _tremorDamage, _tremorSlowSpeed, _tremorSlowPercentage, _targetLayer);
@@ -126,7 +126,7 @@ public class OrcUltimate : PerkData
     private void CastBattleZone()
     {
         _currentBattleZoneVFX = Instantiate(_battleZoneVFX, _PlayerTransform);
-        _VFXManager.AddVFX(_currentBattleZoneVFX, _currentBattleZoneVFX.transform);
+        _VFXManager.AddMovingVFX(_currentBattleZoneVFX, _currentBattleZoneVFX.transform);
 
         _currentBattleZone = _currentBattleZoneVFX.GetComponent<BattleZone>();
         _currentBattleZone.Init(_PlayerStats, _criticalChance, _criticalMultiplier, _damageReduction, _healthRegen);
@@ -141,7 +141,7 @@ public class OrcUltimate : PerkData
     {
         if (_currentBattleZone.PlayerInside && crit)
         {
-            VFX slashVFX = _VFXManager.AddVFX(_slashVFX, true, 1f, _PlayerTransform.position, _PlayerTransform.rotation);
+            VFX slashVFX = _VFXManager.AddStaticVFX(_slashVFX, _PlayerTransform.position, _PlayerTransform.rotation, 1f);
 
             Explosion explosion = slashVFX.GetComponent<Explosion>();
             float finalDamage = damage / 100 * _slashDamagePercentage;

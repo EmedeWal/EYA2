@@ -63,7 +63,7 @@ public class Health : Resource
         Vector3 directionToAttacker = attackerObject.transform.position - transform.position;
         directionToAttacker.y = 0;
 
-        VFX evasionVFX = VFXManager.Instance.AddVFX(_evasionVFX, true, 1f, _center.position, Quaternion.LookRotation(directionToAttacker), _center);
+        VFX evasionVFX = VFXManager.Instance.AddStaticVFX(_evasionVFX, _center.position, Quaternion.LookRotation(directionToAttacker), 1f);
 
         AudioSource source = evasionVFX.GetComponent<AudioSource>();
         AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);

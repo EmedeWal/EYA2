@@ -5,11 +5,13 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
 {
     public bool Moving {  get; private set; }
 
+    private CreatureAnimatorManager _animatorManager;
     private NavMeshAgent _navMeshAgent;
     private float _maxSpeed;
 
     public void Init(float speed)
     {
+        _animatorManager = GetComponent<CreatureAnimatorManager>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = speed;
         _maxSpeed = speed;
@@ -28,12 +30,13 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
 
     public void SetSpeed(float speed)
     {
+        speed *= _animatorManager.MovementSpeed;
         _navMeshAgent.speed = speed;
     }
 
     public float GetLocomotionValue()
     {
-        return _navMeshAgent.velocity.magnitude / _maxSpeed;
+        return _navMeshAgent.velocity.magnitude / _animatorManager.MovementSpeed / _maxSpeed;
     }
 
     public float GetMaxSpeed()

@@ -19,14 +19,14 @@ MonoBehaviour:
   Tier: 3
   Cost: 300
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _iceCloudPrefab: {fileID: 0}
+  _iceCloudVFX: {fileID: 0}
   _iceCloudRadius: 0
   _iceCloudCooldown: 0
-  _movementBuff: {fileID: 2020503045015299057, guid: 84bc1d14ee6c00f4697cac52193b683d, type: 3}
+  _movementVFX: {fileID: 2020503045015299057, guid: 84bc1d14ee6c00f4697cac52193b683d, type: 3}
   _buffEmissionRate: 5
   _evasionChanceIncrease: 0
   _manaRegenIncrease: 1
-  _momentumEffectPrefab: {fileID: 0}
+  _momentumVFX: {fileID: 0}
   _momentumIncreaseRate: 0
   _momentumDecreaseRate: 0
   _maxMovementSpeedBonus: 0

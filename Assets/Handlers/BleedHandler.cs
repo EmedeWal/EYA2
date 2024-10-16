@@ -43,7 +43,7 @@ public class BleedHandler : MonoBehaviour
             _currentBleedVFX = Instantiate(_bleedVFX, _center.position, _center.rotation);
             _bleedEmission = _currentBleedVFX.GetComponent<VFXEmission>();
             _bleedEmission.Init((float)_currentStacks / _currentBleedingStats.MaxStacks * 10);
-            _VFXManager.AddVFX(_currentBleedVFX, _center);
+            _VFXManager.AddMovingVFX(_currentBleedVFX, _center);
 
             _currentStacks = 1;
             _bleedCoroutine = StartCoroutine(HandleBleed());

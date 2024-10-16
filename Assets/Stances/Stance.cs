@@ -68,7 +68,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
 
         if (sound) _audioSystem.PlayAudio(_audioSource, _stanceData.SwapClip, _stanceData.SwapVolume, _stanceData.SwapOffset);
 
-        _currentSmokeVFX = _VFXManager.AddVFX(_stanceData.SmokeVFX, false, 0f, _transform.position, _transform.rotation, _transform);
+        _currentSmokeVFX = _VFXManager.AddMovingVFX(_stanceData.SmokeVFX, _transform);
 
         foreach (var perk in _passivePerks)
         {

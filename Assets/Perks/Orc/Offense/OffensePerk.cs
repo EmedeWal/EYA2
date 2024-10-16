@@ -116,7 +116,7 @@ public class OffensePerk : PerkData
                 transform = hit.transform;
             }
 
-            VFX quakeVFX = _VFXManager.AddVFX(_quakeVFX, true, 1f, transform.position, transform.rotation, transform);
+            VFX quakeVFX = _VFXManager.AddMovingVFX(_quakeVFX, transform, 1f);
 
             AudioSource source = quakeVFX.GetComponent<AudioSource>();
             _audioSystem.PlayAudio(source, source.clip, source.volume);
@@ -158,7 +158,7 @@ public class OffensePerk : PerkData
             if (_currentQuakeBuffVFX == null)
             {
                 _currentQuakeBuffVFX = Instantiate(_quakeBuffVFX, _PlayerTransform);
-                _VFXManager.AddVFX(_currentQuakeBuffVFX, _PlayerTransform);
+                _VFXManager.AddMovingVFX(_currentQuakeBuffVFX, _PlayerTransform);
             }
             else
             {
@@ -199,7 +199,7 @@ public class OffensePerk : PerkData
         else
         {
             _currentGritVFX = Instantiate(_gritVFX, _PlayerTransform);
-            _VFXManager.AddVFX(_currentGritVFX, _PlayerTransform);
+            _VFXManager.AddMovingVFX(_currentGritVFX, _PlayerTransform);
 
             _currentGritVFXEmission = _currentGritVFX.GetComponent<VFXEmission>();
             _currentGritVFXEmission.Init(gritPercent * 25);

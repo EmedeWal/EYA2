@@ -24,26 +24,52 @@ public class VFXManager : SingletonBase
 
     private List<VFX> _activeVFXList = new();
 
-    public VFX AddVFX(VFX vfxPrefab, bool queueDestruction = false, float destroyDelay = 0f, Vector3 position = default, Quaternion rotation = default, Transform followTarget = null)
+    public VFX AddStaticVFX(VFX vfxPrefab, Vector3 position, Quaternion rotation, float destroyDelay)
     {
         VFX vfxInstance = Instantiate(vfxPrefab, position, rotation);
 
         vfxInstance.transform.SetParent(_transform, true);
+        vfxInstance.Init(vfxInstance.transform);
+        _activeVFXList.Add(vfxInstance);
 
-        if (followTarget == null)
-        {
-            followTarget = vfxInstance.transform;
-        }
+        StartCoroutine(DestroyVFXAfterDelay(vfxInstance, destroyDelay));
 
+        return vfxInstance; 
+    }
+
+    public VFX AddStaticVFX(VFX vfxPrefab, Vector3 position, Quaternion rotation)
+    {
+        VFX vfxInstance = Instantiate(vfxPrefab, position, rotation);
+
+        vfxInstance.transform.SetParent(_transform, true);
+        vfxInstance.Init(vfxInstance.transform);
+        _activeVFXList.Add(vfxInstance);
+
+        return vfxInstance;
+    }
+
+    public VFX AddMovingVFX(VFX vfxPrefab, Transform followTarget, float destroyDelay)
+    {
+        VFX vfxInstance = Instantiate(vfxPrefab, followTarget.position, followTarget.rotation);
+
+        vfxInstance.transform.SetParent(_transform, true);
         vfxInstance.Init(followTarget);
         _activeVFXList.Add(vfxInstance);
 
-        if (queueDestruction)
-        {
-            StartCoroutine(DestroyVFXAfterDelay(vfxInstance, destroyDelay));
-        }
+        StartCoroutine(DestroyVFXAfterDelay(vfxInstance, destroyDelay));
 
-        return vfxInstance; 
+        return vfxInstance;
+    }
+
+    public VFX AddMovingVFX(VFX vfxPrefab, Transform followTarget)
+    {
+        VFX vfxInstance = Instantiate(vfxPrefab, followTarget.position, followTarget.rotation);
+
+        vfxInstance.transform.SetParent(_transform, true);
+        vfxInstance.Init(followTarget);
+        _activeVFXList.Add(vfxInstance);
+
+        return vfxInstance;
     }
 
     public void Tick(float delta)

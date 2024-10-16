@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8618567186311049803}
   - component: {fileID: 7053904840099933876}
   m_Layer: 0
-  m_Name: Momentum Effect
+  m_Name: Momentum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

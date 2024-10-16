@@ -56,7 +56,7 @@ public class PlayerAttackHandler : AttackHandler
             if (hit.TryGetComponent(out LockTarget lockTarget))
             {
                 Transform center = lockTarget.Center;
-                VFX critVFX = _VFXManager.AddVFX(_critVFX, true, 1f, center.position, center.rotation, center);
+                VFX critVFX = _VFXManager.AddMovingVFX(_critVFX, center, 1f);
 
                 AudioSource source = critVFX.GetComponent<AudioSource>();
                 _AudioSystem.PlayAudio(source, source.clip, source.volume, 0.05f);

@@ -90,7 +90,7 @@ public class GhostUltimatePerk : PerkData
             if (_summonExplosionPrefab != null)
             {
                 VFX summonVFX = Instantiate(_summonExplosionPrefab, currentClone.transform);
-                _VFXManager.AddVFX(summonVFX, summonVFX.transform);
+                _VFXManager.AddMovingVFX(summonVFX, summonVFX.transform);
 
                 Explosion summonExplosion = summonVFX.GetComponent<Explosion>();
                 summonExplosion.Init(_summonExplosionRadius, _targetLayer);
@@ -105,7 +105,7 @@ public class GhostUltimatePerk : PerkData
                 _currentSparks = Instantiate(_sparkPrefab, cloneTransform);
                 _currentSparks.Init(_sparksRadius, _sparksDamage, _targetLayer);
                 VFX sparkVFX = _currentSparks.GetComponent<VFX>();
-                _VFXManager.AddVFX(sparkVFX, cloneTransform);
+                _VFXManager.AddMovingVFX(sparkVFX, cloneTransform);
             }
 
             if (target)
@@ -191,7 +191,7 @@ public class GhostUltimatePerk : PerkData
 
         if (_deathExplosionPrefab != null)
         {
-            VFX cloneExplosion = _VFXManager.AddVFX(_deathExplosionPrefab, true, 3f);
+            VFX cloneExplosion = _VFXManager.AddStaticVFX(_deathExplosionPrefab, cloneObject.transform.position, cloneObject.transform.rotation, 3f);
             Explosion explosion = cloneExplosion.GetComponent<Explosion>();
             explosion.Init(_deathExplosionRadius, _targetLayer);
         }

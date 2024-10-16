@@ -64,7 +64,9 @@ public class DefensePerk : PerkData
 
         EnableBuffVFX(true);
 
-        if (_playerLocomotion.Moving)
+        _isMoving = _playerLocomotion.Moving;
+
+        if (_isMoving)
         {
             StartedMoving();
         }
@@ -124,7 +126,7 @@ public class DefensePerk : PerkData
         if (_currentBuff == null && enable)
         {
             _currentBuff = Instantiate(_buff, _PlayerTransform);
-            _VFXManager.AddVFX(_currentBuff, _PlayerTransform);
+            _VFXManager.AddMovingVFX(_currentBuff, _PlayerTransform);
         }
         else
         {

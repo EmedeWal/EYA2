@@ -89,7 +89,7 @@ public class MasteryPerk : PerkData
 
         if (_flowVFX != null)
         {
-            _currentFlowVFX = _VFXManager.AddVFX(_flowVFX, false, 0, _PlayerTransform.position, _PlayerTransform.rotation, _PlayerTransform);
+            _currentFlowVFX = _VFXManager.AddMovingVFX(_flowVFX, _PlayerTransform);
             _emission = _currentFlowVFX.GetComponent<VFXEmission>();
             _emission.Init(_currentFlow);
         }

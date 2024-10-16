@@ -90,7 +90,7 @@ public abstract class ComboData : ScriptableObject
                     _timer = 0;
                     _paused = false;
                     _ready = true;
-                    _VFXManager.AddVFX(_completedVFX, true, 1f, _Transform.position, _Transform.rotation, _Transform);
+                    _VFXManager.AddMovingVFX(_completedVFX, _Transform, 1f);
                 }
             }
             else if (_ready)

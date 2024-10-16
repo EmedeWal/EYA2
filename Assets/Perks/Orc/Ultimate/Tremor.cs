@@ -41,7 +41,7 @@ public class Tremor : ConstantAreaDamage
                 _slowedEnemies.Add(animatorManager, appliedSlowAmount);
 
                 VFX vfxInstance = Instantiate(_slowVFX, animatorManager.transform.position, Quaternion.identity);
-                _VFXManager.AddVFX(vfxInstance, animatorManager.transform); 
+                _VFXManager.AddMovingVFX(vfxInstance, animatorManager.transform); 
                 _activeVFXs.Add(vfxInstance);
             }
             else

@@ -8,6 +8,6 @@ public class BloodwaveCombo : ComboData
 
     protected override void PerformComboFinisher(AttackType attackType)
     {
-        _VFXManager.AddVFX(_bloodwaveVFX, true, 3f, _Transform.position, _Transform.rotation);
+        _VFXManager.AddStaticVFX(_bloodwaveVFX, _Transform.position, _Transform.rotation, 3f);
     }
 }

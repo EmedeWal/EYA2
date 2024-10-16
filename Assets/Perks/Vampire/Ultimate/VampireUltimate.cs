@@ -47,7 +47,7 @@ public class VampireUltimate : PerkData
     {
         base.Activate();
 
-        // Subscribe to static enemydeath
+        CreatureManager.CreatureDeath += VampireUltimate_CreatureDeath;
         _playerAttackHandler.SuccessfulAttack += VampireUltimate_SuccessfulAttack;
 
         _statChanges.Add(Stat.AttackDamageModifier, 0);
@@ -60,7 +60,7 @@ public class VampireUltimate : PerkData
     {
         base.Deactivate();
 
-        // Unsubscribe to static enemydeath
+        CreatureManager.CreatureDeath -= VampireUltimate_CreatureDeath;
         _playerAttackHandler.SuccessfulAttack -= VampireUltimate_SuccessfulAttack;
 
         ResetStatChanges();
@@ -74,7 +74,8 @@ public class VampireUltimate : PerkData
 
     private void VampireUltimate_CreatureDeath(CreatureAI creature)
     {
-        _VFXManager.AddVFX(_feastVFX, true, 1f, _PlayerTransform.position, _PlayerTransform.rotation, _PlayerTransform);
+        _VFXManager.AddMovingVFX(_feastVFX, _PlayerTransform, 1f);
+
         _playerHealth.Heal(_PlayerStats.GetBaseStat(Stat.MaxHealth) / 100 * _healthGainPercentage);
         _playerMana.Gain(_PlayerStats.GetBaseStat(Stat.MaxMana) / 100 * _manaGainPercentage);   
 
@@ -96,7 +97,7 @@ public class VampireUltimate : PerkData
     {
         if (crit && _bloodwaveVFX != null)
         {
-            _VFXManager.AddVFX(_bloodwaveVFX, true, 3f, _PlayerTransform.position, _PlayerTransform.rotation, _PlayerTransform);
+            _VFXManager.AddStaticVFX(_bloodwaveVFX, _PlayerTransform.position, _PlayerTransform.rotation, 3f);
         }
     }
 

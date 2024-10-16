@@ -15,12 +15,12 @@ public class CloneAI : CreatureAI
 
     //    for (int i = 0; i < _initialVFXArray.Length; i++)
     //    {
-    //        _VFXManager.AddVFX(_initialVFXArray[i], true, 3f, _Transform.position, _Transform.rotation, _Transform);
+    //        _VFXManager.AddStaticVFX(_initialVFXArray[i], true, 3f, _Transform.position, _Transform.rotation, _Transform);
     //    }
 
     //    for (int i = 0; i < _constantVFXArray.Length; i++)
     //    {
-    //        _VFXManager.AddVFX(_constantVFXArray[i], _Transform);
+    //        _VFXManager.AddStaticVFX(_constantVFXArray[i], _Transform);
     //    }
     //}
 
