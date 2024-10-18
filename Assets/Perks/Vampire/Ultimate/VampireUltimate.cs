@@ -4,12 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Vampire Ultimate", menuName = "Scriptable Object/Perks/Ultimate Perk/Vampire")]
 public class VampireUltimate : PerkData
 { 
-    private VFXManager _VFXManager;
-
-    private PlayerAttackHandler _playerAttackHandler;   
-    private Health _playerHealth;
-    private Mana _playerMana;
-
     private Dictionary<Stat, float> _statChanges = new();
 
     [Header("FEAST STATS")]
@@ -27,15 +21,9 @@ public class VampireUltimate : PerkData
     [SerializeField] private VFX _bloodwaveVFX;
     [SerializeField] private bool _guaranteeCritical = true;
 
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        _VFXManager = VFXManager.Instance;
-
-        _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
-        _playerHealth = _PlayerObject.GetComponent<Health>();
-        _playerMana = _PlayerObject.GetComponent<Mana>();
+        base.Init(playerObject, perks, statChanges);
 
         if (_bloodwaveStats != null)
         {
@@ -48,7 +36,7 @@ public class VampireUltimate : PerkData
         base.Activate();
 
         CreatureManager.CreatureDeath += VampireUltimate_CreatureDeath;
-        _playerAttackHandler.SuccessfulAttack += VampireUltimate_SuccessfulAttack;
+        _AttackHandler.SuccessfulAttack += VampireUltimate_SuccessfulAttack;
 
         _statChanges.Add(Stat.AttackDamageModifier, 0);
         _statChanges.Add(Stat.CriticalChance, 0);
@@ -61,7 +49,7 @@ public class VampireUltimate : PerkData
         base.Deactivate();
 
         CreatureManager.CreatureDeath -= VampireUltimate_CreatureDeath;
-        _playerAttackHandler.SuccessfulAttack -= VampireUltimate_SuccessfulAttack;
+        _AttackHandler.SuccessfulAttack -= VampireUltimate_SuccessfulAttack;
 
         ResetStatChanges();
         _statChanges.Clear();
@@ -76,8 +64,8 @@ public class VampireUltimate : PerkData
     {
         _VFXManager.AddMovingVFX(_feastVFX, _PlayerTransform, 1f);
 
-        _playerHealth.Heal(_PlayerStats.GetBaseStat(Stat.MaxHealth) / 100 * _healthGainPercentage);
-        _playerMana.Gain(_PlayerStats.GetBaseStat(Stat.MaxMana) / 100 * _manaGainPercentage);   
+        _Health.Heal(_PlayerStats.GetBaseStat(Stat.MaxHealth) / 100 * _healthGainPercentage);
+        _Mana.Gain(_PlayerStats.GetBaseStat(Stat.MaxMana) / 100 * _manaGainPercentage);   
 
         if (creature.TryGetComponent(out BleedHandler bleedHandler))
         {
@@ -89,7 +77,7 @@ public class VampireUltimate : PerkData
 
         if (_guaranteeCritical)
         {
-            _playerAttackHandler.GuaranteedCrit = true;
+            _AttackHandler.GuaranteedCrit = true;
         }
     }
 

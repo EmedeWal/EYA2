@@ -4,9 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Bleeding Perk", menuName = "Scriptable Object/Perks/Passive Perk/Bleeding")]
 public class BleedingPerk : PerkData
 {
-    private PlayerAttackHandler _playerAttackHandler;
-    private Health _playerHealth;
-
     [Header("BASE BLEEDING STATS")]
     [SerializeField] private int _maxStacks = 5;
     [SerializeField] private float _damage = 1f;
@@ -29,41 +26,21 @@ public class BleedingPerk : PerkData
     private List<BleedHandler> _bleedingEnemies;
     private BleedingStats _currentBleedingStats; 
 
-    private LayerMask _targetLayer;
-    private VFXManager _VFXManager;
-
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
-        {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
-
-        _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
-        _playerHealth = _PlayerObject.GetComponent<Health>();
+        base.Init(playerObject, perks, statChanges);
 
         _bleedingEnemies = new List<BleedHandler>();
-
-        _targetLayer = LayerMask.GetMask("DamageCollider");
-
-        _VFXManager = VFXManager.Instance;
     }
 
     public override void Activate()
     {
-        _playerAttackHandler.SuccessfulHit += BleedingPerk_SuccesfulHit;
+        _AttackHandler.SuccessfulHit += BleedingPerk_SuccesfulHit;
     }
 
     public override void Deactivate()
     {
-        _playerAttackHandler.SuccessfulHit -= BleedingPerk_SuccesfulHit;
+        _AttackHandler.SuccessfulHit -= BleedingPerk_SuccesfulHit;
     }
 
     public override void Tick(float delta)
@@ -85,7 +62,7 @@ public class BleedingPerk : PerkData
             }
             else
             {
-                _playerHealth.Heal(bleedHandler.CurrentStacks * _healthGain);
+                _Health.Heal(bleedHandler.CurrentStacks * _healthGain);
             }
         }
     }
@@ -108,7 +85,7 @@ public class BleedingPerk : PerkData
 
             UpdateBleedingStats();
             BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
-            bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _targetLayer);
+            bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _TargetLayer);
         }
     }
 

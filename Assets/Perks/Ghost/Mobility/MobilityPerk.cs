@@ -2,19 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Mobility Perk", menuName = "Scriptable Object/Perks/Passive Perk/Mobility")]
-public class MobilityPerk : PerkData
+public class MobilityPerk : PassivePerk
 {
-    private StatTracker _statTracker;
-    private PlayerLocomotion _playerLocomotion;
-    private PlayerAttackHandler _playerAttackHandler;
-    private Mana _playerMana;
     private bool _isMoving;
 
     [Header("ICE CLOUDS")]
     [SerializeField] private VFX _iceCloudVFX;
     [SerializeField] private float _iceCloudRadius = 5f;
     [SerializeField] private float _iceCloudCooldown = 5f;
-    private LayerMask _targetLayers;
     private float _iceCloudTimer;
 
     [Header("SPECTRAL STRIDE")]
@@ -35,24 +30,9 @@ public class MobilityPerk : PerkData
     private VFX _currentMomentumVFX;
     private float _momentum;
 
-    private AudioSystem _audioSystem;
-    private VFXManager _VFXManager;
-
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
-        {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
-
-        Dictionary<Stat, float> statChanges = new()
+        statChanges = new()
         {
             { Stat.ManaRegen, 0f },
             { Stat.EvasionChance, 0f },
@@ -60,21 +40,14 @@ public class MobilityPerk : PerkData
             { Stat.AttackDamageModifier, 0f }
         };
 
-        _statTracker = new StatTracker(statChanges, _PlayerStats);
-        _playerLocomotion = _PlayerObject.GetComponent<PlayerLocomotion>();
-        _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
-        _playerMana = _PlayerObject.GetComponent<Mana>();
-        _targetLayers = LayerMask.GetMask("DamageCollider");
-        _audioSystem = AudioSystem.Instance;
-        _VFXManager = VFXManager.Instance;
+        base.Init(playerObject, perks, statChanges);
     }
 
     public override void Activate()
     {
-        _iceCloudTimer = 0f;
         _momentum = 0f;
-
-        _isMoving = _playerLocomotion.Moving;
+        _iceCloudTimer = 0f;
+        _isMoving = _Locomotion.Moving;
 
         if (_isMoving)
         {
@@ -93,7 +66,7 @@ public class MobilityPerk : PerkData
 
     public override void Deactivate()
     {
-        _statTracker.ResetStatChanges();
+        _StatTracker.ResetStatChanges();
 
         if (_currentMovementVFX != null)
         {
@@ -102,16 +75,31 @@ public class MobilityPerk : PerkData
 
         if (_currentMomentumVFX != null)
         {
-            _VFXManager.RemoveVFX(_currentMomentumVFX, 1);
-            _momentumVFXEmission = null;
-            _currentMomentumVFX = null;
+            EnableMomentumVFX(false, 0);
         }
     }
 
     public override void Tick(float delta)
     {
-        bool isMoving = _playerLocomotion.Moving;
+        bool isMoving = _Locomotion.Moving;
 
+        HandleMovement(isMoving);
+
+        _isMoving = isMoving;
+
+        if (_iceCloudVFX != null)
+        {
+            HandleIceClouds(delta);
+        }
+
+        if (_momentumVFX != null)
+        {
+            HandleMomentum(delta);
+        }
+    }
+
+    private void HandleMovement(bool isMoving)
+    {
         if (_isMoving != isMoving)
         {
             if (isMoving)
@@ -123,31 +111,32 @@ public class MobilityPerk : PerkData
                 StoppedMoving();
             }
         }
+    }
 
-        _isMoving = isMoving;
-
-        if (_iceCloudVFX != null)
+    private void HandleIceClouds(float delta)
+    {
+        if (_isMoving)
         {
-            if (_isMoving)
-            {
-                _iceCloudTimer += delta;
-                if (_iceCloudTimer >= _iceCloudCooldown)
-                {
-                    _iceCloudTimer = 0;
-
-                    VFX iceCloud = _VFXManager.AddStaticVFX(_iceCloudVFX, _PlayerTransform.position, _PlayerTransform.rotation, 4f);
-                    iceCloud.GetComponent<FreezingExplosion>().Init(_iceCloudRadius, _targetLayers);
-
-                    AudioSource source = iceCloud.GetComponent<AudioSource>();
-                    AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
-                }
-            }
-            else
+            _iceCloudTimer += delta;
+            if (_iceCloudTimer >= _iceCloudCooldown)
             {
                 _iceCloudTimer = 0;
+
+                VFX iceCloud = _VFXManager.AddStaticVFX(_iceCloudVFX, _PlayerTransform.position, _PlayerTransform.rotation, 4f);
+                iceCloud.GetComponent<FreezingExplosion>().Init(_iceCloudRadius, _TargetLayer);
+
+                AudioSource source = iceCloud.GetComponent<AudioSource>();
+                _AudioSystem.PlayAudio(source, source.clip, source.volume);
             }
         }
+        else
+        {
+            _iceCloudTimer = 0;
+        }
+    }
 
+    private void HandleMomentum(float delta)
+    {
         if (_momentumVFX != null)
         {
             if (_isMoving)
@@ -169,8 +158,8 @@ public class MobilityPerk : PerkData
         float newMovementSpeedBonus = _maxMovementSpeedBonus * momentumPercent;
         float newAttackDamageBonus = _maxAttackDamageBonus * momentumPercent;
 
-        _statTracker.IncrementStat(Stat.MovementSpeedModifier, newMovementSpeedBonus - _statTracker.GetStatChange(Stat.MovementSpeedModifier));
-        _statTracker.IncrementStat(Stat.AttackDamageModifier, newAttackDamageBonus - _statTracker.GetStatChange(Stat.AttackDamageModifier));
+        _StatTracker.IncrementStat(Stat.MovementSpeedModifier, newMovementSpeedBonus - _StatTracker.GetStatChange(Stat.MovementSpeedModifier));
+        _StatTracker.IncrementStat(Stat.AttackDamageModifier, newAttackDamageBonus - _StatTracker.GetStatChange(Stat.AttackDamageModifier));
 
         if (_momentumVFXEmission != null)
         {
@@ -178,9 +167,23 @@ public class MobilityPerk : PerkData
         }
         else
         {
+            EnableMomentumVFX(true, momentumPercent);
+        }
+    }
+
+    private void EnableMomentumVFX(bool enable, float momentum)
+    {
+        if (enable)
+        {
             _currentMomentumVFX = _VFXManager.AddMovingVFX(_momentumVFX, _PlayerTransform);
             _momentumVFXEmission = _currentMomentumVFX.GetComponent<VFXEmission>();
-            _momentumVFXEmission.Init(momentumPercent * 25);
+            _momentumVFXEmission.Init(momentum * 25);
+        }
+        else
+        {
+            _VFXManager.RemoveVFX(_currentMomentumVFX, 1);
+            _momentumVFXEmission = null;
+            _currentMomentumVFX = null;
         }
     }
 
@@ -205,8 +208,8 @@ public class MobilityPerk : PerkData
             _movementVFXEmission.Tick(_buffEmissionRate);
         }
 
-        _statTracker.IncrementStat(Stat.ManaRegen, _manaRegenIncrease);
-        _statTracker.IncrementStat(Stat.EvasionChance, _evasionChanceIncrease);
+        _StatTracker.IncrementStat(Stat.ManaRegen, _manaRegenIncrease);
+        _StatTracker.IncrementStat(Stat.EvasionChance, _evasionChanceIncrease);
     }
 
     private void StoppedMoving()
@@ -216,7 +219,7 @@ public class MobilityPerk : PerkData
             _movementVFXEmission.Tick(0);
         }
 
-        _statTracker.IncrementStat(Stat.ManaRegen, -_statTracker.GetStatChange(Stat.ManaRegen));
-        _statTracker.IncrementStat(Stat.EvasionChance, -_statTracker.GetStatChange(Stat.EvasionChance));
+        _StatTracker.IncrementStat(Stat.ManaRegen, -_StatTracker.GetStatChange(Stat.ManaRegen));
+        _StatTracker.IncrementStat(Stat.EvasionChance, -_StatTracker.GetStatChange(Stat.EvasionChance));
     }
 }

@@ -15,6 +15,7 @@ public class Stance : MonoBehaviour, IStanceDataProvider
 
     private List<PerkData> _passivePerks;
     private List<PerkData> _statPerks;
+    private List<PerkData> _ultimatePerks;
     private PerkData _ultimatePerk;
 
     private VFX _currentSmokeVFX;

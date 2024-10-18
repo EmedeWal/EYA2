@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class CreatureAnimatorManager : AnimatorManager
 {
+    public float Focus { get; private set; }
+
     private int _animatorLocomotion;
 
-    public void InitCreature(Health health, float movementSpeed = 1, float attackSpeed = 1)
+    public void InitCreature(Health health, float focus, float movementSpeed = 1, float attackSpeed = 1)
     {
         base.Init(movementSpeed, attackSpeed);
 
         health.ValueRemoved += CreatureAnimatorManager_ValueRemoved;
+
+        Focus = focus;
 
         _animatorLocomotion = Animator.StringToHash("Locomotion");
     }
@@ -25,9 +29,9 @@ public class CreatureAnimatorManager : AnimatorManager
         Animator.SetFloat(_animatorLocomotion, locomotion, 0.1f, delta);
     }
 
-    private void CreatureAnimatorManager_ValueRemoved()
+    private void CreatureAnimatorManager_ValueRemoved(float amount)
     {
-        if (!Animator.GetBool("InAction"))
+        if (!Animator.GetBool("InAction") && amount > Focus)
         {
             Animator.SetTrigger("Stagger");
         }

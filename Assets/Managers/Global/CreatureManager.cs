@@ -66,15 +66,13 @@ public class CreatureManager : MonoBehaviour
 
         CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
         creature.Health.ValueExhausted -= CreatureManager_ValueExhausted;
-        creature.AnimatorManager.CrossFadeAnimation(_delta, "Die");
         _activeCreatureList.Remove(creature);
         OnCreatureDeath(creature);
+        creature.Cleanup();
 
+        creature.AnimatorManager.CrossFadeAnimation(_delta, "Die");
         float delay = creature.AnimatorManager.GetAnimationLength();
         StartCoroutine(DestroyCreatureObject(creatureObject, delay));
-
-        Destroy(creature.LockTarget);
-        Destroy(creature.Health);
         Destroy(creature);
     }
 

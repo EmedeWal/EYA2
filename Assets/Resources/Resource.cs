@@ -13,7 +13,7 @@ public abstract class Resource : MonoBehaviour
     public event Action<GameObject> ValueExhausted;
     public event Action<float> MaxValueInitialized;
     public event Action<float> CurrentValueUpdated;
-    public event Action ValueRemoved;
+    public event Action<float> ValueRemoved;
 
     private Coroutine _decrementCoroutine;
 
@@ -30,8 +30,8 @@ public abstract class Resource : MonoBehaviour
         _currentValue = currentValue;
         _pendingValueChange = 0;
 
-        OnMaxValueInitialized();
-        OnCurrentValueUpdated();
+        OnMaxValueInitialized(_maxValue);
+        OnCurrentValueUpdated(_currentValue);
     }
 
     protected void AddValue(float amount)
@@ -54,7 +54,7 @@ public abstract class Resource : MonoBehaviour
 
             if (_pendingValueChange < 0)
             {
-                OnValueRemoved();
+                OnValueRemoved(_pendingValueChange);
             }
 
             if (_currentValue > _maxValue)
@@ -69,7 +69,7 @@ public abstract class Resource : MonoBehaviour
             }
 
             _pendingValueChange = 0;
-            OnCurrentValueUpdated();
+            OnCurrentValueUpdated(_currentValue);
         }
     }
 
@@ -115,18 +115,18 @@ public abstract class Resource : MonoBehaviour
         ValueExhausted?.Invoke(gameObject);
     }
 
-    private void OnMaxValueInitialized()
+    private void OnMaxValueInitialized(float maxValue)
     {
-        MaxValueInitialized?.Invoke(_maxValue);
+        MaxValueInitialized?.Invoke(maxValue);
     }
 
-    private void OnCurrentValueUpdated()
+    private void OnCurrentValueUpdated(float currentValue)
     {
-        CurrentValueUpdated?.Invoke(_currentValue);
+        CurrentValueUpdated?.Invoke(currentValue);
     }
 
-    private void OnValueRemoved()
+    private void OnValueRemoved(float amount)
     {
-        ValueRemoved?.Invoke();
+        ValueRemoved?.Invoke(amount);
     }
 }

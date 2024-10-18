@@ -26,23 +26,31 @@ public class AttackingState : CreatureState
     {        
         _delta = delta;
 
-        if (_CreatureAI.AttackHandler.IsAttacking)
+        if (_target != null)
         {
-            if (_shouldRotate)
+            if (_CreatureAI.AttackHandler.IsAttacking)
             {
-                RotateTowardsTarget(delta);
+                if (_shouldRotate)
+                {
+                    RotateTowardsTarget(delta);
+                }
+            }
+            else
+            {
+                if (_CreatureAI.TargetInRange(_target))
+                {
+                    _CreatureAI.AttackHandler.Attack();
+                }
+                else
+                {
+                    _CreatureAI.SetState(new IdleState(_CreatureAI));
+                }
             }
         }
         else
         {
-            if (_CreatureAI.TargetInRange(_target))
-            {
-                _CreatureAI.AttackHandler.Attack();
-            }
-            else
-            {
-                _CreatureAI.SetState(new IdleState(_CreatureAI));
-            }
+            _CreatureAI.AnimatorManager.Animator.SetBool("IsAttacking", false);
+            _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
     }
 
@@ -65,14 +73,12 @@ public class AttackingState : CreatureState
 
     private void AttackingState_AttackEnded(AttackType attackType)
     {
+        _CreatureAI.AnimatorManager.CrossFadeAnimation(_delta, "Combat Idle");
+
         if (attackType == AttackType.Heavy && _CreatureAI.CreatureData.RetreatRadius > 0 && IsPlayerBehind())
         {
-            _CreatureAI.AnimatorManager.CrossFadeAnimation(_delta, "Empty Override");
+            _CreatureAI.AnimatorManager.Animator.SetBool("IsAttacking", false);
             _CreatureAI.SetState(new RepositioningState(_CreatureAI, _target));
-        }
-        else
-        {
-            _CreatureAI.AnimatorManager.CrossFadeAnimation(_delta, "Combat Idle");
         }
     }
 

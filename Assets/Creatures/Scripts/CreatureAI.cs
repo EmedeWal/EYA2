@@ -7,11 +7,11 @@ public class CreatureAI : MonoBehaviour
     [Header("CREATURE BASE DATA")]
     public CreatureData CreatureData;
 
+    [HideInInspector] public Transform DefaultTarget;
     public CreatureAnimatorManager AnimatorManager { get; private set; }
     public CreatureAttackHandler AttackHandler { get; private set; }
     public CreatureLocomotion Locomotion { get; private set; }
     public LockTarget LockTarget { get; private set; }
-    public Transform DefaultTarget { get; private set; }
     public Transform Transform { get; private set; }
     public Health Health { get; private set; }
     public LayerMask TargetLayer { get; private set; }
@@ -30,7 +30,7 @@ public class CreatureAI : MonoBehaviour
         LockTarget = GetComponent<LockTarget>();
         Health = GetComponent<Health>();
 
-        AnimatorManager.InitCreature(Health);
+        AnimatorManager.InitCreature(Health, CreatureData.Focus);
         AttackHandler.Init(TargetLayer);
         Locomotion.Init(CreatureData.RunSpeed);
         LockTarget.Init();
@@ -43,9 +43,13 @@ public class CreatureAI : MonoBehaviour
 
     public void Cleanup()
     {
+        _currentState?.Exit();
+        Locomotion.StopAgent(true);
         AnimatorManager.CleanupCreature(Health);
 
-        _currentState?.Exit();
+        Destroy(Locomotion);
+        Destroy(LockTarget);
+        Destroy(Health);
     }
 
     public void SetState(CreatureState newState)

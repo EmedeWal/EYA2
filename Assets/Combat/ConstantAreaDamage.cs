@@ -33,7 +33,6 @@ public class ConstantAreaDamage : MonoBehaviour
         foreach (Collider collider in colliders)
         {
             if (collider == _colliderToIgnore) continue;
-
             Effect(collider, delta);
         }
     }

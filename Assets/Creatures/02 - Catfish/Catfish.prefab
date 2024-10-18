@@ -528,7 +528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6830875203589299156
 Transform:
   m_ObjectHideFlags: 0
@@ -724,6 +724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CreatureData: {fileID: 11400000, guid: 6c49b6b95c1f2dc468ca960ff819ff20, type: 2}
+  DefaultTarget: {fileID: 0}
 --- !u!114 &2309735491348987341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,8 +754,8 @@ MonoBehaviour:
   IsAttacking: 0
   _audioSource: {fileID: 7987154792203918819}
   _attackDataList:
-  - {fileID: 11400000, guid: 7bf963b130db7cc438f2cd77900d7659, type: 2}
-  - {fileID: 11400000, guid: 07f656f4f41068a458fdd0ece5e33589, type: 2}
+  - {fileID: 11400000, guid: 04ce39d507fea5e4fbd633b771334787, type: 2}
+  - {fileID: 11400000, guid: 197a1b94db12a454fabe06459e7be27b, type: 2}
 --- !u!114 &6782610584309869567
 MonoBehaviour:
   m_ObjectHideFlags: 0

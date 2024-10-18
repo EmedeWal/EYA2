@@ -6,7 +6,7 @@ public class CreatureAttackHandler : AttackHandler
     [Header("DATA REFERENCES")]
     [SerializeField] private List<AttackData> _attackDataList = new();
 
-    public float DamageModifier { private get; set; }
+    public float DamageModifier { private get; set; } = 1;
 
     public override void Init(LayerMask targetLayer)
     {
@@ -37,6 +37,11 @@ public class CreatureAttackHandler : AttackHandler
         if (IsAttacking) return;
         int randomIndex = Random.Range(0, _attackDataList.Count);
         HandleAttack(_attackDataList[randomIndex]);
+    }
+
+    protected override float HandleCritical(Collider hit, float damage, bool crit)
+    {
+        return base.HandleCritical(hit, damage * DamageModifier, crit);
     }
 
     private void ResetIsAttacking()

@@ -14,6 +14,7 @@ public class CreatureData : ScriptableObject
 
     [Header("VALUES")]
     public int Souls;
+    public float Focus;
     public float Health;
 
     [Header("REPOSITIONING")]

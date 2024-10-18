@@ -8,15 +8,15 @@ public class Tremor : ConstantAreaDamage
 
     [Header("VISUALISATION")]
     [SerializeField] private VFX _slowVFX;
-    private float _maxSlowPercentage;
-    private float _slowSpeed;
+    private float _minimumAnimatorSpeed;
+    private float _animatorSlowSpeed;
 
     private VFXManager _VFXManager;
 
     public void InitTremor(float radius, float damage, float slowSpeed, float maxSlow, LayerMask targetLayer, Collider colliderToIgnore = null)
     {
-        _maxSlowPercentage = maxSlow;
-        _slowSpeed = slowSpeed;
+        _minimumAnimatorSpeed = 1f - (maxSlow / 100);
+        _animatorSlowSpeed = 1f - (slowSpeed / 100);
 
         _VFXManager = VFXManager.Instance;
 
@@ -30,8 +30,9 @@ public class Tremor : ConstantAreaDamage
         if (collider.TryGetComponent(out AnimatorManager animatorManager))
         {
             float currentSpeed = animatorManager.MovementSpeed;
-            float maxSlowValue = 1f - (_maxSlowPercentage / 100f);
-            float newSpeed = Mathf.Max(currentSpeed - _slowSpeed * delta, maxSlowValue);
+            float newSpeed = Mathf.Max(currentSpeed - _animatorSlowSpeed * delta, _minimumAnimatorSpeed);
+
+            Debug.Log(currentSpeed);
 
             float appliedSlowAmount = currentSpeed - newSpeed;
             animatorManager.MovementSpeed = newSpeed;
@@ -41,7 +42,7 @@ public class Tremor : ConstantAreaDamage
                 _slowedEnemies.Add(animatorManager, appliedSlowAmount);
 
                 VFX vfxInstance = Instantiate(_slowVFX, animatorManager.transform.position, Quaternion.identity);
-                _VFXManager.AddMovingVFX(vfxInstance, animatorManager.transform); 
+                _VFXManager.AddMovingVFX(vfxInstance, animatorManager.transform);
                 _activeVFXs.Add(vfxInstance);
             }
             else

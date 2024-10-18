@@ -19,8 +19,7 @@ MonoBehaviour:
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _creatureData: {fileID: 11400000, guid: 69f3f5a18d341774d9e4b3f3fb20e6a5, type: 2}
-  _clonePrefab: {fileID: 6845419745491991783, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
+  _clonePrefab: {fileID: 5008616264670171006, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
   _cloneCount: 3
   _minSpawnRadius: 3
   _maxSpawnRadius: 5
@@ -29,6 +28,6 @@ MonoBehaviour:
   _manaRestoration: 3
   _summonExplosionPrefab: {fileID: 0}
   _summonExplosionRadius: 0
-  _sparkPrefab: {fileID: 0}
+  _sparksVFX: {fileID: 0}
   _sparksDamage: 0
   _sparksRadius: 0

@@ -25,9 +25,9 @@ MonoBehaviour:
   _quakeDamagePercentage: 0
   _ignoreInitialTarget: 0
   _quakeBuffVFX: {fileID: 0}
-  _quakeBuffDuration: 3
-  _quakeBuffTargetRequirement: 3
-  _quakeBuffDamageIncrease: 0.3
+  _quakeBuffDuration: 0
+  _quakeBuffTargetRequirement: 0
+  _quakeBuffDamageIncrease: 0
   _gritVFX: {fileID: 3939255730295264292, guid: a83cb2a12e3f5b040b1946573542533c, type: 3}
   _maximumInactivity: 3
   _maxAttackDamageBonus: 0.3

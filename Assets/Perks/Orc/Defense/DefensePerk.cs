@@ -2,16 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Defense Perk", menuName = "Scriptable Object/Perks/Passive Perk/Defense")]
-public class DefensePerk : PerkData
+public class DefensePerk : PassivePerk
 {
-    private PlayerLocomotion _playerLocomotion;
-    private Health _playerHealth;
-
     [Header("STONE WALL")]
-    [SerializeField] private VFX _buff;
+    [SerializeField] private VFX _buffVFX;
     [SerializeField] private float _damageReductionIncrease = 10f;
     [SerializeField] private float _healthRegenIncrease = 3f;
-    private VFX _currentBuff;
+    private VFX _currentBuffVFX;
     private bool _isMoving;
 
     [Header("UNYIELDING")]
@@ -21,33 +18,23 @@ public class DefensePerk : PerkData
     private float _cooldownTimer;
     private bool _onCooldown;
 
-    private VFXManager _VFXManager;
-
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
+        statChanges = new()
         {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
+            { Stat.DamageReduction, 0 },
+            {Stat.HealthRegen, 0 }
+        };
 
-        _playerLocomotion = _PlayerObject.GetComponent<PlayerLocomotion>();
-        _playerHealth = _PlayerObject.GetComponent<Health>();
+        base.Init(playerObject, perks, statChanges);
 
-        _VFXManager = VFXManager.Instance;
-
-        ResetPerkState();
+        _cooldownTimer = 0;
+        _onCooldown = false;
     }
 
     public override void Activate()
     {
-        _playerHealth.Resurrected += DefensePerk_Resurrected;
+        _Health.Resurrected += DefensePerk_Resurrected;
 
         bool resurrection;
 
@@ -60,11 +47,9 @@ public class DefensePerk : PerkData
             resurrection = _enableResurrection;
         }
 
-        _playerHealth.EnableResurrection(resurrection);
+        _Health.EnableResurrection(resurrection);
 
-        EnableBuffVFX(true);
-
-        _isMoving = _playerLocomotion.Moving;
+        _isMoving = _Locomotion.Moving;
 
         if (_isMoving)
         {
@@ -74,24 +59,23 @@ public class DefensePerk : PerkData
         {
             StoppedMoving();
         }
+
+        EnableBuffVFX(true);
     }
 
     public override void Deactivate()
     {
-        _playerHealth.Resurrected -= DefensePerk_Resurrected;
-        _playerHealth.EnableResurrection(false);
-
-        if (!_isMoving)
-        {
-            StartedMoving();
-        }
+        _Health.Resurrected -= DefensePerk_Resurrected;
+        _Health.EnableResurrection(false);
+        
+        _StatTracker.ResetStatChanges();
 
         EnableBuffVFX(false);
     }
 
     public override void Tick(float delta)
     {
-        bool isMoving = _playerLocomotion.Moving;
+        bool isMoving = _Locomotion.Moving;
 
         if (_isMoving != isMoving)
         {
@@ -107,74 +91,67 @@ public class DefensePerk : PerkData
 
         _isMoving = isMoving;
 
-        if (!_onCooldown) return;
-
-        _cooldownTimer += delta;
-
-        if (_cooldownTimer > _cooldown)
+        if (_onCooldown)
         {
-            _playerHealth.EnableResurrection(true);
-            _onCooldown = false;
-            _cooldownTimer = 0;
+            _cooldownTimer += delta;
+
+            if (_cooldownTimer > _cooldown)
+            {
+                _Health.EnableResurrection(true);
+                _onCooldown = false;
+                _cooldownTimer = 0;
+            }
         }
     }
 
     private void EnableBuffVFX(bool enable)
     {
-        if (_buff == null) return;
-
-        if (_currentBuff == null && enable)
+        if (_buffVFX != null)
         {
-            _currentBuff = Instantiate(_buff, _PlayerTransform);
-            _VFXManager.AddMovingVFX(_currentBuff, _PlayerTransform);
+            if (enable)
+            {
+                _currentBuffVFX = _VFXManager.AddMovingVFX(_buffVFX, _PlayerTransform);
+            }
+            else
+            {
+                _VFXManager.RemoveVFX(_currentBuffVFX, 1f);
+            }
         }
-        else
-        {
-            _VFXManager.RemoveVFX(_currentBuff, 1f);
-        }
-    }
-
-    private void ResetPerkState()
-    {
-        _cooldownTimer = 0;
-        _onCooldown = false;
-        EnableBuffVFX(false);
     }
 
     private void StartedMoving()
     {
-        if (_currentBuff != null)
+        if (_currentBuffVFX != null)
         {
-            _currentBuff.Deactivate();
+            _currentBuffVFX.Deactivate();
         }
 
-        _PlayerStats.IncrementStat(Stat.HealthRegen, -_healthRegenIncrease);
-        _PlayerStats.IncrementStat(Stat.DamageReduction, -_damageReductionIncrease);
+        _StatTracker.ResetStatChanges();
     }
 
     private void StoppedMoving()
     {
-        if (_currentBuff != null)
+        if (_currentBuffVFX != null)
         {
-            _currentBuff.Activate();
+            _currentBuffVFX.Activate();
         }
 
-        _PlayerStats.IncrementStat(Stat.HealthRegen, _healthRegenIncrease);
-        _PlayerStats.IncrementStat(Stat.DamageReduction, _damageReductionIncrease);
+        _StatTracker.IncrementStat(Stat.HealthRegen, _healthRegenIncrease);
+        _StatTracker.IncrementStat(Stat.DamageReduction, _damageReductionIncrease);
     }
 
     private void DefensePerk_Resurrected()
     {
         float targetHealth = _PlayerStats.GetBaseStat(Stat.MaxHealth) / 100 * _resurrectionHealThreshold;
-        float currentHeath = _playerHealth.CurrentValue;
+        float currentHeath = _Health.CurrentValue;
         float healAmount = targetHealth - currentHeath;
 
         if (targetHealth > currentHeath)
         {
-            _playerHealth.Heal(healAmount);
+            _Health.Heal(healAmount);
         }
 
-        _playerHealth.EnableResurrection(false);
+        _Health.EnableResurrection(false);
         _onCooldown = true;
         _cooldownTimer = 0;
     }

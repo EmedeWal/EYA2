@@ -32,38 +32,34 @@ public class OrcUltimate : PerkData
     [SerializeField] private float _slashRadius = 1f;
     [SerializeField] private float _slashDamagePercentage = 50f;
 
-    private AttackHandler _attackHandler;
-    private LayerMask _targetLayer;
-
-    private AudioSystem _audioSystem;
-    private VFXManager _VFXManager;
-
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
+        statChanges = new()
+        {
+            { Stat.CriticalChance, 0 },
+            { Stat.CriticalMultiplier, 0 },
+            { Stat.HealthRegen, 0 },
+            { Stat.DamageReduction, 0 },
+        };
 
-        _attackHandler = _PlayerObject.GetComponent<AttackHandler>();
-        _targetLayer = LayerMask.GetMask("DamageCollider");
-
-        _audioSystem = AudioSystem.Instance;
-        _VFXManager = VFXManager.Instance;
+        base.Init(playerObject, perks, statChanges);
     }
 
     public override void Activate()
     {
         if (_shockwaveVFX != null)
         {
-            CastShockwaves();
+            CastShockwaves(_PlayerTransform);
         }
 
         if (_tremorVFX != null)
         {
-            CastTremor();
+            CastTremor(true);
         }
 
         if (_battleZoneVFX != null)
         {
-            CastBattleZone();
+            CastBattleZone(true);
         }
     }
 
@@ -79,61 +75,71 @@ public class OrcUltimate : PerkData
     {
         if (_shockwaveVFX != null && _repeatShockwaves)
         {
-            CastShockwaves();
+            CastShockwaves(_currentTremor.transform);
         }
 
         if (_currentTremorVFX != null)
+        {
+            CastTremor(false);
+        }
+
+        if (_currentBattleZoneVFX != null)
+        {
+            CastBattleZone(false);
+        }
+
+        _StatTracker.ResetStatChanges();
+    }
+
+    private void CastShockwaves(Transform transform)
+    {
+        VFX shockwaveVFX = _VFXManager.AddStaticVFX(_shockwaveVFX, transform.position, transform.rotation, 3f);
+        shockwaveVFX.GetComponent<Shockwave>().Init(_TargetLayer, _shockwaveScaling);
+
+        AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
+        _AudioSystem.PlayAudio(source, source.clip, source.volume);
+    }
+
+    private void CastTremor(bool enable)
+    {
+        if (enable)
+        {
+            _currentTremorVFX = _VFXManager.AddStaticVFX(_tremorVFX, _PlayerTransform.position, _PlayerTransform.rotation);
+            _currentTremor = _currentTremorVFX.GetComponent<Tremor>();
+            _currentTremor.InitTremor(_tremorRadius, _tremorDamage, _tremorSlowSpeed, _tremorSlowPercentage, _TargetLayer);
+        }
+        else
         {
             _VFXManager.RemoveVFX(_currentTremorVFX, 1f);
             _currentTremor.Deactivate();
             _currentTremorVFX = null;
             _currentTremor = null;
         }
+    }
 
-        if (_currentBattleZoneVFX != null)
+    private void CastBattleZone(bool enable)
+    {
+        if (enable)
         {
-            _VFXManager.RemoveVFX(_currentBattleZoneVFX, 1f);
-            _currentBattleZone.Cleanup();
+            _currentBattleZoneVFX = _VFXManager.AddStaticVFX(_battleZoneVFX, _PlayerTransform.position, _PlayerTransform.rotation);
+            _currentBattleZone = _currentBattleZoneVFX.GetComponent<BattleZone>();
+            _currentBattleZone.Init(_StatTracker, _criticalChance, _criticalMultiplier, _damageReduction, _healthRegen);
+
+            if (_slashVFX != null)
+            {
+                _AttackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
+            }
+        }
+        else
+        {
+            _VFXManager.RemoveVFX(_currentBattleZoneVFX);
             _currentBattleZoneVFX = null;
             _currentBattleZone = null;
 
             if (_slashVFX != null)
             {
-                _attackHandler.SuccessfulAttack -= OrcUltimate_SuccessfulAttack;
+                _AttackHandler.SuccessfulAttack -= OrcUltimate_SuccessfulAttack;
             }
-        }
-    }
-
-    private void CastShockwaves()
-    {
-        VFX shockwaveVFX = _VFXManager.AddStaticVFX(_shockwaveVFX, _PlayerTransform.position, _PlayerTransform.rotation, 3f);
-
-        AudioSource source = shockwaveVFX.GetComponent<AudioSource>();
-        _audioSystem.PlayAudio(source, source.clip, source.volume);
-
-        shockwaveVFX.GetComponent<Shockwave>().Init(_targetLayer, _shockwaveScaling);
-    }
-
-    private void CastTremor()
-    {
-        _currentTremorVFX = Instantiate(_tremorVFX, _PlayerTransform);
-        _VFXManager.AddMovingVFX(_currentTremorVFX, _currentTremorVFX.transform);
-
-        _currentTremor = _currentTremorVFX.GetComponent<Tremor>();
-        _currentTremor.InitTremor(_tremorRadius, _tremorDamage, _tremorSlowSpeed, _tremorSlowPercentage, _targetLayer);
-    }
-
-    private void CastBattleZone()
-    {
-        _currentBattleZoneVFX = Instantiate(_battleZoneVFX, _PlayerTransform);
-        _VFXManager.AddMovingVFX(_currentBattleZoneVFX, _currentBattleZoneVFX.transform);
-
-        _currentBattleZone = _currentBattleZoneVFX.GetComponent<BattleZone>();
-        _currentBattleZone.Init(_PlayerStats, _criticalChance, _criticalMultiplier, _damageReduction, _healthRegen);
-
-        if (_slashVFX != null)
-        {
-            _attackHandler.SuccessfulAttack += OrcUltimate_SuccessfulAttack;
         }
     }
 
@@ -142,10 +148,9 @@ public class OrcUltimate : PerkData
         if (_currentBattleZone.PlayerInside && crit)
         {
             VFX slashVFX = _VFXManager.AddStaticVFX(_slashVFX, _PlayerTransform.position, _PlayerTransform.rotation, 1f);
-
             Explosion explosion = slashVFX.GetComponent<Explosion>();
             float finalDamage = damage / 100 * _slashDamagePercentage;
-            explosion.InitExplosion(_slashRadius, finalDamage, _targetLayer, 0.05f);
+            explosion.InitExplosion(_slashRadius, finalDamage, _TargetLayer, 0.05f);
         }
     }
 }

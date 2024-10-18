@@ -5,125 +5,81 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GhostUltimatePerk", menuName = "Scriptable Object/Perks/Ultimate Perk/Ghost")]
 public class GhostUltimatePerk : PerkData
 {
-    [Header("CLONE DATA")]
-    [SerializeField] private CreatureData _creatureData;
-
     [Header("SPAWN SETTINGS")]
-    [SerializeField] private CloneAI _clonePrefab;
+    [SerializeField] private CreatureAI _clonePrefab;
     [SerializeField] private int _cloneCount = 1;
     [SerializeField] private float _minSpawnRadius = 2f;
     [SerializeField] private float _maxSpawnRadius = 3f;
 
     [Header("CLONE SETTINGS")]
-    [SerializeField] private VFX _deathExplosionPrefab;
-    [SerializeField] private float _deathExplosionRadius = 2f;
+    [SerializeField] private float _attackSpeed = 1;
+    [SerializeField] private float _movementSpeed = 1;
+    [SerializeField] private float _damageModifier = 1;
     [SerializeField] private float _manaRestoration = 5f;
 
+    [Header("EXPLOSIVE DEATH")]
+    [SerializeField] private ExplosionData _deathExplosionData;
+
     [Header("EXPLOSIVE SUMMON")]
-    [SerializeField] private VFX _summonExplosionPrefab;
-    [SerializeField] private float _summonExplosionRadius = 4f;
+    [SerializeField] private ExplosionData _summonExplosionData;
 
     [Header("SPARK SETTINGS")]
-    [SerializeField] private ConstantAreaDamage _sparkPrefab;
+    [SerializeField] private VFX _sparksVFX;
     [SerializeField] private float _sparksDamage = 10f;
     [SerializeField] private float _sparksRadius = 1f;
     private ConstantAreaDamage _currentSparks;
 
     private LayerMask _creatureLayer;
-    private LayerMask _targetLayer;
     private LayerMask _avoidLayers;
 
-    private PlayerLock _playerLock;
-    private Mana _mana;
+    private List<CreatureAI> _cloneList;
 
-    private VFXManager _VFXManager;
-
-    private List<CloneAI> _clones;
-
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
+        base.Init(playerObject, perks, statChanges);
 
         _creatureLayer = LayerMask.GetMask("Controller");
-        _targetLayer = LayerMask.GetMask("DamageCollider");
         _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
-
-        _playerLock = _PlayerObject.GetComponent<PlayerLock>();
-        _mana = _PlayerObject.GetComponent<Mana>();
-
-        _VFXManager = VFXManager.Instance;
-
-        _clones = new List<CloneAI>();
     }
 
     public override void Activate()
     {
-        Transform target = _playerLock.Target;
+        Transform target = _Lock.Target;
+        _cloneList = new List<CreatureAI>();
         _currentSparks = null;
 
         for (int i = 0; i < _cloneCount; i++)
         {
-            Vector3 spawnPosition;
-            Quaternion spawnRotation;
+            CreatureAI currentClone = SpawnClone(target);
+            Transform transform = currentClone.transform;
+            AddClone(currentClone, target);
 
-            if (target)
+            if (_summonExplosionData != null)
             {
-                spawnPosition = GetRandomSpawnPosition(target.position);
+                VFX summonVFX = _VFXManager.AddStaticVFX(_summonExplosionData.VFX, transform.position, transform.rotation, 3f);
+                summonVFX.GetComponent<Explosion>().InitExplosion(_summonExplosionData.Radius, _summonExplosionData.Damage, _TargetLayer);
 
-                Vector3 directionToTarget = target.position - spawnPosition;
-                directionToTarget.y = 0;
-
-                spawnRotation = Quaternion.LookRotation(directionToTarget);
-            }
-            else
-            {
-                spawnPosition = GetRandomSpawnPosition(_PlayerTransform.position);
-                spawnRotation = _PlayerTransform.rotation;
+                AudioSource source = summonVFX.GetComponent<AudioSource>();
+                _AudioSystem.PlayAudio(source, source.clip, source.volume);
             }
 
-            CloneAI currentClone = Instantiate(_clonePrefab, spawnPosition, spawnRotation);
-            currentClone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
-            currentClone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
-            currentClone.Init(_creatureLayer, _targetLayer);
-            _clones.Add(currentClone);
-
-            if (_summonExplosionPrefab != null)
+            if (_sparksVFX != null)
             {
-                VFX summonVFX = Instantiate(_summonExplosionPrefab, currentClone.transform);
-                _VFXManager.AddMovingVFX(summonVFX, summonVFX.transform);
-
-                Explosion summonExplosion = summonVFX.GetComponent<Explosion>();
-                summonExplosion.Init(_summonExplosionRadius, _targetLayer);
-
-                AudioSource source = summonExplosion.GetComponent<AudioSource>();
-                AudioSystem.Instance.PlayAudio(source, source.clip, source.volume);
-            }
-
-            if (_sparkPrefab != null)
-            {
-                Transform cloneTransform = currentClone.transform;
-                _currentSparks = Instantiate(_sparkPrefab, cloneTransform);
-                _currentSparks.Init(_sparksRadius, _sparksDamage, _targetLayer);
-                VFX sparkVFX = _currentSparks.GetComponent<VFX>();
-                _VFXManager.AddMovingVFX(sparkVFX, cloneTransform);
-            }
-
-            if (target)
-            {
-                //currentClone.SetChaseTarget(_target);
+                _currentSparks = _VFXManager.AddMovingVFX(_sparksVFX, transform).GetComponent<ConstantAreaDamage>();
+                _currentSparks.Init(_sparksRadius, _sparksDamage, _TargetLayer);
             }
         }
 
-        _playerLock.Locked += GhostUltimatePerk_Locked;
+        _Lock.Locked += GhostUltimatePerk_Locked;
     }
 
     public override void Tick(float delta)
     {
-        for (int i = 0; i < _clones.Count; i++)
+        for (int i = 0; i < _cloneList.Count; i++)
         {
-            CloneAI currentClone = _clones[i];
+            CreatureAI currentClone = _cloneList[i];
             currentClone.Tick(delta);
-            //currentClone.LateTick(delta);
+            currentClone.LateTick(delta);
 
             if (_currentSparks != null)
             {
@@ -139,46 +95,46 @@ public class GhostUltimatePerk : PerkData
             _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
         }
 
-        List<CloneAI> clonesToRemove = new List<CloneAI>(_clones);
-
+        List<CreatureAI> clonesToRemove = new(_cloneList);
         for (int i = 0; i < clonesToRemove.Count; i++)
         {
-            if (clonesToRemove[i] != null)
-            {
-                RemoveClone(clonesToRemove[i]);
-            }
+            RemoveClone(clonesToRemove[i].gameObject);
         }
-
-        _clones.Clear();
     }
 
-    private void RemoveClone(CloneAI clone)
+    private void AddClone(CreatureAI clone, Transform target)
     {
-        clone.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
-        _clones.Remove(clone);
-        //clone.CleanupCreature();
+        clone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
+        clone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
+        clone.Init(_creatureLayer, _TargetLayer, target);
+
+        clone.AttackHandler.DamageModifier = _damageModifier;
+        clone.AnimatorManager.MovementSpeed = _movementSpeed;
+        clone.AnimatorManager.AttackSpeed = _attackSpeed;
+
+        _cloneList.Add(clone);
+    }
+
+    private void RemoveClone(GameObject cloneObject)
+    {
+        cloneObject.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
+        CreatureAI clone = cloneObject.GetComponent<CreatureAI>();
+        _cloneList.Remove(clone);
+        clone.Cleanup();
+
+        Destroy(cloneObject);
     }
 
     private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
     {
-        _mana.Gain(_manaRestoration);   
+        _Mana.Gain(_manaRestoration);   
     }
 
     private void GhostUltimatePerk_Locked(Transform target)
     {
-        if (target)
+        for (int i = 0; i < _cloneList.Count; i++)
         {
-            for (int i = 0; i < _clones.Count; i++)
-            {
-                //_clones[i].SetChaseTarget(_target);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < _clones.Count; i++)
-            {
-                //_clones[i].CurrentState = CreatureState.Idle;
-            }
+            _cloneList[i].DefaultTarget = target;
         }
     }
 
@@ -189,14 +145,36 @@ public class GhostUltimatePerk : PerkData
             _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
         }
 
-        if (_deathExplosionPrefab != null)
+        if (_deathExplosionData != null)
         {
-            VFX cloneExplosion = _VFXManager.AddStaticVFX(_deathExplosionPrefab, cloneObject.transform.position, cloneObject.transform.rotation, 3f);
-            Explosion explosion = cloneExplosion.GetComponent<Explosion>();
-            explosion.Init(_deathExplosionRadius, _targetLayer);
+            VFX cloneExplosion = _VFXManager.AddStaticVFX(_deathExplosionData.VFX, cloneObject.transform.position, cloneObject.transform.rotation, 3f);
+            cloneExplosion.GetComponent<Explosion>().InitExplosion(_deathExplosionData.Radius, _deathExplosionData.Damage, _TargetLayer);
         }
 
-        RemoveClone(cloneObject.GetComponent<CloneAI>());
+        RemoveClone(cloneObject);
+    }
+
+    private CreatureAI SpawnClone(Transform target)
+    {
+        Vector3 spawnPosition;
+        Quaternion spawnRotation;
+
+        if (target)
+        {
+            spawnPosition = GetRandomSpawnPosition(target.position);
+
+            Vector3 directionToTarget = target.position - spawnPosition;
+            directionToTarget.y = 0;
+
+            spawnRotation = Quaternion.LookRotation(directionToTarget);
+        }
+        else
+        {
+            spawnPosition = GetRandomSpawnPosition(_PlayerTransform.position);
+            spawnRotation = _PlayerTransform.rotation;
+        }
+
+        return Instantiate(_clonePrefab, spawnPosition, spawnRotation);
     }
 
     private Vector3 GetRandomSpawnPosition(Vector3 center)

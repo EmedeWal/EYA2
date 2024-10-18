@@ -19,16 +19,16 @@ MonoBehaviour:
   Tier: 5
   Cost: 500
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _creatureData: {fileID: 11400000, guid: 6d4536bd02f235c43aa1f4589996ea8b, type: 2}
-  _clonePrefab: {fileID: 6845419745491991783, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
+  _clonePrefab: {fileID: 5008616264670171006, guid: cdde57d221bfa9741bc072e59271da5d, type: 3}
   _cloneCount: 1
   _minSpawnRadius: 3
   _maxSpawnRadius: 5
-  _deathExplosionPrefab: {fileID: 0}
-  _deathExplosionRadius: 0
+  _attackSpeed: 1.2
+  _movementSpeed: 1.2
+  _damageModifier: 2
   _manaRestoration: 0
-  _summonExplosionPrefab: {fileID: 6860656156680375127, guid: 379a06446a46ad54084a91b7cb8a71b9, type: 3}
-  _summonExplosionRadius: 4
-  _sparkPrefab: {fileID: 4738637426108106652, guid: eaa8a8397cc105e42a3c050379d14473, type: 3}
+  _deathExplosionData: {fileID: 0}
+  _summonExplosionData: {fileID: 11400000, guid: c653b31bc25d1894f8d60f4a1212a6b4, type: 2}
+  _sparksVFX: {fileID: 4773301139444641192, guid: eaa8a8397cc105e42a3c050379d14473, type: 3}
   _sparksDamage: 10
   _sparksRadius: 1

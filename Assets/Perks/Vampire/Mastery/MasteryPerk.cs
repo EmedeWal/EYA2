@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Mastery Perk", menuName = "Scriptable Object/Perks/Passive Perk/Mastery")]
 public class MasteryPerk : PerkData
 {
-    private PlayerAttackHandler _playerAttackHandler;
-    private StatTracker _statTracker;
-    private VFXManager _VFXManager;
     private List<float> _timerList;
 
     [Header("VARIABLES")]
@@ -34,24 +31,9 @@ public class MasteryPerk : PerkData
     private float _criticalChanceBoost;
     private float _criticalMultiplierBoost;
 
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
-        {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
-
-        _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
-        _VFXManager = VFXManager.Instance;
-
-        Dictionary<Stat, float> statChanges = new()
+        statChanges = new()
         {
             { Stat.LightAttackDamageModifier, 0 },
             { Stat.HeavyAttackDamageModifier, 0 },
@@ -59,7 +41,7 @@ public class MasteryPerk : PerkData
             { Stat.CriticalMultiplier, 0 }
         };
 
-        _statTracker = new StatTracker(statChanges, _PlayerStats);
+        base.Init(playerObject, perks, statChanges);
 
         _timerList = new() { 0, 0, 0 };
 
@@ -75,8 +57,8 @@ public class MasteryPerk : PerkData
 
     public override void Activate()
     {
-        _playerAttackHandler.AttackBegun += MasteryPerk_AttackBegun;
-        _playerAttackHandler.AttackEnded += MasteryPerk_AttackEnded;
+        _AttackHandler.AttackBegun += MasteryPerk_AttackBegun;
+        _AttackHandler.AttackEnded += MasteryPerk_AttackEnded;
 
         _previousAttack = AttackType.None;
 
@@ -97,10 +79,10 @@ public class MasteryPerk : PerkData
 
     public override void Deactivate()
     {
-        _playerAttackHandler.AttackBegun -= MasteryPerk_AttackBegun;
-        _playerAttackHandler.AttackEnded -= MasteryPerk_AttackEnded;
+        _AttackHandler.AttackBegun -= MasteryPerk_AttackBegun;
+        _AttackHandler.AttackEnded -= MasteryPerk_AttackEnded;
 
-        _statTracker.ResetStatChanges();
+        _StatTracker.ResetStatChanges();
 
         if (_currentFlowVFX != null)
         {
@@ -117,7 +99,7 @@ public class MasteryPerk : PerkData
             comboData.Tick(delta);
         }
 
-        if (_playerAttackHandler.IsAttacking)
+        if (_AttackHandler.IsAttacking)
         {
             for (int i = 0; i < _timerList.Count; i++)
             {
@@ -147,12 +129,12 @@ public class MasteryPerk : PerkData
 
         if (_timerList[1] >= _lightAttackBoostDuration)
         {
-            _timerList[1] = HandleIdle(Stat.LightAttackDamageModifier, -_statTracker.GetStatChange(Stat.LightAttackDamageModifier), _timerList[1]);
+            _timerList[1] = HandleIdle(Stat.LightAttackDamageModifier, -_StatTracker.GetStatChange(Stat.LightAttackDamageModifier), _timerList[1]);
         }
 
         if (_timerList[2] >= _heavyAttackBoostDuration)
         {
-            _timerList[2] = HandleIdle(Stat.HeavyAttackDamageModifier, -_statTracker.GetStatChange(Stat.HeavyAttackDamageModifier), _timerList[2]);
+            _timerList[2] = HandleIdle(Stat.HeavyAttackDamageModifier, -_StatTracker.GetStatChange(Stat.HeavyAttackDamageModifier), _timerList[2]);
         }
     }
 
@@ -220,23 +202,23 @@ public class MasteryPerk : PerkData
     {
         _currentFlow++;
         _emission.Tick(_currentFlow * 5f);
-        _statTracker.IncrementStat(Stat.CriticalChance, _criticalChanceBoost);
-        _statTracker.IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBoost);
+        _StatTracker.IncrementStat(Stat.CriticalChance, _criticalChanceBoost);
+        _StatTracker.IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBoost);
     }
 
     private void ResetFlow()
     {
         _currentFlow = 0;
         _emission.Tick(_currentFlow * 5f);
-        _statTracker.IncrementStat(Stat.CriticalChance, -_statTracker.GetStatChange(Stat.CriticalChance));
-        _statTracker.IncrementStat(Stat.CriticalMultiplier, -_statTracker.GetStatChange(Stat.CriticalMultiplier));
+        _StatTracker.IncrementStat(Stat.CriticalChance, -_StatTracker.GetStatChange(Stat.CriticalChance));
+        _StatTracker.IncrementStat(Stat.CriticalMultiplier, -_StatTracker.GetStatChange(Stat.CriticalMultiplier));
     }
 
     private float HandleIdle(Stat stat, float value, float timer)
     {
-        if (_statTracker.GetStatChange(stat) > 0)
+        if (_StatTracker.GetStatChange(stat) > 0)
         {
-            _statTracker.IncrementStat(stat, value);
+            _StatTracker.IncrementStat(stat, value);
         }
         else
         {
@@ -247,9 +229,9 @@ public class MasteryPerk : PerkData
 
     private float HandleAttack(Stat stat)
     {
-        if (_statTracker.GetStatChange(stat) < _attackDamageBoostMax)
+        if (_StatTracker.GetStatChange(stat) < _attackDamageBoostMax)
         {
-            _statTracker.IncrementStat(stat, _attackDamageBoost);
+            _StatTracker.IncrementStat(stat, _attackDamageBoost);
         }
 
         return 0;

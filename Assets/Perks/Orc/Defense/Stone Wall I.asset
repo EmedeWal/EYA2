@@ -19,7 +19,7 @@ MonoBehaviour:
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _buff: {fileID: -5093769480058398699, guid: 805755f672b1b4d4d876c374aa949f0b, type: 3}
+  _buffVFX: {fileID: -5093769480058398699, guid: 805755f672b1b4d4d876c374aa949f0b, type: 3}
   _damageReductionIncrease: 10
   _healthRegenIncrease: 0
   _enableResurrection: 0

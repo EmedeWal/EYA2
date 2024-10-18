@@ -2,17 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Offense Perk", menuName = "Scriptable Object/Perks/Passive Perk/Offense")]
-public class OffensePerk : PerkData
+public class OffensePerk : PassivePerk
 {
-    private PlayerAttackHandler _playerAttackHandler;
-
     [Header("QUAKE DAMAGE")]
     [SerializeField] private VFX _quakeVFX;
     [SerializeField] private float _quakeRadius = 1f;
     [SerializeField] private float _quakeDamagePercentage = 30f;
     [SerializeField] private bool _ignoreInitialTarget = true;
     private Explosion _currentExplosion;
-    private LayerMask _targetLayer;
 
     [Header("QUAKE BUFF")]
     [SerializeField] private VFX _quakeBuffVFX;
@@ -20,7 +17,6 @@ public class OffensePerk : PerkData
     [SerializeField] private int _quakeBuffTargetRequirement = 3;
     [SerializeField] private float _quakeBuffDamageIncrease = 0.3f;
     private VFX _currentQuakeBuffVFX;
-    private float _currentDamageIncrease;
     private float _quakeBuffTimer;
 
     [Header("GRIT")]
@@ -31,35 +27,19 @@ public class OffensePerk : PerkData
     [SerializeField] private float _maxCriticalMultiplierBonus = 0.5f;
     private VFXEmission _currentGritVFXEmission;
     private VFX _currentGritVFX;
-    private float _previousAttackDamageBonus;
-    private float _previousCriticalChanceBonus;
-    private float _previousCriticalMultiplierBonus;
-    private float _inactiveTimer;
     private float _gritValue;
-    
-    private AudioSystem _audioSystem;
-    private VFXManager _VFXManager;
+    private float _inactiveTimer;
 
-    public override void Init(GameObject playerObject, List<PerkData> perks = null)
+    public override void Init(GameObject playerObject, List<PerkData> perks = null, Dictionary<Stat, float> statChanges = null)
     {
-        base.Init(playerObject, perks);
-
-        for (int i = perks.Count - 1; i >= 0; i--)
+        statChanges = new()
         {
-            PerkData perk = perks[i];
-            if (perk.GetType() == GetType())
-            {
-                perk.Deactivate();
-                perks.RemoveAt(i);
-            }
-        }
+            { Stat.AttackDamageModifier, 0 },
+            { Stat.CriticalChance, 0 },
+            { Stat.CriticalMultiplier, 0 }
+        };
 
-        _playerAttackHandler = _PlayerObject.GetComponent<PlayerAttackHandler>();
-
-        _targetLayer = LayerMask.GetMask("DamageCollider");
-
-        _audioSystem = AudioSystem.Instance;
-        _VFXManager = VFXManager.Instance;
+        base.Init(playerObject, perks, statChanges);
 
         ResetQuakeBuff();
         ResetGrit();
@@ -67,84 +47,55 @@ public class OffensePerk : PerkData
 
     public override void Activate()
     {
-        _playerAttackHandler.SuccessfulAttack += OffensePerk_SuccesfulAttack;
+        _AttackHandler.SuccessfulAttack += OffensePerk_SuccessfulAttack;
     }
 
     public override void Deactivate()
     {
-        _playerAttackHandler.SuccessfulAttack -= OffensePerk_SuccesfulAttack;
-
+        _AttackHandler.SuccessfulAttack -= OffensePerk_SuccessfulAttack;
         ResetQuakeBuff();
         ResetGrit();
     }
 
     public override void Tick(float delta)
     {
-        if (_currentQuakeBuffVFX != null)
-        {
-            _quakeBuffTimer += delta;
-
-            if (_quakeBuffTimer > _quakeBuffDuration)
-            {
-                ResetQuakeBuff();
-            }
-        }
-
-        if (_gritVFX != null)
-        {
-            _inactiveTimer += delta;
-
-            if (_inactiveTimer > _maximumInactivity)
-            {
-                ResetGrit();
-            }
-        }
+        HandleQuakeBuffTick(delta);
+        HandleGritTick(delta);
     }
 
-    private void OffensePerk_SuccesfulAttack(Collider hit, int colliders, float damage, bool crit)
+    private void OffensePerk_SuccessfulAttack(Collider hit, int colliders, float damage, bool crit)
+    {
+        HandleQuakeEffect(hit, damage);
+        HandleGritEffect(colliders, damage);
+    }
+
+    private void HandleQuakeEffect(Collider hit, float damage)
     {
         if (_quakeVFX != null)
         {
-            Transform transform;
-
-            if (hit.TryGetComponent(out LockTarget lockTarget))
-            {
-                transform = lockTarget.Center;
-            }
-            else
-            {
-                transform = hit.transform;
-            }
-
+            Transform transform = hit.TryGetComponent(out LockTarget lockTarget) ? lockTarget.Center : hit.transform;
             VFX quakeVFX = _VFXManager.AddMovingVFX(_quakeVFX, transform, 1f);
+            _AudioSystem.PlayAudio(quakeVFX.GetComponent<AudioSource>(), quakeVFX.GetComponent<AudioSource>().clip, quakeVFX.GetComponent<AudioSource>().volume);
 
-            AudioSource source = quakeVFX.GetComponent<AudioSource>();
-            _audioSystem.PlayAudio(source, source.clip, source.volume);
-
-            if (!_ignoreInitialTarget) hit = null;
+            if (_ignoreInitialTarget)
+                hit = null;
 
             _currentExplosion = quakeVFX.GetComponent<Explosion>();
-
-            if (_quakeBuffVFX != null)
-            {
-                _currentExplosion.HitsDetected += OffensePerk_HitsDetected;
-            }
+            _currentExplosion.HitsDetected += OffensePerk_HitsDetected;
 
             float finalDamage = damage / 100 * _quakeDamagePercentage;
-            _currentExplosion.InitExplosion(_quakeRadius, finalDamage, _targetLayer);
+            _currentExplosion.InitExplosion(_quakeRadius, finalDamage, _TargetLayer);
         }
+    }
 
-        if (_gritVFX != null)
+    private void HandleQuakeBuffTick(float delta)
+    {
+        if (_currentQuakeBuffVFX != null)
         {
-            if (colliders == 1)
+            _quakeBuffTimer += delta;
+            if (_quakeBuffTimer > _quakeBuffDuration)
             {
-                _gritValue = Mathf.Clamp(_gritValue + damage, 0f, 100f);
-                _inactiveTimer = 0;
-                HandleGritBonuses();
-            }
-            else
-            {
-                ResetGrit();
+                ResetQuakeBuff();
             }
         }
     }
@@ -154,43 +105,59 @@ public class OffensePerk : PerkData
         if (hits >= _quakeBuffTargetRequirement)
         {
             _quakeBuffTimer = 0;
-
             if (_currentQuakeBuffVFX == null)
             {
-                _currentQuakeBuffVFX = Instantiate(_quakeBuffVFX, _PlayerTransform);
-                _VFXManager.AddMovingVFX(_currentQuakeBuffVFX, _PlayerTransform);
+                _currentQuakeBuffVFX = _VFXManager.AddMovingVFX(_quakeBuffVFX, _PlayerTransform);
             }
-            else
-            {
-                _PlayerStats.IncrementStat(Stat.AttackDamageModifier, -_currentDamageIncrease);
-            }
-
-            _currentDamageIncrease = _quakeBuffDamageIncrease;
-            _PlayerStats.IncrementStat(Stat.AttackDamageModifier, _currentDamageIncrease);
+            _StatTracker.IncrementStat(Stat.AttackDamageModifier, _quakeBuffDamageIncrease);
         }
-
         _currentExplosion.HitsDetected -= OffensePerk_HitsDetected;
     }
 
-    private void HandleGritBonuses()
+    private void HandleGritEffect(int colliders, float damage)
+    {
+        if (_gritVFX != null)
+        {
+            if (colliders == 1)
+            {
+                _gritValue = Mathf.Clamp(_gritValue + damage, 0f, 100f);
+                _inactiveTimer = 0;
+                ApplyGritBonuses();
+            }
+            else
+            {
+                ResetGrit();
+            }
+        }
+    }
+
+    private void HandleGritTick(float delta)
+    {
+        if (_gritVFX != null)
+        {
+            _inactiveTimer += delta;
+            if (_inactiveTimer > _maximumInactivity)
+            {
+                ResetGrit();
+            }
+        }
+    }
+
+    private void ApplyGritBonuses()
     {
         float gritPercent = _gritValue / 100f;
+
+        float oldAttackDamageBonus = _StatTracker.GetStatChange(Stat.AttackDamageModifier);
+        float oldCriticalChanceBonus = _StatTracker.GetStatChange(Stat.CriticalChance);
+        float oldCriticalMultiplierBonus = _StatTracker.GetStatChange(Stat.CriticalMultiplier);
 
         float newAttackDamageBonus = _maxAttackDamageBonus * gritPercent;
         float newCriticalChanceBonus = _maxCriticalChanceBonus * gritPercent;
         float newCriticalMultiplierBonus = _maxCriticalMultiplierBonus * gritPercent;
 
-        float attackDamageBonusChange = newAttackDamageBonus - _previousAttackDamageBonus;
-        float criticalChanceBonusChange = newCriticalChanceBonus - _previousCriticalChanceBonus;
-        float criticalMultiplierChange = newCriticalMultiplierBonus - _previousCriticalMultiplierBonus;
-
-        _PlayerStats.IncrementStat(Stat.AttackDamageModifier, attackDamageBonusChange);
-        _PlayerStats.IncrementStat(Stat.CriticalChance, criticalChanceBonusChange);
-        _PlayerStats.IncrementStat(Stat.CriticalMultiplier, criticalMultiplierChange);
-
-        _previousAttackDamageBonus = newAttackDamageBonus;
-        _previousCriticalChanceBonus = newCriticalChanceBonus;
-        _previousCriticalMultiplierBonus = newCriticalMultiplierBonus;
+        _StatTracker.IncrementStat(Stat.AttackDamageModifier, newAttackDamageBonus - oldAttackDamageBonus);
+        _StatTracker.IncrementStat(Stat.CriticalChance, newCriticalChanceBonus - oldCriticalChanceBonus);
+        _StatTracker.IncrementStat(Stat.CriticalMultiplier, newCriticalMultiplierBonus - oldCriticalMultiplierBonus);
 
         if (_currentGritVFX != null)
         {
@@ -200,7 +167,6 @@ public class OffensePerk : PerkData
         {
             _currentGritVFX = Instantiate(_gritVFX, _PlayerTransform);
             _VFXManager.AddMovingVFX(_currentGritVFX, _PlayerTransform);
-
             _currentGritVFXEmission = _currentGritVFX.GetComponent<VFXEmission>();
             _currentGritVFXEmission.Init(gritPercent * 25);
         }
@@ -209,28 +175,20 @@ public class OffensePerk : PerkData
     private void ResetQuakeBuff()
     {
         _quakeBuffTimer = 0;
-
-        _PlayerStats.IncrementStat(Stat.AttackDamageModifier, -_currentDamageIncrease);
-        _currentDamageIncrease = 0;
+        _StatTracker.ResetStatChanges();
 
         if (_currentQuakeBuffVFX != null)
         {
             _VFXManager.RemoveVFX(_currentQuakeBuffVFX);
+            _currentQuakeBuffVFX = null;
         }
-    }   
+    }
 
     private void ResetGrit()
     {
         _gritValue = 0f;
         _inactiveTimer = 0f;
-
-        _PlayerStats.IncrementStat(Stat.AttackDamageModifier, -_previousAttackDamageBonus);
-        _PlayerStats.IncrementStat(Stat.CriticalChance, -_previousCriticalChanceBonus);
-        _PlayerStats.IncrementStat(Stat.CriticalMultiplier, -_previousCriticalMultiplierBonus);
-
-        _previousAttackDamageBonus = 0f;
-        _previousCriticalChanceBonus = 0f;
-        _previousCriticalMultiplierBonus = 0f;
+        _StatTracker.ResetStatChanges();
 
         if (_currentGritVFX != null)
         {

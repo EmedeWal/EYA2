@@ -22,15 +22,20 @@ public class ChasingState : CreatureState
 
     public override void Tick(float delta)
     {
-        float distanceToTarget = Vector3.Distance(_CreatureAI.transform.position, _target.position);
-
-        UpdateLocomotion(distanceToTarget);
-
-        _CreatureAI.Locomotion.SetDestination(_target.position);
-
-        if (_CreatureAI.TargetInRange(_target))
+        if (_target != null)
         {
-            _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
+            float distanceToTarget = Vector3.Distance(_CreatureAI.Transform.position, _target.position);
+            _CreatureAI.Locomotion.SetDestination(_target.position);
+            UpdateLocomotion(distanceToTarget);
+
+            if (_CreatureAI.TargetInRange(_target))
+            {
+                _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
+            }
+        }
+        else
+        {
+            _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
     }
 
@@ -55,8 +60,11 @@ public class ChasingState : CreatureState
         _CreatureAI.Locomotion.SetSpeed(speed);
     }
 
-    private void ChasingState_ValueRemoved()
+    private void ChasingState_ValueRemoved(float amount)
     {
-        _CreatureAI.SetState(new IdleState(_CreatureAI));
+        if (amount > _CreatureAI.CreatureData.Focus)
+        {
+            _CreatureAI.SetState(new IdleState(_CreatureAI));
+        }
     }
 }
