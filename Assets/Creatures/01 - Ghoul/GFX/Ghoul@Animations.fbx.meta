@@ -505,8 +505,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event AttackEnd has a time (1.666667) outside the clip's
-      valid range (0.000000..1.666667). It will never be fired
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -652,7 +651,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.8344827
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 3d02682475b896f49ac8aa535f1badc5, type: 3}
@@ -702,7 +701,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.8344827
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 3d02682475b896f49ac8aa535f1badc5, type: 3}
@@ -737,7 +736,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 1
+        functionName: OnDeathAnimationFinished
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: ee4467995424b864abd0252806bfb6e1, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

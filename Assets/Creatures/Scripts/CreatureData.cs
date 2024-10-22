@@ -3,19 +3,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CreatureData", menuName = "Scriptable Object/Data/CreatureData")]
 public class CreatureData : ScriptableObject
 {
-    [Header("LOCOMOTION")]
-    public float RotationSpeed;
-    public float WalkSpeed;
-    public float RunSpeed;
+    [Header("VALUES")]
+    public int Souls;
+    public float Health;
+
+    [Header("STAGGER")]
+    public float StaggerRecovery;
+    public float StaggerThreshold;
+
+    [Header("OFFENSE")]
+    public float MaxAngle;
 
     [Header("DISTANCES")]
     public float AttackDistance;
     public float RunDistance;
 
-    [Header("VALUES")]
-    public int Souls;
-    public float Focus;
-    public float Health;
+    [Header("LOCOMOTION")]
+    public float RotationSpeed;
+    public float WalkSpeed;
+    public float RunSpeed;
 
     [Header("REPOSITIONING")]
     public int RetreatPoints = 0;

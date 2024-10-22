@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041d209c59b3e3746a539c28adbb6615, type: 3}
   m_Name: Ghoul Data
   m_EditorClassIdentifier: 
+  Souls: 10
+  Health: 100
+  StaggerRecovery: 0
+  StaggerThreshold: 1000
+  MaxAngle: 30
+  AttackDistance: 2
+  RunDistance: 5
   RotationSpeed: 2
   WalkSpeed: 1
   RunSpeed: 4
-  AttackDistance: 2
-  RunDistance: 5
-  Souls: 10
-  Health: 1000
   RetreatPoints: 0
   RetreatRadius: 0
   RetreatDegrees: 0

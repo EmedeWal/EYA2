@@ -62,7 +62,7 @@ public class ChasingState : CreatureState
 
     private void ChasingState_ValueRemoved(float amount)
     {
-        if (amount > _CreatureAI.CreatureData.Focus)
+        if (amount > 10)
         {
             _CreatureAI.SetState(new IdleState(_CreatureAI));
         }

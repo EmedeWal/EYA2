@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041d209c59b3e3746a539c28adbb6615, type: 3}
   m_Name: Catfish Data
   m_EditorClassIdentifier: 
-  RotationSpeed: 2
-  WalkSpeed: 1.5
-  RunSpeed: 5
-  AttackDistance: 3
-  RunDistance: 7.5
-  Souls: 20
+  Souls: 25
   Health: 150
+  StaggerRecovery: 1
+  StaggerThreshold: 50
+  MaxAngle: 30
+  AttackDistance: 3
+  RunDistance: 9
+  RotationSpeed: 3
+  WalkSpeed: 1.5
+  RunSpeed: 6
   RetreatPoints: 9
   RetreatRadius: 3
   RetreatDegrees: 270

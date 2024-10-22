@@ -468,9 +468,12 @@ GameObject:
   - component: {fileID: 2664340190515716195}
   - component: {fileID: 5136708176164626625}
   - component: {fileID: 191742763745485385}
+  - component: {fileID: 4130030122054623825}
   - component: {fileID: 1445618160993096038}
+  - component: {fileID: 6669866088731864322}
+  - component: {fileID: 4152989012203664591}
+  - component: {fileID: 1174714311971512839}
   - component: {fileID: 3247871274575065398}
-  - component: {fileID: 4010643695515410243}
   m_Layer: 0
   m_Name: Ghoul
   m_TagString: Untagged
@@ -672,6 +675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CreatureData: {fileID: 11400000, guid: f534327bd8dbb0a4681d9eb5051a2941, type: 2}
+  DefaultTarget: {fileID: 0}
 --- !u!114 &5136708176164626625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,11 +702,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e94021211bb61469c816613351d90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAttacking: 0
   _audioSource: {fileID: 7278980880853254948}
   _attackDataList:
   - {fileID: 11400000, guid: 6c9f54457b075984b8f3fb07e5675421, type: 2}
   - {fileID: 11400000, guid: b1c93c93db4900c44bb613e6712df441, type: 2}
+--- !u!114 &4130030122054623825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013348056072018866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cd8afcfe939db4d9258e63fb690a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1445618160993096038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +730,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc71606ac3bcdd348bc03d50acb2f833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6669866088731864322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013348056072018866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e061970f782fc4146ab56847015635ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _footstepData: {fileID: 0}
+  _audioSource: {fileID: 0}
+--- !u!114 &4152989012203664591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013348056072018866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1768bdd59ed41498ab0eaf13c0fa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageReduction: 0
+--- !u!114 &1174714311971512839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013348056072018866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: 0}
 --- !u!114 &3247871274575065398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,20 +784,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lockPoint: {fileID: 5710679544820073829}
   _center: {fileID: 5696761294361063071}
---- !u!114 &4010643695515410243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2013348056072018866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _center: {fileID: 0}
-  _evasionVFX: {fileID: 0}
 --- !u!1 &2092634883663395556
 GameObject:
   m_ObjectHideFlags: 0

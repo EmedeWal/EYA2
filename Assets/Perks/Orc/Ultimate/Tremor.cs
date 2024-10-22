@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Tremor : ConstantAreaDamage
 {
-    private Dictionary<AnimatorManager, float> _slowedEnemies = new();
-    private List<VFX> _activeVFXs = new();
+    private Dictionary<CreatureAI, VFX> _activeVFXDictionary;
+    private Dictionary<CreatureAI, CreatureStatTracker> _slowedCreatures;
 
     [Header("VISUALISATION")]
     [SerializeField] private VFX _slowVFX;
@@ -15,6 +15,11 @@ public class Tremor : ConstantAreaDamage
 
     public void InitTremor(float radius, float damage, float slowSpeed, float maxSlow, LayerMask targetLayer, Collider colliderToIgnore = null)
     {
+        CreatureManager.CreatureDeath += Tremor_CreatureDeath;
+
+        _activeVFXDictionary = new();
+        _slowedCreatures = new();
+
         _minimumAnimatorSpeed = 1f - (maxSlow / 100);
         _animatorSlowSpeed = 1f - (slowSpeed / 100);
 
@@ -27,48 +32,63 @@ public class Tremor : ConstantAreaDamage
     {
         base.Effect(collider, delta);
 
-        if (collider.TryGetComponent(out AnimatorManager animatorManager))
+        if (collider.TryGetComponent(out CreatureAI creature) && _minimumAnimatorSpeed < 1)
         {
-            float currentSpeed = animatorManager.MovementSpeed;
+            CreatureStatManager statManager = creature.StatManager;
+            AnimatorManager animatorManager = creature.AnimatorManager;
+
+            float currentSpeed = statManager.GetStat(Stat.MovementSpeedModifier);
             float newSpeed = Mathf.Max(currentSpeed - _animatorSlowSpeed * delta, _minimumAnimatorSpeed);
-
-            Debug.Log(currentSpeed);
-
             float appliedSlowAmount = currentSpeed - newSpeed;
-            animatorManager.MovementSpeed = newSpeed;
 
-            if (!_slowedEnemies.ContainsKey(animatorManager))
+            if (!_slowedCreatures.ContainsKey(creature))
             {
-                _slowedEnemies.Add(animatorManager, appliedSlowAmount);
+                var baseStatChanges = new Dictionary<Stat, float> { { Stat.MovementSpeedModifier, 0f } };
+                CreatureStatTracker statTracker = new(baseStatChanges, statManager);
+                _slowedCreatures.Add(creature, statTracker);
 
-                VFX vfxInstance = Instantiate(_slowVFX, animatorManager.transform.position, Quaternion.identity);
-                _VFXManager.AddMovingVFX(vfxInstance, animatorManager.transform);
-                _activeVFXs.Add(vfxInstance);
+                statTracker.IncrementStat(Stat.MovementSpeedModifier, newSpeed - currentSpeed);
+
+                VFX vfxInstance = _VFXManager.AddMovingVFX(_slowVFX, animatorManager.transform);
+                _activeVFXDictionary.Add(creature, vfxInstance);
             }
             else
             {
-                _slowedEnemies[animatorManager] += appliedSlowAmount;
+                var statTracker = _slowedCreatures[creature];
+                statTracker.IncrementStat(Stat.MovementSpeedModifier, newSpeed - currentSpeed);
             }
         }
     }
 
     public void Deactivate()
     {
-        foreach (var enemy in _slowedEnemies)
-        {
-            AnimatorManager animatorManager = enemy.Key;
-            float totalSlowApplied = enemy.Value;
+        CreatureManager.CreatureDeath -= Tremor_CreatureDeath;
 
-            animatorManager.MovementSpeed += totalSlowApplied;
+        foreach (var creature in _activeVFXDictionary)
+        {
+            _VFXManager.RemoveVFX(creature.Value);
+        }
+        _activeVFXDictionary.Clear();
+
+        foreach (var creature in _slowedCreatures)
+        {
+            creature.Value.ResetStatChanges();
+        }
+        _slowedCreatures.Clear();
+    }
+
+    private void Tremor_CreatureDeath(CreatureAI creature)
+    {
+        if (_activeVFXDictionary.ContainsKey(creature))
+        {
+            _VFXManager.RemoveVFX(_activeVFXDictionary[creature]);
+            _activeVFXDictionary.Remove(creature);
         }
 
-        _slowedEnemies.Clear();
-
-        foreach (VFX vfx in _activeVFXs)
+        if (_slowedCreatures.ContainsKey(creature))
         {
-            _VFXManager.RemoveVFX(vfx, 1);
+            _slowedCreatures[creature].ResetStatChanges();
+            _slowedCreatures.Remove(creature);
         }
-
-        _activeVFXs.Clear();
     }
 }

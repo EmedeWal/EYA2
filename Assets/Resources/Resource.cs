@@ -4,7 +4,7 @@ using System;
 
 public abstract class Resource : MonoBehaviour
 {
-    private float _delta;
+    protected float _Delta;
 
     private float _maxValue;
     private float _currentValue;
@@ -34,19 +34,9 @@ public abstract class Resource : MonoBehaviour
         OnCurrentValueUpdated(_currentValue);
     }
 
-    protected void AddValue(float amount)
+    public virtual void LateTick(float delta)
     {
-        _pendingValueChange += amount;
-    }
-
-    protected void RemoveValue(float amount)
-    {
-        _pendingValueChange -= amount;
-    }
-
-    public void LateTick(float delta)
-    {
-        _delta = delta;
+        _Delta = delta;
 
         if (_pendingValueChange != 0)
         {
@@ -91,28 +81,24 @@ public abstract class Resource : MonoBehaviour
         }
     }
 
-    private IEnumerator ModifyConstantValueCoroutine(float value, bool isAddition)
+    protected void AddValue(float amount)
     {
-        while (true)
-        {
-            float deltaValue = value * _delta;
+        _pendingValueChange += amount;
+    }
 
-            if (isAddition)
-            {
-                AddValue(deltaValue * RestorationModifier);
-            }
-            else
-            {
-                RemoveValue(deltaValue);
-            }
+    protected void RemoveValue(float amount)
+    {
+        _pendingValueChange -= amount;
+    }
 
-            yield return null;
-        }
+    protected virtual void OnValueRemoved(float amount)
+    {
+        ValueRemoved?.Invoke(amount);
     }
 
     private void OnValueExhausted(GameObject exhaustedObject)
     {
-        ValueExhausted?.Invoke(gameObject);
+        ValueExhausted?.Invoke(exhaustedObject);
     }
 
     private void OnMaxValueInitialized(float maxValue)
@@ -125,8 +111,22 @@ public abstract class Resource : MonoBehaviour
         CurrentValueUpdated?.Invoke(currentValue);
     }
 
-    private void OnValueRemoved(float amount)
+    private IEnumerator ModifyConstantValueCoroutine(float value, bool increment)
     {
-        ValueRemoved?.Invoke(amount);
+        while (true)
+        {
+            float deltaValue = value * _Delta;
+
+            if (increment)
+            {
+                AddValue(deltaValue * RestorationModifier);
+            }
+            else
+            {
+                RemoveValue(deltaValue);
+            }
+
+            yield return null;
+        }
     }
 }

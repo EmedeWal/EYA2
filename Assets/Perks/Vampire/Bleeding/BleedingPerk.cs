@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Bleeding Perk", menuName = "Scriptable Object/Perks/Passive Perk/Bleeding")]
-public class BleedingPerk : PerkData
+public class BleedingPerk : PassivePerk
 {
     [Header("BASE BLEEDING STATS")]
     [SerializeField] private int _maxStacks = 5;
@@ -20,6 +20,8 @@ public class BleedingPerk : PerkData
 
     [Header("HEMORRHAGE STATS")]
     [SerializeField] private float _healthGain = 0f;
+    [SerializeField] private float _damageReductionModifier = 0.05f;
+    [SerializeField] private float _damageInflictedModifier = 0.05f;
     [SerializeField] private float _damageModifier = 1f;
     [SerializeField] private float _durationModifier = 1f;
 
@@ -30,36 +32,34 @@ public class BleedingPerk : PerkData
     {
         base.Init(playerObject, perks, statChanges);
 
-        _bleedingEnemies = new List<BleedHandler>();
+        _bleedingEnemies = new();
     }
 
     public override void Activate()
     {
+        CreatureManager.CreatureDeath += BleedingPerk_CreatureDeath;
         _AttackHandler.SuccessfulHit += BleedingPerk_SuccesfulHit;
     }
 
     public override void Deactivate()
     {
+        CreatureManager.CreatureDeath -= BleedingPerk_CreatureDeath;
         _AttackHandler.SuccessfulHit -= BleedingPerk_SuccesfulHit;
-    }
-
-    public override void Tick(float delta)
-    {
-        // Logic for any effects that need to be updated over time
     }
 
     private void BleedingPerk_SuccesfulHit(Collider hit, float damage, bool crit)
     {
-        if (hit.TryGetComponent(out BleedHandler bleedHandler))
+        if (hit.TryGetComponent(out CreatureAI creature))
         {
-            UpdateBleedingStats();
+            BleedHandler bleedHandler = creature.BleedHandler;
 
+            UpdateBleedingStats();
             bleedHandler.ApplyBleed(_currentBleedingStats);
 
             if (!_bleedingEnemies.Contains(bleedHandler))
             {
-                AddBleedingInstance(bleedHandler, bleedHandler.GetComponent<Health>());
-            }
+                AddBleedingInstance(bleedHandler);
+            }   
             else
             {
                 _Health.Heal(bleedHandler.CurrentStacks * _healthGain);
@@ -67,26 +67,31 @@ public class BleedingPerk : PerkData
         }
     }
 
-    private void BleedingPerk_BleedFinished(BleedHandler bleedHandler)
+    private void BleedingPerk_CreatureDeath(CreatureAI creature)
     {
-        RemoveBleedingInstance(bleedHandler, bleedHandler.GetComponent<Health>());
+        BleedHandler bleedHandler = creature.BleedHandler;
+
+        if (_bleedingEnemies.Contains(bleedHandler))
+        {
+            bleedHandler.ResetBleed();
+
+            if (_bloodEruptionVFX != null)
+            {
+                Transform transform = creature.transform;
+                int stacks = bleedHandler.CurrentStacks;
+
+                VFX bloodEruptionVFX = _VFXManager.AddStaticVFX(_bloodEruptionVFX, transform.position, transform.rotation, 3f);
+
+                UpdateBleedingStats();
+                BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
+                bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _TargetLayer);
+            }
+        }
     }
 
-    private void BleedingPerk_ValueExhausted(GameObject healthObject)
+    private void BleedingPerk_BleedFinished(BleedHandler bleedHandler)
     {
-        RemoveBleedingInstance(healthObject.GetComponent<BleedHandler>(), healthObject.GetComponent<Health>());
-
-        if (_bloodEruptionVFX != null)
-        {
-            Transform transform = healthObject.transform;
-            int stacks = healthObject.GetComponent<BleedHandler>().CurrentStacks;
-
-            VFX bloodEruptionVFX = _VFXManager.AddStaticVFX(_bloodEruptionVFX, transform.position, transform.rotation, 3f);
-
-            UpdateBleedingStats();
-            BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
-            bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _TargetLayer);
-        }
+        RemoveBleedingInstance(bleedHandler);
     }
 
     private void UpdateBleedingStats()
@@ -97,20 +102,18 @@ public class BleedingPerk : PerkData
         float currentDamage = (_damage + _damageBonus * enemyCount) * _damageModifier;
         float currentDuration = (_duration + _durationBonus * enemyCount) * _durationModifier;
 
-        _currentBleedingStats = new BleedingStats(currentDamage, currentDuration, currentMaxStacks);
+        _currentBleedingStats = new BleedingStats(currentMaxStacks, currentDamage, currentDuration, _damageReductionModifier, _damageInflictedModifier);
     }
 
-    private void AddBleedingInstance(BleedHandler bleedHandler, Health health)
+    private void AddBleedingInstance(BleedHandler bleedHandler)
     {
         _bleedingEnemies.Add(bleedHandler);
-        health.ValueExhausted += BleedingPerk_ValueExhausted;
         bleedHandler.BleedFinished += BleedingPerk_BleedFinished;
     }
 
-    private void RemoveBleedingInstance(BleedHandler bleedHandler, Health health)
+    private void RemoveBleedingInstance(BleedHandler bleedHandler)
     {
         _bleedingEnemies.Remove(bleedHandler);
-        health.ValueExhausted -= BleedingPerk_ValueExhausted;
         bleedHandler.BleedFinished -= BleedingPerk_BleedFinished;
     }
 }

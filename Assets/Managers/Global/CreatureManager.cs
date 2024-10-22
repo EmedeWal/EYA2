@@ -50,6 +50,14 @@ public class CreatureManager : MonoBehaviour
         }
     }
 
+    public void Cleanup()
+    {
+        for (int i = _activeCreatureList.Count - 1; i >= 0; i--)
+        {
+            RemoveCreature(_activeCreatureList[i]);
+        }
+    }
+
     private void AddCreature(CreatureAI creature)
     {
         _activeCreatureList.Add(creature);
@@ -57,28 +65,34 @@ public class CreatureManager : MonoBehaviour
         creature.Health.ValueExhausted += CreatureManager_ValueExhausted;
     }
 
-    private void RemoveCreature(GameObject creatureObject)
+    private void RemoveCreature(CreatureAI creature)
     {
-        if (creatureObject.TryGetComponent(out AudioSource source))
-        {
-            _audioSystem.PlayAudio(source, source.clip, source.volume);
-        }
-
-        CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
         creature.Health.ValueExhausted -= CreatureManager_ValueExhausted;
         _activeCreatureList.Remove(creature);
-        OnCreatureDeath(creature);
         creature.Cleanup();
-
-        creature.AnimatorManager.CrossFadeAnimation(_delta, "Die");
-        float delay = creature.AnimatorManager.GetAnimationLength();
-        StartCoroutine(DestroyCreatureObject(creatureObject, delay));
         Destroy(creature);
+    }
+
+    private void CreatureManager_DeathAnimationFinished(AnimatorManager animatorManager)
+    {
+        animatorManager.DeathAnimationFinished -= CreatureManager_DeathAnimationFinished;
+        Destroy(animatorManager.gameObject);
     }
 
     private void CreatureManager_ValueExhausted(GameObject creatureObject)
     {
-        RemoveCreature(creatureObject);
+        CreatureAI creature = creatureObject.GetComponent<CreatureAI>();
+
+        if (creature.TryGetComponent(out AudioSource source))
+        {
+            _audioSystem.PlayAudio(source, source.clip, source.volume);
+        }
+
+        creature.AnimatorManager.DeathAnimationFinished += CreatureManager_DeathAnimationFinished;
+        creature.AnimatorManager.ForceCrossFade(_delta, "Death");
+        creature.Locomotion.StopAgent(true);
+        OnCreatureDeath(creature);
+        RemoveCreature(creature);
     }
 
     private void OnCreatureDeath(CreatureAI creature)
@@ -90,11 +104,5 @@ public class CreatureManager : MonoBehaviour
     {
         CreatureAI[] creatureAIArray = FindObjectsByType<CreatureAI>(FindObjectsSortMode.None);
         foreach (CreatureAI creatureAI in creatureAIArray) AddCreature(creatureAI);
-    }
-
-    private IEnumerator DestroyCreatureObject(GameObject creatureObject, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(creatureObject);
     }
 }

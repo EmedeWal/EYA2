@@ -10,7 +10,9 @@ public class CreatureAI : MonoBehaviour
     [HideInInspector] public Transform DefaultTarget;
     public CreatureAnimatorManager AnimatorManager { get; private set; }
     public CreatureAttackHandler AttackHandler { get; private set; }
+    public CreatureStatManager StatManager { get; private set; }
     public CreatureLocomotion Locomotion { get; private set; }
+    public BleedHandler BleedHandler { get; private set; }
     public LockTarget LockTarget { get; private set; }
     public Transform Transform { get; private set; }
     public Health Health { get; private set; }
@@ -26,37 +28,23 @@ public class CreatureAI : MonoBehaviour
 
         AnimatorManager = GetComponent<CreatureAnimatorManager>();
         AttackHandler = GetComponent<CreatureAttackHandler>();
+        StatManager = GetComponent<CreatureStatManager>();
         Locomotion = GetComponent<CreatureLocomotion>();
+        BleedHandler = GetComponent<BleedHandler>();
         LockTarget = GetComponent<LockTarget>();
         Health = GetComponent<Health>();
 
-        AnimatorManager.InitCreature(Health, CreatureData.Focus);
+        AnimatorManager.Init();
         AttackHandler.Init(TargetLayer);
+        StatManager.Init();
         Locomotion.Init(CreatureData.RunSpeed);
+        BleedHandler.Init();
         LockTarget.Init();
         Health.Init(CreatureData.Health, CreatureData.Health);
 
         if (TryGetComponent(out FootstepHandler footstepHandler)) footstepHandler.Init();
 
         SetState(new IdleState(this));
-    }
-
-    public void Cleanup()
-    {
-        _currentState?.Exit();
-        Locomotion.StopAgent(true);
-        AnimatorManager.CleanupCreature(Health);
-
-        Destroy(Locomotion);
-        Destroy(LockTarget);
-        Destroy(Health);
-    }
-
-    public void SetState(CreatureState newState)
-    {
-        _currentState?.Exit();
-        _currentState = newState;
-        _currentState.Enter();
     }
 
     public void Tick(float delta)
@@ -68,6 +56,25 @@ public class CreatureAI : MonoBehaviour
     public void LateTick(float delta)
     {
         Health.LateTick(delta);
+    }
+
+    public void Cleanup()
+    { 
+        _currentState?.Exit();
+
+        BleedHandler.Cleanup();
+
+        Destroy(Locomotion);
+        Destroy(BleedHandler);
+        Destroy(LockTarget);
+        Destroy(Health);
+    }
+
+    public void SetState(CreatureState newState)
+    {
+        _currentState?.Exit();
+        _currentState = newState;
+        _currentState.Enter();
     }
 
     public Transform GetNearestTarget(float maxDistance)
@@ -95,7 +102,8 @@ public class CreatureAI : MonoBehaviour
 
     public bool TargetInRange(Transform target)
     {
+        float threshold = CreatureData.AttackDistance + AttackHandler.AttackData.Distance;
         float distance = Vector3.Distance(Transform.position, target.position);
-        return distance <= CreatureData.AttackDistance;
+        return distance <= threshold;
     }
 }

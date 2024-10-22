@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System;
@@ -6,56 +7,89 @@ public class BleedHandler : MonoBehaviour
 {
     [Header("VISUALIZATION")]
     [SerializeField] private VFX _bleedVFX;
-    private VFXEmission _bleedEmission;
+    private VFXEmission _bleedVFXEmission;
     private VFX _currentBleedVFX;
 
-    private Coroutine _bleedCoroutine;
+    private BleedingStats _currentBleedingStats;
+    private int _currentStacks;
+
+    private CreatureStatTracker _statTracker;
+    private Coroutine _coroutine;
     private Transform _center;
     private Health _health;
 
-    private BleedingStats _currentBleedingStats; 
-    private int _currentStacks;
+    private VFXManager _VFXManager;
 
     public int CurrentStacks => _currentStacks;
 
-    private VFXManager _VFXManager;
-
     public event Action<BleedHandler> BleedFinished;
 
-    private void Start()
+    public void Init()
     {
+        Dictionary<Stat, float> statChanges = new()
+        {
+            { Stat.DamageReduction, 0 },
+            { Stat.AttackDamageModifier, 0 }
+        };
+
+        _statTracker = new CreatureStatTracker (statChanges, GetComponent<CreatureStatManager>());
         _center = GetComponent<LockTarget>().Center;
         _health = GetComponent<Health>();
 
         _VFXManager = VFXManager.Instance;
     }
 
+    public void Cleanup()
+    {
+        ResetBleed();
+    }
+
     public void ApplyBleed(BleedingStats bleedingStats, int stackIncrement = 1)
     {
         _currentBleedingStats = bleedingStats;
 
-        if (_bleedCoroutine != null)
+        if (_coroutine != null)
         {
             _currentStacks = Mathf.Min(_currentStacks + stackIncrement, _currentBleedingStats.MaxStacks);
+
+            StopCoroutine(_coroutine);
+            HandleBleedNerfs(stackIncrement);
+            _coroutine = StartCoroutine(HandleBleed());
         }
         else
         {
-            _currentBleedVFX = Instantiate(_bleedVFX, _center.position, _center.rotation);
-            _bleedEmission = _currentBleedVFX.GetComponent<VFXEmission>();
-            _bleedEmission.Init((float)_currentStacks / _currentBleedingStats.MaxStacks * 10);
-            _VFXManager.AddMovingVFX(_currentBleedVFX, _center);
+            _currentBleedVFX = _VFXManager.AddMovingVFX(_bleedVFX, _center);
+            _bleedVFXEmission = _currentBleedVFX.GetComponent<VFXEmission>();
+            _bleedVFXEmission.Init((float)_currentStacks / _currentBleedingStats.MaxStacks * 10);
 
-            _currentStacks = 1;
-            _bleedCoroutine = StartCoroutine(HandleBleed());
+            _currentStacks = stackIncrement;
+            _coroutine = StartCoroutine(HandleBleed());
         }
     }
 
-    private void ResetBleed()
+    public void ResetBleed()
     {
+       if (_coroutine != null )
+        {
+            StopCoroutine(_coroutine);
+        }
+
         _VFXManager.RemoveVFX(_currentBleedVFX);
+        _statTracker.ResetStatChanges();
+        _bleedVFXEmission = null;
         _currentBleedVFX = null;
-        _bleedCoroutine = null;
-        _bleedEmission = null;
+        _coroutine = null;
+
+        OnBleedFinished();
+    }
+
+    private void HandleBleedNerfs(int stacks)
+    {
+        float damageReductionDecrement = -(stacks * _currentBleedingStats.DamageInflictedModifier);
+        float damageInflictionDecrement = -(stacks * _currentBleedingStats.DamageInflictedModifier);
+
+        _statTracker.IncrementStat(Stat.DamageReduction, damageReductionDecrement);
+        _statTracker.IncrementStat(Stat.AttackDamageModifier, damageInflictionDecrement);
     }
 
     private void OnBleedFinished()
@@ -77,20 +111,11 @@ public class BleedHandler : MonoBehaviour
             _health.TakeDamage(null, totalDamage);
 
             float emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
-            _bleedEmission.Tick(emissionRate);
+            _bleedVFXEmission.Tick(emissionRate);
 
             duration--;
         }
 
-        OnBleedFinished();
         ResetBleed();
-    }
-
-    private void OnDestroy()
-    {
-        if (_bleedCoroutine != null)
-        {
-            ResetBleed();
-        }
     }
 }

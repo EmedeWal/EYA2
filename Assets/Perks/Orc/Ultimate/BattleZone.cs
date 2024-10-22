@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BattleZone : MonoBehaviour
 {
-    private StatTracker _statTracker;
+    private PlayerStatTracker _statTracker;
 
     private float _criticalChanceBonus = 0;
     private float _criticalMultiplierBonus = 0;
@@ -15,7 +15,7 @@ public class BattleZone : MonoBehaviour
     // Track whether the player is inside the battle zone
     public bool PlayerInside { get; private set; } = false;
 
-    public void Init(StatTracker statTracker, float criticalChanceBonus, float criticalMultiplierBonus, float damageReductionBonus, float healthRegenBonus)
+    public void Init(PlayerStatTracker statTracker, float criticalChanceBonus, float criticalMultiplierBonus, float damageReductionBonus, float healthRegenBonus)
     {
         _statTracker = statTracker;
 

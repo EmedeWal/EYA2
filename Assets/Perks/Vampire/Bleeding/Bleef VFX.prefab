@@ -14513,7 +14513,7 @@ GameObject:
   - component: {fileID: 7551388611195229131}
   - component: {fileID: 485970497329932894}
   m_Layer: 0
-  m_Name: Bleed Effect
+  m_Name: Bleef VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

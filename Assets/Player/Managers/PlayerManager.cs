@@ -3,10 +3,13 @@ using System;
 
 public class PlayerManager : MonoBehaviour
 {
+    private float _delta;
+
     [Header("PLAYER UI REFERENCES")]
     [SerializeField] private StanceUI _stanceUI;
 
     private PlayerInputHandler _inputHandler;
+    private PlayerAnimatorManager _animatorManager;
     private PlayerStanceManager _stanceManager;
     private PlayerStatManager _statManager;
     private PlayerLock _lock;
@@ -21,13 +24,14 @@ public class PlayerManager : MonoBehaviour
 
     private Transform _target = null;
 
-    public static event Action PlayerDied;
+    public static event Action<AnimatorManager> PlayerDeath;
 
     public void Init()
     {
         DontDestroyOnLoad(gameObject);
 
         _inputHandler = GetComponent<PlayerInputHandler>();
+        _animatorManager = GetComponent<PlayerAnimatorManager>();
         _stanceManager = GetComponent<PlayerStanceManager>();
         _statManager = GetComponent<PlayerStatManager>();
         _lock = GetComponent<PlayerLock>();
@@ -43,6 +47,7 @@ public class PlayerManager : MonoBehaviour
         _stanceUI.Init();
 
         _inputHandler.Init();
+        _animatorManager.Init();
         _stanceManager.Init();
         _statManager.Init();
         _lock.Init();
@@ -59,6 +64,8 @@ public class PlayerManager : MonoBehaviour
 
     public void Tick(float delta)
     {
+        _delta = delta;
+
         Vector3 xDirection = _cameraController._CameraTransform.right;
         Vector3 yDirection = _cameraController._CameraTransform.forward;
         float leftStickX = _inputHandler._LeftStickX;
@@ -70,25 +77,31 @@ public class PlayerManager : MonoBehaviour
 
         if (_timeSystem.CurrentTimeScale == 0) return;
 
-        _stanceManager.Tick(delta);
-        _locomotion.Tick(delta, xDirection, yDirection, leftStickX, leftStickY, _target);
-        _attackHandler.Tick(delta);
-        _movementTracking.Tick(delta);
-        _cameraController.Tick(delta, rightStickX, rightStickY, _target);
+        _stanceManager.Tick(_delta);
+        _locomotion.Tick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
+        _attackHandler.Tick(_delta);
+        _movementTracking.Tick(_delta);
+        _cameraController.Tick(_delta, rightStickX, rightStickY, _target);
     }
 
     public void LateTick(float delta)
     {
-        _statManager.LateTick(delta);
+        _delta = delta;
+
+        _statManager.LateTick(_delta);
     }
 
     public void Cleanup()
     {
+        _lock.Locked -= PlayerManager_LockedOn;
+        _health.ValueExhausted -= PlayerManager_ValueExhausted;
+
         _stanceUI.Cleanup();
 
         _stanceManager.Cleanup();
         _statManager.Cleanup();
         _lock.Cleanup();
+        _locomotion.Cleanup();
         _attackHandler.Cleanup();
         _souls.Cleanup();
     }
@@ -98,17 +111,28 @@ public class PlayerManager : MonoBehaviour
         _target = target;
     }
 
-    private void PlayerManager_ValueExhausted(GameObject deathObject)
+    private void PlayerManager_ValueExhausted(GameObject playerObject)
     {
-        _health.ValueExhausted -= PlayerManager_ValueExhausted;
+        _animatorManager.ForceCrossFade(_delta, "Death");
 
-        OnPlayerDied(); 
+        Cleanup();
+
+        Destroy(_inputHandler);
+        Destroy(_stanceManager);
+        Destroy(_statManager);
+        Destroy(_lock);
+        Destroy(_locomotion);
+        Destroy(_attackHandler);
+        Destroy(_health);
+        Destroy(_cameraController);
+
+        OnPlayerDeath();
+
+        Destroy(this);
     }
 
-    private void OnPlayerDied()
+    private void OnPlayerDeath()
     {
-        PlayerDied?.Invoke();
-
-        Debug.Log("The player has died. Not implemented");
+        PlayerDeath?.Invoke(_animatorManager);
     }
 }

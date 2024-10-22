@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 
-public class StatTracker 
+public class CreatureStatTracker
 {
     private Dictionary<Stat, float> _statChanges;
-    private PlayerStats _playerStats;
+    private CreatureStatManager _statManager;
 
-    public StatTracker (Dictionary<Stat, float> statChanges, PlayerStats playerStats)
+    public CreatureStatTracker (Dictionary<Stat, float> statChanges, CreatureStatManager statManager)
     {
         _statChanges = statChanges;
-        _playerStats = playerStats;
+        _statManager = statManager;
     }
 
     public void IncrementStat(Stat stat, float value)
     {
         _statChanges[stat] += value;
-        _playerStats.IncrementStat(stat, value);
+        _statManager.IncrementStat(stat, value);
     }
 
     public void ResetStatChanges()
@@ -25,7 +25,7 @@ public class StatTracker
         {
             if (statChange.Value != 0)
             {
-                _playerStats.IncrementStat(statChange.Key, -statChange.Value);
+                _statManager.IncrementStat(statChange.Key, -statChange.Value);
                 _statChanges[statChange.Key] = 0;
             }
         }
@@ -33,6 +33,6 @@ public class StatTracker
 
     public float GetStatChange(Stat stat)
     {
-        return _statChanges[stat];    
+        return _statChanges[stat];
     }
 }

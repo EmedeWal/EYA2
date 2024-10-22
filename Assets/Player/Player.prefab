@@ -792,7 +792,7 @@ GameObject:
   - component: {fileID: 6872548370679991034}
   - component: {fileID: 1521285261085473912}
   - component: {fileID: 6603697760115918923}
-  - component: {fileID: 716398785201116005}
+  - component: {fileID: 3771067533413669926}
   - component: {fileID: 605078075834916467}
   - component: {fileID: 1062212347810143361}
   - component: {fileID: 897617002443829880}
@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stanceData: {fileID: 11400000, guid: 8fb802c08bcde144e8aed2e25e09616a, type: 2}
---- !u!114 &716398785201116005
+--- !u!114 &3771067533413669926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1042,9 +1042,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
+  m_Script: {fileID: 11500000, guid: 45bd29b330102aa49879d96613b68a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageReduction: 0
   _center: {fileID: 4856997359477087160}
   _evasionVFX: {fileID: 286456855980766124, guid: 4f84d08b07bfe8946ae7804ab9481c7c, type: 3}
 --- !u!114 &605078075834916467
@@ -1071,7 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a022a42b33df64e46b5adefbb7a72858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingValue: 1000
+  _startingValue: 9000
 --- !u!114 &897617002443829880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6286,7 +6287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434ccb454ca359c45874a3fd1f68131f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 716398785201116005}
+  _health: {fileID: 3771067533413669926}
   _background: {fileID: 3477601170121799874}
   _icon: {fileID: 8196941912165917587}
 --- !u!1 &8506290472091773242

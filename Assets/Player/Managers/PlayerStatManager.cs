@@ -11,7 +11,7 @@ public class PlayerStatManager : MonoBehaviour
 
     private PlayerAnimatorManager _animatorManager;
     private PlayerLocomotion _locomotion;
-    private Health _health;
+    private PlayerHealth _health;
     private Mana _mana;
 
     public void Init()
@@ -20,10 +20,9 @@ public class PlayerStatManager : MonoBehaviour
 
         _animatorManager = GetComponent<PlayerAnimatorManager>();
         _locomotion = GetComponent<PlayerLocomotion>();
-        _health = GetComponent<Health>();
+        _health = GetComponent<PlayerHealth>();
         _mana = GetComponent<Mana>();
 
-        _animatorManager.Init();
         _health.Init(_stats.GetBaseStat(Stat.MaxHealth), _stats.GetCurrentStat(Stat.Health));
         _mana.Init(_stats.GetBaseStat(Stat.MaxMana), _stats.GetCurrentStat(Stat.Mana));
 

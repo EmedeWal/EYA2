@@ -45,8 +45,6 @@ public class PlayerAttackHandler : AttackHandler
     public override void AttackEnd()
     {
         base.AttackEnd();
-
-        IsAttacking = false;
     }
 
     protected override float HandleCritical(Collider hit, float damage, bool crit)
@@ -81,13 +79,11 @@ public class PlayerAttackHandler : AttackHandler
 
     private void PlayerAttackHandler_LightAttackInputPerformed()
     {
-        if (IsAttacking || _AnimatorManager.GetBool("InAction")) return;
         HandleAttack(_lightAttackData);
     }
 
     private void PlayerAttackHandler_HeavyAttackInputPerformed()
     {
-        if (IsAttacking || _AnimatorManager.GetBool("InAction")) return;
         HandleAttack(_heavyAttackData);
     }
 }

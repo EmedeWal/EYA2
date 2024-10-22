@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Mastery Perk", menuName = "Scriptable Object/Perks/Passive Perk/Mastery")]
-public class MasteryPerk : PerkData
+public class MasteryPerk : PassivePerk
 {
     private List<float> _timerList;
 
@@ -99,7 +99,7 @@ public class MasteryPerk : PerkData
             comboData.Tick(delta);
         }
 
-        if (_AttackHandler.IsAttacking)
+        if (_AnimatorManager.GetBool("InAction"))
         {
             for (int i = 0; i < _timerList.Count; i++)
             {
@@ -138,16 +138,18 @@ public class MasteryPerk : PerkData
         }
     }
 
-    private void MasteryPerk_AttackBegun(AttackType attackType)
+    private void MasteryPerk_AttackBegun(AttackData attackData)
     {
         foreach (var comboData in _comboDataList)
         {
-            comboData.RegisterAttackStarted(attackType);
+            comboData.RegisterAttackStarted(attackData.AttackType);
         }
     }
 
-    private void MasteryPerk_AttackEnded(AttackType attackType)
+    private void MasteryPerk_AttackEnded(AttackData attackData)
     {
+        AttackType attackType = attackData.AttackType;
+
         foreach (var comboData in _comboDataList)
         {
             comboData.RegisterAttackFinished(attackType);

@@ -1,18 +1,32 @@
 using UnityEngine;
 public class IdleState : CreatureState
 {
+    private Transform _target;
+
     public IdleState(CreatureAI creatureAI) : base(creatureAI) { }
 
     public override void Tick(float delta)
     {
         Transform nearestTarget = _CreatureAI.GetNearestTarget(_CreatureAI.CreatureData.RunDistance);
+        Transform defaultTarget = _CreatureAI.DefaultTarget;
+
         if (nearestTarget != null)
         {
-            _CreatureAI.SetState(new ChasingState(_CreatureAI, nearestTarget));
+            _target = nearestTarget;
         }
-        else if (_CreatureAI.DefaultTarget != null)
+        else if (defaultTarget != null)
         {
-            _CreatureAI.SetState(new ChasingState(_CreatureAI, _CreatureAI.DefaultTarget));
+            _target = defaultTarget;
         }
+
+        if (_target != null)
+        {
+            _CreatureAI.SetState(new ChasingState(_CreatureAI, _target));
+        }
+    }
+
+    public override void Exit()
+    {
+        _CreatureAI.AttackHandler.ChooseAttack(_target, _CreatureAI.CreatureData.MaxAngle);
     }
 }

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Ghoul Lunge Attack Data
   m_EditorClassIdentifier: 
   AttackType: 2
+  AttackMode: 1
   AnimationName: Lunge Attack
   AudioClip: {fileID: 8300000, guid: b616ce01b43b7294b8f2534f92799196, type: 3}
   AudioOffset: 0
   AudioVolume: 0.5
   Damage: 10
+  Distance: 1
   Recovery: 2
   AttackOffset: {x: 0, y: 0, z: 1}
   AttackHitBox: {x: 0.6, y: 1, z: 1}

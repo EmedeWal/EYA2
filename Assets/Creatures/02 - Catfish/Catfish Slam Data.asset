@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Catfish Slam Data
   m_EditorClassIdentifier: 
   AttackType: 2
+  AttackMode: 1
   AnimationName: Slam
   AudioClip: {fileID: 8300000, guid: 753234205cc72aa46b8aff09fe83994d, type: 3}
   AudioOffset: 0
   AudioVolume: 1
   Damage: 20
-  Recovery: 2
+  Distance: 1.5
+  Recovery: 1.5
   AttackOffset: {x: 0, y: 1, z: 1.5}
-  AttackHitBox: {x: 0.5, y: 1, z: 1.5}
+  AttackHitBox: {x: 0.3, y: 1, z: 1.5}
   AttackRadius: 0

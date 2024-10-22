@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Ghoul Slash Attack Data
   m_EditorClassIdentifier: 
   AttackType: 1
+  AttackMode: 2
   AnimationName: Slash Attack
   AudioClip: {fileID: 8300000, guid: b4a67c45b931f5c4dbefd1f2976dc494, type: 3}
   AudioOffset: 0
   AudioVolume: 0.5
   Damage: 5
+  Distance: 0
   Recovery: 1.5
   AttackOffset: {x: 0, y: 0, z: 1}
   AttackHitBox: {x: 0.6, y: 1, z: 1}

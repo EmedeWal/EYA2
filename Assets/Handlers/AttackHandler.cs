@@ -4,16 +4,14 @@ using System;
 
 public abstract class AttackHandler : MonoBehaviour
 {
-    [HideInInspector] public bool IsAttacking = false;
-
     [Header("AUDIO SOURCE")]
     [SerializeField] private AudioSource _audioSource;
 
     // Inherited properties
     protected AnimatorManager _AnimatorManager;
     protected AudioSystem _AudioSystem;
-    protected VFXManager _VFXManager;
     protected AttackData _AttackData;
+    protected VFXManager _VFXManager;
     protected GameObject _GameObject;
     protected Transform _Transform;
     protected float _Delta;
@@ -26,9 +24,9 @@ public abstract class AttackHandler : MonoBehaviour
     public delegate void SuccessfulHitDelegate(Collider hit, float damage, bool crit);
     public event SuccessfulHitDelegate SuccessfulHit;
 
-    public event Action<AttackType> AttackBegun;
-    public event Action<AttackType> AttackHalfway;
-    public event Action<AttackType> AttackEnded;
+    public event Action<AttackData> AttackBegun;
+    public event Action<AttackData> AttackHalfway;
+    public event Action<AttackData> AttackEnded;
 
     public virtual void Init(LayerMask targetLayer)
     {
@@ -48,12 +46,14 @@ public abstract class AttackHandler : MonoBehaviour
 
     public virtual void AttackBegin()
     {
-        OnAttackBegun(_AttackData.AttackType);
+        OnAttackBegun(_AttackData);
+
+        _AudioSystem.PlayAudio(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
     }
 
     public virtual void AttackMiddle()
     {
-        OnAttackHalfway(_AttackData.AttackType);
+        OnAttackHalfway(_AttackData);
 
         float damage = _AttackData.Damage;
         bool crit = RollCritical();
@@ -62,15 +62,15 @@ public abstract class AttackHandler : MonoBehaviour
 
     public virtual void AttackEnd()
     {
-        OnAttackEnded(_AttackData.AttackType);
+        OnAttackEnded(_AttackData);
     }
 
     protected void HandleAttack(AttackData attackData)
     {
-        IsAttacking = true;
-        _AttackData = attackData;
-        _AnimatorManager.CrossFadeAnimation(_Delta, _AttackData.AnimationName, 0.1f, 1);
-        _AudioSystem.PlayAudio(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
+        if (!_AnimatorManager.GetBool("InAction") && _AnimatorManager.CrossFade(_Delta, attackData.AnimationName))
+        {
+            _AttackData = attackData;
+        }
     }
 
     private void HandleDamage(float damage, bool crit)
@@ -109,19 +109,19 @@ public abstract class AttackHandler : MonoBehaviour
         SuccessfulHit?.Invoke(hit, damage, crit);
     }
 
-    private void OnAttackBegun(AttackType attackType)
+    private void OnAttackBegun(AttackData attackData)
     {
-        AttackBegun?.Invoke(attackType);
+        AttackBegun?.Invoke(attackData);
     }
 
-    private void OnAttackHalfway(AttackType attackType)
+    private void OnAttackHalfway(AttackData attackData)
     {
-        AttackHalfway?.Invoke(attackType);
+        AttackHalfway?.Invoke(attackData);
     }
 
-    private void OnAttackEnded(AttackType attackType)
+    private void OnAttackEnded(AttackData attackData)
     {
-        AttackEnded?.Invoke(attackType);
+        AttackEnded?.Invoke(attackData);
     }
 
     private Collider[] GetHits()

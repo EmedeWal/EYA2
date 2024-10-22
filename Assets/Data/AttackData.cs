@@ -3,8 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data", order = 51)]
 public class AttackData : ScriptableObject
 {
-    [Header("TYPE")]
+    [Header("ENUM")]
     public AttackType AttackType;
+    public AttackMode AttackMode;
 
     [Header("ANIMATION")]
     public string AnimationName;
@@ -17,8 +18,9 @@ public class AttackData : ScriptableObject
     [Header("DAMAGE")]
     public float Damage;
 
-    [Header("RECOVERY")]
-    public float Recovery;
+    [Header("MISC")]
+    public float Distance = 0;
+    public float Recovery = 1;
 
     [Header("HITBOX")]
     public Vector3 AttackOffset;

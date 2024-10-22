@@ -7,13 +7,14 @@ public class RepositioningState : CreatureState
     private Transform _target;
     private Queue<Vector3> _waypoints;
     private Vector3 _currentWaypoint;
-    private float _reachedDistanceThreshold = 1f;
-    //private bool _rotateClockwise;
+    private float _distanceThreshold;
+    private bool _clockwiseRotation;
 
     public RepositioningState(CreatureAI creatureAI, Transform target) : base(creatureAI)
     {
         _target = target;
-      //  _rotateClockwise = Random.value > 0.5f;
+        _distanceThreshold = 1f;
+        _clockwiseRotation = Random.value < 0.5f;
         _waypoints = GenerateCircularWaypoints();
     }
 
@@ -27,14 +28,14 @@ public class RepositioningState : CreatureState
     {
         if (_waypoints.Count > 0)
         {
-            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _reachedDistanceThreshold)
+            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _distanceThreshold)
             {
                 MoveToNextWaypoint();
             }
         }
         else
         {
-            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _reachedDistanceThreshold)
+            if (Vector3.Distance(_CreatureAI.transform.position, _currentWaypoint) < _distanceThreshold)
             {
                 _CreatureAI.SetState(new IdleState(_CreatureAI));
             }
@@ -44,24 +45,36 @@ public class RepositioningState : CreatureState
     private Queue<Vector3> GenerateCircularWaypoints()
     {
         Queue<Vector3> waypoints = new();
-        Vector3 startPos = _CreatureAI.Transform.position; 
-        Vector3 directionTowardsPlayer = (_CreatureAI.DefaultTarget.position - startPos).normalized;
-        Vector3 directionAwayFromPlayer = -directionTowardsPlayer;
+        Vector3 startPos = _CreatureAI.Transform.position;
+        Vector3 playerDirection = (_CreatureAI.DefaultTarget.position - startPos).normalized;
 
         int numWaypoints = _CreatureAI.CreatureData.RetreatPoints;
         float currentRadius = _CreatureAI.CreatureData.RetreatRadius;
         float circleDegrees = _CreatureAI.CreatureData.RetreatDegrees;
 
-        Vector3 leftDirection = Vector3.Cross(Vector3.up, directionAwayFromPlayer).normalized;
+        Vector3 lateralDirection = Vector3.Cross(Vector3.up, playerDirection).normalized;
         float angleStep = circleDegrees / numWaypoints;
+
+        if (_clockwiseRotation)
+        {
+            lateralDirection = -lateralDirection;
+            playerDirection = -playerDirection;
+        }
 
         for (int i = 0; i < numWaypoints; i++)
         {
             float angle = -(circleDegrees / 2) + (i * angleStep);
+
+            if (!_clockwiseRotation)
+            {
+                angle = -angle;
+            }
+
             Quaternion rotationOffset = Quaternion.Euler(0, 90, 0);
             Quaternion totalRotation = rotationOffset * Quaternion.Euler(0, angle, 0);
-            Vector3 waypointDirection = totalRotation * directionAwayFromPlayer;
-            Vector3 waypoint = startPos + waypointDirection * currentRadius + leftDirection * currentRadius;
+ 
+            Vector3 waypointDirection = totalRotation * playerDirection;
+            Vector3 waypoint = startPos + waypointDirection * currentRadius + lateralDirection * currentRadius;
 
             if (NavMesh.SamplePosition(waypoint, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             {

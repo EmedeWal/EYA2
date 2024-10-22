@@ -28,5 +28,7 @@ MonoBehaviour:
   _bloodEruptionVFX: {fileID: 0}
   _bloodEruptionRadius: 0
   _healthGain: 1
+  _damageReductionModifier: 0.05
+  _damageInflictedModifier: 0.05
   _damageModifier: 3
   _durationModifier: 0.5

@@ -4,7 +4,7 @@ using UnityEngine;
 public class HealthUI : MonoBehaviour
 {
     [Header("HEALTH REFERENCE")]
-    [SerializeField] private Health _health;
+    [SerializeField] private PlayerHealth _health;
 
     [Header("IMAGE REFERENCE")]
     [SerializeField] private Image _background;

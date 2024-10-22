@@ -518,10 +518,12 @@ GameObject:
   - component: {fileID: 6790139974282355900}
   - component: {fileID: 2309735491348987341}
   - component: {fileID: 1957776708048412182}
+  - component: {fileID: 3496427959134792478}
   - component: {fileID: 6782610584309869567}
   - component: {fileID: 4552981667716770729}
+  - component: {fileID: 3352810274994484481}
+  - component: {fileID: 4680166466173171604}
   - component: {fileID: 7351945922944582449}
-  - component: {fileID: 2022171529798914178}
   m_Layer: 0
   m_Name: Catfish
   m_TagString: Untagged
@@ -739,6 +741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 0
   AttackSpeed: 0
+  Resistance: 0
 --- !u!114 &1957776708048412182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,11 +754,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e94021211bb61469c816613351d90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAttacking: 0
   _audioSource: {fileID: 7987154792203918819}
   _attackDataList:
   - {fileID: 11400000, guid: 04ce39d507fea5e4fbd633b771334787, type: 2}
   - {fileID: 11400000, guid: 197a1b94db12a454fabe06459e7be27b, type: 2}
+--- !u!114 &3496427959134792478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235492605697417619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cd8afcfe939db4d9258e63fb690a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6782610584309869567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +796,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _footstepData: {fileID: 11400000, guid: c6f347dcc40b1d7418f1e5245bb5afe7, type: 2}
   _audioSource: {fileID: 354463949985205063}
+--- !u!114 &3352810274994484481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235492605697417619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1768bdd59ed41498ab0eaf13c0fa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageReduction: 0
+--- !u!114 &4680166466173171604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235492605697417619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: -2129773415816489523, guid: 70755ecb8d1e5634281b49996b6c8acf, type: 3}
 --- !u!114 &7351945922944582449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,20 +836,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lockPoint: {fileID: 13842811768080452}
   _center: {fileID: 4224783404866743847}
---- !u!114 &2022171529798914178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235492605697417619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _center: {fileID: 0}
-  _evasionVFX: {fileID: 0}
 --- !u!1 &1337149090104308247
 GameObject:
   m_ObjectHideFlags: 0

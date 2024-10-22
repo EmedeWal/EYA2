@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : SingletonBase
@@ -19,7 +18,7 @@ public class GameManager : SingletonBase
     }
     #endregion
 
-    private List<SingletonBase> _singletons = new();
+    private GameState _gameState = GameState.Starting;
 
     [Header("SCRIPTABLE OBJECTS INIT")]
     [SerializeField] private BloodwaveStats _bloodwaveStats;
@@ -38,16 +37,47 @@ public class GameManager : SingletonBase
 
     private void Awake()
     {
-        SingletonBase[] singletons = FindObjectsByType<SingletonBase>(FindObjectsSortMode.None);
-        foreach (SingletonBase singleton in singletons)
+        if (_gameState == GameState.Starting)
         {
-            _singletons.Add(singleton);
+            Init();
         }
+    }
 
-        foreach (SingletonBase singleton in _singletons)
+    private void Update()
+    {
+        if (_gameState == GameState.Running)
         {
-            singleton.SingletonSetup();
+            _delta = Time.deltaTime;
+
+            _creatureManager.Tick(_delta);
+            _playerManager.Tick(_delta);
+            _VFXManager.Tick(_delta);
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (_gameState == GameState.Running)
+        {
+            _delta = Time.deltaTime;
+
+            _creatureManager.LateTick(_delta);
+            _playerManager.LateTick(_delta);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_gameState == GameState.Running)
+        {
+            Cleanup();
+        }
+    }
+
+    private void Init()
+    {
+        SingletonBase[] singletons = FindObjectsByType<SingletonBase>(FindObjectsSortMode.None);
+        foreach (SingletonBase singleton in singletons) singleton.SingletonSetup();
 
         _bloodwaveStats.Init();
         _playerStats.Init();
@@ -56,28 +86,43 @@ public class GameManager : SingletonBase
         _creatureManager.Init();
         _playerManager.Init();
         _audioSystem.Init();
+
+        PlayerManager.PlayerDeath += GameManager_PlayerDeath;
+
+        _gameState = GameState.Running; 
     }
 
-    private void Update()
+    private void Cleanup()
     {
-        _delta = Time.deltaTime;
+        _gameState = GameState.Ending;
 
-        _creatureManager.Tick(_delta);
-        _playerManager.Tick(_delta);
-        _VFXManager.Tick(_delta);
-    }
+        PlayerManager.PlayerDeath -= GameManager_PlayerDeath;
 
-    private void LateUpdate()
-    {
-        _delta = Time.deltaTime;
-
-        _creatureManager.LateTick(_delta);
-        _playerManager.LateTick(_delta);
-    }
-
-    private void OnDisable()
-    {
         _pauseMenuController.Cleanup();
+        _creatureManager.Cleanup();
         _playerManager.Cleanup();
     }
+
+    private void GameManager_DeathAnimationFinished(AnimatorManager animatorManager)
+    {
+        animatorManager.DeathAnimationFinished -= GameManager_DeathAnimationFinished;
+
+        Destroy(animatorManager);
+
+        Debug.Log("Death animation finished. Player died. Not implemented");
+    }
+
+    private void GameManager_PlayerDeath(AnimatorManager animatorManager)
+    {
+        animatorManager.DeathAnimationFinished += GameManager_DeathAnimationFinished;
+
+        Cleanup();
+    }
+}
+
+public enum GameState
+{
+    Starting,
+    Running,
+    Ending
 }

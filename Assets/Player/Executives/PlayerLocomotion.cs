@@ -8,6 +8,9 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
 
     private PlayerAnimatorManager _animatorManager;
     private CharacterController _characterController;
+    private PlayerAttackHandler _attackHandler;
+    private bool _canMove = true;
+    private bool _canRotate = true;
 
     [Header("ROTATION")]
     [SerializeField] private float _rotationSpeed = 10f;
@@ -36,6 +39,7 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
 
         _animatorManager = GetComponent<PlayerAnimatorManager>();
         _characterController = GetComponent<CharacterController>();
+        _attackHandler = GetComponent<PlayerAttackHandler>();
 
         _groundCheckRadius = _characterController.radius + 0.05f;
         _groundCheckOffset = _characterController.radius;
@@ -45,6 +49,8 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
 
         _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
         gameObject.layer = controllerLayer;
+
+        ListenToAttackEvents(true);
     }
 
     public void Tick(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput, Transform lockOnTarget)
@@ -54,23 +60,10 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
         _grounded = IsGrounded();
         ManageVerticalPosition();
 
-        if (_animatorManager.GetBool("InAction") || !_grounded)
-        {
-            _moving = false;
-        }
-        else
+        if (_grounded)
         {
             _horizontal = horizontalInput;
             _vertical = verticalInput;
-
-            if (_horizontal != 0 || _vertical != 0)
-            {
-                _moving = true;
-            }
-            else
-            {
-                _moving = false;
-            }
 
             Vector3 horizontal = _horizontal * horizontalDirection;
             Vector3 vertical = _vertical * verticalDirection;
@@ -80,10 +73,34 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
             _movementDirection *= MovementSpeed;
             _movementDirection.y = 0;
 
-            ManageHorizontalPosition();
-            HandleAnimations(lockOnTarget);
-            ManageRotation(lockOnTarget);
+            _canMove = !_animatorManager.GetBool("InAction");
+
+            if (_horizontal != 0 || _vertical != 0 && _canMove)
+            {
+                _moving = true;
+            }
+            else
+            {
+                _moving = false;
+            }
+
+            if (_canMove)
+            {
+                ManageHorizontalPosition();
+            }
+
+            if (_canRotate)
+            {
+                ManageRotation(lockOnTarget);
+            }
         }
+
+        HandleAnimations(lockOnTarget);
+    }
+
+    public void Cleanup()
+    {
+        ListenToAttackEvents(false);
     }
 
     private void ManageVerticalPosition()
@@ -95,7 +112,7 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
         else
         {
             _movementDirection.y -= _gravity * _delta;
-            _animatorManager.CrossFadeAnimation(_delta, "Fall");
+            _animatorManager.CrossFade(_delta, "Fall");
             _characterController.Move(_movementDirection * _delta);
         }
     }
@@ -121,6 +138,32 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
     {
         _animatorManager.UpdateAnimatorValues(_delta, _horizontal, _vertical, _grounded, locked, Moving);
     }
+
+    #region Attack Events
+    private void ListenToAttackEvents(bool listen)
+    {
+        if (listen)
+        {
+            _attackHandler.AttackHalfway += PlayerLocomotion_AttackHalfway;
+            _attackHandler.AttackEnded += PlayerLocomotion_AttackEnded;
+        }
+        else
+        {
+            _attackHandler.AttackHalfway -= PlayerLocomotion_AttackHalfway;
+            _attackHandler.AttackEnded -= PlayerLocomotion_AttackEnded;
+        }
+    }
+
+    private void PlayerLocomotion_AttackHalfway(AttackData attackData)
+    {
+        _canRotate = false;
+    }
+
+    private void PlayerLocomotion_AttackEnded(AttackData attackData)
+    {
+        _canRotate = true;
+    }
+    #endregion
 
     private bool IsGrounded()
     {
