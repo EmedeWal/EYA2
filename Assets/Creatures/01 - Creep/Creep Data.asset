@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041d209c59b3e3746a539c28adbb6615, type: 3}
+  m_Name: Creep Data
+  m_EditorClassIdentifier: 
+  Souls: 10
+  Health: 100
+  StaggerRecovery: 0
+  StaggerThreshold: 1000
+  MaxAngle: 45
+  AttackDistance: 2
+  RunDistance: 8
+  RotationSpeed: 2
+  WalkSpeed: 2
+  RunSpeed: 2

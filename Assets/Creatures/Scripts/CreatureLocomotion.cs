@@ -51,6 +51,6 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
 
     public float GetMaxSpeed()
     {
-        return _navMeshAgent.speed;
+        return _maxSpeed;
     }
 }

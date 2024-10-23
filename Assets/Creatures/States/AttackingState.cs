@@ -71,8 +71,6 @@ public class AttackingState : CreatureState
         _CreatureAI.AttackHandler.AttackBegun -= AttackingState_AttackBegun;
         _CreatureAI.AttackHandler.AttackHalfway -= AttackingState_AttackHalfway;
         _CreatureAI.AttackHandler.AttackEnded -= AttackingState_AttackEnded;
-
-        _CreatureAI.AnimatorManager.SetBool("InCombat", false);
     }
 
     private void AttackingState_AttackBegun(AttackData attackData)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data")]
+[CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data/Attack")]
 public class AttackData : ScriptableObject
 {
     [Header("ENUM")]
