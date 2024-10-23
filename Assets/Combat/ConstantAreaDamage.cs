@@ -2,23 +2,20 @@ using UnityEngine;
 
 public class ConstantAreaDamage : MonoBehaviour
 {
-    private GameObject _gameObject;
-    private Transform _transform;
+    protected GameObject _GameObject;
+    protected Transform _Transform;
+    protected LayerMask _TargetLayer;
+    protected float _Damage;
+    protected float _Radius;
 
-    private Collider _colliderToIgnore;
-    private LayerMask _targetLayer;
-    private float _damage;
-    private float _radius;
-
-    public virtual void Init(float radius, float damage, LayerMask targetLayer, Collider colliderToIgnore = null)
+    public virtual void Init(float radius, float damage, LayerMask targetLayer)
     {
-        _gameObject = gameObject;
-        _transform = transform;
+        _GameObject = gameObject;
+        _Transform = transform;
 
-        _colliderToIgnore = colliderToIgnore;
-        _targetLayer = targetLayer;
-        _damage = damage;
-        _radius = radius;
+        _TargetLayer = targetLayer;
+        _Damage = damage;
+        _Radius = radius;
 
         if (TryGetComponent(out AudioSource audioSource))
         {
@@ -28,11 +25,10 @@ public class ConstantAreaDamage : MonoBehaviour
 
     public void Tick(float delta)
     {
-        Collider[] colliders = Physics.OverlapSphere(_transform.position, _radius, _targetLayer);
+        Collider[] colliders = Physics.OverlapSphere(_Transform.position, _Radius, _TargetLayer);
 
         foreach (Collider collider in colliders)
         {
-            if (collider == _colliderToIgnore) continue;
             Effect(collider, delta);
         }
     }
@@ -41,7 +37,7 @@ public class ConstantAreaDamage : MonoBehaviour
     {
         if (collider.TryGetComponent(out Health health))
         {
-            health.TakeDamage(_gameObject, _damage * delta);
+            health.TakeDamage(_GameObject, _Damage * delta);
         }
     }
 }

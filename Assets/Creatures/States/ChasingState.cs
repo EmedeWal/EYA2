@@ -28,7 +28,7 @@ public class ChasingState : CreatureState
             _CreatureAI.Locomotion.SetDestination(_target.position);
             UpdateLocomotion(distanceToTarget);
 
-            if (_CreatureAI.TargetInRange(_target))
+            if (_CreatureAI.IsTargetInRange(_target))
             {
                 _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
             }

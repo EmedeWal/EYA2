@@ -24,6 +24,22 @@ public class VFXManager : SingletonBase
 
     private List<VFX> _activeVFXList = new();
 
+    public void Tick(float delta)
+    {
+        for (int i = 0; i < _activeVFXList.Count; i++)
+        {
+            _activeVFXList[i].Tick();
+        }
+    }
+
+    public void Cleanup()
+    {
+        for (int i = _activeVFXList.Count - 1; i >= 0; i--)
+        {
+            RemoveVFX(_activeVFXList[i]);
+        }
+    }
+
     public VFX AddStaticVFX(VFX vfxPrefab, Vector3 position, Quaternion rotation, float destroyDelay)
     {
         VFX vfxInstance = Instantiate(vfxPrefab, position, rotation);
@@ -70,14 +86,6 @@ public class VFXManager : SingletonBase
         _activeVFXList.Add(vfxInstance);
 
         return vfxInstance;
-    }
-
-    public void Tick(float delta)
-    {
-        for (int i = 0; i < _activeVFXList.Count; i++)
-        {
-            _activeVFXList[i].Tick();
-        }
     }
 
     public void RemoveVFX(VFX vfx, float destroyDelay = 0f)

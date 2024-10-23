@@ -52,11 +52,6 @@ public class PlayerLock : MonoBehaviour
     {
         CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
         _inputHandler.LockOnInputPerformed -= PlayerLockOn_LockOnInputPerformed;
-
-        if (_lockTarget != null && _lockMarkerObject.activeSelf)
-        {
-            DisableLock();
-        }
     }
 
     private void PlayerLock_CreatureDeath(CreatureAI creature)

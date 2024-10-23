@@ -34,7 +34,7 @@
 //            speed = 5;
 //        }
 
-//        float x = Input.GetAxis("Horizontal");
+//        float x = Input.GetAxis("_horizontal");
 //        float z = Input.GetAxis("Vertical");
 
 //        Vector3 move = transform.right * x + transform.forward * z;

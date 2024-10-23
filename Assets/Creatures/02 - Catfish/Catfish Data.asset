@@ -16,12 +16,9 @@ MonoBehaviour:
   Health: 150
   StaggerRecovery: 1
   StaggerThreshold: 50
-  MaxAngle: 30
+  MaxAngle: 45
   AttackDistance: 3
   RunDistance: 9
   RotationSpeed: 3
   WalkSpeed: 1.5
   RunSpeed: 6
-  RetreatPoints: 9
-  RetreatRadius: 3
-  RetreatDegrees: 270

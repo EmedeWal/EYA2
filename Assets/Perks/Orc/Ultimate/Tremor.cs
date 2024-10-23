@@ -13,7 +13,7 @@ public class Tremor : ConstantAreaDamage
 
     private VFXManager _VFXManager;
 
-    public void InitTremor(float radius, float damage, float slowSpeed, float maxSlow, LayerMask targetLayer, Collider colliderToIgnore = null)
+    public void InitTremor(float radius, float damage, float slowSpeed, float maxSlow, LayerMask targetLayer)
     {
         CreatureManager.CreatureDeath += Tremor_CreatureDeath;
 
@@ -25,7 +25,7 @@ public class Tremor : ConstantAreaDamage
 
         _VFXManager = VFXManager.Instance;
 
-        base.Init(radius, damage, targetLayer, colliderToIgnore);
+        base.Init(radius, damage, targetLayer);
     }
 
     protected override void Effect(Collider collider, float delta)

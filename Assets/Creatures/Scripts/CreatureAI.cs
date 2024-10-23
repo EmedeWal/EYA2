@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CreatureAI : MonoBehaviour
@@ -8,6 +9,7 @@ public class CreatureAI : MonoBehaviour
     public CreatureData CreatureData;
 
     [HideInInspector] public Transform DefaultTarget;
+    [HideInInspector] public Transform CurrentTarget;
     public CreatureAnimatorManager AnimatorManager { get; private set; }
     public CreatureAttackHandler AttackHandler { get; private set; }
     public CreatureStatManager StatManager { get; private set; }
@@ -18,7 +20,7 @@ public class CreatureAI : MonoBehaviour
     public Health Health { get; private set; }
     public LayerMask TargetLayer { get; private set; }
 
-    public void Init(LayerMask creatureLayer, LayerMask targetLayer, Transform defaultTarget = null)
+    public virtual void Init(LayerMask creatureLayer, LayerMask targetLayer, Transform defaultTarget = null)
     {
         Transform = transform;
 
@@ -44,23 +46,26 @@ public class CreatureAI : MonoBehaviour
 
         if (TryGetComponent(out FootstepHandler footstepHandler)) footstepHandler.Init();
 
-        SetState(new IdleState(this));
+        AnimatorManager.SpawnAnimationFinished += CreatureAI_SpawnAnimationFinished;
+
+        CurrentTarget = DefaultTarget;
     }
 
-    public void Tick(float delta)
+    public virtual void Tick(float delta)
     {
-        AnimatorManager.Tick(delta, Locomotion.GetLocomotionValue());
+        Locomotion.Tick(delta);
+
         _currentState?.Tick(delta);
     }
 
-    public void LateTick(float delta)
+    public virtual void LateTick(float delta)
     {
         Health.LateTick(delta);
     }
 
-    public void Cleanup()
-    { 
-        _currentState?.Exit();
+    public virtual void Cleanup()
+    {
+        AnimatorManager.SpawnAnimationFinished -= CreatureAI_SpawnAnimationFinished;
 
         BleedHandler.Cleanup();
 
@@ -70,11 +75,39 @@ public class CreatureAI : MonoBehaviour
         Destroy(Health);
     }
 
+    public virtual void DetermineBehavior(AttackData attackData, Transform target)
+    {
+        DetermineAttack(target);
+    }
+
+    public virtual void DetermineAttack(Transform target)
+    {
+        CurrentTarget = target;
+
+        List<AttackData> viableAttacks = new();
+
+        if (IsTargetInFront(CurrentTarget))
+        {
+            viableAttacks.AddRange(AttackHandler.AttackDataList.FindAll(a => a.AttackMode == AttackMode.Lunging || a.AttackMode == AttackMode.Tracking));
+        }
+        else
+        {
+            viableAttacks.AddRange(AttackHandler.AttackDataList.FindAll(a => a.AttackMode == AttackMode.Tracking));
+        }
+
+        AttackHandler.SelectRandomAttack(viableAttacks);
+    }
+
     public void SetState(CreatureState newState)
     {
         _currentState?.Exit();
         _currentState = newState;
         _currentState.Enter();
+    }
+
+    private void CreatureAI_SpawnAnimationFinished()
+    {
+        SetState(new IdleState(this));
     }
 
     public Transform GetNearestTarget(float maxDistance)
@@ -100,10 +133,29 @@ public class CreatureAI : MonoBehaviour
         return nearestTarget;
     }
 
-    public bool TargetInRange(Transform target)
+    public float GetDistanceToTarget(Transform target)
+    {
+        return Vector3.Distance(Transform.position, target.position);
+    }
+
+    public bool IsTargetInRange(Transform target)
     {
         float threshold = CreatureData.AttackDistance + AttackHandler.AttackData.Distance;
-        float distance = Vector3.Distance(Transform.position, target.position);
+        float distance = GetDistanceToTarget(target);
         return distance <= threshold;
+    }
+
+    public bool IsTargetInFront(Transform target)
+    {
+        Vector3 directionToTarget = (target.position - Transform.position).normalized;
+        float angleToTarget = Vector3.Angle(Transform.forward, directionToTarget);
+        return angleToTarget < CreatureData.MaxAngle;
+    }
+
+    public bool IsTargetBehind(Transform target)
+    {
+        Vector3 directionToTarget = (target.position - Transform.position).normalized;
+        float angleToTarget = Vector3.Angle(Transform.forward, directionToTarget);
+        return angleToTarget > 90;
     }
 }

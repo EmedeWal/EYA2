@@ -8,6 +8,7 @@ public abstract class AttackHandler : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
 
     // Inherited properties
+    protected CreatureAI _creatureAI;
     protected AnimatorManager _AnimatorManager;
     protected AudioSystem _AudioSystem;
     protected AttackData _AttackData;
@@ -30,6 +31,7 @@ public abstract class AttackHandler : MonoBehaviour
 
     public virtual void Init(LayerMask targetLayer)
     {
+        _creatureAI = GetComponent<CreatureAI>();
         _AnimatorManager = GetComponent<AnimatorManager>();
         _AudioSystem = AudioSystem.Instance;
         _VFXManager = VFXManager.Instance;
@@ -55,9 +57,16 @@ public abstract class AttackHandler : MonoBehaviour
     {
         OnAttackHalfway(_AttackData);
 
-        float damage = _AttackData.Damage;
-        bool crit = RollCritical();
-        HandleDamage(damage, crit);
+        if (_AttackData.AttackType == AttackType.Special)
+        {
+            _AttackData.Attack(_creatureAI.CurrentTarget);
+        }
+        else
+        {
+            float damage = _AttackData.Damage;
+            bool crit = RollCritical();
+            HandleDamage(damage, crit);
+        }
     }
 
     public virtual void AttackEnd()

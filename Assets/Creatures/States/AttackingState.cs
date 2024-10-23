@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttackingState : CreatureState
@@ -51,7 +50,7 @@ public class AttackingState : CreatureState
             }
             else
             {
-                if (_CreatureAI.TargetInRange(_target))
+                if (_CreatureAI.IsTargetInRange(_target))
                 {
                     _CreatureAI.AttackHandler.Attack();
                 }
@@ -113,17 +112,9 @@ public class AttackingState : CreatureState
 
     private void AttackingState_AttackEnded(AttackData attackData)
     {
-        _CreatureAI.AttackHandler.ChooseAttack(_target, _CreatureAI.CreatureData.MaxAngle);
-
-        if (attackData.AttackType == AttackType.Heavy && _CreatureAI.CreatureData.RetreatRadius > 0 && IsPlayerBehind())
-        {
-            _CreatureAI.SetState(new RepositioningState(_CreatureAI, _target));
-        }
-        else
-        {
-            _cooldownTimer = attackData.Recovery;
-            _onCooldown = true;
-        }
+        _CreatureAI.DetermineBehavior(attackData, _target);
+        _cooldownTimer = attackData.Recovery;
+        _onCooldown = true;
     }
 
     private void RotateTowardsTarget(float delta)
@@ -134,12 +125,5 @@ public class AttackingState : CreatureState
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             _CreatureAI.transform.rotation = Quaternion.Slerp(_CreatureAI.transform.rotation, lookRotation, delta * _CreatureAI.CreatureData.RotationSpeed);
         }
-    }
-
-    private bool IsPlayerBehind()
-    {
-        Vector3 directionToTarget = (_target.position - _CreatureAI.transform.position).normalized;
-        float angleToTarget = Vector3.Angle(_CreatureAI.transform.forward, directionToTarget);
-        return angleToTarget > 90;
     }
 }

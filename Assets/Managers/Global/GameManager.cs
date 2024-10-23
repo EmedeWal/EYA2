@@ -101,6 +101,7 @@ public class GameManager : SingletonBase
         _pauseMenuController.Cleanup();
         _creatureManager.Cleanup();
         _playerManager.Cleanup();
+        _VFXManager.Cleanup();
     }
 
     private void GameManager_DeathAnimationFinished(AnimatorManager animatorManager)

@@ -7,12 +7,18 @@ public class RepositioningState : CreatureState
     private Transform _target;
     private Queue<Vector3> _waypoints;
     private Vector3 _currentWaypoint;
+    private int _retreatPoints;
+    private float _retreatRadius;
+    private float _retreatDegrees;
     private float _distanceThreshold;
     private bool _clockwiseRotation;
 
-    public RepositioningState(CreatureAI creatureAI, Transform target) : base(creatureAI)
+    public RepositioningState(CreatureAI creatureAI, Transform target, int points, float radius, float degrees) : base(creatureAI)
     {
         _target = target;
+        _retreatPoints = points;
+        _retreatRadius = radius;
+        _retreatDegrees = degrees;
         _distanceThreshold = 1f;
         _clockwiseRotation = Random.value < 0.5f;
         _waypoints = GenerateCircularWaypoints();
@@ -47,13 +53,8 @@ public class RepositioningState : CreatureState
         Queue<Vector3> waypoints = new();
         Vector3 startPos = _CreatureAI.Transform.position;
         Vector3 playerDirection = (_CreatureAI.DefaultTarget.position - startPos).normalized;
-
-        int numWaypoints = _CreatureAI.CreatureData.RetreatPoints;
-        float currentRadius = _CreatureAI.CreatureData.RetreatRadius;
-        float circleDegrees = _CreatureAI.CreatureData.RetreatDegrees;
-
         Vector3 lateralDirection = Vector3.Cross(Vector3.up, playerDirection).normalized;
-        float angleStep = circleDegrees / numWaypoints;
+        float angleStep = _retreatDegrees / _retreatPoints;
 
         if (_clockwiseRotation)
         {
@@ -61,9 +62,9 @@ public class RepositioningState : CreatureState
             playerDirection = -playerDirection;
         }
 
-        for (int i = 0; i < numWaypoints; i++)
+        for (int i = 0; i < _retreatPoints; i++)
         {
-            float angle = -(circleDegrees / 2) + (i * angleStep);
+            float angle = -(_retreatDegrees / 2) + (i * angleStep);
 
             if (!_clockwiseRotation)
             {
@@ -74,7 +75,7 @@ public class RepositioningState : CreatureState
             Quaternion totalRotation = rotationOffset * Quaternion.Euler(0, angle, 0);
  
             Vector3 waypointDirection = totalRotation * playerDirection;
-            Vector3 waypoint = startPos + waypointDirection * currentRadius + lateralDirection * currentRadius;
+            Vector3 waypoint = startPos + waypointDirection * _retreatRadius + lateralDirection * _retreatRadius;
 
             if (NavMesh.SamplePosition(waypoint, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             {

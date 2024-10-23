@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data", order = 51)]
+[CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data")]
 public class AttackData : ScriptableObject
 {
     [Header("ENUM")]
@@ -26,4 +26,6 @@ public class AttackData : ScriptableObject
     public Vector3 AttackOffset;
     public Vector3 AttackHitBox;
     public float AttackRadius;
+
+    public virtual void Attack(Transform target) { }
 }

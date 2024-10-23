@@ -27,6 +27,6 @@ public class IdleState : CreatureState
 
     public override void Exit()
     {
-        _CreatureAI.AttackHandler.ChooseAttack(_target, _CreatureAI.CreatureData.MaxAngle);
+        _CreatureAI.DetermineAttack(_target);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CreatureLocomotion : MonoBehaviour, IMovingProvider
 {
-    public bool Moving {  get; private set; }
+    public bool Moving { get; private set; }
 
     private CreatureAnimatorManager _animatorManager;
     private NavMeshAgent _navMeshAgent;
@@ -17,6 +17,11 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
         _maxSpeed = speed;
     }
 
+    public void Tick(float delta)
+    {
+        _animatorManager.Tick(delta, GetLocomotionValue());
+    }
+
     public void SetDestination(Vector3 position)
     {
         _navMeshAgent.SetDestination(position);
@@ -26,6 +31,11 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
     {
         _navMeshAgent.isStopped = stop;
         Moving = !stop;
+    }
+
+    public void UpdateRotation(bool update)
+    {
+        _navMeshAgent.updateRotation = update;
     }
 
     public void SetSpeed(float speed)

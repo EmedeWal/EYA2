@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 1062346061693181643}
   - component: {fileID: 9002637701311076216}
   - component: {fileID: 5533590231691577620}
-  - component: {fileID: 6790139974282355900}
+  - component: {fileID: 567061461642923781}
   - component: {fileID: 2309735491348987341}
   - component: {fileID: 1957776708048412182}
   - component: {fileID: 3496427959134792478}
@@ -713,7 +713,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6790139974282355900
+--- !u!114 &567061461642923781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -722,11 +722,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1235492605697417619}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75abef3b7894aa43bb84cd90119746a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9335df107159f7549a6e8f870689e4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CreatureData: {fileID: 11400000, guid: 6c49b6b95c1f2dc468ca960ff819ff20, type: 2}
   DefaultTarget: {fileID: 0}
+  CurrentTarget: {fileID: 0}
+  _retreatPoints: 9
+  _retreatRadius: 3
+  _retreatDegrees: 360
 --- !u!114 &2309735491348987341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,7 +745,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 0
   AttackSpeed: 0
-  Resistance: 0
 --- !u!114 &1957776708048412182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,7 +758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 7987154792203918819}
-  _attackDataList:
+  AttackDataList:
   - {fileID: 11400000, guid: 04ce39d507fea5e4fbd633b771334787, type: 2}
   - {fileID: 11400000, guid: 197a1b94db12a454fabe06459e7be27b, type: 2}
 --- !u!114 &3496427959134792478
