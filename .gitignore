@@ -70,9 +70,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-/Assets/Player/GFX/Warrior maiden
-Assets/Fantasy Monster(wizard) Demo/New Folder.meta
-/Assets/Fantasy Monster(wizard) Demo
-/Assets/_Imported
-/Assets/Textures
+/Assets/Player/GFX
+/Assets/Terrain/Grass
+/Assets/Terrain/Ground
+/Assets/Terrain/Lava
+/Assets/Creatures/01 - Creep/GFX
+/Assets/Creatures/02 - Catfish/GFX
+/Assets/Creatures/03 - Horror/GFX
+
 
