@@ -61,6 +61,7 @@ public class PlayerInputHandler : SingletonBase
         _inputActions.Movement.RightStick.performed += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
         _inputActions.Movement.RightStick.canceled += indexer => _rightStickValue = indexer.ReadValue<Vector2>();
 
+
         _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
         _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
         _inputActions.Actions.Options.performed += OnPauseInputPerformed;
@@ -80,11 +81,12 @@ public class PlayerInputHandler : SingletonBase
             _lastAction.Invoke();
         }
 
-        _LeftStickX = _leftStickValue.x;
-        _LeftStickY = _leftStickValue.y;
+        CalculateInput();
+    }
 
-        _RightStickX = _rightStickValue.x;
-        _RightStickY = _rightStickValue.y;
+    public void FixedTick()
+    {
+        CalculateInput();
     }
 
     public void Cleanup()
@@ -131,6 +133,15 @@ public class PlayerInputHandler : SingletonBase
         _lastAction = () => action.Invoke();
         _lastInputTime = Time.time;
         _lastAction.Invoke();
+    }
+
+    private void CalculateInput()
+    {
+        _LeftStickX = _leftStickValue.x;
+        _LeftStickY = _leftStickValue.y;
+
+        _RightStickX = _rightStickValue.x;
+        _RightStickY = _rightStickValue.y;
     }
 
     #region Combat Actions

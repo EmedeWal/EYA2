@@ -778,7 +778,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8751218226705034595}
-  - component: {fileID: 4799548156884288192}
+  - component: {fileID: 2354591964773326450}
+  - component: {fileID: 2567047905399424037}
   - component: {fileID: 7234088427046747362}
   - component: {fileID: 4478099895059525625}
   - component: {fileID: 6173864657795156570}
@@ -823,8 +824,35 @@ Transform:
   - {fileID: 4856997359477087160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &4799548156884288192
-CharacterController:
+--- !u!54 &2354591964773326450
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095002070673219539}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &2567047905399424037
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -841,14 +869,11 @@ CharacterController:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.8
+  serializedVersion: 2
   m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.95, z: 0}
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!81 &7234088427046747362
 AudioListener:
   m_ObjectHideFlags: 0
@@ -974,7 +999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36712b6613e30bc4fbdd0ab187301b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 10
+  _rotationSpeed: 15
+  _smoothing: 5
   _gravity: 15
 --- !u!114 &8956720991761083535
 MonoBehaviour:
@@ -988,7 +1014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b67756a90369646a481ceddd8dfd6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAttacking: 0
   _audioSource: {fileID: 1061900165925547253}
   _stats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _lightAttackData: {fileID: 11400000, guid: 12db997fa294b85489321541b22cb771, type: 2}

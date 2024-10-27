@@ -7,6 +7,8 @@ using System.Linq;
 
 public class PauseMenuController : MonoBehaviour
 {
+    private float _delta;
+
     [Header("AUDIO DATA UI REFERENCE")]
     [SerializeField] private AudioDataUI _audio;
 
@@ -75,6 +77,42 @@ public class PauseMenuController : MonoBehaviour
         _playerInputHandler.SwapSectionInputPerformed -= PauseMenu_SwapSectionInputPerformed;
     }
 
+    public void Tick()
+    {
+        if (_holder.activeSelf)
+        {
+            _delta = Time.unscaledDeltaTime;
+
+            float horizontalInput = _playerInputHandler._LeftStickX;
+            float verticalInput = _playerInputHandler._LeftStickY;
+
+            _cursorPosition += _cursorSpeed * _delta * 100 * new Vector3(horizontalInput, verticalInput, 0);
+
+            _cursorPosition.x = Mathf.Clamp(_cursorPosition.x, 0, Screen.width);
+            _cursorPosition.y = Mathf.Clamp(_cursorPosition.y, 0, Screen.height);
+
+            _cursorImage.transform.position = _cursorPosition;
+
+            if (TryGetRayCast(_cursorPosition, _clickable, out GameObject hitObject))
+            {
+                if (hitObject.TryGetComponent(out IClickable clickable))
+                {
+                    if (_currentClickable != clickable)
+                    {
+                        clickable.OnEnter();
+                        _currentClickable?.OnExit();
+                        _currentClickable = clickable;
+                    }
+                }
+            }
+            else
+            {
+                _currentClickable?.OnExit();
+                _currentClickable = null;
+            }
+        }
+    }
+
     private void PauseMenu_BackInputPerformed()
     {
         ResumeGame();
@@ -125,8 +163,6 @@ public class PauseMenuController : MonoBehaviour
         _playerInputHandler.ListenToCombatActions(true);
         _timeSystem.RevertToPreviousTimeScale();
         _holder.SetActive(false);
-
-        StopAllCoroutines();
     }
 
     private void PauseGame()
@@ -140,8 +176,6 @@ public class PauseMenuController : MonoBehaviour
         _playerInputHandler.ListenToCombatActions(false);
         _timeSystem.SetTimeScale(0);
         _holder.SetActive(true);
-
-        StartCoroutine(HandleCursorCoroutine());
     }
 
     private void SwapHeader()
@@ -156,47 +190,11 @@ public class PauseMenuController : MonoBehaviour
 
         while (elapsedTime < _pauseToggleCooldown)
         {
-            elapsedTime += Time.unscaledDeltaTime;
+            elapsedTime += _delta;
             yield return null;
         }
 
         _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
-    }
-
-    private IEnumerator HandleCursorCoroutine()
-    {
-        while (true)
-        {
-            float horizontalInput = _playerInputHandler._LeftStickX;
-            float verticalInput = _playerInputHandler._LeftStickY;
-
-            _cursorPosition += _cursorSpeed * Time.unscaledDeltaTime * 100 * new Vector3(horizontalInput, verticalInput, 0);
-
-            _cursorPosition.x = Mathf.Clamp(_cursorPosition.x, 0, Screen.width);
-            _cursorPosition.y = Mathf.Clamp(_cursorPosition.y, 0, Screen.height);
-
-            _cursorImage.transform.position = _cursorPosition;
-
-            if (TryGetRayCast(_cursorPosition, _clickable, out GameObject hitObject))
-            {
-                if (hitObject.TryGetComponent(out IClickable clickable))
-                {
-                    if (_currentClickable != clickable)
-                    {
-                        clickable.OnEnter();
-                        _currentClickable?.OnExit();
-                        _currentClickable = clickable;
-                    }
-                }
-            }
-            else
-            {
-                _currentClickable?.OnExit();
-                _currentClickable = null;
-            }
-
-            yield return null;
-        }
     }
 
     public bool TryGetRayCast(Vector3 cursorPosition, LayerMask layer, out GameObject hitObject)

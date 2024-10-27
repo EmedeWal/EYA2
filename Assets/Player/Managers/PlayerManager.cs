@@ -20,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     private MovementTracking _movementTracking;
     private FootstepHandler _footstepHandler;
     private CameraController _cameraController;
-    private TimeSystem _timeSystem;
 
     private Transform _target = null;
 
@@ -42,11 +41,9 @@ public class PlayerManager : MonoBehaviour
         _movementTracking = GetComponent<MovementTracking>();
         _footstepHandler = GetComponent<FootstepHandler>();
         _cameraController = CameraController.Instance;
-        _timeSystem = TimeSystem.Instance;  
 
         _stanceUI.Init();
 
-        _inputHandler.Init();
         _animatorManager.Init();
         _stanceManager.Init();
         _statManager.Init();
@@ -66,22 +63,9 @@ public class PlayerManager : MonoBehaviour
     {
         _delta = delta;
 
-        Vector3 xDirection = _cameraController._CameraTransform.right;
-        Vector3 yDirection = _cameraController._CameraTransform.forward;
-        float leftStickX = _inputHandler._LeftStickX;
-        float leftStickY = _inputHandler._LeftStickY;
-        float rightStickX = _inputHandler._RightStickX;
-        float rightStickY = _inputHandler._RightStickY;
-
-        _inputHandler.Tick();
-
-        if (_timeSystem.CurrentTimeScale == 0) return;
-
         _stanceManager.Tick(_delta);
-        _locomotion.Tick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
         _attackHandler.Tick(_delta);
         _movementTracking.Tick(_delta);
-        _cameraController.Tick(_delta, rightStickX, rightStickY, _target);
     }
 
     public void LateTick(float delta)
@@ -89,6 +73,21 @@ public class PlayerManager : MonoBehaviour
         _delta = delta;
 
         _statManager.LateTick(_delta);
+    }
+
+    public void FixedTick(float delta)
+    {
+        _delta = delta;
+
+        Vector3 xDirection = _cameraController._CameraTransform.right;
+        Vector3 yDirection = _cameraController._CameraTransform.forward;
+        float leftStickX = _inputHandler._LeftStickX;
+        float leftStickY = _inputHandler._LeftStickY;
+        float rightStickX = _inputHandler._RightStickX;
+        float rightStickY = _inputHandler._RightStickY;
+
+        _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
+        _cameraController.FixedTick(_delta, rightStickX, rightStickY, _target);
     }
 
     public void Cleanup()
@@ -117,7 +116,6 @@ public class PlayerManager : MonoBehaviour
 
         Cleanup();
 
-        Destroy(_inputHandler);
         Destroy(_stanceManager);
         Destroy(_statManager);
         Destroy(_lock);

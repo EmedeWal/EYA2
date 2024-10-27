@@ -24,13 +24,12 @@ public class GameManager : SingletonBase
     [SerializeField] private BloodwaveStats _bloodwaveStats;
     [SerializeField] private PlayerStats _playerStats;
 
-    [Header("INIT CALLS")]
+    [Header("MANAGEMENT")]
+    [SerializeField] private PlayerInputHandler _playerInputHandler;
     [SerializeField] private PauseMenuController _pauseMenuController;
     [SerializeField] private CreatureManager _creatureManager;
     [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private AudioSystem _audioSystem;
-
-    [Header("TICK CALLS")]
     [SerializeField] private VFXManager _VFXManager;
 
     private float _delta;
@@ -49,6 +48,9 @@ public class GameManager : SingletonBase
         {
             _delta = Time.deltaTime;
 
+            _playerInputHandler.Tick();
+            _pauseMenuController.Tick();
+
             _creatureManager.Tick(_delta);
             _playerManager.Tick(_delta);
             _VFXManager.Tick(_delta);
@@ -63,6 +65,18 @@ public class GameManager : SingletonBase
 
             _creatureManager.LateTick(_delta);
             _playerManager.LateTick(_delta);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (_gameState == GameState.Running)
+        {
+            _delta = Time.fixedDeltaTime;
+
+            _playerInputHandler.FixedTick();
+
+            _playerManager.FixedTick(_delta);
         }
     }
 
@@ -82,6 +96,7 @@ public class GameManager : SingletonBase
         _bloodwaveStats.Init();
         _playerStats.Init();
 
+        _playerInputHandler.Init();
         _pauseMenuController.Init();
         _creatureManager.Init();
         _playerManager.Init();
@@ -89,7 +104,7 @@ public class GameManager : SingletonBase
 
         PlayerManager.PlayerDeath += GameManager_PlayerDeath;
 
-        _gameState = GameState.Running; 
+        _gameState = GameState.Running;
     }
 
     private void Cleanup()
@@ -98,6 +113,7 @@ public class GameManager : SingletonBase
 
         PlayerManager.PlayerDeath -= GameManager_PlayerDeath;
 
+        _playerInputHandler.Cleanup();
         _pauseMenuController.Cleanup();
         _creatureManager.Cleanup();
         _playerManager.Cleanup();

@@ -49,7 +49,7 @@ public class CameraController : SingletonBase
         _transform.position = _target.position;
     }
 
-    public void Tick(float delta, float horizontal, float vertical, Transform lockOnTarget)
+    public void FixedTick(float delta, float horizontal, float vertical, Transform lockOnTarget)
     {
         FollowTarget(delta);
 
