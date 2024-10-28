@@ -17,8 +17,9 @@ MonoBehaviour:
   StaggerRecovery: 0
   StaggerThreshold: 1000
   MaxAngle: 45
-  AttackDistance: 2
-  RunDistance: 8
+  AttackDistance: 1.5
+  RunDistance: 7.5
   RotationSpeed: 2
   WalkSpeed: 2
   RunSpeed: 2
+  KeepCombatLocomotion: 1

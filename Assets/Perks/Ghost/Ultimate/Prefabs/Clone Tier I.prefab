@@ -784,11 +784,12 @@ GameObject:
   - component: {fileID: 5008616264670171006}
   - component: {fileID: 411027475808266268}
   - component: {fileID: -7096915515149961137}
-  - component: {fileID: -2198750239582975557}
+  - component: {fileID: 8731556568021761937}
   - component: {fileID: 4173405011625553698}
   - component: {fileID: 4294180797862903265}
+  - component: {fileID: 4941832696125465172}
+  - component: {fileID: -7708008532354020996}
   - component: {fileID: -187293568305983447}
-  - component: {fileID: 900162220475065758}
   m_Layer: 0
   m_Name: Clone Tier I
   m_TagString: Untagged
@@ -805,7 +806,7 @@ Transform:
   m_GameObject: {fileID: 1095002070673219539}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -895,6 +896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreatureData: {fileID: 11400000, guid: 69f3f5a18d341774d9e4b3f3fb20e6a5, type: 2}
   DefaultTarget: {fileID: 0}
+  CurrentTarget: {fileID: 0}
 --- !u!114 &411027475808266268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,12 +923,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e94021211bb61469c816613351d90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAttacking: 0
   _audioSource: {fileID: 1061900165925547253}
-  _attackDataList:
+  AttackDataList:
   - {fileID: 11400000, guid: 43fb1bb4ef023134ea4d8a61bef591f2, type: 2}
   - {fileID: 11400000, guid: 042e717eb081fa04bbf42f2473685862, type: 2}
---- !u!114 &-2198750239582975557
+--- !u!114 &8731556568021761937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -935,7 +936,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095002070673219539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f59c23f2731d354d96fc84b18f97ea9, type: 3}
+  m_Script: {fileID: 11500000, guid: b9cd8afcfe939db4d9258e63fb690a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4173405011625553698
@@ -964,6 +965,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _footstepData: {fileID: 11400000, guid: 01bc7e7543c3e804da0b01b1968e0641, type: 2}
   _audioSource: {fileID: 5357242251038079792}
+--- !u!114 &4941832696125465172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095002070673219539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e1768bdd59ed41498ab0eaf13c0fa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageReduction: 0
+--- !u!114 &-7708008532354020996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095002070673219539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebaa404d93644d91c2f47de5af6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bleedVFX: {fileID: 0}
 --- !u!114 &-187293568305983447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,20 +1005,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lockPoint: {fileID: 0}
   _center: {fileID: 0}
---- !u!114 &900162220475065758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095002070673219539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a638dcb5bbee8244db4a7528a90a132e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _center: {fileID: 0}
-  _evasionVFX: {fileID: 0}
 --- !u!1 &1100944176040279480
 GameObject:
   m_ObjectHideFlags: 0

@@ -85,7 +85,7 @@ public class EvasionPerk : PassivePerk
         {
             if (attackerObject.TryGetComponent(out Health attackerHealth))
             {
-                attackerHealth.TakeDamage(_PlayerObject, damageShielded);
+                attackerHealth.TakeDamage(_PlayerObject, damageShielded * 2);
             }
         }
 

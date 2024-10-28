@@ -15,9 +15,9 @@ MonoBehaviour:
   AttackType: 3
   AttackMode: 2
   AnimationName: Shoot
-  AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
+  AudioClip: {fileID: 8300000, guid: e6f0f2793f673ae45b5df591ec331957, type: 3}
   AudioOffset: 0
-  AudioVolume: 0
+  AudioVolume: 1
   Damage: 0
   Distance: 10
   Recovery: 1

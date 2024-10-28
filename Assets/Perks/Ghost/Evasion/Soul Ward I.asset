@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 815809088b2399146a393d5a14b101da, type: 3}
   Title: Soul Ward I
   Description: Damage absorbed by the protective barrier is restored as mana
   Tier: 4
@@ -25,5 +26,6 @@ MonoBehaviour:
   _shieldCount: 1
   _damageReflection: 0
   _manaRestoration: 1
-  _shieldExplosionPrefab: {fileID: 0}
+  _shieldExplosionVFX: {fileID: 0}
   _radius: 0
+  _damage: 50

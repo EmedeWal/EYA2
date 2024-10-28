@@ -16,7 +16,10 @@ public class CreatureAttackHandler : AttackHandler
 
     public void SelectRandomAttack(List<AttackData> attackDataList = null)
     {
-        attackDataList ??= AttackDataList;
+        if (attackDataList == null || attackDataList.Count == 0)
+        {
+            attackDataList = AttackDataList;
+        }
 
         int randomIndex = Random.Range(0, attackDataList.Count);
         AttackData = attackDataList[randomIndex];

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 4d12b2ba7b000844d89a25cc5258a460, type: 3}
   Title: Spectral Veil
   Description: After not taking damage for 10 seconds, generate a protective barrier
     that absorbs the next hit
@@ -26,5 +27,6 @@ MonoBehaviour:
   _shieldCount: 1
   _damageReflection: 0
   _manaRestoration: 0
-  _shieldExplosionPrefab: {fileID: 0}
+  _shieldExplosionVFX: {fileID: 0}
   _radius: 0
+  _damage: 50

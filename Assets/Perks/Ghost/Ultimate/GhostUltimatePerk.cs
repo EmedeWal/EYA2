@@ -95,10 +95,9 @@ public class GhostUltimatePerk : PerkData
             _VFXManager.RemoveVFX(_currentSparks.GetComponent<VFX>());
         }
 
-        List<CreatureAI> clonesToRemove = new(_cloneList);
-        for (int i = 0; i < clonesToRemove.Count; i++)
+        for (int i = _cloneList.Count - 1; i >= 0; i--)
         {
-            RemoveClone(clonesToRemove[i].gameObject);
+            RemoveClone(_cloneList[i]);
         }
     }
 
@@ -113,16 +112,17 @@ public class GhostUltimatePerk : PerkData
         clone.AnimatorManager.AttackSpeed = _attackSpeed;
 
         _cloneList.Add(clone);
+
+        clone.SetState(new IdleState(clone));
     }
 
-    private void RemoveClone(GameObject cloneObject)
+    private void RemoveClone(CreatureAI clone)
     {
-        cloneObject.GetComponent<Health>().ValueExhausted -= GhostUltimatePerk_ValueExhausted;
-        CreatureAI clone = cloneObject.GetComponent<CreatureAI>();
+        clone.Health.ValueExhausted -= GhostUltimatePerk_ValueExhausted;
         _cloneList.Remove(clone);
         clone.Cleanup();
 
-        Destroy(cloneObject);
+        Destroy(clone.gameObject);
     }
 
     private void GhostUltimatePerk_SuccesfulHit(Collider hit, int colliders, float damage, bool crit)
@@ -151,7 +151,7 @@ public class GhostUltimatePerk : PerkData
             cloneExplosion.GetComponent<Explosion>().InitExplosion(_deathExplosionData.Radius, _deathExplosionData.Damage, _TargetLayer);
         }
 
-        RemoveClone(cloneObject);
+        RemoveClone(cloneObject.GetComponent<CreatureAI>());
     }
 
     private CreatureAI SpawnClone(Transform target)

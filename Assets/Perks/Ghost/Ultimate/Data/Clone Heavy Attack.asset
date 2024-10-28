@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Clone Heavy Attack
   m_EditorClassIdentifier: 
   AttackType: 2
+  AttackMode: 2
   AnimationName: Heavy Attack
   AudioClip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
   AudioOffset: 0
   AudioVolume: 0.5
   Damage: 30
+  Distance: 0
   Recovery: 2
   AttackOffset: {x: 0, y: 1, z: -0.5}
   AttackHitBox: {x: 0, y: 0, z: 0}

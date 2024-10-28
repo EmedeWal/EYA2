@@ -15,11 +15,11 @@ MonoBehaviour:
   AttackType: 2
   AttackMode: 1
   AnimationName: Slam
-  AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
+  AudioClip: {fileID: 8300000, guid: 1500920cb9083f149bd32941d99fc490, type: 3}
   AudioOffset: 0
-  AudioVolume: 0
+  AudioVolume: 1
   Damage: 50
-  Distance: 3
+  Distance: 2.5
   Recovery: 1
   AttackOffset: {x: 0, y: 0, z: 1}
   AttackHitBox: {x: 0, y: 0, z: 0}

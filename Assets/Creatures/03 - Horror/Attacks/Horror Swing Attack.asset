@@ -15,9 +15,9 @@ MonoBehaviour:
   AttackType: 1
   AttackMode: 2
   AnimationName: Swing
-  AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
+  AudioClip: {fileID: 8300000, guid: fc20cc52cf3640a4fbed5135b7f93d10, type: 3}
   AudioOffset: 0
-  AudioVolume: 0
+  AudioVolume: 1
   Damage: 20
   Distance: 0
   Recovery: 0.5

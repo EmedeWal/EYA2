@@ -15,12 +15,13 @@ MonoBehaviour:
   AttackType: 3
   AttackMode: 0
   AnimationName: Spasm
-  AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
+  AudioClip: {fileID: 8300000, guid: 6e3f3fbbd20f00b408acef80a51bf831, type: 3}
   AudioOffset: 0
-  AudioVolume: 0
+  AudioVolume: 0.5
   Damage: 0
   Distance: 0
   Recovery: 0
   AttackOffset: {x: 0, y: 0, z: 0}
   AttackHitBox: {x: 0, y: 0, z: 0}
   AttackRadius: 0
+  _teleportDistance: 20

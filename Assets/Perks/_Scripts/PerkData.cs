@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Video;
 using UnityEngine;
 
 public class PerkData : ScriptableObject
@@ -8,6 +9,7 @@ public class PerkData : ScriptableObject
     public PerkType PerkType;
 
     [Header("INFORMATION")]
+    public VideoClip VideoClip;
     public string Title;
     public string Description;
 

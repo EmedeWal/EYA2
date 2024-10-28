@@ -16,8 +16,10 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
     [Header("ROTATION")]
     [SerializeField] private float _rotationSpeed = 15f;
 
-    [Header("GROUND CHECK")]
-    [Header("STEP CLIMB")]
+    [Header("HORIZONTAL")]
+    [SerializeField] private float _movementSpeed = 45f;
+
+    [Header("VERTICAL")]
     [SerializeField] private float _stepHeight = 0.5f;
     [SerializeField] private float _stepSmooth = 0.5f;
     [SerializeField] private float _gravity = 15f;
@@ -80,7 +82,6 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
             Vector3 vertical = _vertical * verticalDirection;
             float movement = Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput);
             _movementDirection = (horizontal + vertical).normalized;
-            _movementDirection *= MovementSpeed * _delta;
             _movementAmount = Mathf.Clamp01(movement);
 
             _canMove = !_animatorManager.GetBool("InAction");
@@ -135,8 +136,8 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
         {
             HandleStepClimb();
 
-            Vector3 movement = 10f * MovementSpeed * _movementDirection;
-            _rigidbody.velocity = new(movement.x, _rigidbody.velocity.y, movement.z);
+            _movementDirection *= MovementSpeed * _delta * _movementSpeed;
+            _rigidbody.velocity = new(_movementDirection.x, _rigidbody.velocity.y, _movementDirection.z);
         }
         else
         {
@@ -158,15 +159,20 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
 
     private void HandleStepClimb()
     {
-        Vector3 rayOrigin = _transform.position + Vector3.up * 0.1f;
+        Vector3 forwardRayOrigin = _transform.position + Vector3.up * 0.1f;
 
-        if (Physics.Raycast(rayOrigin, _movementDirection, out RaycastHit hit, _collider.radius + 0.1f))
+        if (Physics.Raycast(forwardRayOrigin, _movementDirection, out RaycastHit forwardHit, _collider.radius + 0.1f))
         {
-            float stepHeight = hit.point.y - _transform.position.y;
+            float stepHeight = forwardHit.point.y - _transform.position.y;
             if (stepHeight > 0 && stepHeight <= _stepHeight)
             {
-                Vector3 stepUpPosition = new(_transform.position.x, hit.point.y, _transform.position.z);
-                _transform.position = Vector3.Lerp(_transform.position, stepUpPosition, _stepSmooth);
+                Vector3 upwardRayOrigin = forwardHit.point + Vector3.up * 0.1f;
+                if (Physics.Raycast(upwardRayOrigin, Vector3.down, out RaycastHit topHit, _stepHeight))
+                {
+                    Vector3 stepUpPosition = new(_transform.position.x, topHit.point.y, _transform.position.z);
+                    _transform.position = Vector3.Lerp(_transform.position, stepUpPosition, _stepSmooth);
+                    _movementDirection *= 1.5f;
+                }
             }
         }
     }

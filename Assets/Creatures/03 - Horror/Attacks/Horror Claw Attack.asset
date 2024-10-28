@@ -15,9 +15,9 @@ MonoBehaviour:
   AttackType: 1
   AttackMode: 2
   AnimationName: Claw
-  AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
+  AudioClip: {fileID: 8300000, guid: f00fe687fd004b54ab2050954251e467, type: 3}
   AudioOffset: 0
-  AudioVolume: 0
+  AudioVolume: 1
   Damage: 20
   Distance: 0
   Recovery: 0.5

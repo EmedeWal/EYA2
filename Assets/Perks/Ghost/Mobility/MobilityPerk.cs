@@ -45,6 +45,11 @@ public class MobilityPerk : PassivePerk
 
     public override void Activate()
     {
+        if (_movementVFX != null)
+        {
+            EnableMovementFX(true);
+        }
+
         _momentum = 0f;
         _iceCloudTimer = 0f;
         _isMoving = _Locomotion.Moving;
@@ -56,11 +61,6 @@ public class MobilityPerk : PassivePerk
         else
         {
             StoppedMoving();
-        }
-
-        if (_movementVFX != null)
-        {
-            EnableMovementFX(true);
         }
     }
 

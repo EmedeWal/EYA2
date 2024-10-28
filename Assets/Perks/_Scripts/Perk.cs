@@ -22,6 +22,10 @@ public class Perk : MonoBehaviour, IClickable
     private AudioDataUI _audio;
     private Color _purchasedColor;
 
+    private PlayerStanceManager _playerStanceManager;
+    private PerkScreen _perkScreen;
+    private Souls _souls;
+
     public bool Locked { get; private set; } = false; 
     public bool Unlocked { get; private set; } = false; 
     public bool Purchased { get; private set; } = false;
@@ -42,6 +46,10 @@ public class Perk : MonoBehaviour, IClickable
         _stanceIcon.Background.color = Color.clear;
         _defaultSprite = _stanceIcon.Icon.sprite;
         _glowEffect.SetActive(false);
+
+        _playerStanceManager = PlayerStanceManager.Instance;
+        _perkScreen = PerkScreen.Instance;
+        _souls = Souls.Instance;
     }
 
     public virtual void OnEnter()
@@ -50,7 +58,7 @@ public class Perk : MonoBehaviour, IClickable
         {
             _glowEffect.SetActive(true);
             _audio.System.PlaySilentClip(_audio.CommonSource, _audio.UncommonSource, _audio.SelectClip, _audio.SelectVolume, _audio.SelectOffset);
-            PerkScreen.Instance.UpdatePerkScreen(_perkData.Title, _perkData.Description, _perkData.Cost, Souls.Instance.CanAfford(_perkData.Cost), Purchased);
+            _perkScreen.UpdatePerkScreen(_perkData.VideoClip, _perkData.Title, _perkData.Description, _perkData.Cost, _souls.CanAfford(_perkData.Cost), Purchased);
         }
     }
 
@@ -59,7 +67,7 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(false);
-            PerkScreen.Instance.UpdatePerkScreen();
+            _perkScreen.UpdatePerkScreen();
         }
     }
 
@@ -93,8 +101,8 @@ public class Perk : MonoBehaviour, IClickable
                 _otherBranchPerk.LockBranch();
             }
 
-            PlayerStanceManager.Instance.AddPerk(_perkData, _perkData.StanceType);
-            Souls.Instance.RemoveValue(_perkData.Cost);
+            _playerStanceManager.AddPerk(_perkData, _perkData.StanceType);
+            _souls.RemoveValue(_perkData.Cost);
         }
     }
 

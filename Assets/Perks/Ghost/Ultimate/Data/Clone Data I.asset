@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041d209c59b3e3746a539c28adbb6615, type: 3}
   m_Name: Clone Data I
   m_EditorClassIdentifier: 
+  Souls: 0
+  Health: 50
+  StaggerRecovery: 5
+  StaggerThreshold: 25
+  MaxAngle: 30
+  AttackDistance: 2
+  RunDistance: 8
   RotationSpeed: 2
   WalkSpeed: 4
   RunSpeed: 4
-  AttackDistance: 2
-  RunDistance: 8
-  Souls: 0
-  Health: 50
-  RetreatPoints: 0
-  RetreatRadius: 0
-  RetreatDegrees: 0

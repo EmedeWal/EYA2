@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 3083611d8094cf04d9da57e166cb7cd7, type: 3}
   Title: Wraith's Grace II
   Description: Continuously build up evasion chance while not taking damage, up to
     25% over 10 seconds
@@ -26,5 +27,6 @@ MonoBehaviour:
   _shieldCount: 0
   _damageReflection: 0
   _manaRestoration: 0
-  _shieldExplosionPrefab: {fileID: 0}
+  _shieldExplosionVFX: {fileID: 0}
   _radius: 4
+  _damage: 50

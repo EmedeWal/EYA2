@@ -3,7 +3,13 @@ public class IdleState : CreatureState
 {
     private Transform _target;
 
-    public IdleState(CreatureAI creatureAI) : base(creatureAI) { }
+    public IdleState(CreatureAI creatureAI) : base(creatureAI) 
+    {
+        if (!_CreatureAI.CreatureData.KeepCombatLocomotion)
+        {
+            _CreatureAI.AnimatorManager.SetBool("InCombat", false);
+        }
+    }
 
     public override void Tick(float delta)
     {

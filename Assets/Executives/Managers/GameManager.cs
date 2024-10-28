@@ -104,6 +104,9 @@ public class GameManager : SingletonBase
 
         PlayerManager.PlayerDeath += GameManager_PlayerDeath;
 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         _gameState = GameState.Running;
     }
 

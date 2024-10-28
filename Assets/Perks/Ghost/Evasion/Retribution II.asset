@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: b6fc120a3ff1cd84ca7e18183d08a6b7, type: 3}
   Title: Retribution II
   Description: When the barrier breaks, it explodes, dealing 50 damage to all nearby
     enemies

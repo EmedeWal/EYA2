@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: e6b127a23c4f94a449a75b2ae28b1221, type: 3}
   Title: Retribution I
-  Description: Damage absorbed by the protective barrier is returned as damage to
-    the attacker
+  Description: Damage absorbed by the protective barrier is doubled and returned
+    as damage to the attacker
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
@@ -26,5 +27,6 @@ MonoBehaviour:
   _shieldCount: 1
   _damageReflection: 1
   _manaRestoration: 0
-  _shieldExplosionPrefab: {fileID: 0}
+  _shieldExplosionVFX: {fileID: 0}
   _radius: 0
+  _damage: 50

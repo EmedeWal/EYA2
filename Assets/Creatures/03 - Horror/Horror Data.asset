@@ -22,3 +22,4 @@ MonoBehaviour:
   RotationSpeed: 3
   WalkSpeed: 1
   RunSpeed: 5
+  KeepCombatLocomotion: 0

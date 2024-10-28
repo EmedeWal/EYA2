@@ -21,6 +21,6 @@ MonoBehaviour:
   Damage: 10
   Distance: 1
   Recovery: 1
-  AttackOffset: {x: 0, y: 0, z: 0.5}
+  AttackOffset: {x: 0, y: 0, z: 0.75}
   AttackHitBox: {x: 0, y: 0, z: 0}
   AttackRadius: 0.5
