@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: da3e7b34136bc2248a72aff03b6e83a4, type: 3}
   Title: Spectral Stride II
   Description: While moving, evasion chance is increased by 30%
   Tier: 4

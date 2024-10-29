@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 908f5f2f3290b0a478bd1b008a571216, type: 3}
   Title: Spectral Stride III
   Description: Every 5 seconds while moving, cast a chilling aura that slows enemies
     by 50% for 5 seconds

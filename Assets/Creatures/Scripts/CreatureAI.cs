@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Uncomment this when making new creatures for quick setup
+//[RequireComponent (typeof(CreatureAnimatorManager))]
+//[RequireComponent (typeof(CreatureAttackHandler))]
+//[RequireComponent (typeof(CreatureStatManager))]
+//[RequireComponent (typeof(CreatureLocomotion))]
+//[RequireComponent (typeof(CreatureHealth))]
+//[RequireComponent (typeof(BleedHandler))]
+//[RequireComponent (typeof(LockTarget))]
 public class CreatureAI : MonoBehaviour
 {
     private CreatureState _currentState;

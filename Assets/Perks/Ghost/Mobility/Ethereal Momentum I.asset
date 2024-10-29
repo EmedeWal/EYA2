@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 7e2ac8e36b8edcb488f25bc679806feb, type: 3}
   Title: Ethereal Momentum I
   Description: While moving, build up momentum. Not moving will cause momentum to
     decrease after a short delay. Momentum increases movement speed up to 30%

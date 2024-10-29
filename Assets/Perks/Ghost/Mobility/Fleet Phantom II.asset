@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 0
+  VideoClip: {fileID: 32900000, guid: c51b4170342168f409fee7e160ec043b, type: 3}
   Title: Fleet Phantom II
   Description: +10% additional movement speed
   Tier: 2

@@ -24,16 +24,21 @@ public class ChasingState : CreatureState
         if (_target != null)
         {
             float distanceToTarget = Vector3.Distance(_CreatureAI.Transform.position, _target.position);
-            _CreatureAI.Locomotion.SetDestination(_target.position);
             UpdateLocomotion(distanceToTarget);
 
             if (_CreatureAI.IsTargetInRange(_target))
             {
+                Debug.Log("attacking state set");
                 _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
+            }
+            else
+            {
+                _CreatureAI.Locomotion.SetDestination(_target.position);
             }
         }
         else
         {
+            Debug.Log("target was null");
             _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
     }
@@ -61,7 +66,7 @@ public class ChasingState : CreatureState
 
     private void ChasingState_ValueRemoved(float amount)
     {
-        if (amount > 10)
+        if (amount >= 10)
         {
             _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
