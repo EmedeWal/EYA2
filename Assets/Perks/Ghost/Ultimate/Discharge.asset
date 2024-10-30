@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 2
-  Title: Ascendant I
-  Description: Your clone gains +50% health, +50% damage, and +10% movement speed
+  VideoClip: {fileID: 32900000, guid: 51bf5c2ba33e57e4ebe3b76c6bd442b4, type: 3}
+  Title: Discharge
+  Description: Your clone emits sparks, continuously damaging nearby enemies
   Tier: 3
   Cost: 300
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}

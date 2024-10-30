@@ -152,7 +152,6 @@ public class GhostUltimatePerk : PerkData
             cloneExplosion.GetComponent<Explosion>().InitExplosion(_deathExplosionData.Radius, _deathExplosionData.Damage, _TargetLayer);
         }
 
-        Debug.Log("Death clone");
         RemoveClone(cloneObject.GetComponent<CreatureAI>());
     }
 

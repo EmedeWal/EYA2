@@ -35,7 +35,7 @@ public class CreatureManager : MonoBehaviour
 
         for (int i = 0; i < _activeCreatureList.Count; i++)
         {
-            //_activeCreatureList[i].Tick(_delta);
+            _activeCreatureList[i].Tick(_delta);
         }
     }
 

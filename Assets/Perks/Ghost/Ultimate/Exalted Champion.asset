@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 41168089655da884b9f656d7774f67e2, type: 3}
   Title: Exalted Champion
   Description: Your clone deals 100 damage to nearby enemies when it is summoned
   Tier: 5

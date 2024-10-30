@@ -23,7 +23,7 @@ public class PlayerStats : ScriptableObject
 
         _currentStats.Clear();
 
-        _currentStats.Add(Stat.Health, _baseStats[Stat.MaxHealth] / 2);
+        _currentStats.Add(Stat.Health, _baseStats[Stat.MaxHealth]);
         _currentStats.Add(Stat.Mana, _baseStats[Stat.MaxMana]);
         _currentStats.Add(Stat.HealthRegen, 1f);
         _currentStats.Add(Stat.ManaRegen, 1f);

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 0
   PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 6239c4d9182b76d4b97bc7579b3b35ef, type: 3}
   Title: Volatile
   Description: Upon death, clones explode, dealing 50 damage to all nearby enemies
   Tier: 5
@@ -23,6 +24,9 @@ MonoBehaviour:
   _cloneCount: 3
   _minSpawnRadius: 3
   _maxSpawnRadius: 5
+  _attackSpeed: 1
+  _movementSpeed: 1
+  _damageModifier: 1
   _manaRestoration: 3
   _deathExplosionData: {fileID: 11400000, guid: ffe5e614bcd429f44bda07a3db356fee, type: 2}
   _summonExplosionData: {fileID: 0}

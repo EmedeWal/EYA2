@@ -38,11 +38,18 @@ public class CirclingState : CreatureState
 
     public override void Tick(float delta)
     {
-        Vector3 directionToPlayer = (_target.position - _CreatureAI.transform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-        _CreatureAI.transform.rotation = Quaternion.Slerp(_CreatureAI.transform.rotation, targetRotation, _CreatureAI.CreatureData.RotationSpeed * delta);
+        if (_target != null)
+        {
+            Vector3 directionToPlayer = (_target.position - _CreatureAI.transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            _CreatureAI.transform.rotation = Quaternion.Slerp(_CreatureAI.transform.rotation, targetRotation, _CreatureAI.CreatureData.RotationSpeed * delta);
 
-        if (Vector3.Distance(_CreatureAI.transform.position, _destination) <= _reachedThreshold)
+            if (Vector3.Distance(_CreatureAI.transform.position, _destination) <= _reachedThreshold)
+            {
+                _CreatureAI.SetState(new IdleState(_CreatureAI));
+            }
+        }
+        else
         {
             _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
