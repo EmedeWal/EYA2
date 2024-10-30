@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class CreatureHealth : Health
 {
-    private CreatureAI _creatureAI;
-    private CreatureData _creatureData;
-    private CreatureAnimatorManager _animatorManager;
+    [Header("STAGGER")]
+    [SerializeField] private float _staggerRecovery;
+    [SerializeField] private float _staggerThreshold;
 
+    private CreatureAnimatorManager _animatorManager;
     private float _currentStaggerValue;
 
     public override void Init(float maxValue, float currentValue)
     {
         base.Init(maxValue, currentValue);
 
-        _creatureAI = GetComponent<CreatureAI>();
         _animatorManager = GetComponent<CreatureAnimatorManager>();
-
-        _creatureData = _creatureAI.CreatureData;
 
         _currentStaggerValue = 0;
     }
@@ -24,7 +22,7 @@ public class CreatureHealth : Health
     {
         base.LateTick(delta);
 
-        _currentStaggerValue -= _creatureData.StaggerRecovery * _Delta;
+        _currentStaggerValue -= _staggerRecovery * _Delta;
     }
 
     protected override void OnValueRemoved(float amount)
@@ -34,7 +32,7 @@ public class CreatureHealth : Health
         amount = Mathf.Abs(amount);
 
         _currentStaggerValue += amount;
-        if (_currentStaggerValue >= _creatureData.StaggerThreshold)
+        if (_currentStaggerValue >= _staggerThreshold)
         {
             _animatorManager.ForceCrossFade(_Delta, "Stagger");
             _currentStaggerValue = 0;

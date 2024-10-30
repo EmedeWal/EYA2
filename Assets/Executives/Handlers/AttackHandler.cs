@@ -84,20 +84,17 @@ public abstract class AttackHandler : MonoBehaviour
 
     private void HandleDamage(float damage, bool crit)
     {
-        Collider[] validHits = GetHits().Where(hit => hit.GetComponent<Health>() != null).ToArray();
-        if (validHits.Length > 0)
+        if (GetHits(out Collider[] hits))
         {
-            Collider firstHit = validHits[0];
-            int colliders = validHits.Length;
+            Collider firstHit = GetFirstHit(hits);
+            int colliders = hits.Length;
 
-            foreach (Collider hit in validHits)
+            foreach (Collider hit in hits)
             {
-                if (hit.TryGetComponent<Health>(out var health))
-                {
-                    damage = HandleCritical(hit, damage, crit);
-                    health.TakeDamage(_GameObject, damage);
-                    OnsuccesfulHit(hit, damage, crit);
-                }
+                Health health = hit.GetComponent<Health>();
+                damage = HandleCritical(hit, damage, crit);
+                health.TakeDamage(_GameObject, damage);
+                OnsuccesfulHit(hit, damage, crit);
             }
 
             OnSuccesfulAttack(firstHit, colliders, damage, crit);
@@ -133,17 +130,45 @@ public abstract class AttackHandler : MonoBehaviour
         AttackEnded?.Invoke(attackData);
     }
 
-    private Collider[] GetHits()
+    private Collider GetFirstHit(Collider[] hits)
+    {
+        Collider closestCollider = null;
+        float minAngle = float.MaxValue;
+
+        foreach (Collider hit in hits)
+        {
+            Vector3 directionToCollider = (hit.transform.position - _Transform.position).normalized;
+            float angle = Vector3.Angle(_Transform.forward, directionToCollider);
+
+            if (angle < minAngle)
+            {
+                minAngle = angle;
+                closestCollider = hit;
+            }
+        }
+
+        return closestCollider;
+    }
+
+    private bool GetHits(out Collider[] hits)
     {
         Vector3 attackPosition = _Transform.position + _Transform.TransformDirection(_AttackData.AttackOffset);
 
         if (_AttackData.AttackRadius > 0)
         {
-            return Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
+            hits = Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
         }
         else
         {
-            return Physics.OverlapBox(attackPosition, _AttackData.AttackHitBox, _Transform.rotation, _targetLayer);
+            hits = Physics.OverlapBox(attackPosition, _AttackData.AttackHitBox, _Transform.rotation, _targetLayer);
         }
+
+        hits = hits.Where(hit => hit.GetComponent<Health>() != null).ToArray();
+
+        if (hits.Length > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

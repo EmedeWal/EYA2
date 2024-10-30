@@ -121,7 +121,7 @@ public class OffensePerk : PassivePerk
             if (colliders == 1)
             {
                 _gritValue = Mathf.Clamp(_gritValue + damage, 0f, 100f);
-                _inactiveTimer = 0;
+                _inactiveTimer = 0f;
                 ApplyGritBonuses();
             }
             else
@@ -165,8 +165,7 @@ public class OffensePerk : PassivePerk
         }
         else
         {
-            _currentGritVFX = Instantiate(_gritVFX, _PlayerTransform);
-            _VFXManager.AddMovingVFX(_currentGritVFX, _PlayerTransform);
+            _currentGritVFX = _VFXManager.AddMovingVFX(_gritVFX, _PlayerTransform);
             _currentGritVFXEmission = _currentGritVFX.GetComponent<VFXEmission>();
             _currentGritVFXEmission.Init(gritPercent * 25);
         }

@@ -1674,6 +1674,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageReduction: 0
+  _staggerRecovery: 5
+  _staggerThreshold: 100
 --- !u!114 &7513047566591105053
 MonoBehaviour:
   m_ObjectHideFlags: 0

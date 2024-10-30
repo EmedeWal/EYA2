@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleZone : MonoBehaviour
 {
     private PlayerStatTracker _statTracker;
-
+ 
     private float _criticalChanceBonus = 0;
     private float _criticalMultiplierBonus = 0;
     private float _damageReductionBonus = 0;
@@ -12,12 +11,12 @@ public class BattleZone : MonoBehaviour
 
     private int _enemyCounter = 0;
 
-    // Track whether the player is inside the battle zone
     public bool PlayerInside { get; private set; } = false;
 
     public void Init(PlayerStatTracker statTracker, float criticalChanceBonus, float criticalMultiplierBonus, float damageReductionBonus, float healthRegenBonus)
     {
         _statTracker = statTracker;
+
 
         _criticalChanceBonus = criticalChanceBonus;
         _criticalMultiplierBonus = criticalMultiplierBonus;

@@ -7,10 +7,6 @@ public class CreatureData : ScriptableObject
     public int Souls;
     public float Health;
 
-    [Header("STAGGER")]
-    public float StaggerRecovery;
-    public float StaggerThreshold;
-
     [Header("OFFENSE")]
     public float MaxAngle;
 

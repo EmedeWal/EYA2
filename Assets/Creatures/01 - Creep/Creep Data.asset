@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Souls: 10
   Health: 100
-  StaggerRecovery: 0
-  StaggerThreshold: 1000
   MaxAngle: 45
-  AttackDistance: 1.5
-  RunDistance: 7.5
+  AttackDistance: 1.25
+  RunDistance: 5
   RotationSpeed: 2
   WalkSpeed: 2
   RunSpeed: 2

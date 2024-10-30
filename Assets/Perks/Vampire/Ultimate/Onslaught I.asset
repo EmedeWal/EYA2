@@ -9,11 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae3edb7f94d8c4bb1c717d17a0feec, type: 3}
+  m_Script: {fileID: 11500000, guid: c058ba6c6c216d84aae9a68f853ec8be, type: 3}
   m_Name: Onslaught I
   m_EditorClassIdentifier: 
   StanceType: 2
+  PerkType: 2
+  VideoClip: {fileID: 0}
   Title: Onslaught I
   Description: Feasting causes your next attack to be a guaranteed critical hit
   Tier: 3
   Cost: 300
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _feastVFX: {fileID: 2020503045015299057, guid: adbe86425586e374986e3dc716a0603d, type: 3}
+  _healthGainPercentage: 10
+  _manaGainPercentage: 10
+  _attackDamageGain: 0
+  _criticalChanceGain: 0
+  _criticalMultiplierGain: 0
+  _bloodwaveStats: {fileID: 0}
+  _bloodwaveVFX: {fileID: 0}
+  _guaranteeCritical: 1

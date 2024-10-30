@@ -9,6 +9,7 @@ public class BleedHandler : MonoBehaviour
     [SerializeField] private VFX _bleedVFX;
     private VFXEmission _bleedVFXEmission;
     private VFX _currentBleedVFX;
+    private float _emissionRate;
 
     private BleedingStats _currentBleedingStats;
     private int _currentStacks;
@@ -44,6 +45,14 @@ public class BleedHandler : MonoBehaviour
         ResetBleed();
     }
 
+    public void Tick()
+    {
+        if (_bleedVFXEmission != null)
+        {
+            _bleedVFXEmission.Tick(_emissionRate);
+        }
+    }
+
     public void ApplyBleed(BleedingStats bleedingStats, int stackIncrement = 1)
     {
         _currentBleedingStats = bleedingStats;
@@ -51,6 +60,7 @@ public class BleedHandler : MonoBehaviour
         if (_coroutine != null)
         {
             _currentStacks = Mathf.Min(_currentStacks + stackIncrement, _currentBleedingStats.MaxStacks);
+            _emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
 
             StopCoroutine(_coroutine);
             HandleBleedNerfs(stackIncrement);
@@ -58,9 +68,10 @@ public class BleedHandler : MonoBehaviour
         }
         else
         {
+            _emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
             _currentBleedVFX = _VFXManager.AddMovingVFX(_bleedVFX, _center);
             _bleedVFXEmission = _currentBleedVFX.GetComponent<VFXEmission>();
-            _bleedVFXEmission.Init((float)_currentStacks / _currentBleedingStats.MaxStacks * 10);
+            _bleedVFXEmission.Init(_emissionRate);
 
             _currentStacks = stackIncrement;
             _coroutine = StartCoroutine(HandleBleed());
@@ -74,7 +85,7 @@ public class BleedHandler : MonoBehaviour
             StopCoroutine(_coroutine);
         }
 
-        _VFXManager.RemoveVFX(_currentBleedVFX);
+        _VFXManager.RemoveVFX(_currentBleedVFX, 1f);
         _statTracker.ResetStatChanges();
         _bleedVFXEmission = null;
         _currentBleedVFX = null;

@@ -28,7 +28,6 @@ public class ChasingState : CreatureState
 
             if (_CreatureAI.IsTargetInRange(_target))
             {
-                Debug.Log("attacking state set");
                 _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
             }
             else
@@ -38,7 +37,6 @@ public class ChasingState : CreatureState
         }
         else
         {
-            Debug.Log("target was null");
             _CreatureAI.SetState(new IdleState(_CreatureAI));
         }
     }

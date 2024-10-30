@@ -65,7 +65,7 @@ public abstract class AnimatorManager : MonoBehaviour
         else
         {
             _crossFading = true;
-            Invoke(nameof(ResetCrossFading), transitionDuration + 0.1f);
+            Invoke(nameof(ResetCrossFading), transitionDuration + 0.15f);
             Animator.CrossFade(animationName, transitionDuration, layer, delta);
         }
         return true;

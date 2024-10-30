@@ -46,7 +46,8 @@ public class CameraController : SingletonBase
         _transform = transform;
         _pivot = _CameraTransform.parent;
 
-        _transform.position = _target.position;
+        _transform.SetPositionAndRotation(_target.position, _target.rotation);
+        _lookAngle = _transform.rotation.eulerAngles.y;
     }
 
     public void FixedTick(float delta, float horizontal, float vertical, Transform lockOnTarget)
@@ -63,7 +64,6 @@ public class CameraController : SingletonBase
             _smoothX = horizontal;
             _smoothY = vertical;
         }
-
 
         _tiltAngle -= _smoothY * _rotationSpeed;
         _tiltAngle = Mathf.Clamp(_tiltAngle, _mimimumAngle, _maximumAngle);

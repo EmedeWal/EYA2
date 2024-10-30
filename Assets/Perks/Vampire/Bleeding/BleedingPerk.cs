@@ -35,6 +35,14 @@ public class BleedingPerk : PassivePerk
         _bleedingEnemies = new();
     }
 
+    public override void Tick(float delta)
+    {
+        foreach (BleedHandler handler in _bleedingEnemies)
+        {
+            handler.Tick();
+        }
+    }
+
     public override void Activate()
     {
         CreatureManager.CreatureDeath += BleedingPerk_CreatureDeath;
@@ -84,7 +92,7 @@ public class BleedingPerk : PassivePerk
 
                 UpdateBleedingStats();
                 BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
-                bloodEruption.InitBloodEruption(stacks, _currentBleedingStats, _bloodEruptionRadius, 1f, _TargetLayer);
+                bloodEruption.InitBloodEruption(_bloodEruptionRadius, 1f, stacks, _TargetLayer, _currentBleedingStats);
             }
         }
     }

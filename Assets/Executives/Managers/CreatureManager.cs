@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 using System;
 
@@ -36,7 +35,7 @@ public class CreatureManager : MonoBehaviour
 
         for (int i = 0; i < _activeCreatureList.Count; i++)
         {
-            _activeCreatureList[i].Tick(_delta);
+            //_activeCreatureList[i].Tick(_delta);
         }
     }
 
@@ -61,6 +60,7 @@ public class CreatureManager : MonoBehaviour
     private void AddCreature(CreatureAI creature)
     {
         _activeCreatureList.Add(creature);
+        creature.gameObject.tag = "Enemy";
         creature.Init(_creatureLayer, _targetLayer, PlayerTransform);
         creature.Health.ValueExhausted += CreatureManager_ValueExhausted;
     }

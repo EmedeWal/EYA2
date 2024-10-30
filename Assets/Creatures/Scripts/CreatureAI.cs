@@ -33,8 +33,8 @@ public class CreatureAI : MonoBehaviour
         Transform = transform;
 
         gameObject.layer = Mathf.RoundToInt(Mathf.Log(creatureLayer.value, 2));
-        TargetLayer = targetLayer;
         DefaultTarget = defaultTarget;
+        TargetLayer = targetLayer;
 
         AnimatorManager = GetComponent<CreatureAnimatorManager>();
         AttackHandler = GetComponent<CreatureAttackHandler>();

@@ -6,10 +6,10 @@ public class BloodEruption : AreaOfEffect
     private BleedingStats _bleedingStats;
     private int _stacks;
 
-    public void InitBloodEruption(int stacks, BleedingStats bleedingStats, float radius, float delay, LayerMask targetLayer)
+    public void InitBloodEruption(float radius, float delay, int stacks, LayerMask targetLayer, BleedingStats bleedingStats)
     {
-        _stacks = stacks;
         _bleedingStats = bleedingStats;
+        _stacks = stacks;
 
         StartCoroutine(InitCoroutine());
         IEnumerator InitCoroutine()
@@ -23,7 +23,7 @@ public class BloodEruption : AreaOfEffect
     {
         if (hit.TryGetComponent(out BleedHandler bleedHandler))
         {
-            bleedHandler.ApplyBleed(_bleedingStats);
+            bleedHandler.ApplyBleed(_bleedingStats, _stacks);
         }
     }
 }

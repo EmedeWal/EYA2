@@ -40,12 +40,13 @@ public class GhostUltimatePerk : PerkData
 
         _creatureLayer = LayerMask.GetMask("Controller");
         _avoidLayers = LayerMask.GetMask("DamageCollider", "Controller");
+
+        _cloneList = new();
     }
 
     public override void Activate()
     {
         Transform target = _Lock.Target;
-        _cloneList = new List<CreatureAI>();
         _currentSparks = null;
 
         for (int i = 0; i < _cloneCount; i++)
@@ -151,6 +152,7 @@ public class GhostUltimatePerk : PerkData
             cloneExplosion.GetComponent<Explosion>().InitExplosion(_deathExplosionData.Radius, _deathExplosionData.Damage, _TargetLayer);
         }
 
+        Debug.Log("Death clone");
         RemoveClone(cloneObject.GetComponent<CreatureAI>());
     }
 
