@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 0
+  VideoClip: {fileID: 32900000, guid: b580e6e0cdff7c24a9f1a97d2988aa0b, type: 3}
   Title: Might II
   Description: Increases attack damage by an additional  10%
   Tier: 2

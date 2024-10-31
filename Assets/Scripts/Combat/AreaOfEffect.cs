@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -10,13 +11,19 @@ public abstract class AreaOfEffect : MonoBehaviour
 
     public virtual void Init(float radius, LayerMask targetLayers, Collider colliderToIgnore = null)
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, targetLayers);
+        List<Collider> hits = new();
+        hits.AddRange(Physics.OverlapSphere(transform.position, radius, targetLayers));
 
-        OnHitsDetected(hits.Length);
+        if (colliderToIgnore != null && hits.Contains(colliderToIgnore))
+        {
+            hits.Remove(colliderToIgnore);
+        }
+
+        OnHitsDetected(hits.Count);
 
         foreach (Collider hit in hits)
         {
-            if (hit != colliderToIgnore) Effect(hit);
+            Effect(hit);
         }
     }
 

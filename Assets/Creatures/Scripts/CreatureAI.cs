@@ -61,9 +61,9 @@ public class CreatureAI : MonoBehaviour
 
     public virtual void Tick(float delta)
     {
-        Locomotion.Tick(delta);
-
-        _currentState?.Tick(delta);
+        float locomotionValue = Locomotion.GetLocomotionValue();
+        AnimatorManager.Tick(delta, locomotionValue);   
+        //_currentState?.Tick(delta);
     }
 
     public virtual void LateTick(float delta)

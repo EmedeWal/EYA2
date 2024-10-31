@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 649692037a22b1942acfcab6031fea61, type: 3}
   Title: Stone Wall II
   Description: While not moving, health regen is increased by 3/s
   Tier: 5
   Cost: 500
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _buffVFX: {fileID: -5093769480058398699, guid: 805755f672b1b4d4d876c374aa949f0b, type: 3}
-  _damageReductionIncrease: 10
+  _damageReductionIncrease: 20
   _healthRegenIncrease: 3
   _enableResurrection: 0
   _resurrectionHealThreshold: 0

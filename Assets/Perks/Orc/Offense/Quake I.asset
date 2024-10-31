@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 7afe20e354b4d3244b628356cdc7340e, type: 3}
   Title: Qauke I
   Description: Attacks cause shockwaves around your closest target, dealing 30% of
     the original damage to nearby targets
@@ -21,9 +22,9 @@ MonoBehaviour:
   Cost: 300
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _quakeVFX: {fileID: 2187127703201070337, guid: a491e4208bfa8aa40a3dfbc80202065a, type: 3}
-  _quakeRadius: 1
+  _quakeRadius: 2
   _quakeDamagePercentage: 30
-  _ignoreInitialTarget: 1
+  damageInitialTarget: 0
   _quakeBuffVFX: {fileID: 0}
   _quakeBuffDuration: 0
   _quakeBuffTargetRequirement: 0

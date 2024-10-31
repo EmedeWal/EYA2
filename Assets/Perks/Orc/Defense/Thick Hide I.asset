@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 0
+  VideoClip: {fileID: 32900000, guid: 27bc396efe8973a428d90a9532ef4286, type: 3}
   Title: Thick Hide I
-  Description: Gain +5% damage reduction
+  Description: Gain +10% damage reduction
   Tier: 1
   Cost: 100
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _targetStat: 12
-  _increment: 5
+  _increment: 10

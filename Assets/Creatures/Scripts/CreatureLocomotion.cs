@@ -17,11 +17,6 @@ public class CreatureLocomotion : MonoBehaviour, IMovingProvider
         _maxSpeed = speed;
     }
 
-    public void Tick(float delta)
-    {
-        _animatorManager.Tick(delta, GetLocomotionValue());
-    }
-
     public void SetDestination(Vector3 position)
     {
         _navMeshAgent.SetDestination(position);

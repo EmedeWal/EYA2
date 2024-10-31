@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 5e30c6092c143d443ac7b40b828c98f0, type: 3}
   Title: Qauke II
   Description: Whenever a single shockwave hits at least 3 enemies, gain a 30% damage
     boost for 3 seconds
@@ -21,9 +22,9 @@ MonoBehaviour:
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _quakeVFX: {fileID: 2187127703201070337, guid: a491e4208bfa8aa40a3dfbc80202065a, type: 3}
-  _quakeRadius: 1
+  _quakeRadius: 2
   _quakeDamagePercentage: 30
-  _ignoreInitialTarget: 1
+  damageInitialTarget: 0
   _quakeBuffVFX: {fileID: 2020503045015299057, guid: aa9c4b104a781c64fa06cbcdd8d175c2, type: 3}
   _quakeBuffDuration: 3
   _quakeBuffTargetRequirement: 3

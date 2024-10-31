@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 0dded338f15975f4584c7c414881c78d, type: 3}
   Title: Grit II
   Description: Grit raises critical chance up to 30%
   Tier: 4
@@ -22,7 +23,7 @@ MonoBehaviour:
   _quakeVFX: {fileID: 0}
   _quakeRadius: 0
   _quakeDamagePercentage: 0
-  _ignoreInitialTarget: 0
+  damageInitialTarget: 1
   _quakeBuffVFX: {fileID: 0}
   _quakeBuffDuration: 0
   _quakeBuffTargetRequirement: 0

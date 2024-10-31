@@ -8,7 +8,7 @@ public class OffensePerk : PassivePerk
     [SerializeField] private VFX _quakeVFX;
     [SerializeField] private float _quakeRadius = 1f;
     [SerializeField] private float _quakeDamagePercentage = 30f;
-    [SerializeField] private bool _ignoreInitialTarget = true;
+    [SerializeField] private bool damageInitialTarget = true;
     private Explosion _currentExplosion;
 
     [Header("QUAKE BUFF")]
@@ -75,16 +75,17 @@ public class OffensePerk : PassivePerk
         {
             Transform transform = hit.TryGetComponent(out LockTarget lockTarget) ? lockTarget.Center : hit.transform;
             VFX quakeVFX = _VFXManager.AddMovingVFX(_quakeVFX, transform, 1f);
-            _AudioSystem.PlayAudio(quakeVFX.GetComponent<AudioSource>(), quakeVFX.GetComponent<AudioSource>().clip, quakeVFX.GetComponent<AudioSource>().volume);
 
-            if (_ignoreInitialTarget)
+            if (damageInitialTarget)
+            {
                 hit = null;
+            }
+
+            float finalDamage = damage / 100 * _quakeDamagePercentage;
 
             _currentExplosion = quakeVFX.GetComponent<Explosion>();
             _currentExplosion.HitsDetected += OffensePerk_HitsDetected;
-
-            float finalDamage = damage / 100 * _quakeDamagePercentage;
-            _currentExplosion.InitExplosion(_quakeRadius, finalDamage, _TargetLayer);
+            _currentExplosion.InitExplosion(_quakeRadius, finalDamage, _TargetLayer, hit);
         }
     }
 
@@ -102,16 +103,19 @@ public class OffensePerk : PassivePerk
 
     private void OffensePerk_HitsDetected(int hits)
     {
-        if (hits >= _quakeBuffTargetRequirement)
+        if (_quakeBuffVFX != null && hits >= _quakeBuffTargetRequirement)
         {
             _quakeBuffTimer = 0;
+            _StatTracker.IncrementStat(Stat.AttackDamageModifier, _quakeBuffDamageIncrease);
+
             if (_currentQuakeBuffVFX == null)
             {
                 _currentQuakeBuffVFX = _VFXManager.AddMovingVFX(_quakeBuffVFX, _PlayerTransform);
             }
-            _StatTracker.IncrementStat(Stat.AttackDamageModifier, _quakeBuffDamageIncrease);
         }
+
         _currentExplosion.HitsDetected -= OffensePerk_HitsDetected;
+        _currentExplosion = null;
     }
 
     private void HandleGritEffect(int colliders, float damage)

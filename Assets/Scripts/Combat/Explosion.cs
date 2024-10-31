@@ -5,7 +5,7 @@ public class Explosion : AreaOfEffect
     [Header("DAMAGE")]
     [SerializeField] private float Damage;
 
-    public void InitExplosion(float radius, float damage, LayerMask targetLayers, float audioOffset = 0, Collider colliderToIgnore = null)
+    public void InitExplosion(float radius, float damage, LayerMask targetLayers, Collider colliderToIgnore = null, float audioOffset = 0)
     {
         Damage = damage;
 

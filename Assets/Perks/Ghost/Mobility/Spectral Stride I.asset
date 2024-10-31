@@ -16,7 +16,7 @@ MonoBehaviour:
   PerkType: 1
   VideoClip: {fileID: 32900000, guid: 641ee126fd66f874fafbbfc83c22db24, type: 3}
   Title: Spectral Stride I
-  Description: While moving, mana regeneration is increased by 1/s
+  Description: While moving, mana regeneration is increased by 3/s
   Tier: 3
   Cost: 300
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
@@ -26,7 +26,7 @@ MonoBehaviour:
   _movementVFX: {fileID: 2020503045015299057, guid: 84bc1d14ee6c00f4697cac52193b683d, type: 3}
   _buffEmissionRate: 5
   _evasionChanceIncrease: 0
-  _manaRegenIncrease: 1
+  _manaRegenIncrease: 3
   _momentumVFX: {fileID: 0}
   _momentumIncreaseRate: 0
   _momentumDecreaseRate: 0

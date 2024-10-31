@@ -148,9 +148,10 @@ public class OrcUltimate : PerkData
         if (_currentBattleZone.PlayerInside && crit)
         {
             VFX slashVFX = _VFXManager.AddStaticVFX(_slashVFX, _PlayerTransform.position, _PlayerTransform.rotation, 1f);
+
             Explosion explosion = slashVFX.GetComponent<Explosion>();
             float finalDamage = damage / 100 * _slashDamagePercentage;
-            explosion.InitExplosion(_slashRadius, finalDamage, _TargetLayer, 0.05f);
+            explosion.InitExplosion(_slashRadius, finalDamage, _TargetLayer, null, 0.05f);
         }
     }
 }

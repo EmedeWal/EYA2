@@ -27,7 +27,7 @@ MonoBehaviour:
   _movementVFX: {fileID: 2020503045015299057, guid: 84bc1d14ee6c00f4697cac52193b683d, type: 3}
   _buffEmissionRate: 5
   _evasionChanceIncrease: 30
-  _manaRegenIncrease: 1
+  _manaRegenIncrease: 3
   _momentumVFX: {fileID: 0}
   _momentumIncreaseRate: 0
   _momentumDecreaseRate: 0

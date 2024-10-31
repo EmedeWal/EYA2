@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 660f7119779ad5a48912d7af75c93109, type: 3}
   Title: Unyielding II
-  Description: All of your health is now restored upon resisting death. Decreases
-    cooldown by 30 seconds
+  Description: All of your health is now restored upon resisting death. Cooldown
+    decreased to 45 seconds
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _buff: {fileID: 0}
-  _buffEmissionRate: 0
+  _buffVFX: {fileID: 0}
   _damageReductionIncrease: 0
   _healthRegenIncrease: 0
   _enableResurrection: 1
   _resurrectionHealThreshold: 100
-  _cooldown: 90
+  _cooldown: 45

@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 6a2f70f578185894c864615ced89a05e, type: 3}
   Title: Unyielding I
   Description: When taking lethal damage, resist death, instantly healing to half
-    your max health. This effect has a 120 second cooldown
+    your max health. This effect has a 60 second cooldown
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _buff: {fileID: 0}
-  _buffEmissionRate: 0
+  _buffVFX: {fileID: 0}
   _damageReductionIncrease: 0
   _healthRegenIncrease: 0
   _enableResurrection: 1
   _resurrectionHealThreshold: 50
-  _cooldown: 120
+  _cooldown: 60

@@ -17,11 +17,11 @@ MonoBehaviour:
   VideoClip: {fileID: 32900000, guid: 3083611d8094cf04d9da57e166cb7cd7, type: 3}
   Title: Wraith's Grace II
   Description: Continuously build up evasion chance while not taking damage, up to
-    25% over 10 seconds
+    30% over 10 seconds
   Tier: 2
   Cost: 200
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _maxEvasionChanceIncrease: 25
+  _maxEvasionChanceIncrease: 30
   _completionTime: 10
   _shieldVFX: {fileID: 0}
   _shieldCount: 0

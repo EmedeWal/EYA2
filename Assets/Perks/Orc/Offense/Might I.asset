@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 0
+  VideoClip: {fileID: 32900000, guid: 6f0f42b99db319e45917353e818a2bef, type: 3}
   Title: Might I
   Description: Increases attack damage by 10%
   Tier: 1

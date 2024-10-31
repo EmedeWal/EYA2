@@ -21,7 +21,7 @@ MonoBehaviour:
   Tier: 5
   Cost: 500
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
-  _maxEvasionChanceIncrease: 25
+  _maxEvasionChanceIncrease: 30
   _completionTime: 10
   _shieldVFX: {fileID: 3706289112890616631, guid: 448d42e40f1322b4dabf0605c2569765, type: 3}
   _shieldCount: 1

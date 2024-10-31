@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 0
+  VideoClip: {fileID: 32900000, guid: 1339fb0d27763fa41ad619f334050118, type: 3}
   Title: Metabolism
   Description: Increase health regen by 1/s
   Tier: 3

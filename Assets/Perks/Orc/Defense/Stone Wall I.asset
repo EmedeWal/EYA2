@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 786d4865d1f8a4b409b3c24072d04004, type: 3}
   Title: Stone Wall I
-  Description: While not moving, gain +10% damage reduction
+  Description: While not moving, gain +20% damage reduction
   Tier: 4
   Cost: 400
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
   _buffVFX: {fileID: -5093769480058398699, guid: 805755f672b1b4d4d876c374aa949f0b, type: 3}
-  _damageReductionIncrease: 10
+  _damageReductionIncrease: 20
   _healthRegenIncrease: 0
   _enableResurrection: 0
   _resurrectionHealThreshold: 0
