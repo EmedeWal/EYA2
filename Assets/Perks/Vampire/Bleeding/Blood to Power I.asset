@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 2
   PerkType: 1
+  VideoClip: {fileID: 0}
   Title: Blood to Power I
-  Description: For each enemy inflicted with bleeding, bleed damage is increased
-    by 1
+  Description: 'For each enemy inflicted with bleeding, bleed duration is increased
+    by 1 second '
   Tier: 2
   Cost: 200
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
@@ -24,10 +25,12 @@ MonoBehaviour:
   _damage: 1
   _duration: 5
   _stacksBonus: 0
-  _damageBonus: 1
-  _durationBonus: 0
+  _damageBonus: 0
+  _durationBonus: 1
   _bloodEruptionVFX: {fileID: 0}
   _bloodEruptionRadius: 0
   _healthGain: 0
+  _damageReductionModifier: 0.05
+  _damageInflictedModifier: 0.05
   _damageModifier: 1
   _durationModifier: 1

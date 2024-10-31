@@ -67,7 +67,6 @@ public class Perk : MonoBehaviour, IClickable
         if (Unlocked)
         {
             _glowEffect.SetActive(false);
-            _perkScreen.UpdatePerkScreen();
         }
     }
 

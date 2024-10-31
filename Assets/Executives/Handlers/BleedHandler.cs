@@ -21,6 +21,8 @@ public class BleedHandler : MonoBehaviour
 
     private VFXManager _VFXManager;
 
+    private float _remainingDuration;
+
     public int CurrentStacks => _currentStacks;
 
     public event Action<BleedHandler> BleedFinished;
@@ -33,7 +35,7 @@ public class BleedHandler : MonoBehaviour
             { Stat.AttackDamageModifier, 0 }
         };
 
-        _statTracker = new CreatureStatTracker (statChanges, GetComponent<CreatureStatManager>());
+        _statTracker = new CreatureStatTracker(statChanges, GetComponent<CreatureStatManager>());
         _center = GetComponent<LockTarget>().Center;
         _health = GetComponent<Health>();
 
@@ -57,30 +59,24 @@ public class BleedHandler : MonoBehaviour
     {
         _currentBleedingStats = bleedingStats;
 
-        if (_coroutine != null)
-        {
-            _currentStacks = Mathf.Min(_currentStacks + stackIncrement, _currentBleedingStats.MaxStacks);
-            _emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
+        _currentStacks = Mathf.Min(_currentStacks + stackIncrement, _currentBleedingStats.MaxStacks);
+        _emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
+        _remainingDuration = _currentBleedingStats.Duration;
 
-            StopCoroutine(_coroutine);
-            HandleBleedNerfs(stackIncrement);
-            _coroutine = StartCoroutine(HandleBleed());
-        }
-        else
+        if (_currentBleedVFX == null)
         {
-            _emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
             _currentBleedVFX = _VFXManager.AddMovingVFX(_bleedVFX, _center);
             _bleedVFXEmission = _currentBleedVFX.GetComponent<VFXEmission>();
             _bleedVFXEmission.Init(_emissionRate);
-
-            _currentStacks = stackIncrement;
-            _coroutine = StartCoroutine(HandleBleed());
         }
+
+        _coroutine ??= StartCoroutine(HandleBleed());
+        HandleBleedNerfs(stackIncrement);
     }
 
     public void ResetBleed()
     {
-       if (_coroutine != null )
+        if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
@@ -110,13 +106,9 @@ public class BleedHandler : MonoBehaviour
 
     private IEnumerator HandleBleed()
     {
-        float duration = _currentBleedingStats.Duration;
-
-        while (duration > 0)
+        while (_remainingDuration > 0)
         {
             yield return new WaitForSeconds(1f);
-
-            if (_health == null) yield break;
 
             float totalDamage = _currentBleedingStats.Damage * _currentStacks;
             _health.TakeDamage(null, totalDamage);
@@ -124,7 +116,7 @@ public class BleedHandler : MonoBehaviour
             float emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
             _bleedVFXEmission.Tick(emissionRate);
 
-            duration--;
+            _remainingDuration--;
         }
 
         ResetBleed();

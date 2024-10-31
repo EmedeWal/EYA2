@@ -43,8 +43,6 @@ public class PerkScreen : SingletonBase
     {
         _videoPlayer = GetComponent<VideoPlayer>();
         _iconImage.sprite = _iconSprite;
-
-        UpdatePerkScreen();
     }
 
     public void UpdatePerkScreen(VideoClip videoClip = null, string title = "", string description = "", int cost = 0, bool canAfford = false, bool purchased = true)

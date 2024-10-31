@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 1277775e3b2b9284aba0f25839a3e78a, type: 3}
   Title: Shatter Earth III
   Description: t the end of your ultimate, the initial three shockwaves are repeated
   Tier: 5

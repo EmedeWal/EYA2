@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 2e6fbbf2e8ba43c4793521167031e95c, type: 3}
   Title: Champion's Stand III
   Description: Critical hits within the battle zone command the wind to slice enemies,
     dealing 25 damage in their path
@@ -31,7 +32,7 @@ MonoBehaviour:
   _battleZoneVFX: {fileID: 5177020097236791314, guid: f4b1ded481027aa4a87e96df96ed5d95, type: 3}
   _criticalChance: 25
   _criticalMultiplier: 0.5
-  _damageReduction: 5
+  _damageReduction: 10
   _healthRegen: 1
   _slashVFX: {fileID: 1471233285595021482, guid: 57d46d1d032bd5b4fb31b4fd1fdd5ed1, type: 3}
   _slashRadius: 1

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 2
   PerkType: 1
+  VideoClip: {fileID: 0}
   Title: Blood to Power III
-  Description: For each enemy inflicted with bleeding, maximum bleed stacks are increased
+  Description: For each enemy inflicted with bleeding, bleed damage is increased
     by 1
   Tier: 4
   Cost: 400
@@ -29,5 +30,7 @@ MonoBehaviour:
   _bloodEruptionVFX: {fileID: 0}
   _bloodEruptionRadius: 0
   _healthGain: 0
+  _damageReductionModifier: 0.05
+  _damageInflictedModifier: 0.05
   _damageModifier: 1
   _durationModifier: 1

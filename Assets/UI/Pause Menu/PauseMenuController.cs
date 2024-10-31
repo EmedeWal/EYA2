@@ -29,6 +29,7 @@ public class PauseMenuController : MonoBehaviour
 
     private PlayerInputHandler _playerInputHandler;
     private TimeSystem _timeSystem;
+    private PerkScreen _perkScreen;
 
     private GameObject _holder;
     private LayerMask _clickable;
@@ -55,8 +56,9 @@ public class PauseMenuController : MonoBehaviour
 
         _playerInputHandler = PlayerInputHandler.Instance;
         _timeSystem = TimeSystem.Instance;
+        _perkScreen = PerkScreen.Instance;
 
-        PerkScreen.Instance.Init();
+        _perkScreen.Init();
 
         _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
         _holder.SetActive(false);
@@ -126,6 +128,7 @@ public class PauseMenuController : MonoBehaviour
     private void PauseMenu_PauseInputPerformed()
     {
         _playerInputHandler.PauseInputPerformed -= PauseMenu_PauseInputPerformed;
+        _perkScreen.UpdatePerkScreen();
 
         if (_holder.activeSelf)
         {

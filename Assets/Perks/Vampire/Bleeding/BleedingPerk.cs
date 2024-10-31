@@ -79,21 +79,16 @@ public class BleedingPerk : PassivePerk
     {
         BleedHandler bleedHandler = creature.BleedHandler;
 
-        if (_bleedingEnemies.Contains(bleedHandler))
+        if (_bleedingEnemies.Contains(bleedHandler) && _bloodEruptionVFX != null)
         {
-            bleedHandler.ResetBleed();
+            Transform transform = creature.transform;
+            int stacks = bleedHandler.CurrentStacks;
 
-            if (_bloodEruptionVFX != null)
-            {
-                Transform transform = creature.transform;
-                int stacks = bleedHandler.CurrentStacks;
+            VFX bloodEruptionVFX = _VFXManager.AddStaticVFX(_bloodEruptionVFX, transform.position, transform.rotation, 3f);
 
-                VFX bloodEruptionVFX = _VFXManager.AddStaticVFX(_bloodEruptionVFX, transform.position, transform.rotation, 3f);
-
-                UpdateBleedingStats();
-                BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
-                bloodEruption.InitBloodEruption(_bloodEruptionRadius, 1f, stacks, _TargetLayer, _currentBleedingStats);
-            }
+            UpdateBleedingStats();
+            BloodEruption bloodEruption = bloodEruptionVFX.GetComponent<BloodEruption>();
+            bloodEruption.InitBloodEruption(_bloodEruptionRadius, 1f, stacks, _TargetLayer, _currentBleedingStats);
         }
     }
 

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceType: 1
   PerkType: 2
+  VideoClip: {fileID: 32900000, guid: b6a6429711e72a345877dc75dceedbbb, type: 3}
   Title: Shatter Earth I
   Description: Slam the ground, causing three shockwaves, up to 60 damage
   Tier: 1
@@ -32,4 +33,6 @@ MonoBehaviour:
   _criticalMultiplier: 0
   _damageReduction: 0
   _healthRegen: 0
-  _windVFX: {fileID: 0}
+  _slashVFX: {fileID: 0}
+  _slashRadius: 1
+  _slashDamagePercentage: 50
