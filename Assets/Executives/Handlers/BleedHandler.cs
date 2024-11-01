@@ -70,8 +70,12 @@ public class BleedHandler : MonoBehaviour
             _bleedVFXEmission.Init(_emissionRate);
         }
 
+        if (_currentStacks < _currentBleedingStats.MaxStacks)
+        {
+            HandleBleedNerfs(stackIncrement);
+        }
+
         _coroutine ??= StartCoroutine(HandleBleed());
-        HandleBleedNerfs(stackIncrement);
     }
 
     public void ResetBleed()
@@ -92,7 +96,7 @@ public class BleedHandler : MonoBehaviour
 
     private void HandleBleedNerfs(int stacks)
     {
-        float damageReductionDecrement = -(stacks * _currentBleedingStats.DamageInflictedModifier);
+        float damageReductionDecrement = -(stacks * _currentBleedingStats.DamageReductionModifier);
         float damageInflictionDecrement = -(stacks * _currentBleedingStats.DamageInflictedModifier);
 
         _statTracker.IncrementStat(Stat.DamageReduction, damageReductionDecrement);

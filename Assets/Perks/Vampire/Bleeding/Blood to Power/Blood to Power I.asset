@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55fb3057025ed2e41bc34d068202e67b, type: 3}
+  m_Name: Blood to Power I
+  m_EditorClassIdentifier: 
+  StanceType: 2
+  PerkType: 1
+  VideoClip: {fileID: 32900000, guid: a15fed22e3c584f418f64fe457cd2c70, type: 3}
+  Title: Blood to Power I
+  Description: 'For each enemy inflicted with bleeding, bleed duration is increased
+    by 1 second '
+  Tier: 2
+  Cost: 200
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _maxStacks: 5
+  _damage: 1
+  _duration: 5
+  _stacksBonus: 0
+  _damageBonus: 0
+  _durationBonus: 1
+  _bloodEruptionVFX: {fileID: 0}
+  _bloodEruptionRadius: 0
+  _healthGain: 0
+  _damageReductionModifier: 0.05
+  _damageInflictedModifier: 0.05
+  _damageModifier: 1
+  _durationModifier: 1

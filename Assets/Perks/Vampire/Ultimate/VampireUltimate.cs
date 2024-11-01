@@ -62,7 +62,7 @@ public class VampireUltimate : PerkData
 
     private void VampireUltimate_CreatureDeath(CreatureAI creature)
     {
-        _VFXManager.AddMovingVFX(_feastVFX, _PlayerTransform, 1f);
+        _VFXManager.AddMovingVFX(_feastVFX, _PlayerTransform, 2f);
 
         _Health.Heal(_PlayerStats.GetBaseStat(Stat.MaxHealth) / 100 * _healthGainPercentage);
         _Mana.Gain(_PlayerStats.GetBaseStat(Stat.MaxMana) / 100 * _manaGainPercentage);   

@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Horror Data
   m_EditorClassIdentifier: 
   Souls: 250
-  Health: 1000
-  StaggerRecovery: 5
-  StaggerThreshold: 100
+  Health: 500
   MaxAngle: 45
   AttackDistance: 2
   RunDistance: 10

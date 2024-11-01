@@ -728,6 +728,7 @@ MonoBehaviour:
   CreatureData: {fileID: 11400000, guid: 6c49b6b95c1f2dc468ca960ff819ff20, type: 2}
   DefaultTarget: {fileID: 0}
   CurrentTarget: {fileID: 0}
+  Active: 0
   _retreatPoints: 9
   _retreatRadius: 3
   _retreatDegrees: 360
@@ -813,7 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageReduction: 0
   _staggerRecovery: 1
-  _staggerThreshold: 150
+  _staggerThreshold: 50
 --- !u!114 &4680166466173171604
 MonoBehaviour:
   m_ObjectHideFlags: 0

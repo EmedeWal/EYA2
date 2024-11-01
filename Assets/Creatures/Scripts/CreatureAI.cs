@@ -20,6 +20,10 @@ public class CreatureAI : MonoBehaviour
     public Health Health { get; private set; }
     public LayerMask TargetLayer { get; private set; }
 
+
+    public bool Active;
+
+
     public virtual void Init(LayerMask creatureLayer, LayerMask targetLayer, Transform defaultTarget = null)
     {
         Transform = transform;
@@ -55,7 +59,11 @@ public class CreatureAI : MonoBehaviour
     {
         float locomotionValue = Locomotion.GetLocomotionValue();
         AnimatorManager.Tick(delta, locomotionValue);   
-        //_currentState?.Tick(delta);
+
+        if (Active)
+        {
+            _currentState?.Tick(delta);
+        }
     }
 
     public virtual void LateTick(float delta)

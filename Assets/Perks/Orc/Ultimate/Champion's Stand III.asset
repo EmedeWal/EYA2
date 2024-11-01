@@ -16,8 +16,8 @@ MonoBehaviour:
   PerkType: 2
   VideoClip: {fileID: 32900000, guid: 2e6fbbf2e8ba43c4793521167031e95c, type: 3}
   Title: Champion's Stand III
-  Description: Critical hits within the battle zone command the wind to slice enemies,
-    dealing 25 damage in their path
+  Description: Critical hits within the battle zone command energy to slice around
+    you, dealing half of the attack's damage
   Tier: 5
   Cost: 500
   _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}

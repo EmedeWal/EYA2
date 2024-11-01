@@ -23,9 +23,10 @@ public class PauseMenuController : MonoBehaviour
     private List<Header> _headers = new();
 
     [Header("CURSOR")]
-    [SerializeField] private Image _cursorImage; 
+    [SerializeField] private Image _cursorImage;
     [SerializeField] private float _cursorSpeed = 5f;
-    private Vector3 _cursorPosition = new(Screen.width / 2, Screen.height / 2, 0);
+    [SerializeField] private float _cursorOffset = 25f;
+    private Vector2 _cursorPosition = new(Screen.width / 2, Screen.height / 2);
 
     private PlayerInputHandler _playerInputHandler;
     private TimeSystem _timeSystem;
@@ -88,14 +89,15 @@ public class PauseMenuController : MonoBehaviour
             float horizontalInput = _playerInputHandler._LeftStickX;
             float verticalInput = _playerInputHandler._LeftStickY;
 
-            _cursorPosition += _cursorSpeed * _delta * 100 * new Vector3(horizontalInput, verticalInput, 0);
+            _cursorPosition += _cursorSpeed * _delta * 100 * new Vector2(horizontalInput, verticalInput);
 
             _cursorPosition.x = Mathf.Clamp(_cursorPosition.x, 0, Screen.width);
             _cursorPosition.y = Mathf.Clamp(_cursorPosition.y, 0, Screen.height);
 
             _cursorImage.transform.position = _cursorPosition;
 
-            if (TryGetRayCast(_cursorPosition, _clickable, out GameObject hitObject))
+            Vector3 raycastPosition = new (_cursorPosition.x - _cursorOffset, _cursorPosition.y + _cursorOffset, 0);
+            if (TryGetRayCast(raycastPosition, _clickable, out GameObject hitObject))
             {
                 if (hitObject.TryGetComponent(out IClickable clickable))
                 {
