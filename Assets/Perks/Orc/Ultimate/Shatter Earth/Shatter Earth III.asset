@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e6a91dad3ca6b449addcb168e3fae2, type: 3}
+  m_Name: Shatter Earth III
+  m_EditorClassIdentifier: 
+  StanceType: 1
+  PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 1277775e3b2b9284aba0f25839a3e78a, type: 3}
+  Title: Shatter Earth III
+  Description: At the end of your ultimate, the initial three shockwaves are repeated
+  Tier: 5
+  Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _shockwaveVFX: {fileID: 9148684078751338392, guid: 9c4e8813fbd20e74e82dd44cd8d3f337, type: 3}
+  _shockwaveScaling: 2
+  _repeatShockwaves: 1
+  _tremorVFX: {fileID: -124718739322429350, guid: 781b86573f475764b9e841b71e4e8f41, type: 3}
+  _tremorRadius: 4
+  _tremorDamage: 10
+  _tremorSlowSpeed: 15
+  _tremorSlowPercentage: 70
+  _battleZoneVFX: {fileID: 0}
+  _criticalChance: 0
+  _criticalMultiplier: 0
+  _damageReduction: 0
+  _healthRegen: 0
+  _slashVFX: {fileID: 0}
+  _slashRadius: 1
+  _slashDamagePercentage: 50

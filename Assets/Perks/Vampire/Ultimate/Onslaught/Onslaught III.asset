@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c058ba6c6c216d84aae9a68f853ec8be, type: 3}
+  m_Name: Onslaught III
+  m_EditorClassIdentifier: 
+  StanceType: 2
+  PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 219366358c34f2e49af9898969431d73, type: 3}
+  Title: Onslaught III
+  Description: Blood waves scale with your critical damage modifier
+  Tier: 5
+  Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _feastVFX: {fileID: 2020503045015299057, guid: adbe86425586e374986e3dc716a0603d, type: 3}
+  _healthGainPercentage: 10
+  _manaGainPercentage: 10
+  _attackDamageGain: 0
+  _criticalChanceGain: 0
+  _criticalMultiplierGain: 0
+  _bloodwaveStats: {fileID: 11400000, guid: 3da9e19359c1ffc40b89554de1b06014, type: 2}
+  _bloodwaveVFX: {fileID: 310482668351928372, guid: d5322a263b57eae49b1677914d535700, type: 3}
+  _guaranteeCritical: 1

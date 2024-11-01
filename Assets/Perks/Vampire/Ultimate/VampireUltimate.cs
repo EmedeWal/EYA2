@@ -25,10 +25,7 @@ public class VampireUltimate : PerkData
     {
         base.Init(playerObject, perks, statChanges);
 
-        if (_bloodwaveStats != null)
-        {
-            _bloodwaveStats.ActivateMultiplier();
-        }
+        _bloodwaveStats?.ActivateMultiplier();
     }
 
     public override void Activate()

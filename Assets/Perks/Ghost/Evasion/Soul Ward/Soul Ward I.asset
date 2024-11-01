@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11278a1dbbaf8e94f917f4364ab92eb6, type: 3}
+  m_Name: Soul Ward I
+  m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 1
+  VideoClip: {fileID: 32900000, guid: 815809088b2399146a393d5a14b101da, type: 3}
+  Title: Soul Ward I
+  Description: Damage absorbed by the protective barrier is restored as mana
+  Tier: 4
+  Cost: 400
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _maxEvasionChanceIncrease: 30
+  _completionTime: 10
+  _shieldVFX: {fileID: 3706289112890616631, guid: 448d42e40f1322b4dabf0605c2569765, type: 3}
+  _shieldCount: 1
+  _damageReflection: 0
+  _manaRestoration: 1
+  _shieldExplosionVFX: {fileID: 0}
+  _radius: 0
+  _damage: 50

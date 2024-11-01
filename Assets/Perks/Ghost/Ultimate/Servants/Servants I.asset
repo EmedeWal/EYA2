@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9be107908cfe548a5cf2dafa26c968, type: 3}
+  m_Name: Servants I
+  m_EditorClassIdentifier: 
+  StanceType: 0
+  PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 4ba01aea9493e7842bf30cebe82bb7ab, type: 3}
+  Title: Servants I
+  Description: Manifest an additional clone
+  Tier: 2
+  Cost: 200
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _clonePrefab: {fileID: 5008616264670171006, guid: c27c9be3e3db7384d9bfa7e9c4b663e3, type: 3}
+  _cloneCount: 2
+  _minSpawnRadius: 3
+  _maxSpawnRadius: 5
+  _attackSpeed: 1
+  _movementSpeed: 1
+  _damageModifier: 1
+  _manaRestoration: 0
+  _deathExplosionData: {fileID: 0}
+  _summonExplosionData: {fileID: 0}
+  _sparksVFX: {fileID: 0}
+  _sparksDamage: 0
+  _sparksRadius: 0

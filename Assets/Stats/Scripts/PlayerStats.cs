@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 [CreateAssetMenu(fileName = "PlayerStats", menuName = "Scriptable Object/Stats/PlayerStats")]
 public class PlayerStats : ScriptableObject
@@ -37,11 +38,17 @@ public class PlayerStats : ScriptableObject
             { Stat.AttackDamageModifier, 1f },
             { Stat.LightAttackDamageModifier, 1f },
             { Stat.HeavyAttackDamageModifier, 1f },
+        };
+
+        Dictionary<Stat, float> totalStats = new()
+        {
             { Stat.MovementSpeed, RecalculateTotal(Stat.MovementSpeed) },
             { Stat.AttackSpeed, RecalculateTotal(Stat.AttackSpeed) },
             { Stat.LightAttackDamage, RecalculateTotal(Stat.LightAttackDamage) },
             { Stat.HeavyAttackDamage, RecalculateTotal(Stat.HeavyAttackDamage) }
         };
+
+        _currentStats.AddRange(totalStats);
     }
 
     public void IncrementStat(Stat stat, float amount)

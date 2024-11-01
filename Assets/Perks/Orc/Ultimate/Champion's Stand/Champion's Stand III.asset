@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e6a91dad3ca6b449addcb168e3fae2, type: 3}
+  m_Name: Champion's Stand III
+  m_EditorClassIdentifier: 
+  StanceType: 1
+  PerkType: 2
+  VideoClip: {fileID: 32900000, guid: 2e6fbbf2e8ba43c4793521167031e95c, type: 3}
+  Title: Champion's Stand III
+  Description: Critical hits within the battle zone command energy to slice around
+    you, dealing half of the attack's damage
+  Tier: 5
+  Cost: 500
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _shockwaveVFX: {fileID: 0}
+  _shockwaveScaling: 0
+  _repeatShockwaves: 0
+  _tremorVFX: {fileID: 0}
+  _tremorRadius: 0
+  _tremorDamage: 0
+  _tremorSlowSpeed: 0
+  _tremorSlowPercentage: 0
+  _battleZoneVFX: {fileID: 5177020097236791314, guid: f4b1ded481027aa4a87e96df96ed5d95, type: 3}
+  _criticalChance: 25
+  _criticalMultiplier: 0.5
+  _damageReduction: 10
+  _healthRegen: 1
+  _slashVFX: {fileID: 1471233285595021482, guid: 57d46d1d032bd5b4fb31b4fd1fdd5ed1, type: 3}
+  _slashRadius: 1
+  _slashDamagePercentage: 50

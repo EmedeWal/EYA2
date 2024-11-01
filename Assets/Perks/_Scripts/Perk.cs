@@ -132,7 +132,7 @@ public class Perk : MonoBehaviour, IClickable
     {
         if (Purchased) return false;
 
-        if ((_previousPerk != null && !_previousPerk.Purchased) || !Souls.Instance.CanAfford(_perkData.Cost))
+        if ((_previousPerk != null && !_previousPerk.Purchased) || !_souls.CanAfford(_perkData.Cost))
         {
             _audio.System.PlayAudio(_audio.FailedSource, _audio.FailedClip, _audio.FailedVolume, _audio.FailedOffset, false); 
             return false;

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a96f4ec2d8879148849135f1e513e31, type: 3}
+  m_Name: Thick Hide II
+  m_EditorClassIdentifier: 
+  StanceType: 1
+  PerkType: 0
+  VideoClip: {fileID: 32900000, guid: facbf1e902a5c8b4b9f265cc3a0fe0a1, type: 3}
+  Title: Thick Hide II
+  Description: Gain an additional +10% damage reduction
+  Tier: 2
+  Cost: 200
+  _PlayerStats: {fileID: 11400000, guid: 6be5e0f691ffea6478c4ca7c9a1528e8, type: 2}
+  _targetStat: 12
+  _increment: 10
