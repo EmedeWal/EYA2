@@ -27,14 +27,14 @@ public class PlayerInputHandler : SingletonBase
 
     #region Left Stick
     private Vector2 _leftStickValue;
-    public float _LeftStickX { get; private set; }
-    public float _LeftStickY { get; private set; }
+    public float LeftStickX { get; private set; }
+    public float LeftStickY { get; private set; }
     #endregion
 
     #region Right Stick
     private Vector2 _rightStickValue;
-    public float _RightStickX { get; private set; }
-    public float _RightStickY { get; private set; }
+    public float RightStickX { get; private set; }
+    public float RightStickY { get; private set; }
     #endregion
 
     public event Action LockOnInputPerformed;
@@ -137,11 +137,11 @@ public class PlayerInputHandler : SingletonBase
 
     private void CalculateInput()
     {
-        _LeftStickX = _leftStickValue.x;
-        _LeftStickY = _leftStickValue.y;
+        LeftStickX = _leftStickValue.x;
+        LeftStickY = _leftStickValue.y;
 
-        _RightStickX = _rightStickValue.x;
-        _RightStickY = _rightStickValue.y;
+        RightStickX = _rightStickValue.x;
+        RightStickY = _rightStickValue.y;
     }
 
     #region Combat Actions

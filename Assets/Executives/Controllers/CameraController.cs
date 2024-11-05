@@ -50,9 +50,12 @@ public class CameraController : SingletonBase
         _lookAngle = _transform.rotation.eulerAngles.y;
     }
 
-    public void FixedTick(float delta, float horizontal, float vertical, Transform lockOnTarget)
+    public void Tick(float delta, Transform target, Vector2 input)
     {
         FollowTarget(delta);
+
+        float horizontal = input.x;
+        float vertical = input.y;
 
         if (_turnSmoothing > 0)
         {
@@ -69,9 +72,9 @@ public class CameraController : SingletonBase
         _tiltAngle = Mathf.Clamp(_tiltAngle, _mimimumAngle, _maximumAngle);
         _pivot.localRotation = Quaternion.Euler(_tiltAngle, 0, 0);
 
-        if (lockOnTarget != null)
+        if (target != null)
         {
-            Vector3 targetDirection = lockOnTarget.position - _transform.position;
+            Vector3 targetDirection = target.position - _transform.position;
             targetDirection.Normalize();
             targetDirection.y = 0;
 

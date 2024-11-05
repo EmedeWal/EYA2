@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimatorManager : AnimatorManager
+public class PlayerAnimatorManager : BaseAnimatorManager
 {
     private int _animatorHorizontal;
     private int _animatorVertical;

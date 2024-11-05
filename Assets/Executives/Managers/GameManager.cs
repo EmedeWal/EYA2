@@ -123,7 +123,7 @@ public class GameManager : SingletonBase
         _VFXManager.Cleanup();
     }
 
-    private void GameManager_DeathAnimationFinished(AnimatorManager animatorManager)
+    private void GameManager_DeathAnimationFinished(BaseAnimatorManager animatorManager)
     {
         animatorManager.DeathAnimationFinished -= GameManager_DeathAnimationFinished;
 
@@ -132,7 +132,7 @@ public class GameManager : SingletonBase
         Debug.Log("Death animation finished. Player died. Not implemented");
     }
 
-    private void GameManager_PlayerDeath(AnimatorManager animatorManager)
+    private void GameManager_PlayerDeath(BaseAnimatorManager animatorManager)
     {
         animatorManager.DeathAnimationFinished += GameManager_DeathAnimationFinished;
 

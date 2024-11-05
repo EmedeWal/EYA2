@@ -35,7 +35,7 @@ public class Tremor : ConstantAreaDamage
         if (collider.TryGetComponent(out CreatureAI creature) && _minimumAnimatorSpeed < 1)
         {
             CreatureStatManager statManager = creature.StatManager;
-            AnimatorManager animatorManager = creature.AnimatorManager;
+            BaseAnimatorManager animatorManager = creature.AnimatorManager;
 
             float currentSpeed = statManager.GetStat(Stat.MovementSpeedModifier);
             float newSpeed = Mathf.Max(currentSpeed - _animatorSlowSpeed * delta, _minimumAnimatorSpeed);

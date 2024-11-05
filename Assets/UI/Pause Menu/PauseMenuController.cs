@@ -86,8 +86,8 @@ public class PauseMenuController : MonoBehaviour
         {
             _delta = Time.unscaledDeltaTime;
 
-            float horizontalInput = _playerInputHandler._LeftStickX;
-            float verticalInput = _playerInputHandler._LeftStickY;
+            float horizontalInput = _playerInputHandler.LeftStickX;
+            float verticalInput = _playerInputHandler.LeftStickY;
 
             _cursorPosition += _cursorSpeed * _delta * 100 * new Vector2(horizontalInput, verticalInput);
 

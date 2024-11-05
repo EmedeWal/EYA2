@@ -3,11 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data/Attack")]
 public class AttackData : ScriptableObject
 {
-    [Header("ENUM")]
-    public AttackType AttackType;
-    public AttackMode AttackMode;
-
-    [Header("ANIMATION")]
+    [Header("ANIMATIONS")]
     public string AnimationName;
 
     [Header("AUDIO")]
@@ -22,7 +18,12 @@ public class AttackData : ScriptableObject
     public float Distance = 0;
     public float Recovery = 1;
 
+    [Header("ENUM")]
+    public AttackType AttackType;
+    public AttackMode AttackMode;
+
     [Header("HITBOX")]
+    public int OriginIndex;
     public Vector3 AttackOffset;
     public Vector3 AttackHitBox;
     public float AttackRadius;

@@ -104,8 +104,8 @@ public class PlayerLock : MonoBehaviour
 
     private void ManageLockSwap()
     {
-        float rightStickX = _inputHandler._RightStickX;
-        float rightStickY = _inputHandler._RightStickY;
+        float rightStickX = _inputHandler.RightStickX;
+        float rightStickY = _inputHandler.RightStickY;
 
         if (Mathf.Abs(rightStickX) > _stickSensitivity || Mathf.Abs(rightStickY) > _stickSensitivity)
         {

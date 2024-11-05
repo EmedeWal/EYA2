@@ -104,7 +104,7 @@ public class GhostUltimatePerk : PerkData
 
     private void AddClone(CreatureAI clone, Transform target)
     {
-        clone.GetComponent<AttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
+        clone.GetComponent<BaseAttackHandler>().SuccessfulAttack += GhostUltimatePerk_SuccesfulHit;
         clone.GetComponent<Health>().ValueExhausted += GhostUltimatePerk_ValueExhausted;
         clone.Init(_creatureLayer, _TargetLayer, target);
 

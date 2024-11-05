@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAttackHandler : AttackHandler
+public class PlayerAttackHandler : BaseAttackHandler
 {
     [Header("PLAYER STATS")]
     [SerializeField] private PlayerStats _stats;

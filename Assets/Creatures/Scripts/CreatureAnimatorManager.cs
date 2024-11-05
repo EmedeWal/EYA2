@@ -1,6 +1,6 @@
 using System;
 
-public class CreatureAnimatorManager : AnimatorManager
+public class CreatureAnimatorManager : BaseAnimatorManager
 {
     public event Action SpawnAnimationFinished;
 

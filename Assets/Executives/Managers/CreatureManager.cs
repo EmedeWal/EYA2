@@ -73,7 +73,7 @@ public class CreatureManager : MonoBehaviour
         Destroy(creature);
     }
 
-    private void CreatureManager_DeathAnimationFinished(AnimatorManager animatorManager)
+    private void CreatureManager_DeathAnimationFinished(BaseAnimatorManager animatorManager)
     {
         animatorManager.DeathAnimationFinished -= CreatureManager_DeathAnimationFinished;
         Destroy(animatorManager.gameObject);

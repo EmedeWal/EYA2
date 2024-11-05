@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatureAttackHandler : AttackHandler
+public class CreatureAttackHandler : BaseAttackHandler
 {
     [Header("DATA REFERENCES")]
     public List<AttackData> AttackDataList = new();

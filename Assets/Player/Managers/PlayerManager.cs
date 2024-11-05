@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
     private Transform _target = null;
 
-    public static event Action<AnimatorManager> PlayerDeath;
+    public static event Action<BaseAnimatorManager> PlayerDeath;
 
     public void Init()
     {
@@ -81,13 +81,13 @@ public class PlayerManager : MonoBehaviour
 
         Vector3 xDirection = _cameraController._CameraTransform.right;
         Vector3 yDirection = _cameraController._CameraTransform.forward;
-        float leftStickX = _inputHandler._LeftStickX;
-        float leftStickY = _inputHandler._LeftStickY;
-        float rightStickX = _inputHandler._RightStickX;
-        float rightStickY = _inputHandler._RightStickY;
+        float leftStickX = _inputHandler.LeftStickX;
+        float leftStickY = _inputHandler.LeftStickY;
+        float rightStickX = _inputHandler.RightStickX;
+        float rightStickY = _inputHandler.RightStickY;
 
         _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
-        _cameraController.FixedTick(_delta, rightStickX, rightStickY, _target);
+        _cameraController.Tick(_delta, _target, new Vector2(rightStickX, rightStickY));
     }
 
     public void Cleanup()
