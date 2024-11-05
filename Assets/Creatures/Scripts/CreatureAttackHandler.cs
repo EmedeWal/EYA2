@@ -4,17 +4,17 @@ using UnityEngine;
 public class CreatureAttackHandler : BaseAttackHandler
 {
     [Header("DATA REFERENCES")]
-    public List<AttackData> AttackDataList = new();
+    public List<BaseAttackData> AttackDataList = new();
 
-    public AttackData AttackData { get; private set; } = null;
+    public BaseAttackData AttackData { get; private set; } = null;
     public float DamageModifier { private get; set; } = 1;
 
-    public void SelectAttack(AttackData attackData)
+    public void SelectAttack(BaseAttackData attackData)
     {
         AttackData = attackData;
     }
 
-    public void SelectRandomAttack(List<AttackData> attackDataList = null)
+    public void SelectRandomAttack(List<BaseAttackData> attackDataList = null)
     {
         if (attackDataList == null || attackDataList.Count == 0)
         {

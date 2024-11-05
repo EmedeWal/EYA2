@@ -8,14 +8,21 @@ namespace Player
     {
         private InputHandler _inputHandler;
         private AnimatorManager _animatorManager;
+        private Locomotion _locomotion;
         private LayerMask _targetLayer;
 
         [Header("ATTACK ORIGINS")]
-        [SerializeField] private List<DamageCollider> _damageColliderList = new();
+        [SerializeField] private List<HitCollider> _hitColliderList = new();
 
         [Header("ATTACK LIST")]
         [SerializeField] private List<AttackData> _attackDataList;
-        private AttackData _currentAttackData;
+        private AttackData _attackData;
+
+        [Header("ANIMATION STRINGS")]
+        [SerializeField] private string _lightW = "Right Slash 2 [LW0]";
+        [SerializeField] private string _lightD;
+        [SerializeField] private string _heavyW = "Right Slash 1 [HW0]";
+        [SerializeField] private string _heavyD;
 
         [Header("SETTINGS")]
         [SerializeField] private float _comboTime = 0.2f;
@@ -24,80 +31,88 @@ namespace Player
         {
             _inputHandler = GetComponent<InputHandler>();
             _animatorManager = GetComponent<AnimatorManager>();
+            _locomotion = GetComponent<Locomotion>();
             _targetLayer = LayerMask.GetMask("DamageCollider");
 
-            foreach (DamageCollider collider in _damageColliderList)
+            foreach (HitCollider hitCollider in _hitColliderList)
             {
-                collider.Init(_targetLayer);
+                hitCollider.Init(_targetLayer);
+                
+                foreach (AttackData attackData in _attackDataList)
+                {
+                    if (hitCollider.HitBoxType == attackData.HitBoxType)
+                    {
+                        attackData.HitCollider = hitCollider;
+                    }
+                }
             }
 
             _inputHandler.LightAttackInputPerformed += AttackHandler_LightAttackInputPerformed;
             _inputHandler.HeavyAttackInputPerformed += AttackHandler_HeavyAttackInputPerformed;
+
+            Attack.StateEntered += AttackHandler_StateEntered;
         }
 
         public void Cleanup()
         {
             _inputHandler.LightAttackInputPerformed -= AttackHandler_LightAttackInputPerformed;
             _inputHandler.HeavyAttackInputPerformed -= AttackHandler_HeavyAttackInputPerformed;
+
+            Attack.StateEntered -= AttackHandler_StateEntered;
         }
 
-        public void AttackStart(string name)
+        private void AttackHandler_StateEntered(int animationHash)
         {
+            _attackData = _attackDataList.Find(data => data.AnimationHash == animationHash);
+
+            // Something regarding audio, but no audio system here yet
+        }
+
+        public void AttackStart()
+        {
+            _attackData.HitCollider.Activate(_attackData.Damage);
             _animatorManager.SetBool("CanRotate", false);
-
-            foreach (DamageCollider colider in _damageColliderList)
-            {
-                if (colider.Name == name)
-                {
-                    colider.Activate(_currentAttackData.Damage);
-                    break;
-                }
-            }
         }
 
-        public void AttackEnd(string name)
+        public void AttackEnd()
         {
-            foreach (DamageCollider colider in _damageColliderList)
-            {
-                if (colider.Name == name)
-                {
-                    colider.Deactivate();
-                    break;
-                }
-            }
+            _attackData.HitCollider.Deactivate();
         }
 
         private void AttackHandler_LightAttackInputPerformed()
         {
-            StopAllCoroutines();
-            Attack(_attackDataList[0]);
-            StartCoroutine(ManageAnimatorCoroutine(_comboTime, "R1Press"));
-
-            _animatorManager.SetBool("R2Press", false);
+            UseAttack(_lightW, _lightD, "R1Press", "R2Press");
         }
 
         private void AttackHandler_HeavyAttackInputPerformed()
         {
+            UseAttack(_heavyW, _heavyD, "R2Press", "R1Press");
+        }
+
+        private void UseAttack(string walking, string dashing, string buttonPressed, string buttonNotPressed)
+        {
             StopAllCoroutines();
-            Attack(_attackDataList[1]);
-            StartCoroutine(ManageAnimatorCoroutine(_comboTime, "R2Press"));
+            StartCoroutine(ManageAnimatorCoroutine(_comboTime, buttonPressed, buttonNotPressed));
 
-            _animatorManager.SetBool("R1Press", false);
+            string animationName = walking;
+            float deltaTime = Time.deltaTime;
+
+            if (_locomotion.Dashing)
+            {
+                animationName = dashing;
+            }
+
+            _animatorManager.CrossFade(deltaTime, animationName);
         }
 
-        private void Attack(AttackData attackData)
+        private IEnumerator ManageAnimatorCoroutine(float delay, string buttonPressed, string buttonNotPressed)
         {
-            _currentAttackData = attackData;
-            _animatorManager.CrossFade(Time.deltaTime, _currentAttackData.AnimationName);
-        }
-
-        private IEnumerator ManageAnimatorCoroutine(float delay, string button)
-        {
-            _animatorManager.SetBool(button, true);
+            _animatorManager.SetBool(buttonNotPressed, false);
+            _animatorManager.SetBool(buttonPressed, true);
 
             yield return new WaitForSeconds(delay);
 
-            _animatorManager.SetBool(button, false);
+            _animatorManager.SetBool(buttonPressed, false);
         }
     }
 }

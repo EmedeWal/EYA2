@@ -25,7 +25,7 @@ public class HorrorAI : CreatureAI
         _throwAttackData.Init(_firePoint, targetLayer);
     }
 
-    public override void DetermineBehavior(AttackData attackData, Transform target)
+    public override void DetermineBehavior(BaseAttackData attackData, Transform target)
     {
         if (attackData.AttackType == AttackType.Heavy && IsTargetBehind(target))
         {
@@ -45,7 +45,7 @@ public class HorrorAI : CreatureAI
     {
         CurrentTarget = target;
 
-        List<AttackData> viableAttacks = new();
+        List<BaseAttackData> viableAttacks = new();
 
         float distance = GetDistanceToTarget(target);
         float attackRange = CreatureData.AttackDistance;

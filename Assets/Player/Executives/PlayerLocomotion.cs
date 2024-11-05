@@ -197,12 +197,12 @@ public class PlayerLocomotion : MonoBehaviour, IMovingProvider
         }
     }
 
-    private void PlayerLocomotion_AttackHalfway(AttackData attackData)
+    private void PlayerLocomotion_AttackHalfway(BaseAttackData attackData)
     {
         _canRotate = false;
     }
 
-    private void PlayerLocomotion_AttackEnded(AttackData attackData)
+    private void PlayerLocomotion_AttackEnded(BaseAttackData attackData)
     {
         _canRotate = true;
     }

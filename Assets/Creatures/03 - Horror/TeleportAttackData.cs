@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Teleport Attack Data", menuName = "Scriptable Object/Data/Attack Data/Teleport")]
-public class TeleportAttackData : AttackData
+public class TeleportAttackData : BaseAttackData
 {
     [Header("DISTANCE")]
     [SerializeField] private float _teleportDistance = 20f;

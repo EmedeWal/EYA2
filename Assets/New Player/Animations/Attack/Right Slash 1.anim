@@ -113450,7 +113450,7 @@ AnimationClip:
   m_Events:
   - time: 0.5
     functionName: AttackStart
-    data: Sword_Right
+    data: 
     objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
     floatParameter: 0
     intParameter: 0

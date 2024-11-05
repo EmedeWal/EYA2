@@ -11,7 +11,7 @@ public abstract class BaseAttackHandler : MonoBehaviour
     protected CreatureAI _creatureAI;
     protected BaseAnimatorManager _AnimatorManager;
     protected AudioSystem _AudioSystem;
-    protected AttackData _AttackData;
+    protected BaseAttackData _AttackData;
     protected VFXManager _VFXManager;
     protected GameObject _GameObject;
     protected Transform _Transform;
@@ -25,9 +25,9 @@ public abstract class BaseAttackHandler : MonoBehaviour
     public delegate void SuccessfulHitDelegate(Collider hit, float damage, bool crit);
     public event SuccessfulHitDelegate SuccessfulHit;
 
-    public event Action<AttackData> AttackBegun;
-    public event Action<AttackData> AttackHalfway;
-    public event Action<AttackData> AttackEnded;
+    public event Action<BaseAttackData> AttackBegun;
+    public event Action<BaseAttackData> AttackHalfway;
+    public event Action<BaseAttackData> AttackEnded;
 
     public virtual void Init(LayerMask targetLayer)
     {
@@ -74,7 +74,7 @@ public abstract class BaseAttackHandler : MonoBehaviour
         OnAttackEnded(_AttackData);
     }
 
-    protected void HandleAttack(AttackData attackData)
+    protected void HandleAttack(BaseAttackData attackData)
     {
         if (!_AnimatorManager.GetBool("InAction") && _AnimatorManager.CrossFade(_Delta, attackData.AnimationName))
         {
@@ -115,17 +115,17 @@ public abstract class BaseAttackHandler : MonoBehaviour
         SuccessfulHit?.Invoke(hit, damage, crit);
     }
 
-    private void OnAttackBegun(AttackData attackData)
+    private void OnAttackBegun(BaseAttackData attackData)
     {
         AttackBegun?.Invoke(attackData);
     }
 
-    private void OnAttackHalfway(AttackData attackData)
+    private void OnAttackHalfway(BaseAttackData attackData)
     {
         AttackHalfway?.Invoke(attackData);
     }
 
-    private void OnAttackEnded(AttackData attackData)
+    private void OnAttackEnded(BaseAttackData attackData)
     {
         AttackEnded?.Invoke(attackData);
     }

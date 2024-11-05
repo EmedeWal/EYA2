@@ -6,8 +6,8 @@ public class PlayerAttackHandler : BaseAttackHandler
     [SerializeField] private PlayerStats _stats;
 
     [Header("ATTACK DATA")]
-    [SerializeField] private AttackData _lightAttackData;
-    [SerializeField] private AttackData _heavyAttackData;
+    [SerializeField] private BaseAttackData _lightAttackData;
+    [SerializeField] private BaseAttackData _heavyAttackData;
 
     [Header("CRIT EFFECTS")]
     [SerializeField] private VFX _critVFX;

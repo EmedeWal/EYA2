@@ -27,6 +27,8 @@ namespace Player
         private float _locomotion;
         private float _speed;
 
+        public bool Dashing { get; private set; }
+
         public void Init()
         {
             _characterController = GetComponent<CharacterController>();
@@ -53,6 +55,7 @@ namespace Player
             yDirection *= input.y;
             _movementAmount = input.magnitude;
             _speed = target ? _walkSpeed : _dashSpeed;
+            Dashing = _locomotion > 0.9f && _speed == _dashSpeed;
             _movementDirection = (xDirection + yDirection).normalized;
 
             _animatorManager.UpdateAnimatorValues(delta, _locomotion, input.x, input.y, true, target);

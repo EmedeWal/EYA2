@@ -138,7 +138,7 @@ public class MasteryPerk : PassivePerk
         }
     }
 
-    private void MasteryPerk_AttackBegun(AttackData attackData)
+    private void MasteryPerk_AttackBegun(BaseAttackData attackData)
     {
         foreach (var comboData in _comboDataList)
         {
@@ -146,7 +146,7 @@ public class MasteryPerk : PassivePerk
         }
     }
 
-    private void MasteryPerk_AttackEnded(AttackData attackData)
+    private void MasteryPerk_AttackEnded(BaseAttackData attackData)
     {
         AttackType attackType = attackData.AttackType;
 

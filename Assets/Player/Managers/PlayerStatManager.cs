@@ -6,8 +6,8 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField] private PlayerStats _stats;
 
     [Header("ATTACK DATA REFERENCES")]
-    [SerializeField] private AttackData _lightAttackData;
-    [SerializeField] private AttackData _heavyAttackData;
+    [SerializeField] private BaseAttackData _lightAttackData;
+    [SerializeField] private BaseAttackData _heavyAttackData;
 
     private PlayerAnimatorManager _animatorManager;
     private PlayerLocomotion _locomotion;

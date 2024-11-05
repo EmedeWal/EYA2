@@ -27,9 +27,12 @@ namespace Player
 
         public event Action LockOnInputPerformed;
         public event Action UltimateInputPerformed;
+
         public event Action SwapStanceInputPerformed;
         public event Action LightAttackInputPerformed;
         public event Action HeavyAttackInputPerformed;
+        public event Action BlockInputPerformed;
+        public event Action SpecialInputPerformed;
 
         public event Action BackInputPerformed;
         public event Action ClickInputPerformed;
@@ -40,6 +43,12 @@ namespace Player
 
         InputActions _inputActions;
 
+        //[Header("SETTINGS")]
+        //[SerializeField] private float _comboInputTimer = 0.1f;
+        private bool _shoulderPressed = false;
+        private bool _stickPressed = false;
+
+
         public void Init()
         {
             _inputActions ??= new InputActions();
@@ -49,12 +58,12 @@ namespace Player
             _inputActions.Movement.RightStick.performed += indexer => RightStickInput = indexer.ReadValue<Vector2>();
             _inputActions.Movement.RightStick.canceled += indexer => RightStickInput = indexer.ReadValue<Vector2>();
 
-            _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
-            _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
+            _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
+            _inputActions.Actions.DPadLeftRight.performed += OnMoveSliderInputPerformed;
             _inputActions.Actions.Options.performed += OnPauseInputPerformed;
             _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
-            _inputActions.Actions.DPadLeftRight.performed += OnMoveSliderInputPerformed;
-            _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
+            _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
+            _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
 
             ListenToCombatActions(true);
 
@@ -68,12 +77,12 @@ namespace Player
             _inputActions.Movement.RightStick.performed -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
             _inputActions.Movement.RightStick.canceled -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
 
-            _inputActions.Actions.ButtonEast.performed -= OnBackInputPerformed;
-            _inputActions.Actions.ButtonSouth.performed -= OnClickInputPerformed;
+            _inputActions.Actions.DPadUpDown.performed -= OnSwapSectionInputPerformed;
+            _inputActions.Actions.DPadLeftRight.performed -= OnMoveSliderInputPerformed;
             _inputActions.Actions.Options.performed -= OnPauseInputPerformed;
             _inputActions.Actions.Shoulders.performed -= OnSwapHeaderInputPerformed;
-            _inputActions.Actions.DPadLeftRight.performed -= OnMoveSliderInputPerformed;
-            _inputActions.Actions.DPadUpDown.performed -= OnSwapSectionInputPerformed;
+            _inputActions.Actions.ButtonEast.performed -= OnBackInputPerformed;
+            _inputActions.Actions.ButtonSouth.performed -= OnClickInputPerformed;
 
             ListenToCombatActions(false);
 
@@ -84,7 +93,8 @@ namespace Player
         {
             if (subscribe)
             {
-                _inputActions.Actions.R3Press.performed += OnLockOnInputPerformed;
+                _inputActions.Actions.L3Press.performed += HandleL3PressPerformed;
+                _inputActions.Actions.R3Press.performed += HandleR3PressPerformed;
                 _inputActions.Actions.LeftTrigger.performed += OnUltimateInputPerformed;
                 _inputActions.Actions.LeftShoulder.performed += OnSwapStanceInputPerformed;
                 _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
@@ -92,7 +102,8 @@ namespace Player
             }
             else
             {
-                _inputActions.Actions.R3Press.performed -= OnLockOnInputPerformed;
+                _inputActions.Actions.L3Press.performed -= HandleL3PressPerformed;
+                _inputActions.Actions.R3Press.performed -= HandleR3PressPerformed;
                 _inputActions.Actions.LeftTrigger.performed -= OnUltimateInputPerformed;
                 _inputActions.Actions.LeftShoulder.performed -= OnSwapStanceInputPerformed;
                 _inputActions.Actions.RightShoulder.performed -= OnLightAttackInputPerformed;
@@ -101,6 +112,65 @@ namespace Player
         }
 
         #region Combat Actions
+
+        private void HandleL3PressPerformed(InputAction.CallbackContext context)
+        {
+            if (_stickPressed)
+            {
+                OnUltimateInputPerformed(context);
+            }
+            else
+            {
+                //_stickPressed = true;
+                //Invoke(nameof(ResetStickPressed), _comboInputTimer);
+            }
+        }
+
+        private void HandleR3PressPerformed(InputAction.CallbackContext context)
+        {
+            if (_stickPressed)
+            {
+                OnUltimateInputPerformed(context);
+            }
+            else
+            {
+                //_stickPressed = true;
+                //Invoke(nameof(ResetStickPressed), _comboInputTimer);
+
+                OnLockOnInputPerformed(context);
+            }
+        }
+
+        private void HandleLeftTriggerPerformed(InputAction.CallbackContext context)
+        {
+            if (_shoulderPressed)
+            {
+                OnSpecialInputPerformed(context);
+            }
+            else
+            {
+                //_shoulderPressed = true;
+                //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
+
+                OnBlockInputPerformed(context);
+            }
+        }
+
+        private void HandleRightTriggerPerformed(InputAction.CallbackContext context)
+        {
+            if (_shoulderPressed)
+            {
+                OnSpecialInputPerformed(context);
+            }
+            else
+            {
+                //_shoulderPressed = true;
+                //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
+
+                OnLightAttackInputPerformed(context);
+            }
+        }
+
         private void OnLockOnInputPerformed(InputAction.CallbackContext context)
         {
             LockOnInputPerformed?.Invoke();
@@ -124,6 +194,16 @@ namespace Player
         private void OnHeavyAttackInputPerformed(InputAction.CallbackContext context)
         {
             HeavyAttackInputPerformed?.Invoke();
+        }
+
+        private void OnBlockInputPerformed(InputAction.CallbackContext context)
+        {
+            BlockInputPerformed?.Invoke();
+        }
+
+        private void OnSpecialInputPerformed(InputAction.CallbackContext context)
+        {
+            SpecialInputPerformed?.Invoke();
         }
         #endregion
 
@@ -155,6 +235,16 @@ namespace Player
         private void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
         {
             SwapSectionInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+        }
+
+        private void ResetShoulderPressed()
+        {
+            _shoulderPressed = false;
+        }
+
+        private void ResetStickPressed()
+        {
+            _stickPressed = false;
         }
     }
 }

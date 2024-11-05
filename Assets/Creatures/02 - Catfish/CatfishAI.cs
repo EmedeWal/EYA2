@@ -7,7 +7,7 @@ public class CatfishAI : CreatureAI
     [SerializeField] private float _retreatRadius = 3;
     [SerializeField] private float _retreatDegrees = 360;
 
-    public override void DetermineBehavior(AttackData attackData, Transform target)
+    public override void DetermineBehavior(BaseAttackData attackData, Transform target)
     {
         if (attackData.AttackType == AttackType.Heavy && IsTargetBehind(target))
         {

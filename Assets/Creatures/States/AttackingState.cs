@@ -73,7 +73,7 @@ public class AttackingState : CreatureState
         _CreatureAI.AttackHandler.AttackEnded -= AttackingState_AttackEnded;
     }
 
-    private void AttackingState_AttackBegun(AttackData attackData)
+    private void AttackingState_AttackBegun(BaseAttackData attackData)
     {
         AttackMode attackMode = attackData.AttackMode;
 
@@ -94,7 +94,7 @@ public class AttackingState : CreatureState
         }
     }
 
-    private void AttackingState_AttackHalfway(AttackData attackData)
+    private void AttackingState_AttackHalfway(BaseAttackData attackData)
     {
         AttackMode attackMode = attackData.AttackMode;
 
@@ -108,7 +108,7 @@ public class AttackingState : CreatureState
         }
     }
 
-    private void AttackingState_AttackEnded(AttackData attackData)
+    private void AttackingState_AttackEnded(BaseAttackData attackData)
     {
         _CreatureAI.DetermineBehavior(attackData, _target);
         _cooldownTimer = attackData.Recovery;

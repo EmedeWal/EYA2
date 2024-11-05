@@ -120,18 +120,9 @@
             "id": "c677d909-742b-41c9-8816-ca21899da168",
             "actions": [
                 {
-                    "name": "Button North",
+                    "name": "L3 Press",
                     "type": "Button",
-                    "id": "0cb03d7d-2fbe-4555-99f6-2c300fb77492",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Options",
-                    "type": "Button",
-                    "id": "fa1345a0-69ab-4cb8-ac38-d01b02b99cd2",
+                    "id": "59c0b63f-5dfc-4739-b9b2-1b39fcf01302",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -147,18 +138,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Left Trigger",
+                    "name": "D-Pad (Up & Down)",
                     "type": "Button",
-                    "id": "c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0",
+                    "id": "a7d7cbd6-3598-4af4-ae15-bae4230ec7d8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Button West",
+                    "name": "D-Pad (Left & Right)",
                     "type": "Button",
-                    "id": "14ef6eba-e11a-4b77-913d-1b8354bb8e30",
+                    "id": "eddde8cb-3d32-4269-9505-bc7ec85d2d77",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Options",
+                    "type": "Button",
+                    "id": "fa1345a0-69ab-4cb8-ac38-d01b02b99cd2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -172,6 +172,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Left Shoulder",
+                    "type": "Value",
+                    "id": "1aac6eed-0147-40e5-b2fd-2775e5c55c65",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Left Trigger",
+                    "type": "Button",
+                    "id": "c9b86052-a08c-43b0-9a5f-6e1c2c35f4b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Right Shoulder",
@@ -192,27 +210,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Left Shoulder",
-                    "type": "Value",
-                    "id": "1aac6eed-0147-40e5-b2fd-2775e5c55c65",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "D-Pad (Left & Right)",
+                    "name": "Button North",
                     "type": "Button",
-                    "id": "eddde8cb-3d32-4269-9505-bc7ec85d2d77",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "D-Pad (Up & Down)",
-                    "type": "Button",
-                    "id": "a7d7cbd6-3598-4af4-ae15-bae4230ec7d8",
+                    "id": "0cb03d7d-2fbe-4555-99f6-2c300fb77492",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -235,119 +235,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Button West",
+                    "type": "Button",
+                    "id": "14ef6eba-e11a-4b77-913d-1b8354bb8e30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "20ff7c76-dd34-4f4f-8fe1-f0be83da68ce",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Right Shoulder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0103c3b7-3ad4-4b18-a823-7f8e745cd942",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Right Shoulder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "25da4379-519d-416e-9f16-a6f6ce934328",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Right Trigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0c8e4ed1-66d2-457b-a0ff-b0394883a0d3",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Right Trigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "d186d9ce-50c4-44c4-9d0c-02ff26f2b39e",
-                    "path": "1DAxis(whichSideWins=1)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "e2a419de-279e-443f-84b0-190e7390dfad",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "2c4c0c0a-7427-4d9a-8cca-41d3fb8c4b27",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "17209e9c-a74a-46d1-9684-20ee4a660389",
-                    "path": "1DAxis(whichSideWins=1)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "86a38343-e5a7-4913-967d-5f9a7f912cc3",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "8b4a2279-1393-49ba-b3b9-f42a341263f4",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "D-Pad (Left & Right)",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "96e0ed73-b636-4768-8b32-69a688bf4a7a",
@@ -367,6 +266,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Button North",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75df22c5-181f-4806-8eaf-8a933a6ba22b",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button West",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09b461ec-ee69-4e79-bc31-f6e562f40bc8",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button West",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e926b72-3c47-4133-889c-e8e74a2beef2",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R3 Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a662151-26e5-4f2f-8b07-ea1c23ecc4c2",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R3 Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3e05a26-3dcf-4139-986b-82f70015f061",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "L3 Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c64f841-e311-4f9a-ad39-d7f6acd76a7c",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "L3 Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -438,23 +403,89 @@
                 },
                 {
                     "name": "",
-                    "id": "75df22c5-181f-4806-8eaf-8a933a6ba22b",
-                    "path": "<Keyboard>/e",
+                    "id": "25da4379-519d-416e-9f16-a6f6ce934328",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Button West",
+                    "action": "Right Trigger",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "09b461ec-ee69-4e79-bc31-f6e562f40bc8",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "0c8e4ed1-66d2-457b-a0ff-b0394883a0d3",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Button West",
+                    "action": "Right Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20ff7c76-dd34-4f4f-8fe1-f0be83da68ce",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Shoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0103c3b7-3ad4-4b18-a823-7f8e745cd942",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Shoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d74cfd98-1665-4d97-b310-7168808883c0",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button East",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cc052ef-514a-4bf7-9f61-da183955ef12",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button East",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b044e8a-4225-4e57-b15b-e0ff32b9fd90",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button South",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4056f26d-c007-4246-8616-0312266b1131",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Button South",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -525,26 +556,70 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "7e926b72-3c47-4133-889c-e8e74a2beef2",
-                    "path": "<Keyboard>/shift",
+                    "name": "1D Axis",
+                    "id": "d186d9ce-50c4-44c4-9d0c-02ff26f2b39e",
+                    "path": "1DAxis(whichSideWins=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "R3 Press",
-                    "isComposite": false,
+                    "action": "D-Pad (Left & Right)",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "3a662151-26e5-4f2f-8b07-ea1c23ecc4c2",
-                    "path": "<Gamepad>/rightStickPress",
+                    "name": "negative",
+                    "id": "e2a419de-279e-443f-84b0-190e7390dfad",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "R3 Press",
+                    "action": "D-Pad (Left & Right)",
                     "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "2c4c0c0a-7427-4d9a-8cca-41d3fb8c4b27",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad (Left & Right)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "17209e9c-a74a-46d1-9684-20ee4a660389",
+                    "path": "1DAxis(whichSideWins=1)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad (Left & Right)",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "86a38343-e5a7-4913-967d-5f9a7f912cc3",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad (Left & Right)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "8b4a2279-1393-49ba-b3b9-f42a341263f4",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad (Left & Right)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "1D Axis",
@@ -611,50 +686,6 @@
                     "action": "D-Pad (Up & Down)",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "d74cfd98-1665-4d97-b310-7168808883c0",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Button East",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4cc052ef-514a-4bf7-9f61-da183955ef12",
-                    "path": "<Keyboard>/backspace",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Button East",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b044e8a-4225-4e57-b15b-e0ff32b9fd90",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Button South",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4056f26d-c007-4246-8616-0312266b1131",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Button South",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

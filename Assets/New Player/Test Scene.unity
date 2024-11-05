@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a703cbb029612984ea189ba3c3b2c02c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 250
+  _maxHealth: 1000
 --- !u!1 &635932682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3997,12 +3997,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageColliderList:
+  _hitColliderList:
   - {fileID: 8439799079319319656}
   - {fileID: 8540259642811528031}
   _attackDataList:
-  - {fileID: 11400000, guid: 7c047ee4f026f284a98532f018c30705, type: 2}
-  - {fileID: 11400000, guid: 0c197abe077f2f74c8e0dcb4d840face, type: 2}
+  - {fileID: 11400000, guid: be07a7dbee0561c43b49422e4944892c, type: 2}
+  - {fileID: 11400000, guid: 3870e60cc1a1c2647b792df563b98dc3, type: 2}
+  - {fileID: 11400000, guid: 887df495bf285f1429ab4f9bfd44ed01, type: 2}
+  - {fileID: 11400000, guid: f310c72bf4394354b9699073298bec5b, type: 2}
+  - {fileID: 11400000, guid: 467b5238901e4e246a5282b7d16ea489, type: 2}
+  - {fileID: 11400000, guid: a525dcf98a923194baf0dab5c26ce515, type: 2}
+  - {fileID: 11400000, guid: 5e9c6d1c5d7cfd44296ee89b796ba488, type: 2}
+  - {fileID: 11400000, guid: 5a9e4be1ff4447e4da90aa15e8c5b710, type: 2}
+  - {fileID: 11400000, guid: 37951cb6c0614a54fb0751009f086ff5, type: 2}
+  - {fileID: 11400000, guid: 3569637c9b47b794fb1ce98e077cd164, type: 2}
+  - {fileID: 11400000, guid: 8584fea57cf03f6409b3ab2fff8589b6, type: 2}
+  _lightW: Right Slash 2 [LW0]
+  _lightD: 
+  _heavyW: Right Slash 1 [HW0]
+  _heavyD: 
   _comboTime: 0.2
 --- !u!114 &6083668102415102655
 MonoBehaviour:
@@ -5523,6 +5536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e173c1308abdf4b44982b300d7d1afcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitBoxType: 0
 --- !u!54 &8439799079319319657
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5642,6 +5656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e173c1308abdf4b44982b300d7d1afcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitBoxType: 1
 --- !u!136 &8540259642811528032
 CapsuleCollider:
   m_ObjectHideFlags: 0

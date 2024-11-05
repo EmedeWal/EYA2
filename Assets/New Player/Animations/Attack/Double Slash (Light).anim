@@ -154616,7 +154616,7 @@ AnimationClip:
   m_Events:
   - time: 0.8333333
     functionName: AttackStart
-    data: Sword_Right
+    data: 0
     objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
     floatParameter: 0
     intParameter: 0
@@ -154630,7 +154630,7 @@ AnimationClip:
     messageOptions: 0
   - time: 1.5
     functionName: AttackStart
-    data: Sword_Right
+    data: 0
     objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
     floatParameter: 0
     intParameter: 0

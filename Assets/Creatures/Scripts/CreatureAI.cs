@@ -83,7 +83,7 @@ public class CreatureAI : MonoBehaviour
         Destroy(Health);
     }
 
-    public virtual void DetermineBehavior(AttackData attackData, Transform target)
+    public virtual void DetermineBehavior(BaseAttackData attackData, Transform target)
     {
         DetermineAttack(target);
     }
@@ -92,7 +92,7 @@ public class CreatureAI : MonoBehaviour
     {
         CurrentTarget = target;
 
-        List<AttackData> viableAttacks = new();
+        List<BaseAttackData> viableAttacks = new();
 
         if (IsTargetInFront(CurrentTarget))
         {

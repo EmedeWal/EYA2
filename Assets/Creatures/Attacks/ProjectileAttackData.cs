@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Projectile Attack Data", menuName = "Scriptable Object/Data/Attack Data/Projectile")]
-public class ProjectileAttackData : AttackData
+public class ProjectileAttackData : BaseAttackData
 {
     [Header("PROJECTILE VARIABLES")]
     [SerializeField] private VFX _VFX;

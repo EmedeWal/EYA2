@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Grab Attack Data", menuName = "Scriptable Object/Data/Attack Data/Grab")]
-public class GrabAttackData : AttackData
+public class GrabAttackData : BaseAttackData
 {
     [Header("GRAB")]
     [SerializeField] private VFX _grabVFX;
