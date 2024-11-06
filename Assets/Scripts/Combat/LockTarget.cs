@@ -1,18 +1,22 @@
-using UnityEngine;
-
-public class LockTarget : MonoBehaviour
+namespace EmeWillem
 {
-    [Header("LOCK FOCUS")]
-    [SerializeField] private Transform _lockPoint;
-    [SerializeField] private Transform _center;
+    using UnityEngine;
 
-    public Transform LockPoint => _lockPoint; 
-    public Transform Center => _center;
-
-    public Health Health { get; private set; }
-
-    public void Init()
+    public class LockTarget : MonoBehaviour
     {
-        Health = GetComponent<Health>();
+        [Header("LOCK FOCUS")]
+        [SerializeField] private Transform _lockPoint;
+        [SerializeField] private Transform _center;
+
+        public Transform LockPoint => _lockPoint;
+        public Transform Center => _center;
+
+        public Health Health { get; private set; }
+
+        public void Init(Health health)
+        {
+            Health = health;
+        }
     }
+
 }

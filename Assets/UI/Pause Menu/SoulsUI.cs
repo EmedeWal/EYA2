@@ -1,21 +1,25 @@
-using UnityEngine;
-using TMPro;
-
-public class SoulsUI : MonoBehaviour
+namespace EmeWillem
 {
-    private TextMeshProUGUI _text;
-    private Souls _souls;
+    using UnityEngine;
+    using TMPro;
 
-    public void Init()
+    public class SoulsUI : MonoBehaviour
     {
-        _text = GetComponentInChildren<TextMeshProUGUI>();
+        private TextMeshProUGUI _text;
+        private Souls _souls;
 
-        _souls = Souls.Instance;
-        _souls.CurrentValueUpdated += SoulsUI_CurrentValueUpdated;
+        public void Init()
+        {
+            _text = GetComponentInChildren<TextMeshProUGUI>();
+
+            _souls = Souls.Instance;
+            _souls.CurrentValueUpdated += SoulsUI_CurrentValueUpdated;
+        }
+
+        private void SoulsUI_CurrentValueUpdated(int currentSouls)
+        {
+            _text.text = currentSouls.ToString();
+        }
     }
 
-    private void SoulsUI_CurrentValueUpdated(int currentSouls)
-    {
-        _text.text = currentSouls.ToString();
-    }
 }

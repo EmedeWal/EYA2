@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415a1e27f6564204fb29ad77d0d029fc, type: 3}
   m_Name: Kick (Quick)
   m_EditorClassIdentifier: 
-  HitCollider: {fileID: 0}
+  OffenseCollider: {fileID: 0}
   Damage: 10
-  HitBoxType: 1
+  Stagger: 0
+  OffenseColliderType: 1
   AudioClip: {fileID: 8300000, guid: 56703418e3aed4c47a5f6622816b8e41, type: 3}
   AudioOffset: 0
   AudioVolume: 0
@@ -26,4 +27,4 @@ MonoBehaviour:
   Distance: 0
   Recovery: 1
   AnimationName: 
-  AnimationHash: 243438004
+  AnimationHash: -828662890

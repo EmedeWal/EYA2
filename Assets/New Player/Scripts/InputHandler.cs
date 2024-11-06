@@ -2,249 +2,262 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
 
-namespace Player
+namespace EmeWillem
 {
-    public class InputHandler : SingletonBase
+    namespace Player
     {
-        #region Singleton
-        public static InputHandler Instance { get; private set; }
-
-        public override void SingletonSetup()
+        public class InputHandler : SingletonBase
         {
-            if (Instance == null)
+            #region Singleton
+            public static InputHandler Instance { get; private set; }
+
+            public override void SingletonSetup()
             {
-                Instance = this;
+                if (Instance == null)
+                {
+                    Instance = this;
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
-            else
+            #endregion
+
+            public Vector2 LeftStickInput { get; private set; }
+            public Vector2 RightStickInput { get; private set; }
+
+            public event Action LockOnInputPerformed;
+            public event Action UltimateInputPerformed;
+
+            public event Action SwapStanceInputPerformed;
+            public event Action LightAttackInputPerformed;
+            public event Action HeavyAttackInputPerformed;
+            public event Action BlockInputPerformed;
+            public event Action BlockInputCanceled;
+            public event Action SpecialInputPerformed;
+
+            public event Action BackInputPerformed;
+            public event Action ClickInputPerformed;
+            public event Action PauseInputPerformed;
+            public event Action<int> SwapHeaderInputPerformed;
+            public event Action<int> MoveSliderInputPerformed;
+            public event Action<int> SwapSectionInputPerformed;
+
+            InputActions _inputActions;
+
+            //[Header("SETTINGS")]
+            //[SerializeField] private float _comboInputTimer = 0.1f;
+            private bool _shoulderPressed = false;
+            private bool _stickPressed = false;
+
+
+            public void Init()
             {
-                Destroy(gameObject);
+                _inputActions ??= new InputActions();
+
+                _inputActions.Movement.LeftStick.performed += indexer => LeftStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.LeftStick.canceled += indexer => LeftStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.RightStick.performed += indexer => RightStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.RightStick.canceled += indexer => RightStickInput = indexer.ReadValue<Vector2>();
+
+                _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
+                _inputActions.Actions.DPadLeftRight.performed += OnMoveSliderInputPerformed;
+                _inputActions.Actions.Options.performed += OnPauseInputPerformed;
+                _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
+                _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
+                _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
+
+                ListenToCombatActions(true);
+
+                _inputActions.Enable();
             }
-        }
-        #endregion
 
-        public Vector2 LeftStickInput { get; private set; }
-        public Vector2 RightStickInput { get; private set; }
-
-        public event Action LockOnInputPerformed;
-        public event Action UltimateInputPerformed;
-
-        public event Action SwapStanceInputPerformed;
-        public event Action LightAttackInputPerformed;
-        public event Action HeavyAttackInputPerformed;
-        public event Action BlockInputPerformed;
-        public event Action SpecialInputPerformed;
-
-        public event Action BackInputPerformed;
-        public event Action ClickInputPerformed;
-        public event Action PauseInputPerformed;
-        public event Action<int> SwapHeaderInputPerformed;
-        public event Action<int> MoveSliderInputPerformed;
-        public event Action<int> SwapSectionInputPerformed;
-
-        InputActions _inputActions;
-
-        //[Header("SETTINGS")]
-        //[SerializeField] private float _comboInputTimer = 0.1f;
-        private bool _shoulderPressed = false;
-        private bool _stickPressed = false;
-
-
-        public void Init()
-        {
-            _inputActions ??= new InputActions();
-
-            _inputActions.Movement.LeftStick.performed += indexer => LeftStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.LeftStick.canceled += indexer => LeftStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.RightStick.performed += indexer => RightStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.RightStick.canceled += indexer => RightStickInput = indexer.ReadValue<Vector2>();
-
-            _inputActions.Actions.DPadUpDown.performed += OnSwapSectionInputPerformed;
-            _inputActions.Actions.DPadLeftRight.performed += OnMoveSliderInputPerformed;
-            _inputActions.Actions.Options.performed += OnPauseInputPerformed;
-            _inputActions.Actions.Shoulders.performed += OnSwapHeaderInputPerformed;
-            _inputActions.Actions.ButtonEast.performed += OnBackInputPerformed;
-            _inputActions.Actions.ButtonSouth.performed += OnClickInputPerformed;
-
-            ListenToCombatActions(true);
-
-            _inputActions.Enable();
-        }
-
-        public void Cleanup()
-        {
-            _inputActions.Movement.LeftStick.performed -= indexer => LeftStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.LeftStick.canceled -= indexer => LeftStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.RightStick.performed -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
-            _inputActions.Movement.RightStick.canceled -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
-
-            _inputActions.Actions.DPadUpDown.performed -= OnSwapSectionInputPerformed;
-            _inputActions.Actions.DPadLeftRight.performed -= OnMoveSliderInputPerformed;
-            _inputActions.Actions.Options.performed -= OnPauseInputPerformed;
-            _inputActions.Actions.Shoulders.performed -= OnSwapHeaderInputPerformed;
-            _inputActions.Actions.ButtonEast.performed -= OnBackInputPerformed;
-            _inputActions.Actions.ButtonSouth.performed -= OnClickInputPerformed;
-
-            ListenToCombatActions(false);
-
-            _inputActions.Disable();
-        }
-
-        public void ListenToCombatActions(bool subscribe)
-        {
-            if (subscribe)
+            public void Cleanup()
             {
-                _inputActions.Actions.L3Press.performed += HandleL3PressPerformed;
-                _inputActions.Actions.R3Press.performed += HandleR3PressPerformed;
-                _inputActions.Actions.LeftTrigger.performed += OnUltimateInputPerformed;
-                _inputActions.Actions.LeftShoulder.performed += OnSwapStanceInputPerformed;
-                _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
-                _inputActions.Actions.RightTrigger.performed += OnHeavyAttackInputPerformed;
+                _inputActions.Movement.LeftStick.performed -= indexer => LeftStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.LeftStick.canceled -= indexer => LeftStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.RightStick.performed -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
+                _inputActions.Movement.RightStick.canceled -= indexer => RightStickInput = indexer.ReadValue<Vector2>();
+
+                _inputActions.Actions.DPadUpDown.performed -= OnSwapSectionInputPerformed;
+                _inputActions.Actions.DPadLeftRight.performed -= OnMoveSliderInputPerformed;
+                _inputActions.Actions.Options.performed -= OnPauseInputPerformed;
+                _inputActions.Actions.Shoulders.performed -= OnSwapHeaderInputPerformed;
+                _inputActions.Actions.ButtonEast.performed -= OnBackInputPerformed;
+                _inputActions.Actions.ButtonSouth.performed -= OnClickInputPerformed;
+
+                ListenToCombatActions(false);
+
+                _inputActions.Disable();
             }
-            else
+
+            public void ListenToCombatActions(bool subscribe)
             {
-                _inputActions.Actions.L3Press.performed -= HandleL3PressPerformed;
-                _inputActions.Actions.R3Press.performed -= HandleR3PressPerformed;
-                _inputActions.Actions.LeftTrigger.performed -= OnUltimateInputPerformed;
-                _inputActions.Actions.LeftShoulder.performed -= OnSwapStanceInputPerformed;
-                _inputActions.Actions.RightShoulder.performed -= OnLightAttackInputPerformed;
-                _inputActions.Actions.RightTrigger.performed -= OnHeavyAttackInputPerformed;
+                if (subscribe)
+                {
+                    _inputActions.Actions.L3Press.performed += HandleL3PressPerformed;
+                    _inputActions.Actions.R3Press.performed += HandleR3PressPerformed;
+                    _inputActions.Actions.LeftTrigger.performed += OnUltimateInputPerformed;
+                    _inputActions.Actions.LeftShoulder.performed += OnSwapStanceInputPerformed;
+                    _inputActions.Actions.LeftShoulder.performed += OnBlockInputPerformed;
+                    _inputActions.Actions.LeftShoulder.canceled += OnBlockInputCanceled;
+                    _inputActions.Actions.RightShoulder.performed += OnLightAttackInputPerformed;
+                    _inputActions.Actions.RightTrigger.performed += OnHeavyAttackInputPerformed;
+                }
+                else
+                {
+                    _inputActions.Actions.L3Press.performed -= HandleL3PressPerformed;
+                    _inputActions.Actions.R3Press.performed -= HandleR3PressPerformed;
+                    _inputActions.Actions.LeftTrigger.performed -= OnUltimateInputPerformed;
+                    _inputActions.Actions.LeftShoulder.performed -= OnSwapStanceInputPerformed;
+                    _inputActions.Actions.LeftShoulder.performed -= OnBlockInputPerformed;
+                    _inputActions.Actions.LeftShoulder.canceled -= OnBlockInputCanceled;
+                    _inputActions.Actions.RightShoulder.performed -= OnLightAttackInputPerformed;
+                    _inputActions.Actions.RightTrigger.performed -= OnHeavyAttackInputPerformed;
+                }
             }
-        }
 
-        #region Combat Actions
+            #region Combat Actions
 
-        private void HandleL3PressPerformed(InputAction.CallbackContext context)
-        {
-            if (_stickPressed)
+            private void HandleL3PressPerformed(InputAction.CallbackContext context)
             {
-                OnUltimateInputPerformed(context);
+                if (_stickPressed)
+                {
+                    OnUltimateInputPerformed(context);
+                }
+                else
+                {
+                    //_stickPressed = true;
+                    //Invoke(nameof(ResetStickPressed), _comboInputTimer);
+                }
             }
-            else
+
+            private void HandleR3PressPerformed(InputAction.CallbackContext context)
             {
-                //_stickPressed = true;
-                //Invoke(nameof(ResetStickPressed), _comboInputTimer);
-            }
-        }
+                if (_stickPressed)
+                {
+                    OnUltimateInputPerformed(context);
+                }
+                else
+                {
+                    //_stickPressed = true;
+                    //Invoke(nameof(ResetStickPressed), _comboInputTimer);
 
-        private void HandleR3PressPerformed(InputAction.CallbackContext context)
-        {
-            if (_stickPressed)
+                    OnLockOnInputPerformed(context);
+                }
+            }
+
+            private void HandleLeftTriggerPerformed(InputAction.CallbackContext context)
             {
-                OnUltimateInputPerformed(context);
+                if (_shoulderPressed)
+                {
+                    OnSpecialInputPerformed(context);
+                }
+                else
+                {
+                    //_shoulderPressed = true;
+                    //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
+
+                    OnBlockInputPerformed(context);
+                }
             }
-            else
+
+            private void HandleRightTriggerPerformed(InputAction.CallbackContext context)
             {
-                //_stickPressed = true;
-                //Invoke(nameof(ResetStickPressed), _comboInputTimer);
+                if (_shoulderPressed)
+                {
+                    OnSpecialInputPerformed(context);
+                }
+                else
+                {
+                    //_shoulderPressed = true;
+                    //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
 
-                OnLockOnInputPerformed(context);
+                    OnLightAttackInputPerformed(context);
+                }
             }
-        }
 
-        private void HandleLeftTriggerPerformed(InputAction.CallbackContext context)
-        {
-            if (_shoulderPressed)
+            private void OnLockOnInputPerformed(InputAction.CallbackContext context)
             {
-                OnSpecialInputPerformed(context);
+                LockOnInputPerformed?.Invoke();
             }
-            else
+
+            private void OnUltimateInputPerformed(InputAction.CallbackContext context)
             {
-                //_shoulderPressed = true;
-                //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
-
-                OnBlockInputPerformed(context);
+                UltimateInputPerformed?.Invoke();
             }
-        }
 
-        private void HandleRightTriggerPerformed(InputAction.CallbackContext context)
-        {
-            if (_shoulderPressed)
+            private void OnSwapStanceInputPerformed(InputAction.CallbackContext context)
             {
-                OnSpecialInputPerformed(context);
+                SwapStanceInputPerformed?.Invoke();
             }
-            else
+
+            private void OnLightAttackInputPerformed(InputAction.CallbackContext context)
             {
-                //_shoulderPressed = true;
-                //Invoke(nameof(ResetShoulderPressed), _comboInputTimer);
-
-                OnLightAttackInputPerformed(context);
+                LightAttackInputPerformed?.Invoke();
             }
-        }
 
-        private void OnLockOnInputPerformed(InputAction.CallbackContext context)
-        {
-            LockOnInputPerformed?.Invoke();
-        }
+            private void OnHeavyAttackInputPerformed(InputAction.CallbackContext context)
+            {
+                HeavyAttackInputPerformed?.Invoke();
+            }
 
-        private void OnUltimateInputPerformed(InputAction.CallbackContext context)
-        {
-            UltimateInputPerformed?.Invoke();
-        }
+            private void OnBlockInputPerformed(InputAction.CallbackContext context)
+            {
+                BlockInputPerformed?.Invoke();
+            }
 
-        private void OnSwapStanceInputPerformed(InputAction.CallbackContext context)
-        {
-            SwapStanceInputPerformed?.Invoke();
-        }
+            private void OnBlockInputCanceled(InputAction.CallbackContext context)
+            {
+                BlockInputCanceled?.Invoke();
+            }
 
-        private void OnLightAttackInputPerformed(InputAction.CallbackContext context)
-        {
-            LightAttackInputPerformed?.Invoke();
-        }
+            private void OnSpecialInputPerformed(InputAction.CallbackContext context)
+            {
+                SpecialInputPerformed?.Invoke();
+            }
+            #endregion
 
-        private void OnHeavyAttackInputPerformed(InputAction.CallbackContext context)
-        {
-            HeavyAttackInputPerformed?.Invoke();
-        }
+            private void OnBackInputPerformed(InputAction.CallbackContext context)
+            {
+                BackInputPerformed?.Invoke();
+            }
 
-        private void OnBlockInputPerformed(InputAction.CallbackContext context)
-        {
-            BlockInputPerformed?.Invoke();
-        }
+            private void OnClickInputPerformed(InputAction.CallbackContext context)
+            {
+                ClickInputPerformed?.Invoke();
+            }
 
-        private void OnSpecialInputPerformed(InputAction.CallbackContext context)
-        {
-            SpecialInputPerformed?.Invoke();
-        }
-        #endregion
+            private void OnPauseInputPerformed(InputAction.CallbackContext context)
+            {
+                PauseInputPerformed?.Invoke();
+            }
 
-        private void OnBackInputPerformed(InputAction.CallbackContext context)
-        {
-            BackInputPerformed?.Invoke();
-        }
+            private void OnSwapHeaderInputPerformed(InputAction.CallbackContext context)
+            {
+                SwapHeaderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+            }
 
-        private void OnClickInputPerformed(InputAction.CallbackContext context)
-        {
-            ClickInputPerformed?.Invoke();
-        }
+            private void OnMoveSliderInputPerformed(InputAction.CallbackContext context)
+            {
+                MoveSliderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+            }
 
-        private void OnPauseInputPerformed(InputAction.CallbackContext context)
-        {
-            PauseInputPerformed?.Invoke();
-        }
+            private void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
+            {
+                SwapSectionInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
+            }
 
-        private void OnSwapHeaderInputPerformed(InputAction.CallbackContext context)
-        {
-            SwapHeaderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
-        }
+            private void ResetShoulderPressed()
+            {
+                _shoulderPressed = false;
+            }
 
-        private void OnMoveSliderInputPerformed(InputAction.CallbackContext context)
-        {
-            MoveSliderInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
-        }
-
-        private void OnSwapSectionInputPerformed(InputAction.CallbackContext context)
-        {
-            SwapSectionInputPerformed?.Invoke(Mathf.FloorToInt(context.ReadValue<float>()));
-        }
-
-        private void ResetShoulderPressed()
-        {
-            _shoulderPressed = false;
-        }
-
-        private void ResetStickPressed()
-        {
-            _stickPressed = false;
+            private void ResetStickPressed()
+            {
+                _stickPressed = false;
+            }
         }
     }
 }

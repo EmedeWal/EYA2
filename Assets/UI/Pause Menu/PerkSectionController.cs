@@ -1,53 +1,58 @@
-using System.Collections.Generic;
-using UnityEngine;
 
-public class PerkSectionController : SectionControllerBase
+namespace EmeWillem
 {
-    [Header("STANCE DATA REFERENCE")]
-    [SerializeField] private StanceData _stanceData;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    [Header("UNLOCKED TIERS")]
-    [SerializeField] private int _unlockedTiers = 0;
-    private int _currentSouls;
-
-    private List<PerkTree> _perkTrees = new();
-
-    public override void Init(AudioDataUI audioDataUI)
+    public class PerkSectionController : SectionControllerBase
     {
-        base.Init(audioDataUI);
+        [Header("STANCE DATA REFERENCE")]
+        [SerializeField] private StanceData _stanceData;
 
-        _perkTrees.AddRange(_Holder.GetComponentsInChildren<PerkTree>());
-        foreach (var perkTree in _perkTrees) perkTree.Init(audioDataUI, _stanceData.Color);
-        Souls.Instance.CurrentValueUpdated += PerkSectionController_CurrentValueUpdated;
+        [Header("UNLOCKED TIERS")]
+        [SerializeField] private int _unlockedTiers = 0;
+        private int _currentSouls;
 
-        IncrementTier();
-    }
+        private List<PerkTree> _perkTrees = new();
 
-    public void IncrementTier()
-    {
-        if (_unlockedTiers >= 5) return;
-
-        _unlockedTiers++;
-
-        foreach (var perkTree in _perkTrees)
+        public override void Init(AudioDataUI audioDataUI)
         {
-            perkTree.UnlockPerksAtTier(_unlockedTiers);
+            base.Init(audioDataUI);
+
+            _perkTrees.AddRange(_Holder.GetComponentsInChildren<PerkTree>());
+            foreach (var perkTree in _perkTrees) perkTree.Init(audioDataUI, _stanceData.Color);
+            Souls.Instance.CurrentValueUpdated += PerkSectionController_CurrentValueUpdated;
+
+            IncrementTier();
         }
 
-        UpdateForeDrops();
-    }
-
-    private void PerkSectionController_CurrentValueUpdated(int currentValue)
-    {
-        _currentSouls = currentValue;
-        UpdateForeDrops();
-    }
-
-    private void UpdateForeDrops()
-    {
-        foreach (var perktree in _perkTrees)
+        public void IncrementTier()
         {
-            perktree.UpdateForeDrop(_currentSouls);
+            if (_unlockedTiers >= 5) return;
+
+            _unlockedTiers++;
+
+            foreach (var perkTree in _perkTrees)
+            {
+                perkTree.UnlockPerksAtTier(_unlockedTiers);
+            }
+
+            UpdateForeDrops();
+        }
+
+        private void PerkSectionController_CurrentValueUpdated(int currentValue)
+        {
+            _currentSouls = currentValue;
+            UpdateForeDrops();
+        }
+
+        private void UpdateForeDrops()
+        {
+            foreach (var perktree in _perkTrees)
+            {
+                perktree.UpdateForeDrop(_currentSouls);
+            }
         }
     }
+
 }

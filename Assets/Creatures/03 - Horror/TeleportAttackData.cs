@@ -1,19 +1,22 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Teleport Attack Data", menuName = "Scriptable Object/Data/Attack Data/Teleport")]
-public class TeleportAttackData : BaseAttackData
+namespace EmeWillem
 {
-    [Header("DISTANCE")]
-    [SerializeField] private float _teleportDistance = 20f;
-    private CreatureAI _creature;
-
-    public void Init(CreatureAI creature)
+    [CreateAssetMenu(fileName = "Teleport Attack Data", menuName = "Scriptable Object/Data/Attack Data/Teleport")]
+    public class TeleportAttackData : BaseAttackData
     {
-        _creature = creature;
-    }
+        [Header("DISTANCE")]
+        [SerializeField] private float _teleportDistance = 20f;
+        private CreatureAI _creature;
 
-    public override void Attack(Transform target)
-    {
-        _creature.SetState(new TeleportState(_creature, target, _teleportDistance));
+        public void Init(CreatureAI creature)
+        {
+            _creature = creature;
+        }
+
+        public override void Attack(Transform target)
+        {
+            _creature.SetState(new TeleportState(_creature, target, _teleportDistance));
+        }
     }
 }

@@ -1,72 +1,75 @@
-using UnityEngine;
-
-public class ChasingState : CreatureState
+namespace EmeWillem
 {
-    private Transform _target;
-    private float _runDistance;
-    private float _maxLocomotionSpeed;
+    using UnityEngine;
 
-    public ChasingState(CreatureAI creatureAI, Transform target) : base(creatureAI)
+    public class ChasingState : CreatureState
     {
-        _target = target;
-        _runDistance = _CreatureAI.CreatureData.RunDistance;    
-        _maxLocomotionSpeed = _CreatureAI.Locomotion.GetMaxSpeed();
-        _CreatureAI.Health.ValueRemoved += ChasingState_ValueRemoved;
-    }
+        private Transform _target;
+        private float _runDistance;
+        private float _maxLocomotionSpeed;
 
-    public override void Enter()
-    {
-        _CreatureAI.Locomotion.StopAgent(false);
-    }
-
-    public override void Tick(float delta)
-    {
-        if (_target != null)
+        public ChasingState(CreatureAI creatureAI, Transform target) : base(creatureAI)
         {
-            float distanceToTarget = Vector3.Distance(_CreatureAI.Transform.position, _target.position);
-            UpdateLocomotion(distanceToTarget);
+            _target = target;
+            _runDistance = _CreatureAI.CreatureData.RunDistance;
+            _maxLocomotionSpeed = _CreatureAI.Locomotion.GetMaxSpeed();
+            _CreatureAI.Health.HealthRemoved += ChasingState_ValueRemoved;
+        }
 
-            if (_CreatureAI.IsTargetInRange(_target))
+        public override void Enter()
+        {
+            _CreatureAI.Locomotion.StopAgent(false);
+        }
+
+        public override void Tick(float delta)
+        {
+            if (_target != null)
             {
-                _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
+                float distanceToTarget = Vector3.Distance(_CreatureAI.Transform.position, _target.position);
+                UpdateLocomotion(distanceToTarget);
+
+                if (_CreatureAI.IsTargetInRange(_target))
+                {
+                    _CreatureAI.SetState(new AttackingState(_CreatureAI, _target));
+                }
+                else
+                {
+                    _CreatureAI.Locomotion.SetDestination(_target.position);
+                }
             }
             else
             {
-                _CreatureAI.Locomotion.SetDestination(_target.position);
+                _CreatureAI.SetState(new IdleState(_CreatureAI));
             }
         }
-        else
-        {
-            _CreatureAI.SetState(new IdleState(_CreatureAI));
-        }
-    }
 
-    public override void Exit()
-    {
-        _CreatureAI.Health.ValueRemoved -= ChasingState_ValueRemoved;
-    }
-
-    private void UpdateLocomotion(float distanceToTarget)
-    {
-        float speed;
-
-        if (distanceToTarget <= _runDistance)
+        public override void Exit()
         {
-            speed = _CreatureAI.CreatureData.RunSpeed;
-        }
-        else
-        {
-            speed = _CreatureAI.CreatureData.WalkSpeed;
+            _CreatureAI.Health.HealthRemoved -= ChasingState_ValueRemoved;
         }
 
-        _CreatureAI.Locomotion.SetSpeed(speed);
-    }
-
-    private void ChasingState_ValueRemoved(float amount)
-    {
-        if (amount >= 10)
+        private void UpdateLocomotion(float distanceToTarget)
         {
-            _CreatureAI.SetState(new IdleState(_CreatureAI));
+            float speed;
+
+            if (distanceToTarget <= _runDistance)
+            {
+                speed = _CreatureAI.CreatureData.RunSpeed;
+            }
+            else
+            {
+                speed = _CreatureAI.CreatureData.WalkSpeed;
+            }
+
+            _CreatureAI.Locomotion.SetSpeed(speed);
+        }
+
+        private void ChasingState_ValueRemoved(int amount)
+        {
+            if (amount >= 10)
+            {
+                _CreatureAI.SetState(new IdleState(_CreatureAI));
+            }
         }
     }
 }

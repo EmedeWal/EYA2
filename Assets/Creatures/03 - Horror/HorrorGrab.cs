@@ -1,67 +1,70 @@
-using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
-
-public class HorrorGrab : ConstantAreaDamage
+namespace EmeWillem
 {
-    [Header("SLOW INTENSITY")]
-    [SerializeField] private float _slowIntensity = 0.8f;
+    using System.Collections.Generic;
+    using System.Collections;
+    using UnityEngine;
 
-    private PlayerStatTracker _playerStatTracker;
-    private VFXManager _VFXManager;
-    private Health _creatureHealth;
-    private VFX _currentVFX;
-
-    public void InitHorrorGrab(float radius, float damage, float duration, LayerMask targetLayer, VFX currentVFX, Health creatureHealth, PlayerStats playerStats)
+    public class HorrorGrab : ConstantAreaDamage
     {
-        base.Init(radius, damage, targetLayer);
+        [Header("SLOW INTENSITY")]
+        [SerializeField] private float _slowIntensity = 0.8f;
 
-        Dictionary<Stat, float> statChanges = new()
+        private PlayerStatTracker _playerStatTracker;
+        private VFXManager _VFXManager;
+        private Health _creatureHealth;
+        private VFX _currentVFX;
+
+        public void InitHorrorGrab(float radius, float damage, float duration, LayerMask targetLayer, VFX currentVFX, Health creatureHealth, PlayerStats playerStats)
+        {
+            base.Init(radius, damage, targetLayer);
+
+            Dictionary<Stat, float> statChanges = new()
         {
             { Stat.MovementSpeedModifier, 0 }
         };
 
-        _playerStatTracker = new PlayerStatTracker(statChanges, playerStats);
+            _playerStatTracker = new PlayerStatTracker(statChanges, playerStats);
 
-        _VFXManager = VFXManager.Instance;
-        _creatureHealth = creatureHealth;
-        _currentVFX = currentVFX;
+            _VFXManager = VFXManager.Instance;
+            _creatureHealth = creatureHealth;
+            _currentVFX = currentVFX;
 
-        StartCoroutine(HorrorGrabCoroutine(duration));
-    }
+            StartCoroutine(HorrorGrabCoroutine(duration));
+        }
 
-    public void CleanupHorrorGrab()
-    {
-        _playerStatTracker.ResetStatChanges();
-        _VFXManager.RemoveVFX(_currentVFX, 1f);
-    }
-
-    protected override void Effect(Collider collider, float delta)
-    {
-        if (collider.TryGetComponent(out Health health))
+        public void CleanupHorrorGrab()
         {
-            _creatureHealth.Heal(health.TakeDamage(_GameObject, _Damage * delta));
-            
-            if (collider.gameObject.CompareTag("Player") && _playerStatTracker.GetStatChange(Stat.MovementSpeedModifier) == 0)
+            _playerStatTracker.ResetStatChanges();
+            _VFXManager.RemoveVFX(_currentVFX, 1f);
+        }
+
+        protected override void Effect(Collider collider, float delta)
+        {
+            if (collider.TryGetComponent(out Health health))
             {
-                _playerStatTracker.IncrementStat(Stat.MovementSpeedModifier, -_slowIntensity);
+                //_creatureHealth.Heal(health.TakeDamage(_GameObject, _Damage * delta));
+
+                if (collider.gameObject.CompareTag("Player") && _playerStatTracker.GetStatChange(Stat.MovementSpeedModifier) == 0)
+                {
+                    _playerStatTracker.IncrementStat(Stat.MovementSpeedModifier, -_slowIntensity);
+                }
             }
         }
-    }
 
-    private IEnumerator HorrorGrabCoroutine(float duration)
-    {
-        float timer = 0f;
-
-        while (timer < duration)
+        private IEnumerator HorrorGrabCoroutine(float duration)
         {
-            yield return null;
+            float timer = 0f;
 
-            float delta = Time.deltaTime;
-            timer += delta;
-            Tick(delta);
+            while (timer < duration)
+            {
+                yield return null;
+
+                float delta = Time.deltaTime;
+                timer += delta;
+                Tick(delta);
+            }
+
+            CleanupHorrorGrab();
         }
-
-        CleanupHorrorGrab();
     }
 }

@@ -1,41 +1,30 @@
-using UnityEngine;
-
-public class CreatureHealth : Health
+namespace EmeWillem
 {
-    [Header("STAGGER")]
-    [SerializeField] private float _staggerRecovery;
-    [SerializeField] private float _staggerThreshold;
+    using UnityEngine;
 
-    private CreatureAnimatorManager _animatorManager;
-    private float _currentStaggerValue;
 
-    public override void Init(float maxValue, float currentValue)
+    public class CreatureHealth : Health
     {
-        base.Init(maxValue, currentValue);
+        //[Header("STAGGER")]
+        //[SerializeField] private float _staggerRecovery;
+        //[SerializeField] private float _maximumPosture;
 
-        _animatorManager = GetComponent<CreatureAnimatorManager>();
+        //private CreatureAnimatorManager _animatorManager;
+        //private float _currentStaggerValue;
 
-        _currentStaggerValue = 0;
-    }
+        //public override void Init(int maxValue, int currentValue)
+        //{
+        //    base.Init(maxValue, currentValue);
 
-    public override void LateTick(float delta)
-    {
-        base.LateTick(delta);
+        //    //_animatorManager = GetComponent<CreatureAnimatorManager>();
 
-        _currentStaggerValue -= _staggerRecovery * _Delta;
-    }
+        //    //_currentStaggerValue = 0;
+        //}
 
-    protected override void OnValueRemoved(float amount)
-    {
-        base.OnValueRemoved(amount);
-
-        amount = Mathf.Abs(amount);
-
-        _currentStaggerValue += amount;
-        if (_currentStaggerValue >= _staggerThreshold)
+        public override void LateTick()
         {
-            _animatorManager.ForceCrossFade(_Delta, "Stagger");
-            _currentStaggerValue = 0;
+            base.LateTick();
+
         }
     }
 }

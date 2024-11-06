@@ -1,27 +1,30 @@
-using UnityEngine;
-
-public class Explosion : AreaOfEffect
+namespace EmeWillem
 {
-    [Header("DAMAGE")]
-    [SerializeField] private float Damage;
+    using UnityEngine;
 
-    public void InitExplosion(float radius, float damage, LayerMask targetLayers, Collider colliderToIgnore = null, float audioOffset = 0)
+    public class Explosion : AreaOfEffect
     {
-        Damage = damage;
+        [Header("DAMAGE")]
+        [SerializeField] private float Damage;
 
-        base.Init(radius, targetLayers, colliderToIgnore);
-
-        if (TryGetComponent(out AudioSource audioSource))
+        public void InitExplosion(float radius, float damage, LayerMask targetLayers, Collider colliderToIgnore = null, float audioOffset = 0)
         {
-            AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume, audioOffset);
+            Damage = damage;
+
+            base.Init(radius, targetLayers, colliderToIgnore);
+
+            if (TryGetComponent(out AudioSource audioSource))
+            {
+                AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume, audioOffset);
+            }
         }
-    }
 
-    protected override void Effect(Collider hit)
-    {
-        if (hit.TryGetComponent<Health>(out var health))
+        protected override void Effect(Collider hit)
         {
-            health.TakeDamage(gameObject, Damage);
+            if (hit.TryGetComponent<Health>(out var health))
+            {
+                //health.TakeDamage(gameObject, Damage);
+            }
         }
     }
 }

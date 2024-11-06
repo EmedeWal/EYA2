@@ -2,131 +2,90 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public abstract class Resource : MonoBehaviour
+public class Resource : MonoBehaviour
 {
-    protected float _Delta;
-
-    private float _maxValue;
-    private float _currentValue;
-    private float _pendingValueChange;
-
     public event Action<GameObject> ValueExhausted;
-    public event Action<float> MaxValueInitialized;
-    public event Action<float> CurrentValueUpdated;
-    public event Action<float> ValueRemoved;
+    public event Action<int> ValueUpdated;
+    public event Action<int> ValueRemoved;
 
-    private Coroutine _decrementCoroutine;
+    public int MaximumValue { get; private set; }
+    public int CurrentValue { get; private set; }
 
-    public float MaxValue => _maxValue;
-    public float CurrentValue => _currentValue;
-    public float RestorationModifier { private get; set; } = 1;
+    private int _pendingValueChange;
 
-    public bool AtMinValue() => _currentValue <= 0;
-    public bool AtMaxValue() => _currentValue >= _maxValue;
-
-    public virtual void Init(float maxValue, float currentValue)
+    virtual public void Init(int maxHealth, int currentHealth)
     {
-        _maxValue = maxValue;
-        _currentValue = currentValue;
+        MaximumValue = maxHealth;
+        CurrentValue = currentHealth;
+
         _pendingValueChange = 0;
 
-        OnMaxValueInitialized(_maxValue);
-        OnCurrentValueUpdated(_currentValue);
+        OnValueUpdated(CurrentValue);
     }
 
-    public virtual void LateTick(float delta)
+    virtual public void LateTick()
     {
-        _Delta = delta;
-
         if (_pendingValueChange != 0)
         {
-            _currentValue += _pendingValueChange;
+            CurrentValue += _pendingValueChange;
 
             if (_pendingValueChange < 0)
             {
-                OnValueRemoved(_pendingValueChange);
+                OnValueRemoved(Mathf.Min(_pendingValueChange, CurrentValue));
             }
 
-            if (_currentValue > _maxValue)
+            if (CurrentValue > MaximumValue)
             {
-                _currentValue = _maxValue;
+                CurrentValue = MaximumValue;
             }
-            else if (_currentValue <= 0)
+            else if (CurrentValue <= 0)
             {
-                _currentValue = 0;
-                StopRemoveValueCoroutine();
+                CurrentValue = 0;
                 OnValueExhausted(gameObject);
             }
 
             _pendingValueChange = 0;
-            OnCurrentValueUpdated(_currentValue);
+            OnValueUpdated(CurrentValue);
         }
     }
 
-    public void AddConstantValue(float value)
+    virtual public int RemoveValue(int amount)
     {
-        StartCoroutine(ModifyConstantValueCoroutine(value, true));
+        int finalAmount = amount; // Calculate damage resistances and such, but that can wait.
+        int removedAmount = Mathf.Min(finalAmount, CurrentValue);
+
+        _pendingValueChange -= finalAmount;
+        return removedAmount;
     }
 
-    public void RemoveConstantValue(float value)
+    virtual public int RestoreValue(int amount)
     {
-        _decrementCoroutine = StartCoroutine(ModifyConstantValueCoroutine(value, false));
+        int finalAmount = amount; // Healing modifiers not in effect currently
+        int restoredAmount = Mathf.Min(finalAmount, MaximumValue - CurrentValue);
+
+        _pendingValueChange += restoredAmount;
+        return restoredAmount;
     }
 
-    public void StopRemoveValueCoroutine()
+    private void OnValueExhausted(GameObject healthObject)
     {
-        if (_decrementCoroutine != null)
-        {
-            StopCoroutine(_decrementCoroutine);
-        }
+        ValueExhausted?.Invoke(healthObject);
     }
 
-    protected void AddValue(float amount)
+    private void OnValueUpdated(int currentHealth)
     {
+        ValueUpdated?.Invoke(currentHealth);
+    }
+
+    private void OnValueRemoved(int damageTaken)
+    {
+        ValueRemoved?.Invoke(damageTaken);
+    }
+
+    private IEnumerator ValueCoroutine(int amount)
+    {
+        yield return new WaitForSeconds(1);
+
         _pendingValueChange += amount;
-    }
-
-    protected void RemoveValue(float amount)
-    {
-        _pendingValueChange -= amount;
-    }
-
-    protected virtual void OnValueRemoved(float amount)
-    {
-        ValueRemoved?.Invoke(amount);
-    }
-
-    private void OnValueExhausted(GameObject exhaustedObject)
-    {
-        ValueExhausted?.Invoke(exhaustedObject);
-    }
-
-    private void OnMaxValueInitialized(float maxValue)
-    {
-        MaxValueInitialized?.Invoke(maxValue);
-    }
-
-    private void OnCurrentValueUpdated(float currentValue)
-    {
-        CurrentValueUpdated?.Invoke(currentValue);
-    }
-
-    private IEnumerator ModifyConstantValueCoroutine(float value, bool increment)
-    {
-        while (true)
-        {
-            float deltaValue = value * _Delta;
-
-            if (increment)
-            {
-                AddValue(deltaValue * RestorationModifier);
-            }
-            else
-            {
-                RemoveValue(deltaValue);
-            }
-
-            yield return null;
-        }
     }
 }

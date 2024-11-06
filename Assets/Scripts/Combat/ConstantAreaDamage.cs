@@ -1,43 +1,46 @@
-using UnityEngine;
-
-public class ConstantAreaDamage : MonoBehaviour
+namespace EmeWillem
 {
-    protected GameObject _GameObject;
-    protected Transform _Transform;
-    protected LayerMask _TargetLayer;
-    protected float _Damage;
-    protected float _Radius;
+    using UnityEngine;
 
-    public virtual void Init(float radius, float damage, LayerMask targetLayer)
+    public class ConstantAreaDamage : MonoBehaviour
     {
-        _GameObject = gameObject;
-        _Transform = transform;
+        protected GameObject _GameObject;
+        protected Transform _Transform;
+        protected LayerMask _TargetLayer;
+        protected float _Damage;
+        protected float _Radius;
 
-        _TargetLayer = targetLayer;
-        _Damage = damage;
-        _Radius = radius;
-
-        if (TryGetComponent(out AudioSource audioSource))
+        public virtual void Init(float radius, float damage, LayerMask targetLayer)
         {
-            AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume);
+            _GameObject = gameObject;
+            _Transform = transform;
+
+            _TargetLayer = targetLayer;
+            _Damage = damage;
+            _Radius = radius;
+
+            if (TryGetComponent(out AudioSource audioSource))
+            {
+                AudioSystem.Instance.PlayAudio(audioSource, audioSource.clip, audioSource.volume);
+            }
         }
-    }
 
-    public void Tick(float delta)
-    {
-        Collider[] colliders = Physics.OverlapSphere(_Transform.position, _Radius, _TargetLayer);
-
-        foreach (Collider collider in colliders)
+        public void Tick(float delta)
         {
-            Effect(collider, delta);
+            Collider[] colliders = Physics.OverlapSphere(_Transform.position, _Radius, _TargetLayer);
+
+            foreach (Collider collider in colliders)
+            {
+                Effect(collider, delta);
+            }
         }
-    }
 
-    protected virtual void Effect(Collider collider, float delta)
-    {
-        if (collider.TryGetComponent(out Health health))
+        protected virtual void Effect(Collider collider, float delta)
         {
-            health.TakeDamage(_GameObject, _Damage * delta);
+            if (collider.TryGetComponent(out Health health))
+            {
+                //health.TakeDamage(_GameObject, _Damage * delta);
+            }
         }
     }
 }

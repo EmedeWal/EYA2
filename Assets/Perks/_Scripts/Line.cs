@@ -1,38 +1,43 @@
-using UnityEngine.UI;
-using UnityEngine;
 
-public class Line : MonoBehaviour
+namespace EmeWillem
 {
-    public Perk StartPerk { get; private set; }
-    public Perk EndPerk { get; private set; }
+    using UnityEngine.UI;
+    using UnityEngine;
 
-    private Image _lineImage;
-
-    public void DrawLine(Perk startPerk, Perk endPerk, Transform parent, Color color)
+    public class Line : MonoBehaviour
     {
-        _lineImage = GetComponent<Image>();
+        public Perk StartPerk { get; private set; }
+        public Perk EndPerk { get; private set; }
 
-        transform.SetParent(parent, false);
+        private Image _lineImage;
 
-        StartPerk = startPerk;
-        EndPerk = endPerk;
+        public void DrawLine(Perk startPerk, Perk endPerk, Transform parent, Color color)
+        {
+            _lineImage = GetComponent<Image>();
 
-        Vector3 startPos = StartPerk.GetComponent<RectTransform>().position;
-        Vector3 endPos = EndPerk.GetComponent<RectTransform>().position;
+            transform.SetParent(parent, false);
 
-        Vector3 midPoint = (startPos + endPos) / 2;
-        Vector3 lineDirection = (endPos - startPos).normalized;
+            StartPerk = startPerk;
+            EndPerk = endPerk;
 
-        float distance = Vector3.Distance(startPos, endPos);
-        _lineImage.rectTransform.sizeDelta = new Vector2(distance, 10);
-        _lineImage.rectTransform.position = midPoint;
-        _lineImage.rectTransform.rotation = Quaternion.FromToRotation(Vector3.right, lineDirection);
+            Vector3 startPos = StartPerk.GetComponent<RectTransform>().position;
+            Vector3 endPos = EndPerk.GetComponent<RectTransform>().position;
 
-        SetColor(color);
+            Vector3 midPoint = (startPos + endPos) / 2;
+            Vector3 lineDirection = (endPos - startPos).normalized;
+
+            float distance = Vector3.Distance(startPos, endPos);
+            _lineImage.rectTransform.sizeDelta = new Vector2(distance, 10);
+            _lineImage.rectTransform.position = midPoint;
+            _lineImage.rectTransform.rotation = Quaternion.FromToRotation(Vector3.right, lineDirection);
+
+            SetColor(color);
+        }
+
+        public void SetColor(Color color)
+        {
+            _lineImage.color = color;
+        }
     }
 
-    public void SetColor(Color color)
-    {
-        _lineImage.color = color;
-    }
 }

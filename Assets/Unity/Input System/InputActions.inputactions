@@ -294,7 +294,7 @@
                 {
                     "name": "",
                     "id": "7e926b72-3c47-4133-889c-e8e74a2beef2",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -382,7 +382,7 @@
                 {
                     "name": "",
                     "id": "1e9dea88-2f21-45b6-af63-48b28b97003c",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -1,66 +1,80 @@
 using UnityEngine;
 
-namespace Player
+namespace EmeWillem
 {
-    public class AnimatorManager : BaseAnimatorManager
+    namespace Player
     {
-        private int _animatorHorizontal;
-        private int _animatorVertical;
-
-        public override void Init(float movementSpeed = 1, float attackSpeed = 1)
+        public class AnimatorManager : BaseAnimatorManager
         {
-            base.Init(movementSpeed, attackSpeed);
+            private int _animatorHorizontal;
+            private int _animatorVertical;
 
-            _animatorHorizontal = Animator.StringToHash("Horizontal");
-            _animatorVertical = Animator.StringToHash("Vertical");
-
-            Animator.SetBool("CanRotate", true);
-        }
-
-        public void Cleanup()
-        {
-
-        }
-
-        public void UpdateAnimatorValues(float delta, float locomotion, float horizontal, float vertical, bool grounded, bool locked)
-        {
-            if (!grounded)
+            public override void Init(float movementSpeed = 1, float attackSpeed = 1)
             {
-                locomotion = 0;
-                horizontal = 0;
-                vertical = 0;
+                base.Init(movementSpeed, attackSpeed);
+
+                _animatorHorizontal = Animator.StringToHash("Horizontal");
+                _animatorVertical = Animator.StringToHash("Vertical");
+
+                Animator.SetBool("CanRotate", true);
             }
 
-            locomotion = SnapMovementValue(locomotion);
-            horizontal = SnapMovementValue(horizontal);
-            vertical = SnapMovementValue(vertical);
-
-            if (locked)
+            public void UpdateAnimatorValues(float delta, float locomotion, float horizontal, float vertical, bool locked, bool grounded)
             {
-                float absHorizontal = Mathf.Abs(horizontal);
-                float absVertical = Mathf.Abs(vertical);
+                (locomotion, horizontal, vertical) = SnapMovementValues(locomotion, horizontal, vertical, locked, grounded);
 
-                if (absHorizontal > absVertical)
+                base.Tick(delta, locomotion);
+
+                Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, _DeltaTime);
+                Animator.SetFloat(_animatorVertical, vertical, 0.1f, _DeltaTime);
+                Animator.SetBool("Grounded", grounded);
+                Animator.SetBool("Locked", locked);
+            }
+
+            private (float locomotion, float horizontal, float vertical) SnapMovementValues(float locomotion, float horizontal, float vertical, bool locked, bool grounded)
+            {
+                if (!grounded)
                 {
-                    vertical = 0;
-                    horizontal = horizontal > 0 ? 1 : -1;
+                    return (0f, 0f, 0f);
                 }
-                else if (absVertical > absHorizontal)
+
+                float snapThreshold = 0.05f;
+
+                locomotion = Mathf.Abs(locomotion - 1f) < snapThreshold ? 1f :
+                             Mathf.Abs(locomotion - 0.5f) < snapThreshold ? 0.5f :
+                             Mathf.Abs(locomotion) < snapThreshold ? 0f : locomotion;
+
+                horizontal = Mathf.Abs(horizontal - 1f) < snapThreshold ? 1f :
+                             Mathf.Abs(horizontal + 1f) < snapThreshold ? -1f :
+                             Mathf.Abs(horizontal) < snapThreshold ? 0f : horizontal;
+
+                vertical = Mathf.Abs(vertical - 1f) < snapThreshold ? 1f :
+                           Mathf.Abs(vertical + 1f) < snapThreshold ? -1f :
+                           Mathf.Abs(vertical) < snapThreshold ? 0f : vertical;
+
+                if (locked)
                 {
-                    horizontal = 0;
-                    vertical = vertical > 0 ? 1 : -1;
-                }
-                else
-                {
-                    if (absHorizontal != 0 && absVertical != 0 && absHorizontal - absVertical < 0.1)
+                    float absHorizontal = Mathf.Abs(horizontal);
+                    float absVertical = Mathf.Abs(vertical);
+
+                    if (absHorizontal > absVertical)
+                    {
+                        vertical = 0;
+                        horizontal = horizontal > 0 ? 1 : -1;
+                    }
+                    else if (absHorizontal < absVertical)
+                    {
+                        horizontal = 0;
+                        vertical = vertical > 0 ? 1 : -1;
+                    }
+                    else
                     {
                         if (vertical < 0 && horizontal > 0)
                         {
                             horizontal = 0;
                             vertical = -1;
                         }
-
-                        if (horizontal < 0 && vertical > 0)
+                        else if (horizontal < 0 && vertical > 0)
                         {
                             vertical = 0;
                             horizontal = -1;
@@ -68,35 +82,8 @@ namespace Player
                     }
                 }
 
+                return (locomotion, horizontal, vertical);
             }
-
-
-            base.Tick(delta, locomotion);
-
-            Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, _Delta);
-            Animator.SetFloat(_animatorVertical, vertical, 0.1f, _Delta);
-            Animator.SetBool("Grounded", grounded);
-            Animator.SetBool("Locked", locked);
-        }
-
-        private float SnapMovementValue(float movementValue)
-        {
-            float snapThreshold = 0.05f;
-
-            if (Mathf.Abs(movementValue - 1f) < snapThreshold)
-            {
-                return 1f;
-            }
-            else if (Mathf.Abs(movementValue - 0.5f) < snapThreshold)
-            {
-                return 0.5f;
-            }
-            else if (Mathf.Abs(movementValue) < snapThreshold)
-            {
-                return 0f;
-            }
-
-            return movementValue;
         }
     }
 }

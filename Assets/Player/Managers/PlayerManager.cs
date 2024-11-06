@@ -1,136 +1,139 @@
-using UnityEngine;
-using System;
-
-public class PlayerManager : MonoBehaviour
+namespace EmeWillem
 {
-    private float _delta;
+    using UnityEngine;
+    using System;
 
-    [Header("PLAYER UI REFERENCES")]
-    [SerializeField] private StanceUI _stanceUI;
-
-    private PlayerInputHandler _inputHandler;
-    private PlayerAnimatorManager _animatorManager;
-    private PlayerStanceManager _stanceManager;
-    private PlayerStatManager _statManager;
-    private PlayerLock _lock;
-    private PlayerLocomotion _locomotion;
-    private PlayerAttackHandler _attackHandler;
-    private Health _health;
-    private Souls _souls;
-    private MovementTracking _movementTracking;
-    private FootstepHandler _footstepHandler;
-    private CameraController _cameraController;
-
-    private Transform _target = null;
-
-    public static event Action<BaseAnimatorManager> PlayerDeath;
-
-    public void Init()
+    public class PlayerManager : MonoBehaviour
     {
-        DontDestroyOnLoad(gameObject);
+        private float _delta;
 
-        _inputHandler = GetComponent<PlayerInputHandler>();
-        _animatorManager = GetComponent<PlayerAnimatorManager>();
-        _stanceManager = GetComponent<PlayerStanceManager>();
-        _statManager = GetComponent<PlayerStatManager>();
-        _lock = GetComponent<PlayerLock>();
-        _locomotion = GetComponent<PlayerLocomotion>();
-        _attackHandler = GetComponent<PlayerAttackHandler>();
-        _health = GetComponent<Health>();
-        _souls = GetComponent<Souls>();
-        _movementTracking = GetComponent<MovementTracking>();
-        _footstepHandler = GetComponent<FootstepHandler>();
-        _cameraController = CameraController.Instance;
+        [Header("PLAYER UI REFERENCES")]
+        [SerializeField] private StanceUI _stanceUI;
 
-        _stanceUI.Init();
+        private PlayerInputHandler _inputHandler;
+        private PlayerAnimatorManager _animatorManager;
+        private PlayerStanceManager _stanceManager;
+        private PlayerStatManager _statManager;
+        private PlayerLock _lock;
+        private PlayerLocomotion _locomotion;
+        private PlayerAttackHandler _attackHandler;
+        private Health _health;
+        private Souls _souls;
+        private MovementTracking _movementTracking;
+        private FootstepHandler _footstepHandler;
+        private CameraController _cameraController;
 
-        _animatorManager.Init();
-        _stanceManager.Init();
-        _statManager.Init();
-        _lock.Init();
-        _locomotion.Init();
-        _attackHandler.Init(LayerMask.GetMask("DamageCollider"));
-        _souls.Init();
-        _movementTracking.Init();
-        _footstepHandler.Init();
-        _cameraController.Init(transform);
+        private Transform _target = null;
 
-        _lock.Locked += PlayerManager_LockedOn;
-        _health.ValueExhausted += PlayerManager_ValueExhausted;
-    }
+        public static event Action<BaseAnimatorManager> PlayerDeath;
 
-    public void Tick(float delta)
-    {
-        _delta = delta;
+        public void Init()
+        {
+            DontDestroyOnLoad(gameObject);
 
-        _stanceManager.Tick(_delta);
-        _attackHandler.Tick(_delta);
-        _movementTracking.Tick(_delta);
-    }
+            _inputHandler = GetComponent<PlayerInputHandler>();
+            _animatorManager = GetComponent<PlayerAnimatorManager>();
+            _stanceManager = GetComponent<PlayerStanceManager>();
+            _statManager = GetComponent<PlayerStatManager>();
+            _lock = GetComponent<PlayerLock>();
+            _locomotion = GetComponent<PlayerLocomotion>();
+            _attackHandler = GetComponent<PlayerAttackHandler>();
+            _health = GetComponent<Health>();
+            _souls = GetComponent<Souls>();
+            _movementTracking = GetComponent<MovementTracking>();
+            _footstepHandler = GetComponent<FootstepHandler>();
+            _cameraController = CameraController.Instance;
 
-    public void LateTick(float delta)
-    {
-        _delta = delta;
+            _stanceUI.Init();
 
-        _statManager.LateTick(_delta);
-    }
+            _animatorManager.Init();
+            _stanceManager.Init();
+            _statManager.Init();
+            _lock.Init();
+            _locomotion.Init();
+            _attackHandler.Init(LayerMask.GetMask("DamageCollider"));
+            _souls.Init();
+            _movementTracking.Init();
+            _footstepHandler.Init();
+            _cameraController.Init(transform);
 
-    public void FixedTick(float delta)
-    {
-        _delta = delta;
+            _lock.Locked += PlayerManager_LockedOn;
+            _health.HealthExhausted += PlayerManager_ValueExhausted;
+        }
 
-        Vector3 xDirection = _cameraController._CameraTransform.right;
-        Vector3 yDirection = _cameraController._CameraTransform.forward;
-        float leftStickX = _inputHandler.LeftStickX;
-        float leftStickY = _inputHandler.LeftStickY;
-        float rightStickX = _inputHandler.RightStickX;
-        float rightStickY = _inputHandler.RightStickY;
+        public void Tick(float delta)
+        {
+            _delta = delta;
 
-        _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
-        _cameraController.Tick(_delta, _target, new Vector2(rightStickX, rightStickY));
-    }
+            _stanceManager.Tick(_delta);
+            _attackHandler.Tick(_delta);
+            _movementTracking.Tick(_delta);
+        }
 
-    public void Cleanup()
-    {
-        _lock.Locked -= PlayerManager_LockedOn;
-        _health.ValueExhausted -= PlayerManager_ValueExhausted;
+        public void LateTick(float delta)
+        {
+            _delta = delta;
 
-        _stanceUI.Cleanup();
+            _statManager.LateTick(_delta);
+        }
 
-        _stanceManager.Cleanup();
-        _statManager.Cleanup();
-        _lock.Cleanup();
-        _locomotion.Cleanup();
-        _attackHandler.Cleanup();
-        _souls.Cleanup();
-    }
+        public void FixedTick(float delta)
+        {
+            _delta = delta;
 
-    private void PlayerManager_LockedOn(Transform target)
-    {
-        _target = target;
-    }
+            Vector3 xDirection = _cameraController._CameraTransform.right;
+            Vector3 yDirection = _cameraController._CameraTransform.forward;
+            float leftStickX = _inputHandler.LeftStickX;
+            float leftStickY = _inputHandler.LeftStickY;
+            float rightStickX = _inputHandler.RightStickX;
+            float rightStickY = _inputHandler.RightStickY;
 
-    private void PlayerManager_ValueExhausted(GameObject playerObject)
-    {
-        _animatorManager.ForceCrossFade(_delta, "Death");
+            _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
+            _cameraController.Tick(_delta, _target, new Vector2(rightStickX, rightStickY));
+        }
 
-        Cleanup();
+        public void Cleanup()
+        {
+            _lock.Locked -= PlayerManager_LockedOn;
+            _health.HealthExhausted -= PlayerManager_ValueExhausted;
 
-        Destroy(_stanceManager);
-        Destroy(_statManager);
-        Destroy(_lock);
-        Destroy(_locomotion);
-        Destroy(_attackHandler);
-        Destroy(_health);
-        Destroy(_cameraController);
+            _stanceUI.Cleanup();
 
-        OnPlayerDeath();
+            _stanceManager.Cleanup();
+            _statManager.Cleanup();
+            _lock.Cleanup();
+            _locomotion.Cleanup();
+            _attackHandler.Cleanup();
+            _souls.Cleanup();
+        }
 
-        Destroy(this);
-    }
+        private void PlayerManager_LockedOn(Transform target)
+        {
+            _target = target;
+        }
 
-    private void OnPlayerDeath()
-    {
-        PlayerDeath?.Invoke(_animatorManager);
+        private void PlayerManager_ValueExhausted(GameObject playerObject)
+        {
+            _animatorManager.ForceCrossFade("Death");
+
+            Cleanup();
+
+            Destroy(_stanceManager);
+            Destroy(_statManager);
+            Destroy(_lock);
+            Destroy(_locomotion);
+            Destroy(_attackHandler);
+            Destroy(_health);
+            Destroy(_cameraController);
+
+            OnPlayerDeath();
+
+            Destroy(this);
+        }
+
+        private void OnPlayerDeath()
+        {
+            PlayerDeath?.Invoke(_animatorManager);
+        }
     }
 }

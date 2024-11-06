@@ -1,37 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatureAttackHandler : BaseAttackHandler
+namespace EmeWillem
 {
-    [Header("DATA REFERENCES")]
-    public List<BaseAttackData> AttackDataList = new();
-
-    public BaseAttackData AttackData { get; private set; } = null;
-    public float DamageModifier { private get; set; } = 1;
-
-    public void SelectAttack(BaseAttackData attackData)
+    public class CreatureAttackHandler : BaseAttackHandler
     {
-        AttackData = attackData;
-    }
+        [Header("DATA REFERENCES")]
+        public List<BaseAttackData> AttackDataList = new();
 
-    public void SelectRandomAttack(List<BaseAttackData> attackDataList = null)
-    {
-        if (attackDataList == null || attackDataList.Count == 0)
+        public BaseAttackData AttackData { get; private set; } = null;
+        public float DamageModifier { private get; set; } = 1;
+
+        public void SelectAttack(BaseAttackData attackData)
         {
-            attackDataList = AttackDataList;
+            AttackData = attackData;
         }
 
-        int randomIndex = Random.Range(0, attackDataList.Count);
-        AttackData = attackDataList[randomIndex];
-    }
+        public void SelectRandomAttack(List<BaseAttackData> attackDataList = null)
+        {
+            if (attackDataList == null || attackDataList.Count == 0)
+            {
+                attackDataList = AttackDataList;
+            }
 
-    public void Attack()
-    {
-        HandleAttack(AttackData);
-    }
+            int randomIndex = Random.Range(0, attackDataList.Count);
+            AttackData = attackDataList[randomIndex];
+        }
 
-    protected override float HandleCritical(Collider hit, float damage, bool crit)
-    {
-        return base.HandleCritical(hit, damage * DamageModifier, crit);
+        public void Attack()
+        {
+            HandleAttack(AttackData);
+        }
+
+        protected override float HandleCritical(Collider hit, float damage, bool crit)
+        {
+            return base.HandleCritical(hit, damage * DamageModifier, crit);
+        }
     }
 }

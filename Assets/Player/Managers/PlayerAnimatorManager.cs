@@ -25,8 +25,8 @@ public class PlayerAnimatorManager : BaseAnimatorManager
 
         base.Tick(delta, locomotion);
 
-        Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, _Delta);
-        Animator.SetFloat(_animatorVertical, vertical, 0.1f, _Delta);
+        Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, _DeltaTime);
+        Animator.SetFloat(_animatorVertical, vertical, 0.1f, _DeltaTime);
         Animator.SetBool("Grounded", grounded);
         Animator.SetBool("Locked", locked);
     }

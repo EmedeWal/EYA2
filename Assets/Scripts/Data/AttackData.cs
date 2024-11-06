@@ -1,11 +1,14 @@
 using UnityEngine;
 
-namespace Player
+namespace EmeWillem
 {
-    [CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data/Attack (Player)")]
-    public class AttackData : BaseAttackData
+    namespace Player
     {
-        [Header("ANIMATION")]
-        public int AnimationHash;
+        [CreateAssetMenu(fileName = "Attack Data", menuName = "Scriptable Object/Data/Attack Data/Attack (Player)")]
+        public class AttackData : BaseAttackData
+        {
+            [Header("ANIMATION")]
+            public int AnimationHash;
+        }
     }
 }

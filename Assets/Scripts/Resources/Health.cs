@@ -1,21 +1,94 @@
+using System.Collections;
 using UnityEngine;
+using System;
 
-public class Health : Resource
+namespace EmeWillem
 {
-    [HideInInspector] public float DamageReduction;
-
-    public void Heal(float amount)
+    public class Health : MonoBehaviour
     {
-        AddValue(amount);
-    }
+        public event Action<GameObject> HealthExhausted;
+        public event Action<int> HealthUpdated;
+        public event Action<int> HealthRemoved;
 
-    public virtual float TakeDamage(GameObject attackerObject, float amount)
-    {
-        float finalDamage = amount * ((100 - DamageReduction) / 100);
-        float damageDealt = Mathf.Min(finalDamage, CurrentValue);
+        public int MaximumHealth { get; private set; }
+        public int CurrentHealth { get; private set; }
 
-        RemoveValue(finalDamage);
+        private int _pendingHealthChange;
 
-        return damageDealt;
+        public virtual void Init(int maximumHealth)
+        {
+            MaximumHealth = maximumHealth;
+            CurrentHealth = MaximumHealth;
+
+            _pendingHealthChange = 0;
+
+            OnHealthUpdated(CurrentHealth);
+        }
+
+        public virtual void LateTick()
+        {
+            if (_pendingHealthChange != 0)
+            {
+                CurrentHealth += _pendingHealthChange;
+
+                if (_pendingHealthChange < 0)
+                {
+                    OnHealthRemoved(Mathf.Min(_pendingHealthChange, CurrentHealth));
+                }
+
+                if (CurrentHealth > MaximumHealth)
+                {
+                    CurrentHealth = MaximumHealth;
+                }
+                else if (CurrentHealth <= 0)
+                {
+                    CurrentHealth = 0;
+                    OnHealthExhausted(gameObject);
+                }
+
+                _pendingHealthChange = 0;
+                OnHealthUpdated(CurrentHealth);
+            }
+        }
+
+        public virtual int RemoveHealth(int amount)
+        {
+            int finalAmount = amount; // Calculate damage resistances and such, but that can wait.
+            int removedAmount = Mathf.Min(finalAmount, CurrentHealth);
+
+            _pendingHealthChange -= finalAmount;
+            return removedAmount;
+        }
+
+        //public virtual int RestoreHealth(int amount)
+        //{
+        //    int finalAmount = amount; // Healing modifiers not in effect currently
+        //    int restoredAmount = Mathf.Min(finalAmount, MaximumHealth - CurrentHealth);
+
+        //    _pendingHealthChange += restoredAmount;
+        //    return restoredAmount;
+        //}
+
+        private void OnHealthExhausted(GameObject healthObject)
+        {
+            HealthExhausted?.Invoke(healthObject);
+        }
+
+        private void OnHealthUpdated(int currentHealth)
+        {
+            HealthUpdated?.Invoke(currentHealth);
+        }
+
+        private void OnHealthRemoved(int damageTaken)
+        {
+            HealthRemoved?.Invoke(damageTaken);
+        }
+
+        private IEnumerator HealthCoroutine(int amount)
+        {
+            yield return new WaitForSeconds(1);
+
+            _pendingHealthChange += amount;
+        }
     }
 }

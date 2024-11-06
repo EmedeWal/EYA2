@@ -11,7 +11,7 @@ public abstract class BaseAnimatorManager : MonoBehaviour
     protected int _AnimatorMovementSpeed;
     protected int _AnimatorAttackSpeed;
     protected int _AnimatorLocomotion;
-    protected float _Delta;
+    protected float _DeltaTime;
     
     private bool _crossFading = false;
 
@@ -34,19 +34,19 @@ public abstract class BaseAnimatorManager : MonoBehaviour
 
     public virtual void Tick(float delta, float locomotion)
     {
-        _Delta = delta;
+        _DeltaTime = delta;
 
-        Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed, 0.1f, _Delta);
-        Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed, 0.1f, _Delta);
-        Animator.SetFloat(_AnimatorLocomotion, locomotion, 0.1f, _Delta);
+        Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed, 0.1f, _DeltaTime);
+        Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed, 0.1f, _DeltaTime);
+        Animator.SetFloat(_AnimatorLocomotion, locomotion, 0.1f, _DeltaTime);
     }
 
-    public void ForceCrossFade(float delta, string animationName, float transitionDuration = 0.1f, int layer = 1)
+    public void ForceCrossFade(string animationName, float transitionDuration = 0.1f, int layer = 1)
     {
         CancelInvoke();
         _crossFading = true;
         Invoke(nameof(ResetCrossFading), transitionDuration + 0.25f);
-        Animator.CrossFade(animationName, transitionDuration, layer, delta);
+        Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
     }
 
     public void SetBool(string name, bool value)
@@ -59,13 +59,13 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         return Animator.GetBool(boolName);
     }
 
-    public bool CrossFade(float delta, string animationName, float transitionDuration = 0.1f, int layer = 1)
+    public bool CrossFade(string animationName, float transitionDuration = 0.1f, int layer = 1)
     {
         if (!_crossFading && !Animator.GetBool("InAction"))
         {
             _crossFading = true;
             Invoke(nameof(ResetCrossFading), transitionDuration + 0.1f);
-            Animator.CrossFade(animationName, transitionDuration, layer, delta);
+            Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
         }
 
         return _crossFading;

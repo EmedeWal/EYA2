@@ -1,13 +1,16 @@
-public abstract class CreatureState
+namespace EmeWillem
 {
-    protected CreatureAI _CreatureAI;
-
-    public CreatureState(CreatureAI creatureAI)
+    public abstract class CreatureState
     {
-        _CreatureAI = creatureAI;
-    }
+        protected CreatureAI _CreatureAI;
 
-    public virtual void Enter() { }
-    public virtual void Tick(float delta) { }
-    public virtual void Exit() { }
+        public CreatureState(CreatureAI creatureAI)
+        {
+            _CreatureAI = creatureAI;
+        }
+
+        public virtual void Enter() { }
+        public virtual void Tick(float delta) { }
+        public virtual void Exit() { }
+    }
 }

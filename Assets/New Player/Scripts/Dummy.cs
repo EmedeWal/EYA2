@@ -1,21 +1,24 @@
-using UnityEngine;
-
-public class Dummy : MonoBehaviour
+namespace EmeWillem
 {
-    [SerializeField] private float _maxHealth = 250f;
+    using UnityEngine;
 
-    private Health _health;
-
-    private void Awake()
+    public class Dummy : MonoBehaviour
     {
-        _health = GetComponent<Health>();
+        [SerializeField] private int _maxHealth = 1000;
 
-        _health.Init(_maxHealth, _maxHealth);
-        GetComponent<LockTarget>().Init();
-    }
+        private Health _health;
 
-    private void LateUpdate()
-    {
-        _health.LateTick(Time.deltaTime);
+        private void Awake()
+        {
+            _health = GetComponent<Health>();
+
+            _health.Init(_maxHealth);
+            //GetComponent<LockTarget>().Init();
+        }
+
+        private void LateUpdate()
+        {
+            _health.LateTick();
+        }
     }
 }

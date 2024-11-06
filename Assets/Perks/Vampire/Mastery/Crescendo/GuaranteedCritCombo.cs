@@ -1,19 +1,22 @@
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "Combo Data", menuName = "Scriptable Object/Data/Combo Data/Guaranteed Crit")]
-public class GuaranteedCritCombo : ComboData
+namespace EmeWillem
 {
-    private PlayerAttackHandler _playerAttackHandler;
+    using UnityEngine;
 
-    public override void Init(VFXManager VFXManager, Transform transform)
+    [CreateAssetMenu(fileName = "Combo Data", menuName = "Scriptable Object/Data/Combo Data/Guaranteed Crit")]
+    public class GuaranteedCritCombo : ComboData
     {
-        base.Init(VFXManager, transform);
+        private PlayerAttackHandler _playerAttackHandler;
 
-        _playerAttackHandler = _Transform.GetComponent<PlayerAttackHandler>();
-    }
+        public override void Init(VFXManager VFXManager, Transform transform)
+        {
+            base.Init(VFXManager, transform);
 
-    protected override void PerformComboFinisher(AttackType attackType)
-    {
-        _playerAttackHandler.GuaranteedCrit = true;
+            _playerAttackHandler = _Transform.GetComponent<PlayerAttackHandler>();
+        }
+
+        protected override void PerformComboFinisher(AttackType attackType)
+        {
+            _playerAttackHandler.GuaranteedCrit = true;
+        }
     }
 }

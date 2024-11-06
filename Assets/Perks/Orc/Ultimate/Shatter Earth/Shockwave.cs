@@ -1,55 +1,59 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Shockwave : MonoBehaviour
+namespace EmeWillem
 {
-    private Dictionary<float, float> _shockWaveData = new Dictionary<float, float>();
-    private LayerMask _targetLayer;
-    private float _scaling = 1;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    public void Init(LayerMask targetLayer, float scaling)
+    public class Shockwave : MonoBehaviour
     {
-        _shockWaveData.Add(9f, 10f);
-        _shockWaveData.Add(6f, 20f);
-        _shockWaveData.Add(3f, 30f);
+        private Dictionary<float, float> _shockWaveData = new Dictionary<float, float>();
+        private LayerMask _targetLayer;
+        private float _scaling = 1;
 
-        _targetLayer = targetLayer;
-        _scaling = scaling;
-
-        CastShockwave();
-    }
-
-    private void CastShockwave()
-    {
-        foreach (KeyValuePair<float, float> shockWave in _shockWaveData)
+        public void Init(LayerMask targetLayer, float scaling)
         {
-            float radius = shockWave.Key;
-            float baseDamage = shockWave.Value;
+            _shockWaveData.Add(9f, 10f);
+            _shockWaveData.Add(6f, 20f);
+            _shockWaveData.Add(3f, 30f);
 
-            CastShockwave(radius, baseDamage);
+            _targetLayer = targetLayer;
+            _scaling = scaling;
+
+            CastShockwave();
+        }
+
+        private void CastShockwave()
+        {
+            foreach (KeyValuePair<float, float> shockWave in _shockWaveData)
+            {
+                float radius = shockWave.Key;
+                float baseDamage = shockWave.Value;
+
+                CastShockwave(radius, baseDamage);
+            }
+        }
+
+        private void CastShockwave(float radius, float baseDamage)
+        {
+            Collider[] hits = Physics.OverlapSphere(transform.position, radius, _targetLayer);
+
+            foreach (Collider hit in hits)
+            {
+                float distanceToHit = Vector3.Distance(transform.position, hit.transform.position);
+                float damage = baseDamage;
+
+                if (_scaling > 1)
+                {
+                    float proximityFactor = 1f - (distanceToHit / radius);
+                    float damageMultiplier = 1f + (_scaling - 1) * proximityFactor;
+                    damage *= damageMultiplier;
+                }
+
+                if (hit.TryGetComponent<Health>(out var health))
+                {
+                    //health.TakeDamage(gameObject, damage);
+                }
+            }
         }
     }
 
-    private void CastShockwave(float radius, float baseDamage)
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, _targetLayer);
-
-        foreach (Collider hit in hits)
-        {
-            float distanceToHit = Vector3.Distance(transform.position, hit.transform.position);
-            float damage = baseDamage;
-
-            if (_scaling > 1) 
-            {
-                float proximityFactor = 1f - (distanceToHit / radius);
-                float damageMultiplier = 1f + (_scaling - 1) * proximityFactor;
-                damage *= damageMultiplier;
-            }
-
-            if (hit.TryGetComponent<Health>(out var health))
-            {
-                health.TakeDamage(gameObject, damage);
-            }
-        }
-    }
 }

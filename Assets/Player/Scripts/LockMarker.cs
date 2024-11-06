@@ -1,51 +1,55 @@
-using UnityEngine.UI;
-using UnityEngine;
-
-public class LockMarker :SingletonBase
+namespace EmeWillem
 {
-    #region Singleton
-    public static LockMarker Instance;
+    using UnityEngine.UI;
+    using UnityEngine;
 
-    public override void SingletonSetup()
+    public class LockMarker : SingletonBase
     {
-        if (Instance == null)
+        #region Singleton
+        public static LockMarker Instance;
+
+        public override void SingletonSetup()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+        #endregion
+
+        [Header("UI REFERENCES")]
+        [SerializeField] private Image _background;
+        [SerializeField] private Image _icon;
+
+        private Health _health;
+        private float _maxValue;
+
+        public void SetLockOnTarget(LockTarget target)
         {
-            Destroy(gameObject);
+            if (_health != null)
+            {
+                _health.HealthUpdated -= LockMarker_CurrentValueUpdated;
+            }
+
+            _health = target.Health;
+            _maxValue = _health.MaximumHealth;
+            SetBackgroundFillAmount(_health.CurrentHealth);
+            _health.HealthUpdated += LockMarker_CurrentValueUpdated;
         }
-    }
-    #endregion
 
-    [Header("UI REFERENCES")]
-    [SerializeField] private Image _background;
-    [SerializeField] private Image _icon;
-
-    private Health _health;
-    private float _maxValue;
-
-    public void SetLockOnTarget(LockTarget target)
-    {
-        if (_health != null)
+        private void LockMarker_CurrentValueUpdated(int currentValue)
         {
-            _health.CurrentValueUpdated -= LockMarker_CurrentValueUpdated;
+            SetBackgroundFillAmount(currentValue);
         }
 
-        _health = target.Health;
-        _maxValue = _health.MaxValue;
-        SetBackgroundFillAmount(_health.CurrentValue);
-        _health.CurrentValueUpdated += LockMarker_CurrentValueUpdated;
+        private void SetBackgroundFillAmount(float amount)
+        {
+            _background.fillAmount = amount / _maxValue;
+        }
     }
 
-    private void LockMarker_CurrentValueUpdated(float currentValue)
-    {
-        SetBackgroundFillAmount(currentValue);
-    }
-
-    private void SetBackgroundFillAmount(float amount)
-    {
-        _background.fillAmount = amount / _maxValue;
-    }
 }

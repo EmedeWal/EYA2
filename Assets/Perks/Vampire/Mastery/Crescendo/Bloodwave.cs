@@ -1,30 +1,33 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Bloodwave : MonoBehaviour
+namespace EmeWillem
 {
-    [Header("STAT REFERENCE")]
-    [SerializeField] private BloodwaveStats _bloodwaveStats;
-    [SerializeField] private PlayerStats _playerStats;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    private List<GameObject> _hits = new();
-
-    private void OnParticleCollision(GameObject other)
+    public class Bloodwave : MonoBehaviour
     {
-        if (other.TryGetComponent(out Health health))
+        [Header("STAT REFERENCE")]
+        [SerializeField] private BloodwaveStats _bloodwaveStats;
+        [SerializeField] private PlayerStats _playerStats;
+
+        private List<GameObject> _hits = new();
+
+        private void OnParticleCollision(GameObject other)
         {
-            if (!_hits.Contains(other))
+            if (other.TryGetComponent(out Health health))
             {
-                _hits.Add(other);
-
-                float finalDamage = _bloodwaveStats.Damage;
-
-                if (_bloodwaveStats.MultiplierEnabled)
+                if (!_hits.Contains(other))
                 {
-                    finalDamage *= _playerStats.GetCurrentStat(Stat.CriticalMultiplier);
-                }
+                    _hits.Add(other);
 
-                health.TakeDamage(gameObject, finalDamage);
+                    float finalDamage = _bloodwaveStats.Damage;
+
+                    if (_bloodwaveStats.MultiplierEnabled)
+                    {
+                        finalDamage *= _playerStats.GetCurrentStat(Stat.CriticalMultiplier);
+                    }
+
+                    //health.TakeDamage(gameObject, finalDamage);
+                }
             }
         }
     }

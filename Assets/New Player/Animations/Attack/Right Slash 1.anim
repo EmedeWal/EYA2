@@ -113455,7 +113455,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1666666
+  - time: 1.3333334
     functionName: AttackEnd
     data: Sword_Right
     objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}

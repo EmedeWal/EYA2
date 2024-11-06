@@ -1,19 +1,23 @@
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Scriptable Object/Perks/Stat Increase")]
-public class StatIncreasePerkData : PerkData
+namespace EmeWillem
 {
-    [Header("STAT INCREASE DETAILS")]
-    [SerializeField] private Stat _targetStat; 
-    [SerializeField] private float _increment;
+    using UnityEngine;
 
-    public override void Activate()
+    [CreateAssetMenu(fileName = "StatIncreasePerkData", menuName = "Scriptable Object/Perks/Stat Increase")]
+    public class StatIncreasePerkData : PerkData
     {
-        _PlayerStats.IncrementStat(_targetStat, _increment);
+        [Header("STAT INCREASE DETAILS")]
+        [SerializeField] private Stat _targetStat;
+        [SerializeField] private float _increment;
+
+        public override void Activate()
+        {
+            _PlayerStats.IncrementStat(_targetStat, _increment);
+        }
+
+        public override void Deactivate()
+        {
+            _PlayerStats.IncrementStat(_targetStat, -_increment);
+        }
     }
 
-    public override void Deactivate()
-    {
-        _PlayerStats.IncrementStat(_targetStat, -_increment);
-    }
 }

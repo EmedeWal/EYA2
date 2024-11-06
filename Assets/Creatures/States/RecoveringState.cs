@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class RecoveringState : CreatureState
+namespace EmeWillem
 {
-    public RecoveringState(CreatureAI creatureAI, float recoveryTime) : base(creatureAI) 
-    { 
-
-    }
-
-    public override void Exit()
+    public class RecoveringState : CreatureState
     {
-        Transform nearestTarget = _CreatureAI.GetNearestTarget(_CreatureAI.CreatureData.RunDistance);
+        public RecoveringState(CreatureAI creatureAI, float recoveryTime) : base(creatureAI)
+        {
 
+        }
+
+        public override void Exit()
+        {
+            Transform nearestTarget = _CreatureAI.GetNearestTarget(_CreatureAI.CreatureData.RunDistance);
+
+        }
     }
 }

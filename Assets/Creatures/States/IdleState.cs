@@ -1,38 +1,41 @@
-using UnityEngine;
-public class IdleState : CreatureState
+namespace EmeWillem
 {
-    private Transform _target;
-
-    public IdleState(CreatureAI creatureAI) : base(creatureAI) 
+    using UnityEngine;
+    public class IdleState : CreatureState
     {
-        if (!_CreatureAI.CreatureData.KeepCombatLocomotion)
-        {
-            _CreatureAI.AnimatorManager.SetBool("InCombat", false);
-        }
-    }
+        private Transform _target;
 
-    public override void Tick(float delta)
-    {
-        Transform nearestTarget = _CreatureAI.GetNearestTarget(_CreatureAI.CreatureData.RunDistance);
-        Transform defaultTarget = _CreatureAI.DefaultTarget;
-
-        if (nearestTarget != null)
+        public IdleState(CreatureAI creatureAI) : base(creatureAI)
         {
-            _target = nearestTarget;
-        }
-        else if (defaultTarget != null)
-        {
-            _target = defaultTarget;
+            if (!_CreatureAI.CreatureData.KeepCombatLocomotion)
+            {
+                _CreatureAI.AnimatorManager.SetBool("InCombat", false);
+            }
         }
 
-        if (_target != null)
+        public override void Tick(float delta)
         {
-            _CreatureAI.SetState(new ChasingState(_CreatureAI, _target));
-        }
-    }
+            Transform nearestTarget = _CreatureAI.GetNearestTarget(_CreatureAI.CreatureData.RunDistance);
+            Transform defaultTarget = _CreatureAI.DefaultTarget;
 
-    public override void Exit()
-    {
-        _CreatureAI.DetermineAttack(_target);
+            if (nearestTarget != null)
+            {
+                _target = nearestTarget;
+            }
+            else if (defaultTarget != null)
+            {
+                _target = defaultTarget;
+            }
+
+            if (_target != null)
+            {
+                _CreatureAI.SetState(new ChasingState(_CreatureAI, _target));
+            }
+        }
+
+        public override void Exit()
+        {
+            _CreatureAI.DetermineAttack(_target);
+        }
     }
 }

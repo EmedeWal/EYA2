@@ -1,38 +1,41 @@
-using System.Collections.Generic;
-
-public class CreatureStatTracker
+namespace EmeWillem
 {
-    private Dictionary<Stat, float> _statChanges;
-    private CreatureStatManager _statManager;
+    using System.Collections.Generic;
 
-    public CreatureStatTracker (Dictionary<Stat, float> statChanges, CreatureStatManager statManager)
+    public class CreatureStatTracker
     {
-        _statChanges = statChanges;
-        _statManager = statManager;
-    }
+        private Dictionary<Stat, float> _statChanges;
+        private CreatureStatManager _statManager;
 
-    public void IncrementStat(Stat stat, float value)
-    {
-        _statChanges[stat] += value;
-        _statManager.IncrementStat(stat, value);
-    }
-
-    public void ResetStatChanges()
-    {
-        var statChangeCopy = new Dictionary<Stat, float>(_statChanges);
-
-        foreach (var statChange in statChangeCopy)
+        public CreatureStatTracker(Dictionary<Stat, float> statChanges, CreatureStatManager statManager)
         {
-            if (statChange.Value != 0)
+            _statChanges = statChanges;
+            _statManager = statManager;
+        }
+
+        public void IncrementStat(Stat stat, float value)
+        {
+            _statChanges[stat] += value;
+            _statManager.IncrementStat(stat, value);
+        }
+
+        public void ResetStatChanges()
+        {
+            var statChangeCopy = new Dictionary<Stat, float>(_statChanges);
+
+            foreach (var statChange in statChangeCopy)
             {
-                _statManager.IncrementStat(statChange.Key, -statChange.Value);
-                _statChanges[statChange.Key] = 0;
+                if (statChange.Value != 0)
+                {
+                    _statManager.IncrementStat(statChange.Key, -statChange.Value);
+                    _statChanges[statChange.Key] = 0;
+                }
             }
         }
-    }
 
-    public float GetStatChange(Stat stat)
-    {
-        return _statChanges[stat];
+        public float GetStatChange(Stat stat)
+        {
+            return _statChanges[stat];
+        }
     }
 }
