@@ -1,6 +1,7 @@
 namespace EmeWillem
 {
     using UnityEngine.UI;
+    using EmeWillem.AI;
     using UnityEngine;
 
     public class LockMarker : SingletonBase

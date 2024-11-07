@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -7,18 +6,15 @@ namespace EmeWillem
     public class Posture : MonoBehaviour
     {
         private BaseAnimatorManager _animatorManager;
-        private List<string> _animationNames;
 
         private int _maximumPosture;
         private int _currentPosture;
         private int _postureRecovery;
         private int _pendingPostureChange;
 
-        public virtual void Init(List<string> animationNames, int maximumPosture, int postureRecovery)
+        public virtual void Init(int maximumPosture, int postureRecovery)
         {
             _animatorManager = GetComponent<BaseAnimatorManager>();
-
-            _animationNames = animationNames;
 
             _maximumPosture = maximumPosture;
             _postureRecovery = postureRecovery;
@@ -36,16 +32,7 @@ namespace EmeWillem
 
                 if (_currentPosture <= 0)
                 {
-                    if (_animationNames.Count > 1)
-                    {
-                        int randomIndex = Random.Range(0, _animationNames.Count);
-                        _animatorManager.ForceCrossFade(_animationNames[randomIndex]);
-                    }
-                    else
-                    {
-                        _animatorManager.ForceCrossFade(_animationNames[0]);
-                    }
-
+                    _animatorManager.ForceCrossFade("Stagger", false);
                     _currentPosture = _maximumPosture;
                 }
                 else if (_currentPosture > _maximumPosture)

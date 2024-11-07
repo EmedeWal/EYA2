@@ -1,22 +1,22 @@
+using UnityEngine;
+
 namespace EmeWillem
 {
-    using UnityEngine;
-
-    public class LockTarget : MonoBehaviour
+    namespace AI
     {
-        [Header("LOCK FOCUS")]
-        [SerializeField] private Transform _lockPoint;
-        [SerializeField] private Transform _center;
-
-        public Transform LockPoint => _lockPoint;
-        public Transform Center => _center;
-
-        public Health Health { get; private set; }
-
-        public void Init(Health health)
+        public class LockTarget : MonoBehaviour
         {
-            Health = health;
+            public Transform Center { get; private set; }
+            public Health Health { get; private set; }
+            public float Offset { get; private set; }
+
+
+            public void Init(Health health, float offset)
+            {
+                Center = transform;
+                Health = health;
+                Offset = offset;
+            }
         }
     }
-
 }

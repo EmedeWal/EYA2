@@ -11,12 +11,14 @@ namespace EmeWillem
         private Health _health;
         private Posture _posture;
 
-        public void Init(GameObject parent, Health health, Posture stagger)
+        public void Init(GameObject parent, Health health, Posture posture, LayerMask layer)
         {
             Parent = parent;
 
             _health = health;
-            _posture = stagger;
+            _posture = posture;
+
+            gameObject.layer = Mathf.RoundToInt(Mathf.Log(layer.value, 2));
         }
 
         public int ProcessAttack(Vector3 attackerPosition, int damageValue, int staggerValue)

@@ -7,6 +7,10 @@ namespace EmeWillem
     {
         public class Controller : MonoBehaviour
         {
+            [Header("COMPONENTS")]
+            [SerializeField] private List<DefenseCollider> _defenseColliderList;
+            [SerializeField] private List<OffenseCollider> _offenseColliderList;
+
             private InputHandler _inputHandler;
             private AnimatorManager _animatorManager;
             private AttackHandler _attackHandler;
@@ -17,7 +21,6 @@ namespace EmeWillem
             private Lock _lock;
             private Health _health;
             private Posture _posture;
-            private DefenseCollider _defenseCollider;
 
             private void Awake()
             {
@@ -51,18 +54,26 @@ namespace EmeWillem
                 _lock = GetComponent<Lock>();
                 _health = GetComponent<Health>();
                 _posture = GetComponent<Posture>();
-                _defenseCollider = GetComponent<DefenseCollider>();
 
                 _inputHandler.Init();
                 _animatorManager.Init(1, 1.2f);
-                _attackHandler.Init();
+                _attackHandler.Init(_offenseColliderList);
                 _cameraController.Init(transform);
                 _locomotion.Init();
                 _block.Init();
                 _lock.Init();
                 _health.Init(1000);
-                _posture.Init(new List<string> { "Stagger 1", "Stagger 2" }, 1000, 100);
-                _defenseCollider.Init(gameObject, _health, _posture);
+                _posture.Init(1000, 100);
+
+                foreach (DefenseCollider defenseCollider in _defenseColliderList)
+                {
+                    defenseCollider.Init(gameObject, _health, _posture, LayerMask.GetMask("Controller"));
+                }
+
+                foreach (OffenseCollider offenseCollider in _offenseColliderList)
+                {
+                    offenseCollider.Init(transform, LayerMask.GetMask("DamageCollider"));
+                }
             }
 
             public void Cleanup()

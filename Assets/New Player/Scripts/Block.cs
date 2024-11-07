@@ -1,4 +1,5 @@
 using EmeWillem.Utilities;
+using System.Collections;
 using UnityEngine;
 
 namespace EmeWillem
@@ -21,8 +22,6 @@ namespace EmeWillem
                 _inputHandler.BlockInputCanceled += Block_BlockInputCanceled;
 
                 AttackEventHelper.OnBlockCheck += IsBlocking;
-
-                _animatorManager.SetBool("Blocking", true);
             }
 
             public void Cleanup()
@@ -35,10 +34,7 @@ namespace EmeWillem
 
             private void Block_BlockInputPerformed()
             {
-                if (!_attackHandler.Attacking)
-                {
-                    _animatorManager.ForceCrossFade("Block");
-                }
+                _animatorManager.CrossFade("Block", 2);
             }
 
             private void Block_BlockInputCanceled()
@@ -59,7 +55,7 @@ namespace EmeWillem
 
                 if (isBlocking && attackerInFront)
                 {
-                    _animatorManager.ForceCrossFade("Deflect");
+                    _animatorManager.ForceCrossFade("Deflect", true);
                     return true;
                 }
                 return false;

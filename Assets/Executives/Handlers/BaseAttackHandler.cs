@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -6,172 +6,73 @@ namespace EmeWillem
 {
     public abstract class BaseAttackHandler : MonoBehaviour
     {
-        [Header("AUDIO SOURCE")]
-        [SerializeField] private AudioSource _audioSource;
+        public event Action<BaseAttackData> EnteredAttackingState;
+        public event Action<BaseAttackData> LeftAttackingState;
 
-        // Inherited properties
-        protected CreatureAI _creatureAI;
         protected BaseAnimatorManager _AnimatorManager;
-        protected AudioSystem _AudioSystem;
-        protected BaseAttackData _AttackData;
-        protected VFXManager _VFXManager;
-        protected GameObject _GameObject;
-        protected Transform _Transform;
-        protected float _Delta;
 
-        private LayerMask _targetLayer;
+        private List<OffenseCollider> _offenseColliderList;
 
-        public delegate void SuccessfulAttackDelegate(Collider hit, int colliders, float damage, bool crit);
-        public event SuccessfulAttackDelegate SuccessfulAttack;
-
-        public delegate void SuccessfulHitDelegate(Collider hit, float damage, bool crit);
-        public event SuccessfulHitDelegate SuccessfulHit;
-
-        public event Action<BaseAttackData> AttackBegun;
-        public event Action<BaseAttackData> AttackHalfway;
-        public event Action<BaseAttackData> AttackEnded;
-
-        public virtual void Init(LayerMask targetLayer)
+        public virtual void Init(List<OffenseCollider> offenseColliders)
         {
-            _creatureAI = GetComponent<CreatureAI>();
             _AnimatorManager = GetComponent<BaseAnimatorManager>();
-            _AudioSystem = AudioSystem.Instance;
-            _VFXManager = VFXManager.Instance;
-            _GameObject = gameObject;
-            _Transform = transform;
 
-            _targetLayer = targetLayer;
+            _offenseColliderList = offenseColliders;
         }
 
-        public void Tick(float delta)
+        public void EnterAttackingState(BaseAttackData attackData)
         {
-            _Delta = delta;
+            OnEnteredAttackingState(attackData);
+
+            // Play audio or sumthing
         }
 
-        public virtual void AttackBegin()
+        public void LeaveAttackingState(BaseAttackData attackData)
         {
-            OnAttackBegun(_AttackData);
-
-            _AudioSystem.PlayAudio(_audioSource, _AttackData.AudioClip, _AttackData.AudioVolume, _AttackData.AudioOffset);
+            OnLeftAttackingState(attackData);
         }
 
-        public virtual void AttackMiddle()
+        public void AttackStart(string data)
         {
-            OnAttackHalfway(_AttackData);
+            data = data.Replace(" ", "");
+            string[] parameters = data.Split(',');
+            int damage = int.Parse(parameters[0]);
+            int stagger = int.Parse(parameters[1]);
+            string offenseColliderName = parameters[2];
 
-            if (_AttackData.AttackType == AttackType.Special)
+            foreach (OffenseCollider offenseCollider in _offenseColliderList)
             {
-                _AttackData.Attack(_creatureAI.CurrentTarget);
-            }
-            else
-            {
-                float damage = _AttackData.Damage;
-                bool crit = RollCritical();
-                HandleDamage(damage, crit);
-            }
-        }
-
-        public virtual void AttackEnd()
-        {
-            OnAttackEnded(_AttackData);
-        }
-
-        protected void HandleAttack(BaseAttackData attackData)
-        {
-            if (!_AnimatorManager.GetBool("InAction") && _AnimatorManager.CrossFade(attackData.AnimationName))
-            {
-                _AttackData = attackData;
-            }
-        }
-
-        private void HandleDamage(float damage, bool crit)
-        {
-            if (GetHits(out Collider[] hits))
-            {
-                Collider firstHit = GetFirstHit(hits);
-                int colliders = hits.Length;
-
-                foreach (Collider hit in hits)
+                if (offenseCollider.Name == offenseColliderName)
                 {
-                    Health health = hit.GetComponent<Health>();
-                    damage = HandleCritical(hit, damage, crit);
-                    //health.TakeDamage(_GameObject, damage);
-                    OnsuccesfulHit(hit, damage, crit);
-                }
-
-                OnSuccesfulAttack(firstHit, colliders, damage, crit);
-            }
-        }
-
-        protected virtual float HandleCritical(Collider hit, float damage, bool crit) { return damage; }
-
-        protected virtual bool RollCritical() { return false; }
-
-        private void OnSuccesfulAttack(Collider hit, int colliders, float damage, bool crit)
-        {
-            SuccessfulAttack?.Invoke(hit, colliders, damage, crit);
-        }
-
-        private void OnsuccesfulHit(Collider hit, float damage, bool crit)
-        {
-            SuccessfulHit?.Invoke(hit, damage, crit);
-        }
-
-        private void OnAttackBegun(BaseAttackData attackData)
-        {
-            AttackBegun?.Invoke(attackData);
-        }
-
-        private void OnAttackHalfway(BaseAttackData attackData)
-        {
-            AttackHalfway?.Invoke(attackData);
-        }
-
-        private void OnAttackEnded(BaseAttackData attackData)
-        {
-            AttackEnded?.Invoke(attackData);
-        }
-
-        private Collider GetFirstHit(Collider[] hits)
-        {
-            Collider closestCollider = null;
-            float minAngle = float.MaxValue;
-
-            foreach (Collider hit in hits)
-            {
-                Vector3 directionToCollider = (hit.transform.position - _Transform.position).normalized;
-                float angle = Vector3.Angle(_Transform.forward, directionToCollider);
-
-                if (angle < minAngle)
-                {
-                    minAngle = angle;
-                    closestCollider = hit;
+                    offenseCollider.Activate(damage, stagger);
+                    break;
                 }
             }
 
-            return closestCollider;
+            _AnimatorManager.SetBool("CanRotate", false);
         }
 
-        private bool GetHits(out Collider[] hits)
+        public void AttackEnd(string offenseColliderName)
         {
-            Vector3 attackPosition = _Transform.position + _Transform.TransformDirection(_AttackData.AttackOffset);
-
-            if (_AttackData.AttackRadius > 0)
+            offenseColliderName = offenseColliderName.Replace(" ", "");
+            foreach (OffenseCollider offenseCollider in _offenseColliderList)
             {
-                hits = Physics.OverlapSphere(attackPosition, _AttackData.AttackRadius, _targetLayer);
+                if (offenseCollider.Name == offenseColliderName)
+                {
+                    offenseCollider.Deactivate();
+                    break;
+                }
             }
-            else
-            {
-                hits = Physics.OverlapBox(attackPosition, _AttackData.AttackHitBox, _Transform.rotation, _targetLayer);
-            }
+        }
 
-            hits = hits.Where(hit => hit.GetComponent<Health>() != null).ToArray();
+        private void OnEnteredAttackingState(BaseAttackData attackData)
+        {
+            EnteredAttackingState?.Invoke(attackData);
+        }
 
-            if (hits.Length > 0)
-            {
-                return true;
-            }
-            return false;
+        private void OnLeftAttackingState(BaseAttackData attackData)
+        {
+            LeftAttackingState?.Invoke(attackData);
         }
     }
 }

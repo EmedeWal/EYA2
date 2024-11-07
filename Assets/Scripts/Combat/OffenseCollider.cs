@@ -7,8 +7,7 @@ namespace EmeWillem
     [RequireComponent(typeof(Rigidbody))]
     public class OffenseCollider : MonoBehaviour
     {
-        [Header("IDENTIFIER")]
-        public OffenseColliderType OffenseColliderType;
+        public string Name { get; private set; }
 
         private List<GameObject> _attackTargetsList;
         private CapsuleCollider _capsuleCollider;
@@ -20,6 +19,8 @@ namespace EmeWillem
 
         public void Init(Transform attackerTransform, LayerMask targetLayer)
         {
+            Name = gameObject.name;
+
             _capsuleCollider = GetComponent<CapsuleCollider>();
             _capsuleCollider.isTrigger = true;
             _capsuleCollider.enabled = false;

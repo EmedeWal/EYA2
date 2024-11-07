@@ -60,12 +60,12 @@ namespace EmeWillem
             _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
             gameObject.layer = controllerLayer;
 
-            ListenToAttackEvents(true);
+            //ListenToAttackEvents(true);
         }
 
         public void Cleanup()
         {
-            ListenToAttackEvents(false);
+            //ListenToAttackEvents(false);
         }
 
         public void FixedTick(float delta, Vector3 horizontalDirection, Vector3 verticalDirection, float horizontalInput, float verticalInput, Transform lockOnTarget)
@@ -184,31 +184,31 @@ namespace EmeWillem
             _animatorManager.UpdateAnimatorValues(_delta, _horizontal, _vertical, _grounded, locked, Moving);
         }
 
-        #region Attack Events
-        private void ListenToAttackEvents(bool listen)
-        {
-            if (listen)
-            {
-                _attackHandler.AttackHalfway += PlayerLocomotion_AttackHalfway;
-                _attackHandler.AttackEnded += PlayerLocomotion_AttackEnded;
-            }
-            else
-            {
-                _attackHandler.AttackHalfway -= PlayerLocomotion_AttackHalfway;
-                _attackHandler.AttackEnded -= PlayerLocomotion_AttackEnded;
-            }
-        }
+        //#region AttackingState_EnteredAttackingState Events
+        //private void ListenToAttackEvents(bool listen)
+        //{
+        //    if (listen)
+        //    {
+        //        _attackHandler.AttackHalfway += PlayerLocomotion_AttackHalfway;
+        //        _attackHandler.AttackEnded += PlayerLocomotion_AttackEnded;
+        //    }
+        //    else
+        //    {
+        //        _attackHandler.AttackHalfway -= PlayerLocomotion_AttackHalfway;
+        //        _attackHandler.AttackEnded -= PlayerLocomotion_AttackEnded;
+        //    }
+        //}
 
-        private void PlayerLocomotion_AttackHalfway(BaseAttackData attackData)
-        {
-            _canRotate = false;
-        }
+        //private void PlayerLocomotion_AttackHalfway(BaseAttackData attackData)
+        //{
+        //    _canRotate = false;
+        //}
 
-        private void PlayerLocomotion_AttackEnded(BaseAttackData attackData)
-        {
-            _canRotate = true;
-        }
-        #endregion
+        //private void PlayerLocomotion_AttackEnded(BaseAttackData attackData)
+        //{
+        //    _canRotate = true;
+        //}
+        //#endregion
 
         private bool IsGrounded()
         {

@@ -37,9 +37,9 @@ namespace EmeWillem
                 _animatorManager = GetComponent<AnimatorManager>();
                 _transform = transform;
 
-                _characterController.center = new Vector3(0, 1, 0);
+                _characterController.center = new Vector3(0, 1, -0.1f);
                 _characterController.height = 1.8f;
-                _characterController.radius = 0.5f;
+                _characterController.radius = 0.3f;
 
                 _groundCheckRadius = _characterController.radius + 0.05f;
                 _groundCheckOffset = _characterController.radius;
@@ -48,7 +48,6 @@ namespace EmeWillem
                 int damageColliderLayer = LayerMask.NameToLayer("DamageCollider");
 
                 _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
-                gameObject.layer = controllerLayer;
             }
 
             public void Tick(float delta, Transform target, Vector3 xDirection, Vector3 yDirection, Vector2 input)

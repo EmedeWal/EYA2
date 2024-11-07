@@ -6,22 +6,20 @@ namespace EmeWillem
     {
         public class Attack : StateMachineBehaviour
         {
-            public delegate void StateEntered_Delegate(int animationHash);
-            public static event StateEntered_Delegate StateEntered;
+            [Header("DATA REFERENCE")]
+            [SerializeField] private BaseAttackData _attackData;
+            private BaseAttackHandler _attackHandler;
 
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                OnStateEntered(stateInfo.tagHash);
+                _attackHandler = animator.GetComponent<BaseAttackHandler>();
+                _attackHandler.EnterAttackingState(_attackData);
             }
 
             public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 animator.SetBool("CanRotate", true);
-            }
-
-            private void OnStateEntered(int animationHash)
-            {
-                StateEntered?.Invoke(animationHash);
+                _attackHandler.LeaveAttackingState(_attackData);
             }
         }
     }

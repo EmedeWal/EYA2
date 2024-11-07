@@ -150153,7 +150153,7 @@ AnimationClip:
   - time: 1.5
     functionName: AttackStart
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: f53f693053c5a6949a29dd9fa2f80d0b, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

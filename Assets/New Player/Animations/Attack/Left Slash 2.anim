@@ -96104,15 +96104,15 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: AttackStart
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
+    data: 60, 20, Sword - Blade
+    objectReferenceParameter: {fileID: 11500000, guid: f53f693053c5a6949a29dd9fa2f80d0b, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1
     functionName: AttackEnd
-    data: Sword_Right
-    objectReferenceParameter: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
+    data: Sword - Blade
+    objectReferenceParameter: {fileID: 11500000, guid: f53f693053c5a6949a29dd9fa2f80d0b, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

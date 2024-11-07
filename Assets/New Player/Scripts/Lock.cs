@@ -1,4 +1,5 @@
 using System.Collections;
+using EmeWillem.AI;
 using UnityEngine;
 
 namespace EmeWillem
@@ -48,24 +49,24 @@ namespace EmeWillem
 
                 _lockMarkerObject.SetActive(false);
 
-                CreatureManager.CreatureDeath += PlayerLock_CreatureDeath;
+                //CreatureManager.CreatureDeath += PlayerLock_CreatureDeath;
                 _inputHandler.LockOnInputPerformed += PlayerLockOn_LockOnInputPerformed;
             }
 
             public void Cleanup()
             {
-                CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
+                //CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
                 _inputHandler.LockOnInputPerformed -= PlayerLockOn_LockOnInputPerformed;
             }
 
-            private void PlayerLock_CreatureDeath(CreatureAI creature)
-            {
-                if (_lockTarget != null && _lockTarget == creature.LockTarget)
-                {
-                    DisableLock();
-                    StartCoroutine(FindLockOnTarget());
-                }
-            }
+            //private void PlayerLock_CreatureDeath(CreatureAI creature)
+            //{
+            //    if (_lockTarget != null && _lockTarget == creature.LockTarget)
+            //    {
+            //        DisableLock();
+            //        StartCoroutine(FindLockOnTarget());
+            //    }
+            //}
 
             private void PlayerLockOn_LockOnInputPerformed()
             {
@@ -100,7 +101,10 @@ namespace EmeWillem
 
             private void ManageLockMarker()
             {
-                _lockMarkerTransform.position = _lockTarget.LockPoint.position;
+                Vector3 newPosition = _lockTarget.Center.position;
+                newPosition.y += _lockTarget.Offset;
+                _lockMarkerTransform.position = newPosition;
+
                 Vector3 directionToCamera = _cameraTransform.position - _lockMarkerTransform.position;
                 Vector3 targetDirection = -directionToCamera;
                 _lockMarkerTransform.rotation = Quaternion.LookRotation(targetDirection);

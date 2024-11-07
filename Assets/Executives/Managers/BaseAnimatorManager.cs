@@ -41,12 +41,16 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         Animator.SetFloat(_AnimatorLocomotion, locomotion, 0.1f, _DeltaTime);
     }
 
-    public void ForceCrossFade(string animationName, float transitionDuration = 0.1f, int layer = 1)
+    public void ForceCrossFade(string animationName, bool allowRepeat, int layer = 1, float transitionDuration = 0.1f)
     {
-        CancelInvoke();
-        _crossFading = true;
-        Invoke(nameof(ResetCrossFading), transitionDuration + 0.25f);
-        Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
+        AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(layer);
+        if (!currentState.IsName(animationName) || allowRepeat)
+        {
+            CancelInvoke();
+            _crossFading = true;
+            Invoke(nameof(ResetCrossFading), transitionDuration + 0.25f);
+            Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
+        }
     }
 
     public void SetBool(string name, bool value)
@@ -59,7 +63,7 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         return Animator.GetBool(boolName);
     }
 
-    public bool CrossFade(string animationName, float transitionDuration = 0.1f, int layer = 1)
+    public bool CrossFade(string animationName, int layer = 1, float transitionDuration = 0.1f)
     {
         if (!_crossFading && !Animator.GetBool("InAction"))
         {
