@@ -6483,14 +6483,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa18af36c63de449b1b1c2e2b8b9f4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 4.5
   _inputQueueSize: 3
   _inputDropThreshold: 0.3
   _mediumLocomotionThreshold: 0.5
   _slowLocomotionThreshold: 0.3
   _fullTurnDotThreshold: 0.5
-  _turnInputThreshold: 0.1
-  _turnTransitionTime: 0.3
+  _halfTurnDotThreshold: 0.1
 --- !u!114 &6083668102415102657
 MonoBehaviour:
   m_ObjectHideFlags: 0

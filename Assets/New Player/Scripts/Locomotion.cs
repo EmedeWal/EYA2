@@ -15,9 +15,6 @@ namespace EmeWillem
             private Transform _transform;
             private LayerMask _ignoreLayers;
 
-            [Header("ROTATION SETTINGS")]
-            [SerializeField] private float _rotationSpeed = 4.5f;
-
             [Header("INPUT SETTINGS")]
             [SerializeField] private int _inputQueueSize = 3;
             [SerializeField] private float _inputDropThreshold = 0.3f;
@@ -28,8 +25,7 @@ namespace EmeWillem
 
             [Header("TURN SETTINGS")]
             [SerializeField] private float _fullTurnDotThreshold = 0.5f;
-            [SerializeField] private float _turnInputThreshold = 0.3f;
-            [SerializeField] private float _turnTransitionTime = 0.3f;
+            [SerializeField] private float _halfTurnDotThreshold = 0.1f;
 
             private Queue<float> _inputHistory;
             private float _currentInput;
@@ -89,8 +85,8 @@ namespace EmeWillem
                     _inputHistory.Enqueue(_currentInput);
 
                     _animatorManager.UpdateAnimatorValues(deltaTime, _currentInput, true);
+                    CheckAnimations(yDirection);
                     HandleRotation(deltaTime);
-                    CheckAnimations(); 
                 }
             }
 
@@ -107,38 +103,62 @@ namespace EmeWillem
                 _transform.rotation = targetRotation;
             }
 
-            private void CheckAnimations()
+            private void CheckAnimations(Vector3 yDirection)
             {
-                Vector3 inputDirection = MovementDirection;
-                Vector3 currentForward = transform.forward;
-                currentForward.y = 0;
+                Vector3 movementDirection = MovementDirection;
+                Vector3 forwardDirection = transform.forward;
+                forwardDirection.y = 0;
 
                 float initialInput = _inputHistory.Count > 0 ? _inputHistory.Peek() : _currentInput;
                 float averageDrop = initialInput - _currentInput;
 
                 float locomotion = _animatorManager.GetFloat(_locomotionHash);
-                float dotProduct = Vector3.Dot(currentForward.normalized, inputDirection);
+                float dotProduct = Vector3.Dot(forwardDirection.normalized, movementDirection);
 
                 if (dotProduct < -_fullTurnDotThreshold && locomotion > _mediumLocomotionThreshold)
                 {
                     _animatorManager.CrossFadeAction(_fullTurnBlendHash, _layer);
                 }
-                else if (locomotion < _slowLocomotionThreshold && averageDrop > _inputDropThreshold)
+                else if (locomotion < _slowLocomotionThreshold)
                 {
-                    _animatorManager.CrossFadeAction(_kickHash, _layer);
+                    if (dotProduct < -_halfTurnDotThreshold)
+                    {
+                        HandleHalfTurns(movementDirection, forwardDirection, yDirection);
+                    }
+                    else if (averageDrop > _inputDropThreshold)
+                    {
+                        _animatorManager.CrossFadeAction(_kickHash, _layer);
+                    }
+                }
+            }
 
-                    //if (inputDirection.x > _turnInputThreshold)
-                    //{
-                    //    _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _turnTransitionTime);
-                    //}
-                    //else if (inputDirection.x < -_turnInputThreshold)
-                    //{
-                    //    _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _turnTransitionTime);
-                    //}
-                    //else
-                    //{
-                    //    _animatorManager.CrossFadeAction(_kickHash, _layer);
-                    //}
+            private void HandleHalfTurns(Vector3 movementDirection, Vector3 forwardDirection, Vector3 yDirection)
+            {
+                Vector3 crossProduct = Vector3.Cross(yDirection, movementDirection);
+                float cameraDot = Vector3.Dot(forwardDirection, yDirection);
+                float turnTransitionTime = 0.3f;
+
+                if (cameraDot >= 0)
+                {
+                    if (crossProduct.y > 0)
+                    {
+                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, turnTransitionTime);
+                    }
+                    else
+                    {
+                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, turnTransitionTime);
+                    }
+                }
+                else
+                {
+                    if (crossProduct.y > 0)
+                    {
+                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, turnTransitionTime);
+                    }
+                    else
+                    {
+                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, turnTransitionTime);
+                    }
                 }
             }
         }
