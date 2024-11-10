@@ -14,6 +14,9 @@ namespace EmeWillem
             private Locomotion _locomotion;
             private Transform _transform;
             private Transform _target;
+            private int _canRotateHash;
+            private int _inActionHash;
+            private int _inCombatHash;
             private float _cooldownTimer;
             private bool _onCooldown;
 
@@ -24,6 +27,9 @@ namespace EmeWillem
                 _locomotion = _Enemy.Locomotion;
                 _transform = _Enemy.Transform;
                 _target = target;
+                _canRotateHash = Animator.StringToHash("CanRotate");
+                _inActionHash = Animator.StringToHash("InAction");
+                _inCombatHash = Animator.StringToHash("InCombat");
                 _cooldownTimer = 0;
                 _onCooldown = false;
             }
@@ -33,7 +39,7 @@ namespace EmeWillem
                 _attackHandler.EnteredAttackingState += AttackingState_EnteredAttackingState;
                 _attackHandler.LeftAttackingState += AttackingState_LeftAttackingState;
 
-                _animatorManager.SetBool("InCombat", true);
+                _animatorManager.SetBool(_inCombatHash, true);
                 _locomotion.StopAgent(true);
             }
 
@@ -51,9 +57,9 @@ namespace EmeWillem
                 }
                 else if (_target != null)
                 {
-                    if (_animatorManager.GetBool("InAction"))
+                    if (_animatorManager.GetBool(_inActionHash))
                     {
-                        if (_animatorManager.GetBool("CanRotate"))
+                        if (_animatorManager.GetBool(_canRotateHash))
                         {
                             RotateTowardsTarget(delta);
                         }

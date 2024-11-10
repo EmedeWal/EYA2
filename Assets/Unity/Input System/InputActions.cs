@@ -15,12 +15,14 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @InputActions: IInputActionCollection2, IDisposable
+namespace EmeWillem
 {
-    public InputActionAsset asset { get; }
-    public @InputActions()
+    public partial class @InputActions: IInputActionCollection2, IDisposable
     {
-        asset = InputActionAsset.FromJson(@"{
+        public InputActionAsset asset { get; }
+        public @InputActions()
+        {
+            asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputActions"",
     ""maps"": [
         {
@@ -32,7 +34,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""4bc70efc-1447-4a84-8360-a4cdbc623c67"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -41,7 +43,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""bf2637c3-8c02-4964-bb08-2d692dd243e2"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -160,42 +162,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""D-Pad (Up & Down)"",
-                    ""type"": ""Button"",
-                    ""id"": ""a7d7cbd6-3598-4af4-ae15-bae4230ec7d8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""D-Pad (Left & Right)"",
-                    ""type"": ""Button"",
-                    ""id"": ""eddde8cb-3d32-4269-9505-bc7ec85d2d77"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Options"",
-                    ""type"": ""Button"",
-                    ""id"": ""fa1345a0-69ab-4cb8-ac38-d01b02b99cd2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Shoulders"",
-                    ""type"": ""Value"",
-                    ""id"": ""e97d2d16-5054-496e-81ff-6a209865608d"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Left Shoulder"",
                     ""type"": ""Value"",
                     ""id"": ""1aac6eed-0147-40e5-b2fd-2775e5c55c65"",
@@ -262,6 +228,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Button West"",
                     ""type"": ""Button"",
                     ""id"": ""14ef6eba-e11a-4b77-913d-1b8354bb8e30"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Options"",
+                    ""type"": ""Button"",
+                    ""id"": ""fa1345a0-69ab-4cb8-ac38-d01b02b99cd2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -359,28 +334,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cf358fec-66da-4ae2-8d22-95a76ab329b3"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Options"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb15c798-469c-48b6-80ed-a411cad6d646"",
-                    ""path"": ""<Gamepad>/{Menu}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Options"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""49ff0107-5df9-4f04-a70b-04ebfd7989b2"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -447,28 +400,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""20ff7c76-dd34-4f4f-8fe1-f0be83da68ce"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Right Shoulder"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0103c3b7-3ad4-4b18-a823-7f8e745cd942"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Right Shoulder"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d74cfd98-1665-4d97-b310-7168808883c0"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -512,509 +443,326 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""79199a49-51d3-482a-b1ff-3ac36edd1daf"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""name"": """",
+                    ""id"": ""cf358fec-66da-4ae2-8d22-95a76ab329b3"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoulders"",
-                    ""isComposite"": true,
+                    ""action"": ""Options"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""855f9ca6-100f-40b4-8fbd-4cb07cd34453"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""name"": """",
+                    ""id"": ""bb15c798-469c-48b6-80ed-a411cad6d646"",
+                    ""path"": ""<Gamepad>/{Menu}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoulders"",
+                    ""action"": ""Options"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""34cc2b72-287e-46ca-8d04-14151cd1c3b2"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoulders"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""7ae72292-9f55-4dd3-a13b-d9057715c7c9"",
-                    ""path"": ""1DAxis(whichSideWins=2)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoulders"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""aa825e0a-804e-4b1e-badf-002ad5e3b4c3"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""name"": """",
+                    ""id"": ""20ff7c76-dd34-4f4f-8fe1-f0be83da68ce"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoulders"",
+                    ""action"": ""Right Shoulder"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""344ef4b6-876f-4dd7-9c75-6338e04da294"",
+                    ""name"": """",
+                    ""id"": ""0103c3b7-3ad4-4b18-a823-7f8e745cd942"",
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoulders"",
+                    ""action"": ""Right Shoulder"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""d186d9ce-50c4-44c4-9d0c-02ff26f2b39e"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e2a419de-279e-443f-84b0-190e7390dfad"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""2c4c0c0a-7427-4d9a-8cca-41d3fb8c4b27"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""17209e9c-a74a-46d1-9684-20ee4a660389"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""86a38343-e5a7-4913-967d-5f9a7f912cc3"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""8b4a2279-1393-49ba-b3b9-f42a341263f4"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Left & Right)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""38a02dbb-68ab-4e29-a34d-aadd699882a1"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""7a700362-8950-4489-9d01-3418bd1a2c46"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""350e2e3c-2e10-401b-8194-0ab9c0e57c7e"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""c845e9fd-2b3b-4bcb-9185-d0689fa417f9"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""550debaf-627f-4aa2-8306-f53de8d9e4eb"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""1a49e20a-7c5e-4dd6-891c-d54a0c644016"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""D-Pad (Up & Down)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
+            // Movement
+            m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
+            m_Movement_LeftStick = m_Movement.FindAction("Left Stick", throwIfNotFound: true);
+            m_Movement_RightStick = m_Movement.FindAction("Right Stick", throwIfNotFound: true);
+            // Actions
+            m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
+            m_Actions_L3Press = m_Actions.FindAction("L3 Press", throwIfNotFound: true);
+            m_Actions_R3Press = m_Actions.FindAction("R3 Press", throwIfNotFound: true);
+            m_Actions_LeftShoulder = m_Actions.FindAction("Left Shoulder", throwIfNotFound: true);
+            m_Actions_LeftTrigger = m_Actions.FindAction("Left Trigger", throwIfNotFound: true);
+            m_Actions_RightShoulder = m_Actions.FindAction("Right Shoulder", throwIfNotFound: true);
+            m_Actions_RightTrigger = m_Actions.FindAction("Right Trigger", throwIfNotFound: true);
+            m_Actions_ButtonNorth = m_Actions.FindAction("Button North", throwIfNotFound: true);
+            m_Actions_ButtonEast = m_Actions.FindAction("Button East", throwIfNotFound: true);
+            m_Actions_ButtonSouth = m_Actions.FindAction("Button South", throwIfNotFound: true);
+            m_Actions_ButtonWest = m_Actions.FindAction("Button West", throwIfNotFound: true);
+            m_Actions_Options = m_Actions.FindAction("Options", throwIfNotFound: true);
+        }
+
+        public void Dispose()
+        {
+            UnityEngine.Object.Destroy(asset);
+        }
+
+        public InputBinding? bindingMask
+        {
+            get => asset.bindingMask;
+            set => asset.bindingMask = value;
+        }
+
+        public ReadOnlyArray<InputDevice>? devices
+        {
+            get => asset.devices;
+            set => asset.devices = value;
+        }
+
+        public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
+
+        public bool Contains(InputAction action)
+        {
+            return asset.Contains(action);
+        }
+
+        public IEnumerator<InputAction> GetEnumerator()
+        {
+            return asset.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Enable()
+        {
+            asset.Enable();
+        }
+
+        public void Disable()
+        {
+            asset.Disable();
+        }
+
+        public IEnumerable<InputBinding> bindings => asset.bindings;
+
+        public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
+        {
+            return asset.FindAction(actionNameOrId, throwIfNotFound);
+        }
+
+        public int FindBinding(InputBinding bindingMask, out InputAction action)
+        {
+            return asset.FindBinding(bindingMask, out action);
+        }
+
         // Movement
-        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
-        m_Movement_LeftStick = m_Movement.FindAction("Left Stick", throwIfNotFound: true);
-        m_Movement_RightStick = m_Movement.FindAction("Right Stick", throwIfNotFound: true);
+        private readonly InputActionMap m_Movement;
+        private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
+        private readonly InputAction m_Movement_LeftStick;
+        private readonly InputAction m_Movement_RightStick;
+        public struct MovementActions
+        {
+            private @InputActions m_Wrapper;
+            public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @LeftStick => m_Wrapper.m_Movement_LeftStick;
+            public InputAction @RightStick => m_Wrapper.m_Movement_RightStick;
+            public InputActionMap Get() { return m_Wrapper.m_Movement; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
+            public void AddCallbacks(IMovementActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
+                @LeftStick.started += instance.OnLeftStick;
+                @LeftStick.performed += instance.OnLeftStick;
+                @LeftStick.canceled += instance.OnLeftStick;
+                @RightStick.started += instance.OnRightStick;
+                @RightStick.performed += instance.OnRightStick;
+                @RightStick.canceled += instance.OnRightStick;
+            }
+
+            private void UnregisterCallbacks(IMovementActions instance)
+            {
+                @LeftStick.started -= instance.OnLeftStick;
+                @LeftStick.performed -= instance.OnLeftStick;
+                @LeftStick.canceled -= instance.OnLeftStick;
+                @RightStick.started -= instance.OnRightStick;
+                @RightStick.performed -= instance.OnRightStick;
+                @RightStick.canceled -= instance.OnRightStick;
+            }
+
+            public void RemoveCallbacks(IMovementActions instance)
+            {
+                if (m_Wrapper.m_MovementActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMovementActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MovementActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MovementActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MovementActions @Movement => new MovementActions(this);
+
         // Actions
-        m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
-        m_Actions_L3Press = m_Actions.FindAction("L3 Press", throwIfNotFound: true);
-        m_Actions_R3Press = m_Actions.FindAction("R3 Press", throwIfNotFound: true);
-        m_Actions_DPadUpDown = m_Actions.FindAction("D-Pad (Up & Down)", throwIfNotFound: true);
-        m_Actions_DPadLeftRight = m_Actions.FindAction("D-Pad (Left & Right)", throwIfNotFound: true);
-        m_Actions_Options = m_Actions.FindAction("Options", throwIfNotFound: true);
-        m_Actions_Shoulders = m_Actions.FindAction("Shoulders", throwIfNotFound: true);
-        m_Actions_LeftShoulder = m_Actions.FindAction("Left Shoulder", throwIfNotFound: true);
-        m_Actions_LeftTrigger = m_Actions.FindAction("Left Trigger", throwIfNotFound: true);
-        m_Actions_RightShoulder = m_Actions.FindAction("Right Shoulder", throwIfNotFound: true);
-        m_Actions_RightTrigger = m_Actions.FindAction("Right Trigger", throwIfNotFound: true);
-        m_Actions_ButtonNorth = m_Actions.FindAction("Button North", throwIfNotFound: true);
-        m_Actions_ButtonEast = m_Actions.FindAction("Button East", throwIfNotFound: true);
-        m_Actions_ButtonSouth = m_Actions.FindAction("Button South", throwIfNotFound: true);
-        m_Actions_ButtonWest = m_Actions.FindAction("Button West", throwIfNotFound: true);
-    }
-
-    public void Dispose()
-    {
-        UnityEngine.Object.Destroy(asset);
-    }
-
-    public InputBinding? bindingMask
-    {
-        get => asset.bindingMask;
-        set => asset.bindingMask = value;
-    }
-
-    public ReadOnlyArray<InputDevice>? devices
-    {
-        get => asset.devices;
-        set => asset.devices = value;
-    }
-
-    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
-
-    public bool Contains(InputAction action)
-    {
-        return asset.Contains(action);
-    }
-
-    public IEnumerator<InputAction> GetEnumerator()
-    {
-        return asset.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    public void Enable()
-    {
-        asset.Enable();
-    }
-
-    public void Disable()
-    {
-        asset.Disable();
-    }
-
-    public IEnumerable<InputBinding> bindings => asset.bindings;
-
-    public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
-    {
-        return asset.FindAction(actionNameOrId, throwIfNotFound);
-    }
-
-    public int FindBinding(InputBinding bindingMask, out InputAction action)
-    {
-        return asset.FindBinding(bindingMask, out action);
-    }
-
-    // Movement
-    private readonly InputActionMap m_Movement;
-    private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
-    private readonly InputAction m_Movement_LeftStick;
-    private readonly InputAction m_Movement_RightStick;
-    public struct MovementActions
-    {
-        private @InputActions m_Wrapper;
-        public MovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftStick => m_Wrapper.m_Movement_LeftStick;
-        public InputAction @RightStick => m_Wrapper.m_Movement_RightStick;
-        public InputActionMap Get() { return m_Wrapper.m_Movement; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
-        public void AddCallbacks(IMovementActions instance)
+        private readonly InputActionMap m_Actions;
+        private List<IActionsActions> m_ActionsActionsCallbackInterfaces = new List<IActionsActions>();
+        private readonly InputAction m_Actions_L3Press;
+        private readonly InputAction m_Actions_R3Press;
+        private readonly InputAction m_Actions_LeftShoulder;
+        private readonly InputAction m_Actions_LeftTrigger;
+        private readonly InputAction m_Actions_RightShoulder;
+        private readonly InputAction m_Actions_RightTrigger;
+        private readonly InputAction m_Actions_ButtonNorth;
+        private readonly InputAction m_Actions_ButtonEast;
+        private readonly InputAction m_Actions_ButtonSouth;
+        private readonly InputAction m_Actions_ButtonWest;
+        private readonly InputAction m_Actions_Options;
+        public struct ActionsActions
         {
-            if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
-            @LeftStick.started += instance.OnLeftStick;
-            @LeftStick.performed += instance.OnLeftStick;
-            @LeftStick.canceled += instance.OnLeftStick;
-            @RightStick.started += instance.OnRightStick;
-            @RightStick.performed += instance.OnRightStick;
-            @RightStick.canceled += instance.OnRightStick;
-        }
+            private @InputActions m_Wrapper;
+            public ActionsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @L3Press => m_Wrapper.m_Actions_L3Press;
+            public InputAction @R3Press => m_Wrapper.m_Actions_R3Press;
+            public InputAction @LeftShoulder => m_Wrapper.m_Actions_LeftShoulder;
+            public InputAction @LeftTrigger => m_Wrapper.m_Actions_LeftTrigger;
+            public InputAction @RightShoulder => m_Wrapper.m_Actions_RightShoulder;
+            public InputAction @RightTrigger => m_Wrapper.m_Actions_RightTrigger;
+            public InputAction @ButtonNorth => m_Wrapper.m_Actions_ButtonNorth;
+            public InputAction @ButtonEast => m_Wrapper.m_Actions_ButtonEast;
+            public InputAction @ButtonSouth => m_Wrapper.m_Actions_ButtonSouth;
+            public InputAction @ButtonWest => m_Wrapper.m_Actions_ButtonWest;
+            public InputAction @Options => m_Wrapper.m_Actions_Options;
+            public InputActionMap Get() { return m_Wrapper.m_Actions; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
+            public void AddCallbacks(IActionsActions instance)
+            {
+                if (instance == null || m_Wrapper.m_ActionsActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_ActionsActionsCallbackInterfaces.Add(instance);
+                @L3Press.started += instance.OnL3Press;
+                @L3Press.performed += instance.OnL3Press;
+                @L3Press.canceled += instance.OnL3Press;
+                @R3Press.started += instance.OnR3Press;
+                @R3Press.performed += instance.OnR3Press;
+                @R3Press.canceled += instance.OnR3Press;
+                @LeftShoulder.started += instance.OnLeftShoulder;
+                @LeftShoulder.performed += instance.OnLeftShoulder;
+                @LeftShoulder.canceled += instance.OnLeftShoulder;
+                @LeftTrigger.started += instance.OnLeftTrigger;
+                @LeftTrigger.performed += instance.OnLeftTrigger;
+                @LeftTrigger.canceled += instance.OnLeftTrigger;
+                @RightShoulder.started += instance.OnRightShoulder;
+                @RightShoulder.performed += instance.OnRightShoulder;
+                @RightShoulder.canceled += instance.OnRightShoulder;
+                @RightTrigger.started += instance.OnRightTrigger;
+                @RightTrigger.performed += instance.OnRightTrigger;
+                @RightTrigger.canceled += instance.OnRightTrigger;
+                @ButtonNorth.started += instance.OnButtonNorth;
+                @ButtonNorth.performed += instance.OnButtonNorth;
+                @ButtonNorth.canceled += instance.OnButtonNorth;
+                @ButtonEast.started += instance.OnButtonEast;
+                @ButtonEast.performed += instance.OnButtonEast;
+                @ButtonEast.canceled += instance.OnButtonEast;
+                @ButtonSouth.started += instance.OnButtonSouth;
+                @ButtonSouth.performed += instance.OnButtonSouth;
+                @ButtonSouth.canceled += instance.OnButtonSouth;
+                @ButtonWest.started += instance.OnButtonWest;
+                @ButtonWest.performed += instance.OnButtonWest;
+                @ButtonWest.canceled += instance.OnButtonWest;
+                @Options.started += instance.OnOptions;
+                @Options.performed += instance.OnOptions;
+                @Options.canceled += instance.OnOptions;
+            }
 
-        private void UnregisterCallbacks(IMovementActions instance)
-        {
-            @LeftStick.started -= instance.OnLeftStick;
-            @LeftStick.performed -= instance.OnLeftStick;
-            @LeftStick.canceled -= instance.OnLeftStick;
-            @RightStick.started -= instance.OnRightStick;
-            @RightStick.performed -= instance.OnRightStick;
-            @RightStick.canceled -= instance.OnRightStick;
-        }
+            private void UnregisterCallbacks(IActionsActions instance)
+            {
+                @L3Press.started -= instance.OnL3Press;
+                @L3Press.performed -= instance.OnL3Press;
+                @L3Press.canceled -= instance.OnL3Press;
+                @R3Press.started -= instance.OnR3Press;
+                @R3Press.performed -= instance.OnR3Press;
+                @R3Press.canceled -= instance.OnR3Press;
+                @LeftShoulder.started -= instance.OnLeftShoulder;
+                @LeftShoulder.performed -= instance.OnLeftShoulder;
+                @LeftShoulder.canceled -= instance.OnLeftShoulder;
+                @LeftTrigger.started -= instance.OnLeftTrigger;
+                @LeftTrigger.performed -= instance.OnLeftTrigger;
+                @LeftTrigger.canceled -= instance.OnLeftTrigger;
+                @RightShoulder.started -= instance.OnRightShoulder;
+                @RightShoulder.performed -= instance.OnRightShoulder;
+                @RightShoulder.canceled -= instance.OnRightShoulder;
+                @RightTrigger.started -= instance.OnRightTrigger;
+                @RightTrigger.performed -= instance.OnRightTrigger;
+                @RightTrigger.canceled -= instance.OnRightTrigger;
+                @ButtonNorth.started -= instance.OnButtonNorth;
+                @ButtonNorth.performed -= instance.OnButtonNorth;
+                @ButtonNorth.canceled -= instance.OnButtonNorth;
+                @ButtonEast.started -= instance.OnButtonEast;
+                @ButtonEast.performed -= instance.OnButtonEast;
+                @ButtonEast.canceled -= instance.OnButtonEast;
+                @ButtonSouth.started -= instance.OnButtonSouth;
+                @ButtonSouth.performed -= instance.OnButtonSouth;
+                @ButtonSouth.canceled -= instance.OnButtonSouth;
+                @ButtonWest.started -= instance.OnButtonWest;
+                @ButtonWest.performed -= instance.OnButtonWest;
+                @ButtonWest.canceled -= instance.OnButtonWest;
+                @Options.started -= instance.OnOptions;
+                @Options.performed -= instance.OnOptions;
+                @Options.canceled -= instance.OnOptions;
+            }
 
-        public void RemoveCallbacks(IMovementActions instance)
-        {
-            if (m_Wrapper.m_MovementActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
+            public void RemoveCallbacks(IActionsActions instance)
+            {
+                if (m_Wrapper.m_ActionsActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
 
-        public void SetCallbacks(IMovementActions instance)
-        {
-            foreach (var item in m_Wrapper.m_MovementActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_MovementActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
+            public void SetCallbacks(IActionsActions instance)
+            {
+                foreach (var item in m_Wrapper.m_ActionsActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_ActionsActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
         }
-    }
-    public MovementActions @Movement => new MovementActions(this);
-
-    // Actions
-    private readonly InputActionMap m_Actions;
-    private List<IActionsActions> m_ActionsActionsCallbackInterfaces = new List<IActionsActions>();
-    private readonly InputAction m_Actions_L3Press;
-    private readonly InputAction m_Actions_R3Press;
-    private readonly InputAction m_Actions_DPadUpDown;
-    private readonly InputAction m_Actions_DPadLeftRight;
-    private readonly InputAction m_Actions_Options;
-    private readonly InputAction m_Actions_Shoulders;
-    private readonly InputAction m_Actions_LeftShoulder;
-    private readonly InputAction m_Actions_LeftTrigger;
-    private readonly InputAction m_Actions_RightShoulder;
-    private readonly InputAction m_Actions_RightTrigger;
-    private readonly InputAction m_Actions_ButtonNorth;
-    private readonly InputAction m_Actions_ButtonEast;
-    private readonly InputAction m_Actions_ButtonSouth;
-    private readonly InputAction m_Actions_ButtonWest;
-    public struct ActionsActions
-    {
-        private @InputActions m_Wrapper;
-        public ActionsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @L3Press => m_Wrapper.m_Actions_L3Press;
-        public InputAction @R3Press => m_Wrapper.m_Actions_R3Press;
-        public InputAction @DPadUpDown => m_Wrapper.m_Actions_DPadUpDown;
-        public InputAction @DPadLeftRight => m_Wrapper.m_Actions_DPadLeftRight;
-        public InputAction @Options => m_Wrapper.m_Actions_Options;
-        public InputAction @Shoulders => m_Wrapper.m_Actions_Shoulders;
-        public InputAction @LeftShoulder => m_Wrapper.m_Actions_LeftShoulder;
-        public InputAction @LeftTrigger => m_Wrapper.m_Actions_LeftTrigger;
-        public InputAction @RightShoulder => m_Wrapper.m_Actions_RightShoulder;
-        public InputAction @RightTrigger => m_Wrapper.m_Actions_RightTrigger;
-        public InputAction @ButtonNorth => m_Wrapper.m_Actions_ButtonNorth;
-        public InputAction @ButtonEast => m_Wrapper.m_Actions_ButtonEast;
-        public InputAction @ButtonSouth => m_Wrapper.m_Actions_ButtonSouth;
-        public InputAction @ButtonWest => m_Wrapper.m_Actions_ButtonWest;
-        public InputActionMap Get() { return m_Wrapper.m_Actions; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
-        public void AddCallbacks(IActionsActions instance)
+        public ActionsActions @Actions => new ActionsActions(this);
+        public interface IMovementActions
         {
-            if (instance == null || m_Wrapper.m_ActionsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_ActionsActionsCallbackInterfaces.Add(instance);
-            @L3Press.started += instance.OnL3Press;
-            @L3Press.performed += instance.OnL3Press;
-            @L3Press.canceled += instance.OnL3Press;
-            @R3Press.started += instance.OnR3Press;
-            @R3Press.performed += instance.OnR3Press;
-            @R3Press.canceled += instance.OnR3Press;
-            @DPadUpDown.started += instance.OnDPadUpDown;
-            @DPadUpDown.performed += instance.OnDPadUpDown;
-            @DPadUpDown.canceled += instance.OnDPadUpDown;
-            @DPadLeftRight.started += instance.OnDPadLeftRight;
-            @DPadLeftRight.performed += instance.OnDPadLeftRight;
-            @DPadLeftRight.canceled += instance.OnDPadLeftRight;
-            @Options.started += instance.OnOptions;
-            @Options.performed += instance.OnOptions;
-            @Options.canceled += instance.OnOptions;
-            @Shoulders.started += instance.OnShoulders;
-            @Shoulders.performed += instance.OnShoulders;
-            @Shoulders.canceled += instance.OnShoulders;
-            @LeftShoulder.started += instance.OnLeftShoulder;
-            @LeftShoulder.performed += instance.OnLeftShoulder;
-            @LeftShoulder.canceled += instance.OnLeftShoulder;
-            @LeftTrigger.started += instance.OnLeftTrigger;
-            @LeftTrigger.performed += instance.OnLeftTrigger;
-            @LeftTrigger.canceled += instance.OnLeftTrigger;
-            @RightShoulder.started += instance.OnRightShoulder;
-            @RightShoulder.performed += instance.OnRightShoulder;
-            @RightShoulder.canceled += instance.OnRightShoulder;
-            @RightTrigger.started += instance.OnRightTrigger;
-            @RightTrigger.performed += instance.OnRightTrigger;
-            @RightTrigger.canceled += instance.OnRightTrigger;
-            @ButtonNorth.started += instance.OnButtonNorth;
-            @ButtonNorth.performed += instance.OnButtonNorth;
-            @ButtonNorth.canceled += instance.OnButtonNorth;
-            @ButtonEast.started += instance.OnButtonEast;
-            @ButtonEast.performed += instance.OnButtonEast;
-            @ButtonEast.canceled += instance.OnButtonEast;
-            @ButtonSouth.started += instance.OnButtonSouth;
-            @ButtonSouth.performed += instance.OnButtonSouth;
-            @ButtonSouth.canceled += instance.OnButtonSouth;
-            @ButtonWest.started += instance.OnButtonWest;
-            @ButtonWest.performed += instance.OnButtonWest;
-            @ButtonWest.canceled += instance.OnButtonWest;
+            void OnLeftStick(InputAction.CallbackContext context);
+            void OnRightStick(InputAction.CallbackContext context);
         }
-
-        private void UnregisterCallbacks(IActionsActions instance)
+        public interface IActionsActions
         {
-            @L3Press.started -= instance.OnL3Press;
-            @L3Press.performed -= instance.OnL3Press;
-            @L3Press.canceled -= instance.OnL3Press;
-            @R3Press.started -= instance.OnR3Press;
-            @R3Press.performed -= instance.OnR3Press;
-            @R3Press.canceled -= instance.OnR3Press;
-            @DPadUpDown.started -= instance.OnDPadUpDown;
-            @DPadUpDown.performed -= instance.OnDPadUpDown;
-            @DPadUpDown.canceled -= instance.OnDPadUpDown;
-            @DPadLeftRight.started -= instance.OnDPadLeftRight;
-            @DPadLeftRight.performed -= instance.OnDPadLeftRight;
-            @DPadLeftRight.canceled -= instance.OnDPadLeftRight;
-            @Options.started -= instance.OnOptions;
-            @Options.performed -= instance.OnOptions;
-            @Options.canceled -= instance.OnOptions;
-            @Shoulders.started -= instance.OnShoulders;
-            @Shoulders.performed -= instance.OnShoulders;
-            @Shoulders.canceled -= instance.OnShoulders;
-            @LeftShoulder.started -= instance.OnLeftShoulder;
-            @LeftShoulder.performed -= instance.OnLeftShoulder;
-            @LeftShoulder.canceled -= instance.OnLeftShoulder;
-            @LeftTrigger.started -= instance.OnLeftTrigger;
-            @LeftTrigger.performed -= instance.OnLeftTrigger;
-            @LeftTrigger.canceled -= instance.OnLeftTrigger;
-            @RightShoulder.started -= instance.OnRightShoulder;
-            @RightShoulder.performed -= instance.OnRightShoulder;
-            @RightShoulder.canceled -= instance.OnRightShoulder;
-            @RightTrigger.started -= instance.OnRightTrigger;
-            @RightTrigger.performed -= instance.OnRightTrigger;
-            @RightTrigger.canceled -= instance.OnRightTrigger;
-            @ButtonNorth.started -= instance.OnButtonNorth;
-            @ButtonNorth.performed -= instance.OnButtonNorth;
-            @ButtonNorth.canceled -= instance.OnButtonNorth;
-            @ButtonEast.started -= instance.OnButtonEast;
-            @ButtonEast.performed -= instance.OnButtonEast;
-            @ButtonEast.canceled -= instance.OnButtonEast;
-            @ButtonSouth.started -= instance.OnButtonSouth;
-            @ButtonSouth.performed -= instance.OnButtonSouth;
-            @ButtonSouth.canceled -= instance.OnButtonSouth;
-            @ButtonWest.started -= instance.OnButtonWest;
-            @ButtonWest.performed -= instance.OnButtonWest;
-            @ButtonWest.canceled -= instance.OnButtonWest;
+            void OnL3Press(InputAction.CallbackContext context);
+            void OnR3Press(InputAction.CallbackContext context);
+            void OnLeftShoulder(InputAction.CallbackContext context);
+            void OnLeftTrigger(InputAction.CallbackContext context);
+            void OnRightShoulder(InputAction.CallbackContext context);
+            void OnRightTrigger(InputAction.CallbackContext context);
+            void OnButtonNorth(InputAction.CallbackContext context);
+            void OnButtonEast(InputAction.CallbackContext context);
+            void OnButtonSouth(InputAction.CallbackContext context);
+            void OnButtonWest(InputAction.CallbackContext context);
+            void OnOptions(InputAction.CallbackContext context);
         }
-
-        public void RemoveCallbacks(IActionsActions instance)
-        {
-            if (m_Wrapper.m_ActionsActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IActionsActions instance)
-        {
-            foreach (var item in m_Wrapper.m_ActionsActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_ActionsActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public ActionsActions @Actions => new ActionsActions(this);
-    public interface IMovementActions
-    {
-        void OnLeftStick(InputAction.CallbackContext context);
-        void OnRightStick(InputAction.CallbackContext context);
-    }
-    public interface IActionsActions
-    {
-        void OnL3Press(InputAction.CallbackContext context);
-        void OnR3Press(InputAction.CallbackContext context);
-        void OnDPadUpDown(InputAction.CallbackContext context);
-        void OnDPadLeftRight(InputAction.CallbackContext context);
-        void OnOptions(InputAction.CallbackContext context);
-        void OnShoulders(InputAction.CallbackContext context);
-        void OnLeftShoulder(InputAction.CallbackContext context);
-        void OnLeftTrigger(InputAction.CallbackContext context);
-        void OnRightShoulder(InputAction.CallbackContext context);
-        void OnRightTrigger(InputAction.CallbackContext context);
-        void OnButtonNorth(InputAction.CallbackContext context);
-        void OnButtonEast(InputAction.CallbackContext context);
-        void OnButtonSouth(InputAction.CallbackContext context);
-        void OnButtonWest(InputAction.CallbackContext context);
     }
 }

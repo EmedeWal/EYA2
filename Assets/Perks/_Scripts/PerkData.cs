@@ -59,7 +59,7 @@
 
 //        }
 
-//        public virtual void Tick(float delta)
+//        public virtual void FixedTick(float delta)
 //        {
 
 //        }

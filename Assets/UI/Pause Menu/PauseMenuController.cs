@@ -83,7 +83,7 @@
 //            _playerInputHandler.SwapSectionInputPerformed -= PauseMenu_SwapSectionInputPerformed;
 //        }
 
-//        public void Tick()
+//        public void FixedTick()
 //        {
 //            if (_holder.activeSelf)
 //            {

@@ -47,13 +47,13 @@
 //            _lockMarkerObject.SetActive(false);
 
 //            CreatureManager.CreatureDeath += PlayerLock_CreatureDeath;
-//            _inputHandler.LockOnInputPerformed += PlayerLockOn_LockOnInputPerformed;
+//            _inputHandler.LockInputPerformed += PlayerLockOn_LockOnInputPerformed;
 //        }
 
 //        public void Cleanup()
 //        {
 //            CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
-//            _inputHandler.LockOnInputPerformed -= PlayerLockOn_LockOnInputPerformed;
+//            _inputHandler.LockInputPerformed -= PlayerLockOn_LockOnInputPerformed;
 //        }
 
 //        private void PlayerLock_CreatureDeath(CreatureAI creature)

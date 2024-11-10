@@ -48,8 +48,6 @@ namespace EmeWillem
                     break;
                 }
             }
-
-            _AnimatorManager.SetBool("CanRotate", false);
         }
 
         public void AttackEnd(string offenseColliderName)

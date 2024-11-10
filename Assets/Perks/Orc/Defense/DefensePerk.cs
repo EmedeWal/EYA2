@@ -75,7 +75,7 @@
 //            EnableBuffVFX(false);
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            bool isMoving = _Locomotion.Moving;
 

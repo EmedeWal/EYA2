@@ -1,104 +1,145 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EmeWillem
 {
     namespace Player
     {
-        [RequireComponent(typeof(CharacterController))]
         public class Locomotion : MonoBehaviour
         {
-            public bool Dashing { get; private set; }
+            public Vector3 MovementDirection { get; private set; }
 
-            private CharacterController _characterController;
             private AnimatorManager _animatorManager;
+            private CapsuleCollider _capsuleCollider;
+            private Rigidbody _rigidbody;
             private Transform _transform;
-
             private LayerMask _ignoreLayers;
-            private float _groundCheckRadius;
-            private float _groundCheckOffset;
-            //        private bool _grounded = true;
 
-            private Vector3 _movementDirection;
-            private Vector3 _currentVelocity;
-            private float _movementAmount;
+            [Header("ROTATION SETTINGS")]
+            [SerializeField] private float _rotationSpeed = 4.5f;
 
-            [Header("SPEED SETTINGS")]
-            [SerializeField] private float _rotationSpeed = 3f;
-            [SerializeField] private float _acceleration = 3f;
-            [SerializeField] private float _deceleration = 3f;
-            [SerializeField] private float _dashSpeed = 3f;
-            [SerializeField] private float _walkSpeed = 1.5f;
-            private float _locomotion;
-            private float _speed;
+            [Header("INPUT SETTINGS")]
+            [SerializeField] private int _inputQueueSize = 3;
+            [SerializeField] private float _inputDropThreshold = 0.3f;
+
+            [Header("ANIMATION SETTINGS")]
+            [SerializeField] private float _mediumLocomotionThreshold = 0.5f;
+            [SerializeField] private float _slowLocomotionThreshold = 0.3f;
+
+            [Header("TURN SETTINGS")]
+            [SerializeField] private float _fullTurnDotThreshold = 0.5f;
+            [SerializeField] private float _turnInputThreshold = 0.3f;
+            [SerializeField] private float _turnTransitionTime = 0.3f;
+
+            private Queue<float> _inputHistory;
+            private float _currentInput;
+
+            private int _fullTurnBlendHash;
+            private int _locomotionHash;
+            private int _rightTurnHash;
+            private int _leftTurnHash;
+            private int _inActionHash;
+            private int _kickHash;
+            private int _layer;
 
             public void Init()
             {
-                _characterController = GetComponent<CharacterController>();
-                _animatorManager = GetComponent<AnimatorManager>();
+                _animatorManager = GetComponentInChildren<AnimatorManager>();
+                _capsuleCollider = GetComponent<CapsuleCollider>();
+                _rigidbody = GetComponent<Rigidbody>();
                 _transform = transform;
 
-                _characterController.center = new Vector3(0, 1, -0.1f);
-                _characterController.height = 1.8f;
-                _characterController.radius = 0.3f;
+                _rigidbody.interpolation = RigidbodyInterpolation.None;
+                _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                _rigidbody.isKinematic = false;
+                _rigidbody.useGravity = false;
 
-                _groundCheckRadius = _characterController.radius + 0.05f;
-                _groundCheckOffset = _characterController.radius;
+                _capsuleCollider.center = new Vector3(0, 0.95f, 0.1f);
+                _capsuleCollider.height = 1.8f;
+                _capsuleCollider.radius = 0.3f;
 
                 int controllerLayer = LayerMask.NameToLayer("Controller");
                 int damageColliderLayer = LayerMask.NameToLayer("DamageCollider");
-
                 _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
+
+                _fullTurnBlendHash = Animator.StringToHash("Full Turn Blend");
+                _locomotionHash = Animator.StringToHash("Locomotion");
+                _rightTurnHash = Animator.StringToHash("Right Turn");
+                _leftTurnHash = Animator.StringToHash("Left Turn");
+                _inActionHash = Animator.StringToHash("InAction");
+                _kickHash = Animator.StringToHash("Kick");
+                _layer = 0;
+
+                _inputHistory = new Queue<float>(_inputQueueSize);
             }
 
-            public void Tick(float delta, Transform target, Vector3 xDirection, Vector3 yDirection, Vector2 input)
+            public void FixedTick(float deltaTime, Vector3 xDirection, Vector3 yDirection, Vector2 rawInput)
             {
-                xDirection *= input.x;
-                yDirection *= input.y;
-                _movementAmount = input.magnitude;
-                _speed = target ? _walkSpeed : _dashSpeed;
-                Dashing = _locomotion > 0.9f && _speed == _dashSpeed;
-                _movementDirection = (xDirection + yDirection).normalized;
-
-                _animatorManager.UpdateAnimatorValues(delta, _locomotion, input.x, input.y, target, true);
-
-                if (_animatorManager.GetBool("CanRotate"))
+                if (_animatorManager.GetBool(_inActionHash) == false)
                 {
-                    HandleRotation(delta, target);
+                    xDirection *= rawInput.x;
+                    yDirection *= rawInput.y;
+                    MovementDirection = (xDirection + yDirection).normalized;
+
+                    _currentInput = rawInput.magnitude;
+                    if (_inputHistory.Count >= _inputQueueSize)
+                    {
+                        _inputHistory.Dequeue();
+                    }
+                    _inputHistory.Enqueue(_currentInput);
+
+                    _animatorManager.UpdateAnimatorValues(deltaTime, _currentInput, true);
+                    HandleRotation(deltaTime);
+                    CheckAnimations(); 
                 }
-
-                SmoothAdjustVelocity(delta, _speed);
-                HandleHorizontal(delta);
             }
 
-            private void HandleHorizontal(float delta)
+            private void HandleRotation(float delta)
             {
-                _characterController.Move(new Vector3(_currentVelocity.x, 0, _currentVelocity.z) * delta);
-            }
-
-            private void HandleRotation(float delta, Transform target)
-            {
-                Vector3 targetDirection = target ? target.position - _transform.position : _movementDirection;
+                Vector3 targetDirection = MovementDirection;
                 targetDirection.y = 0;
 
                 if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
 
+                float rotationSpeed = delta * _rigidbody.velocity.magnitude;
                 Quaternion lookRotation = Quaternion.LookRotation(targetDirection);
-                Quaternion targetRotation = Quaternion.Slerp(_transform.rotation, lookRotation, delta * _movementAmount * _rotationSpeed);
+                Quaternion targetRotation = Quaternion.Slerp(_transform.rotation, lookRotation, rotationSpeed);
                 _transform.rotation = targetRotation;
             }
 
-            private void SmoothAdjustVelocity(float delta, float speed)
+            private void CheckAnimations()
             {
-                if (_movementAmount < 0.1f || _animatorManager.GetBool("InAction"))
-                {
-                    _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, delta * _deceleration);
-                }
-                else
-                {
-                    _currentVelocity = Vector3.Slerp(_currentVelocity, _movementDirection * speed, delta * _acceleration);
-                }
+                Vector3 inputDirection = MovementDirection;
+                Vector3 currentForward = transform.forward;
+                currentForward.y = 0;
 
-                _locomotion = _currentVelocity.magnitude / Mathf.Max(_dashSpeed, _walkSpeed);
+                float initialInput = _inputHistory.Count > 0 ? _inputHistory.Peek() : _currentInput;
+                float averageDrop = initialInput - _currentInput;
+
+                float locomotion = _animatorManager.GetFloat(_locomotionHash);
+                float dotProduct = Vector3.Dot(currentForward.normalized, inputDirection);
+
+                if (dotProduct < -_fullTurnDotThreshold && locomotion > _mediumLocomotionThreshold)
+                {
+                    _animatorManager.CrossFadeAction(_fullTurnBlendHash, _layer);
+                }
+                else if (locomotion < _slowLocomotionThreshold && averageDrop > _inputDropThreshold)
+                {
+                    _animatorManager.CrossFadeAction(_kickHash, _layer);
+
+                    //if (inputDirection.x > _turnInputThreshold)
+                    //{
+                    //    _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _turnTransitionTime);
+                    //}
+                    //else if (inputDirection.x < -_turnInputThreshold)
+                    //{
+                    //    _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _turnTransitionTime);
+                    //}
+                    //else
+                    //{
+                    //    _animatorManager.CrossFadeAction(_kickHash, _layer);
+                    //}
+                }
             }
         }
     }

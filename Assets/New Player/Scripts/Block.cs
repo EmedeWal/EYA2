@@ -39,7 +39,7 @@ namespace EmeWillem
 
             private void Block_BlockInputCanceled()
             {
-                _animatorManager.SetBool("Blocking", false);
+                _animatorManager.SetBool(0, false);
             }
 
             private bool IsBlocking(GameObject targetObject, Vector3 attackerPosition)
@@ -50,7 +50,7 @@ namespace EmeWillem
                 toAttacker.y = 0; 
 
                 float angleToAttacker = Vector3.Angle(transform.forward, toAttacker);
-                bool isBlocking = _animatorManager.GetBool("Blocking");
+                bool isBlocking = _animatorManager.GetBool(0);
                 bool attackerInFront = angleToAttacker <= 45f;
 
                 if (isBlocking && attackerInFront)

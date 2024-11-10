@@ -8,12 +8,12 @@ public abstract class BaseAnimatorManager : MonoBehaviour
     [HideInInspector] public float MovementSpeed;
     [HideInInspector] public float AttackSpeed;
 
-    protected int _AnimatorMovementSpeed;
-    protected int _AnimatorAttackSpeed;
-    protected int _AnimatorLocomotion;
     protected float _DeltaTime;
-    
-    private bool _crossFading = false;
+
+    private int _movementSpeedHash;
+    private int _attackSpeedHash;
+    private int _locomotionHash;
+    private int _inActionHash;
 
     public event Action<BaseAnimatorManager> DeathAnimationFinished;
 
@@ -24,21 +24,22 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         MovementSpeed = movementSpeed;
         AttackSpeed = attackSpeed;
 
-        _AnimatorMovementSpeed = Animator.StringToHash("MovementSpeed");
-        _AnimatorAttackSpeed = Animator.StringToHash("AttackSpeed");
-        _AnimatorLocomotion = Animator.StringToHash("Locomotion");
+        _movementSpeedHash = Animator.StringToHash("MovementSpeed");
+        _attackSpeedHash = Animator.StringToHash("AttackSpeed");
+        _locomotionHash = Animator.StringToHash("Locomotion");
+        _inActionHash = Animator.StringToHash("InAction");
 
-        Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed);
-        Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed);
+        Animator.SetFloat(_movementSpeedHash, MovementSpeed);
+        Animator.SetFloat(_attackSpeedHash, AttackSpeed);
     }
 
-    public virtual void Tick(float delta, float locomotion)
+    public virtual void Tick(float deltaTime, float locomotion, float transitionTime = 0.4f)
     {
-        _DeltaTime = delta;
+        _DeltaTime = deltaTime;
 
-        Animator.SetFloat(_AnimatorMovementSpeed, MovementSpeed, 0.1f, _DeltaTime);
-        Animator.SetFloat(_AnimatorAttackSpeed, AttackSpeed, 0.1f, _DeltaTime);
-        Animator.SetFloat(_AnimatorLocomotion, locomotion, 0.1f, _DeltaTime);
+        Animator.SetFloat(_movementSpeedHash, MovementSpeed, 0.1f, _DeltaTime);
+        Animator.SetFloat(_attackSpeedHash, AttackSpeed, 0.1f, _DeltaTime);
+        Animator.SetFloat(_locomotionHash, locomotion, transitionTime, _DeltaTime);
     }
 
     public void ForceCrossFade(string animationName, bool allowRepeat, int layer = 1, float transitionDuration = 0.1f)
@@ -46,42 +47,45 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(layer);
         if (!currentState.IsName(animationName) || allowRepeat)
         {
-            CancelInvoke();
-            _crossFading = true;
-            Invoke(nameof(ResetCrossFading), transitionDuration + 0.25f);
-            Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
+            Animator.CrossFadeInFixedTime(animationName, transitionDuration, layer, _DeltaTime);
         }
     }
 
-    public void SetBool(string name, bool value)
+    public void SetBool(int hash, bool value)
     {
-        Animator.SetBool(name, value);
+        Animator.SetBool(hash, value);
     }
 
-    public bool GetBool(string boolName)
+    public float GetFloat(int hash)
     {
-        return Animator.GetBool(boolName);
+        return Animator.GetFloat(hash);
     }
 
-    public bool CrossFade(string animationName, int layer = 1, float transitionDuration = 0.1f)
+    public bool GetBool(int hash)
     {
-        if (!_crossFading && !Animator.GetBool("InAction"))
+        return Animator.GetBool(hash);
+    }
+
+    public void CrossFade(string animationName, int layer = 1, float transitionDuration = 0.1f)
+    {
+        if (!Animator.IsInTransition(layer) && !Animator.GetBool(_inActionHash))
         {
-            _crossFading = true;
-            Invoke(nameof(ResetCrossFading), transitionDuration + 0.1f);
-            Animator.CrossFade(animationName, transitionDuration, layer, _DeltaTime);
+            Animator.CrossFadeInFixedTime(animationName, transitionDuration, layer, _DeltaTime);
         }
-
-        return _crossFading;
     }
+
+    public void CrossFadeAction(int animationHash, int layer = 1, float transitionDuration = 0.1f, bool canOverride = false)
+    {
+        if ((!Animator.IsInTransition(layer) && !Animator.GetBool(_inActionHash)) || canOverride)
+        {
+            SetBool(_inActionHash, true);
+            Animator.CrossFadeInFixedTime(animationHash, transitionDuration, layer, _DeltaTime);
+        }
+    }
+
 
     public void OnDeathAnimationFinished()
     {
         DeathAnimationFinished?.Invoke(this);
-    }
-
-    private void ResetCrossFading()
-    {
-        _crossFading = false;
     }
 }

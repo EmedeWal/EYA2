@@ -23,7 +23,7 @@ namespace EmeWillem
             [Header("VARIABLES")]
             [SerializeField] private float _lockRadius = 15f;
             [SerializeField] private float _viewThreshold = 0.75f;
-            [SerializeField] private float _stickSensitivity = 0.50f;
+            //[SerializeField] private float _stickSensitivity = 0.50f;
 
             private LockTarget _lockTarget = null;
 
@@ -50,13 +50,13 @@ namespace EmeWillem
                 _lockMarkerObject.SetActive(false);
 
                 //CreatureManager.CreatureDeath += PlayerLock_CreatureDeath;
-                _inputHandler.LockOnInputPerformed += PlayerLockOn_LockOnInputPerformed;
+                _inputHandler.LockInputPerformed += PlayerLockOn_LockOnInputPerformed;
             }
 
             public void Cleanup()
             {
                 //CreatureManager.CreatureDeath -= PlayerLock_CreatureDeath;
-                _inputHandler.LockOnInputPerformed -= PlayerLockOn_LockOnInputPerformed;
+                _inputHandler.LockInputPerformed -= PlayerLockOn_LockOnInputPerformed;
             }
 
             //private void PlayerLock_CreatureDeath(CreatureAI creature)
@@ -112,13 +112,13 @@ namespace EmeWillem
 
             private void ManageLockSwap()
             {
-                float rightStickX = _inputHandler.RightStickInput.x;
-                float rightStickY = _inputHandler.RightStickInput.y;
+                //float rightStickX = _inputHandler.RightStickInput.x;
+                //float rightStickY = _inputHandler.RightStickInput.y;
 
-                if (Mathf.Abs(rightStickX) > _stickSensitivity || Mathf.Abs(rightStickY) > _stickSensitivity)
-                {
-                    StartCoroutine(SwapLockOnTarget(rightStickX, rightStickY));
-                }
+                //if (Mathf.Abs(rightStickX) > _stickSensitivity || Mathf.Abs(rightStickY) > _stickSensitivity)
+                //{
+                //    StartCoroutine(SwapLockOnTarget(rightStickX, rightStickY));
+                //}
             }
 
             private void OnLockedOn(Transform target)

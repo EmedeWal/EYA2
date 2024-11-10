@@ -42,13 +42,13 @@
 //            _VFXManager = VFXManager.Instance;
 //        }
 
-//        public void Tick(float delta)
+//        public void FixedTick(float delta)
 //        {
 //            _delta = delta;
 
 //            foreach (var perk in _passivePerks)
 //            {
-//                perk.Tick(_delta);
+//                perk.FixedTick(_delta);
 //            }
 //        }
 
@@ -159,7 +159,7 @@
 //            while (true)
 //            {
 //                yield return null;
-//                _ultimatePerk.Tick(_delta);
+//                _ultimatePerk.FixedTick(_delta);
 //            }
 //        }
 //    }

@@ -7,12 +7,15 @@ namespace EmeWillem
         public class IdleState : EnemyState
         {
             private Transform _target;
+            private int _inCombatHash;
 
             public IdleState(Enemy enemy) : base(enemy)
             {
+                _inCombatHash = Animator.StringToHash("InCombat");
+
                 if (!_Enemy.EnemyData.KeepCombatLocomotion)
                 {
-                    _Enemy.AnimatorManager.SetBool("InCombat", false);
+                    _Enemy.AnimatorManager.SetBool(_inCombatHash, false);
                 }
             }
 

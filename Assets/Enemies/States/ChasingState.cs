@@ -10,14 +10,15 @@ namespace EmeWillem
             private Locomotion _locomotion;
             private Transform _transform;
             private Transform _target;
+            private int _inActionHash;
 
             public ChasingState(Enemy enemy, Transform target) : base(enemy)
             {
                 _enemyData = _Enemy.EnemyData;
                 _locomotion = _Enemy.Locomotion;
                 _transform = _Enemy.Transform;
-
                 _target = target;
+                _inActionHash = Animator.StringToHash("InAction");
             }
 
             public override void Enter()
@@ -27,7 +28,7 @@ namespace EmeWillem
 
             public override void Tick(float delta)
             {
-                if (_Enemy.AnimatorManager.GetBool("InAction"))
+                if (_Enemy.AnimatorManager.GetBool(_inActionHash))
                 {
                     _locomotion.StopAgent(true);
                 }

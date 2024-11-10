@@ -59,7 +59,7 @@
 //            ResetGrit();
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            HandleQuakeBuffTick(delta);
 //            HandleGritTick(delta);
@@ -167,7 +167,7 @@
 
 //            if (_currentGritVFX != null)
 //            {
-//                _currentGritVFXEmission.Tick(gritPercent * 25);
+//                _currentGritVFXEmission.FixedTick(gritPercent * 25);
 //            }
 //            else
 //            {

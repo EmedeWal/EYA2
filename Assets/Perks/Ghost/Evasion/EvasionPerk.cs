@@ -55,7 +55,7 @@
 //            ResetPerkState();
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            if (_StatTracker.GetStatChange(Stat.EvasionChance) < _maxEvasionChanceIncrease)
 //            {

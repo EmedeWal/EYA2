@@ -46,7 +46,7 @@
 //            _inputHandler = GetComponent<PlayerInputHandler>();
 
 //            _inputHandler.UltimateInputPerformed += PlayerStanceManager_UltimateInputPerformed;
-//            _inputHandler.SwapStanceInputPerformed += PlayerStanceManager_SwapStanceInputPerformed;
+//            _inputHandler.SwapInputPerformed += PlayerStanceManager_SwapStanceInputPerformed;
 
 //            _stances.AddRange(GetComponents<Stance>());
 //            foreach (var stance in _stances) stance.Init(_audioSource);
@@ -55,9 +55,9 @@
 //            SwapToStance(_currentStance, false);
 //        }
 
-//        public void Tick(float delta)
+//        public void FixedTick(float delta)
 //        {
-//            _currentStance.Tick(delta);
+//            _currentStance.FixedTick(delta);
 
 //            if (_swapCooldownRemaining > 0)
 //            {
@@ -72,7 +72,7 @@
 //        public void Cleanup()
 //        {
 //            _inputHandler.UltimateInputPerformed -= PlayerStanceManager_UltimateInputPerformed;
-//            _inputHandler.SwapStanceInputPerformed -= PlayerStanceManager_SwapStanceInputPerformed;
+//            _inputHandler.SwapInputPerformed -= PlayerStanceManager_SwapStanceInputPerformed;
 
 //            _currentStance.CleanUp();
 //        }

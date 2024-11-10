@@ -81,7 +81,7 @@
 //            }
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            bool isMoving = _Locomotion.Moving;
 
@@ -165,7 +165,7 @@
 
 //            if (_momentumVFXEmission != null)
 //            {
-//                _momentumVFXEmission.Tick(momentumPercent * 25);
+//                _momentumVFXEmission.FixedTick(momentumPercent * 25);
 //            }
 //            else
 //            {
@@ -207,7 +207,7 @@
 //        {
 //            if (_movementVFXEmission != null)
 //            {
-//                _movementVFXEmission.Tick(_buffEmissionRate);
+//                _movementVFXEmission.FixedTick(_buffEmissionRate);
 //            }
 
 //            _StatTracker.IncrementStat(Stat.ManaRegen, _manaRegenIncrease);
@@ -218,7 +218,7 @@
 //        {
 //            if (_movementVFXEmission != null)
 //            {
-//                _movementVFXEmission.Tick(0);
+//                _movementVFXEmission.FixedTick(0);
 //            }
 
 //            _StatTracker.IncrementStat(Stat.ManaRegen, -_StatTracker.GetStatChange(Stat.ManaRegen));

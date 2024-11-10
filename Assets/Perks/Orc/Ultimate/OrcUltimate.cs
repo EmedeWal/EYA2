@@ -65,11 +65,11 @@
 //            }
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            if (_currentTremor != null)
 //            {
-//                _currentTremor.Tick(delta);
+//                _currentTremor.FixedTick(delta);
 //            }
 //        }
 

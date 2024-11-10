@@ -54,9 +54,9 @@
 //            _statChanges.Clear();
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
-//            base.Tick(delta);
+//            base.FixedTick(delta);
 //        }
 
 //        private void VampireUltimate_CreatureDeath(CreatureAI creature)

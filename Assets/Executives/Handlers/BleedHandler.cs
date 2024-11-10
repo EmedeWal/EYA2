@@ -49,11 +49,11 @@
 //            ResetBleed();
 //        }
 
-//        public void Tick()
+//        public void FixedTick()
 //        {
 //            if (_bleedVFXEmission != null)
 //            {
-//                _bleedVFXEmission.Tick(_emissionRate);
+//                _bleedVFXEmission.FixedTick(_emissionRate);
 //            }
 //        }
 
@@ -120,7 +120,7 @@
 //                //_health.TakeDamage(null, totalDamage);
 
 //                float emissionRate = (float)_currentStacks / _currentBleedingStats.MaxStacks * 10;
-//                _bleedVFXEmission.Tick(emissionRate);
+//                _bleedVFXEmission.FixedTick(emissionRate);
 
 //                _remainingDuration--;
 //            }

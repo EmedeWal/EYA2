@@ -17,15 +17,15 @@ namespace EmeWillem
             [SerializeField] private string _lightD = "Sweep 1 [LD0]";
             [SerializeField] private string _heavyD = "Leap 1 [HD0]";
 
-            [Header("SETTINGS")]
-            [SerializeField] private float _comboTime = 0.2f;
+            //[Header("SETTINGS")]
+            //[SerializeField] private float _comboTime = 0.2f;
 
             public override void Init(List<OffenseCollider> offenseColliders)
             {
                 base.Init(offenseColliders);
 
-                _inputHandler = GetComponent<InputHandler>();
-                _locomotion = GetComponent<Locomotion>();
+                _inputHandler = GetComponentInParent<InputHandler>();
+                _locomotion = GetComponentInParent<Locomotion>();
 
                 _inputHandler.LightAttackInputPerformed += AttackHandler_LightAttackInputPerformed;
                 _inputHandler.HeavyAttackInputPerformed += AttackHandler_HeavyAttackInputPerformed;
@@ -51,27 +51,27 @@ namespace EmeWillem
             private void UseAttack(string walking, string dashing, string buttonPressed, string buttonNotPressed)
             {
                 StopAllCoroutines();
-                StartCoroutine(ManageAnimatorCoroutine(_comboTime, buttonPressed, buttonNotPressed));
+                //StartCoroutine(ManageAnimatorCoroutine(_comboTime, buttonPressed, buttonNotPressed));
 
-                if (_locomotion.Dashing)
-                {
-                    _AnimatorManager.CrossFade(dashing);
-                }
-                else
-                {
-                    _AnimatorManager.CrossFade(walking);
-                }
+                //if (_locomotion.Dashing)
+                //{
+                //    _AnimatorManager.CrossFade(dashing);
+                //}
+                //else
+                //{
+                //    _AnimatorManager.CrossFade(walking);
+                //}
             }
 
-            private IEnumerator ManageAnimatorCoroutine(float delay, string buttonPressed, string buttonNotPressed)
-            {
-                _AnimatorManager.SetBool(buttonNotPressed, false);
-                _AnimatorManager.SetBool(buttonPressed, true);
+            //private IEnumerator ManageAnimatorCoroutine(float delay, string buttonPressed, string buttonNotPressed)
+            //{
+            //    _AnimatorManager.SetBool(buttonNotPressed, false);
+            //    _AnimatorManager.SetBool(buttonPressed, true);
 
-                yield return new WaitForSeconds(delay);
+            //    yield return new WaitForSeconds(delay);
 
-                _AnimatorManager.SetBool(buttonPressed, false);
-            }
+            //    _AnimatorManager.SetBool(buttonPressed, false);
+            //}
         }
     }
 }

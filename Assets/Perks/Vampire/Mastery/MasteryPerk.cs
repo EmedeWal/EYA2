@@ -94,11 +94,11 @@
 //        //    }
 //        //}
 
-//        //public override void Tick(float delta)
+//        //public override void FixedTick(float delta)
 //        //{
 //        //    foreach (var comboData in _comboDataList)
 //        //    {
-//        //        comboData.Tick(delta);
+//        //        comboData.FixedTick(delta);
 //        //    }
 
 //        //    if (_AnimatorManager.GetBool("InAction"))
@@ -205,7 +205,7 @@
 //        //private void IncreaseFlow()
 //        //{
 //        //    _currentFlow++;
-//        //    _emission.Tick(_currentFlow * 5f);
+//        //    _emission.FixedTick(_currentFlow * 5f);
 //        //    _StatTracker.IncrementStat(Stat.CriticalChance, _criticalChanceBoost);
 //        //    _StatTracker.IncrementStat(Stat.CriticalMultiplier, _criticalMultiplierBoost);
 //        //}
@@ -213,7 +213,7 @@
 //        //private void ResetFlow()
 //        //{
 //        //    _currentFlow = 0;
-//        //    _emission.Tick(_currentFlow * 5f);
+//        //    _emission.FixedTick(_currentFlow * 5f);
 //        //    _StatTracker.IncrementStat(Stat.CriticalChance, -_StatTracker.GetStatChange(Stat.CriticalChance));
 //        //    _StatTracker.IncrementStat(Stat.CriticalMultiplier, -_StatTracker.GetStatChange(Stat.CriticalMultiplier));
 //        //}

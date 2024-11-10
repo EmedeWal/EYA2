@@ -27,9 +27,9 @@ namespace EmeWillem
                 Init();
             }
 
-            private void Update()
+            private void FixedUpdate()
             {
-                Tick(Time.deltaTime);
+                FixedTick(Time.fixedDeltaTime);
             }
 
             private void LateUpdate()
@@ -47,8 +47,8 @@ namespace EmeWillem
                 _lockMarker.SingletonSetup();
 
                 _inputHandler = GetComponent<InputHandler>();
-                _animatorManager = GetComponent<AnimatorManager>();
-                _attackHandler = GetComponent<AttackHandler>();
+                _animatorManager = GetComponentInChildren<AnimatorManager>();
+                _attackHandler = GetComponentInChildren<AttackHandler>();
                 _locomotion = GetComponent<Locomotion>();
                 _block = GetComponent<Block>();
                 _lock = GetComponent<Lock>();
@@ -56,14 +56,14 @@ namespace EmeWillem
                 _posture = GetComponent<Posture>();
 
                 _inputHandler.Init();
-                _animatorManager.Init(1, 1.2f);
-                _attackHandler.Init(_offenseColliderList);
                 _cameraController.Init(transform);
                 _locomotion.Init();
                 _block.Init();
                 _lock.Init();
                 _health.Init(1000);
                 _posture.Init(1000, 100);
+                _attackHandler.Init(_offenseColliderList);
+                _animatorManager.Init(1, 1.2f);
 
                 foreach (DefenseCollider defenseCollider in _defenseColliderList)
                 {
@@ -79,19 +79,19 @@ namespace EmeWillem
             public void Cleanup()
             {
                 _inputHandler.Cleanup();
-                _attackHandler.Cleanup();
                 _block.Cleanup();
                 _lock.Cleanup();
+                _attackHandler.Cleanup();
             }
 
-            public void Tick(float delta)
+            public void FixedTick(float delta)
             {
                 Transform lockTarget = _lock.Target;
                 Vector3 xDirection = _cameraController._CameraTransform.right;
                 Vector3 yDirection = _cameraController._CameraTransform.forward;
 
-                _locomotion.Tick(delta, lockTarget, xDirection, yDirection, _inputHandler.LeftStickInput);
-                _cameraController.Tick(delta, lockTarget, _inputHandler.RightStickInput);
+                _locomotion.FixedTick(delta, xDirection, yDirection, _inputHandler.LeftStickInput);
+                _cameraController.FixedTick(delta, lockTarget, _inputHandler.RightStickInput);
             }
 
             public void LateTick()

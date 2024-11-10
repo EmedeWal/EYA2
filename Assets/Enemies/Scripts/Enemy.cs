@@ -36,7 +36,7 @@ namespace EmeWillem
 
             private void Update()
             {
-                Tick(Time.deltaTime);
+                //Tick(Time.deltaTime);
             }
 
             private void LateUpdate()

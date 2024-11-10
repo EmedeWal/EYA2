@@ -5,14 +5,14 @@
 
 //    public class TeleportState : CreatureState
 //    {
-//        private Transform _target;
+//        private Transform _followTarget;
 //        private int _maxAttempts;
 //        private float _teleportRadius;
 //        private float _navMeshSampleDistance;
 
 //        public TeleportState(CreatureAI creature, Transform target, float teleportRadius) : base(creature)
 //        {
-//            _target = target;
+//            _followTarget = target;
 //            _maxAttempts = 30;
 //            _teleportRadius = teleportRadius;
 //            _navMeshSampleDistance = 2f;
@@ -36,7 +36,7 @@
 //                {
 //                    _CreatureAI.transform.position = navHit.position;
 
-//                    Vector3 directionToTarget = (_target.position - _CreatureAI.transform.position).normalized;
+//                    Vector3 directionToTarget = (_followTarget.position - _CreatureAI.transform.position).normalized;
 //                    if (directionToTarget != Vector3.zero)
 //                    {
 //                        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0, directionToTarget.z));

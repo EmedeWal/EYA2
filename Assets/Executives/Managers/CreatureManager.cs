@@ -31,13 +31,13 @@
 //            CollectCreatures();
 //        }
 
-//        public void Tick(float delta)
+//        public void FixedTick(float delta)
 //        {
 //            _delta = delta;
 
 //            for (int i = 0; i < _activeCreatureList.Count; i++)
 //            {
-//                _activeCreatureList[i].Tick(_delta);
+//                _activeCreatureList[i].FixedTick(_delta);
 //            }
 //        }
 

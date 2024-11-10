@@ -37,11 +37,11 @@
 //            _bleedingEnemies = new();
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            foreach (BleedHandler handler in _bleedingEnemies)
 //            {
-//                handler.Tick();
+//                handler.FixedTick();
 //            }
 //        }
 

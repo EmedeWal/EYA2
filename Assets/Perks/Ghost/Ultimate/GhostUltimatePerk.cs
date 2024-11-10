@@ -76,17 +76,17 @@ namespace EmeWillem
     //        _Lock.Locked += GhostUltimatePerk_Locked;
     //    }
 
-    //    public override void Tick(float delta)
+    //    public override void FixedTick(float delta)
     //    {
     //        for (int i = 0; i < _cloneList.Count; i++)
     //        {
     //            CreatureAI currentClone = _cloneList[i];
-    //            currentClone.Tick(delta);
+    //            currentClone.FixedTick(delta);
     //            currentClone.LateTick(delta);
 
     //            if (_currentSparks != null)
     //            {
-    //                _currentSparks.Tick(delta);
+    //                _currentSparks.FixedTick(delta);
     //            }
     //        }
     //    }

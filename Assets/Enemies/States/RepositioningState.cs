@@ -6,7 +6,7 @@
 //{
 //    public class RepositioningState : CreatureState
 //    {
-//        private Transform _target;
+//        private Transform _followTarget;
 //        private Queue<Vector3> _waypoints;
 //        private Vector3 _currentWaypoint;
 //        private int _retreatPoints;
@@ -17,7 +17,7 @@
 
 //        public RepositioningState(CreatureAI creatureAI, Transform target, int points, float radius, float degrees) : base(creatureAI)
 //        {
-//            _target = target;
+//            _followTarget = target;
 //            _retreatPoints = points;
 //            _retreatRadius = radius;
 //            _retreatDegrees = degrees;
@@ -32,7 +32,7 @@
 //            MoveToNextWaypoint();
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
 //            if (_waypoints.Count > 0)
 //            {

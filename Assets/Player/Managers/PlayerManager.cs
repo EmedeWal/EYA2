@@ -23,7 +23,7 @@
 //        private FootstepHandler _footstepHandler;
 //        private CameraController _cameraController;
 
-//        private Transform _target = null;
+//        private Transform _followTarget = null;
 
 //        public static event Action<BaseAnimatorManager> PlayerDeath;
 
@@ -61,13 +61,13 @@
 //            _health.HealthExhausted += PlayerManager_ValueExhausted;
 //        }
 
-//        public void Tick(float delta)
+//        public void FixedTick(float delta)
 //        {
 //            _delta = delta;
 
-//            _stanceManager.Tick(_delta);
-//            _attackHandler.Tick(_delta);
-//            _movementTracking.Tick(_delta);
+//            _stanceManager.FixedTick(_delta);
+//            _attackHandler.FixedTick(_delta);
+//            _movementTracking.FixedTick(_delta);
 //        }
 
 //        public void LateTick(float delta)
@@ -88,8 +88,8 @@
 //            float rightStickX = _inputHandler.RightStickX;
 //            float rightStickY = _inputHandler.RightStickY;
 
-//            _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _target);
-//            _cameraController.Tick(_delta, _target, new Vector2(rightStickX, rightStickY));
+//            _locomotion.FixedTick(_delta, xDirection, yDirection, leftStickX, leftStickY, _followTarget);
+//            _cameraController.FixedTick(_delta, _followTarget, new Vector2(rightStickX, rightStickY));
 //        }
 
 //        public void Cleanup()
@@ -109,7 +109,7 @@
 
 //        private void PlayerManager_LockedOn(Transform target)
 //        {
-//            _target = target;
+//            _followTarget = target;
 //        }
 
 //        private void PlayerManager_ValueExhausted(GameObject playerObject)

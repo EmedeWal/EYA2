@@ -5,13 +5,13 @@
 
 //    public class CirclingState : CreatureState
 //    {
-//        private Transform _target;
+//        private Transform _followTarget;
 //        private Vector3 _destination;
 //        private float _reachedThreshold = 0.2f;
 
 //        public CirclingState(CreatureAI creature, Transform target) : base(creature)
 //        {
-//            _target = target;
+//            _followTarget = target;
 //        }
 
 //        public override void Enter()
@@ -21,7 +21,7 @@
 //            _CreatureAI.AnimatorManager.SetBool("InCombat", true);
 //            _CreatureAI.Locomotion.SetSpeed(_CreatureAI.CreatureData.WalkSpeed);
 
-//            Vector3 directionToPlayer = (_target.position - _CreatureAI.transform.position).normalized;
+//            Vector3 directionToPlayer = (_followTarget.position - _CreatureAI.transform.position).normalized;
 //            float angleOffset = Random.value < 0.5f ? -90f : 90f;
 
 //            Vector3 circleDirection = Quaternion.Euler(0, angleOffset, 0) * directionToPlayer;
@@ -38,11 +38,11 @@
 //            }
 //        }
 
-//        public override void Tick(float delta)
+//        public override void FixedTick(float delta)
 //        {
-//            if (_target != null)
+//            if (_followTarget != null)
 //            {
-//                Vector3 directionToPlayer = (_target.position - _CreatureAI.transform.position).normalized;
+//                Vector3 directionToPlayer = (_followTarget.position - _CreatureAI.transform.position).normalized;
 //                Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
 //                _CreatureAI.transform.rotation = Quaternion.Slerp(_CreatureAI.transform.rotation, targetRotation, _CreatureAI.CreatureData.RotationSpeed * delta);
 

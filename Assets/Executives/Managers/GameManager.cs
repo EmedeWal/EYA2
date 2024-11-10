@@ -50,12 +50,12 @@
 //            {
 //                _delta = Time.deltaTime;
 
-//                _playerInputHandler.Tick();
-//                _pauseMenuController.Tick();
+//                _playerInputHandler.FixedTick();
+//                _pauseMenuController.FixedTick();
 
-//                _creatureManager.Tick(_delta);
-//                _playerManager.Tick(_delta);
-//                _VFXManager.Tick(_delta);
+//                _creatureManager.FixedTick(_delta);
+//                _playerManager.FixedTick(_delta);
+//                _VFXManager.FixedTick(_delta);
 //            }
 //        }
 
