@@ -20,23 +20,26 @@ namespace EmeWillem
             [SerializeField] private float _inputDropThreshold = 0.3f;
 
             [Header("ANIMATION SETTINGS")]
-            [SerializeField] private float _mediumLocomotionThreshold = 0.5f;
+            [SerializeField] private float _fastLocomotionThreshold = 0.7f;
             [SerializeField] private float _slowLocomotionThreshold = 0.3f;
 
             [Header("TURN SETTINGS")]
-            [SerializeField] private float _fullTurnDotThreshold = 0.5f;
-            [SerializeField] private float _halfTurnDotThreshold = 0.1f;
+            [SerializeField] private float _fullTurnDotThreshold = -0.7f;
+            [SerializeField] private float _halfTurnDotThreshold = -0.1f;
+            
 
             private Queue<float> _inputHistory;
             private float _currentInput;
 
-            private int _fullTurnBlendHash;
             private int _locomotionHash;
+            private int _dodgeRollHash;
             private int _rightTurnHash;
             private int _leftTurnHash;
+            private int _fullTurnHash;
             private int _inActionHash;
             private int _kickHash;
             private int _layer;
+            private float _transitionTime = 0.3f;
 
             public void Init()
             {
@@ -58,36 +61,50 @@ namespace EmeWillem
                 int damageColliderLayer = LayerMask.NameToLayer("DamageCollider");
                 _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
 
-                _fullTurnBlendHash = Animator.StringToHash("Full Turn Blend");
                 _locomotionHash = Animator.StringToHash("Locomotion");
+                _dodgeRollHash = Animator.StringToHash("Dodge Roll");
                 _rightTurnHash = Animator.StringToHash("Right Turn");
                 _leftTurnHash = Animator.StringToHash("Left Turn");
+                _fullTurnHash = Animator.StringToHash("Full Turn");
                 _inActionHash = Animator.StringToHash("InAction");
                 _kickHash = Animator.StringToHash("Kick");
                 _layer = 0;
 
                 _inputHistory = new Queue<float>(_inputQueueSize);
+
+                GetComponent<InputHandler>().DodgeInputPerformed += Locomotion_DodgeInputPerformed;
             }
 
             public void FixedTick(float deltaTime, Vector3 xDirection, Vector3 yDirection, Vector2 rawInput)
             {
+                xDirection *= rawInput.x;
+                yDirection *= rawInput.y;
+                MovementDirection = (xDirection + yDirection).normalized;
+
+                _currentInput = rawInput.magnitude;
+                if (_inputHistory.Count >= _inputQueueSize)
+                {
+                    _inputHistory.Dequeue();
+                }
+                _inputHistory.Enqueue(_currentInput);
+
+                _animatorManager.UpdateAnimatorValues(deltaTime, _currentInput, 0.8f, true);
+
                 if (_animatorManager.GetBool(_inActionHash) == false)
                 {
-                    xDirection *= rawInput.x;
-                    yDirection *= rawInput.y;
-                    MovementDirection = (xDirection + yDirection).normalized;
-
-                    _currentInput = rawInput.magnitude;
-                    if (_inputHistory.Count >= _inputQueueSize)
-                    {
-                        _inputHistory.Dequeue();
-                    }
-                    _inputHistory.Enqueue(_currentInput);
-
-                    _animatorManager.UpdateAnimatorValues(deltaTime, _currentInput, true);
                     CheckAnimations(yDirection);
                     HandleRotation(deltaTime);
                 }
+            }
+
+            private void Locomotion_DodgeInputPerformed()
+            {
+                //Vector3 targetDirection = MovementDirection;
+                //targetDirection.y = 0;
+
+                //if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
+                //_transform.LookAt(targetDirection);
+                _animatorManager.CrossFadeAction(_dodgeRollHash, _layer, _transitionTime);
             }
 
             private void HandleRotation(float delta)
@@ -115,19 +132,19 @@ namespace EmeWillem
                 float locomotion = _animatorManager.GetFloat(_locomotionHash);
                 float dotProduct = Vector3.Dot(forwardDirection.normalized, movementDirection);
 
-                if (dotProduct < -_fullTurnDotThreshold && locomotion > _mediumLocomotionThreshold)
+                if (dotProduct < _fullTurnDotThreshold && locomotion > _fastLocomotionThreshold)
                 {
-                    _animatorManager.CrossFadeAction(_fullTurnBlendHash, _layer);
+                    _animatorManager.CrossFadeAction(_fullTurnHash, _layer, _transitionTime);
                 }
                 else if (locomotion < _slowLocomotionThreshold)
                 {
-                    if (dotProduct < -_halfTurnDotThreshold)
+                    if (dotProduct < _halfTurnDotThreshold && dotProduct > _fullTurnDotThreshold)
                     {
                         HandleHalfTurns(movementDirection, forwardDirection, yDirection);
                     }
                     else if (averageDrop > _inputDropThreshold)
                     {
-                        _animatorManager.CrossFadeAction(_kickHash, _layer);
+                        _animatorManager.CrossFadeAction(_kickHash, _layer, _transitionTime);
                     }
                 }
             }
@@ -136,28 +153,27 @@ namespace EmeWillem
             {
                 Vector3 crossProduct = Vector3.Cross(yDirection, movementDirection);
                 float cameraDot = Vector3.Dot(forwardDirection, yDirection);
-                float turnTransitionTime = 0.3f;
 
                 if (cameraDot >= 0)
                 {
                     if (crossProduct.y > 0)
                     {
-                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, turnTransitionTime);
+                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _transitionTime);
                     }
                     else
                     {
-                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, turnTransitionTime);
+                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _transitionTime);
                     }
                 }
                 else
                 {
                     if (crossProduct.y > 0)
                     {
-                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, turnTransitionTime);
+                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _transitionTime);
                     }
                     else
                     {
-                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, turnTransitionTime);
+                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _transitionTime);
                     }
                 }
             }

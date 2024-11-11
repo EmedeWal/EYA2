@@ -3927,6 +3927,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shield
       objectReference: {fileID: 0}
+    - target: {fileID: 1113306130731123678, guid: 6abeed541f2193941b3b38435de85b3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4016,10 +4020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lightW: Right Slash 2 [LW0]
-  _heavyW: Right Slash 1 [HW0]
-  _lightD: Sweep 1 [LD0]
-  _heavyD: Leap 1 [HD0]
+  _time: 0.4
 --- !u!114 &1559349987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4034,6 +4035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 0
   AttackSpeed: 0
+  _time: 0.8
 --- !u!95 &1559349988
 Animator:
   serializedVersion: 5
@@ -4997,9 +4999,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followSpeed: 3
-  _rotationSpeed: 1.5
+  _rotationSpeed: 7.5
   _maximumAngle: 35
-  _mimimumAngle: -15
+  _mimimumAngle: -10
 --- !u!4 &443282328400214174
 Transform:
   m_ObjectHideFlags: 0
@@ -6485,10 +6487,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputQueueSize: 3
   _inputDropThreshold: 0.3
-  _mediumLocomotionThreshold: 0.5
+  _fastLocomotionThreshold: 0.7
   _slowLocomotionThreshold: 0.3
-  _fullTurnDotThreshold: 0.5
-  _halfTurnDotThreshold: 0.1
+  _fullTurnDotThreshold: -0.7
+  _halfTurnDotThreshold: -0.1
 --- !u!114 &6083668102415102657
 MonoBehaviour:
   m_ObjectHideFlags: 0

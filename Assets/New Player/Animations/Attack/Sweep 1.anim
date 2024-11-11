@@ -142877,18 +142877,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.6666667
-    functionName: AttackStart
-    data: 50, 10, Sword - Blade
-    objectReferenceParameter: {fileID: 11500000, guid: f53f693053c5a6949a29dd9fa2f80d0b, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.5
-    functionName: AttackEnd
-    data: Sword - Blade
-    objectReferenceParameter: {fileID: 11500000, guid: f53f693053c5a6949a29dd9fa2f80d0b, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

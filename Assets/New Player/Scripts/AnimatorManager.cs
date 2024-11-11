@@ -9,6 +9,8 @@ namespace EmeWillem
             private Rigidbody _rigidbody;
             private int _groundedHash;
 
+            public float _time = 0.8f;
+
             private void OnAnimatorMove()
             {
                 Vector3 deltaPosition = Animator.deltaPosition;
@@ -27,11 +29,11 @@ namespace EmeWillem
                 _groundedHash = Animator.StringToHash("Grounded");
             }
 
-            public void UpdateAnimatorValues(float deltaTime, float input, bool grounded)
+            public void UpdateAnimatorValues(float deltaTime, float input, float transitionTime, bool grounded)
             {
                 input = SnapMovementValue(input, grounded);
 
-                base.Tick(deltaTime, input);
+                base.Tick(deltaTime, input, transitionTime);
 
                 Animator.SetBool(_groundedHash, grounded);
             }

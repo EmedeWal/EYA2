@@ -357,7 +357,7 @@ namespace EmeWillem
                 {
                     ""name"": """",
                     ""id"": ""1e9dea88-2f21-45b6-af63-48b28b97003c"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -412,7 +412,7 @@ namespace EmeWillem
                 {
                     ""name"": """",
                     ""id"": ""4cc052ef-514a-4bf7-9f61-da183955ef12"",
-                    ""path"": ""<Keyboard>/backspace"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

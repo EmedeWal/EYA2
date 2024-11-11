@@ -51,6 +51,11 @@ public abstract class BaseAnimatorManager : MonoBehaviour
         }
     }
 
+    public void SetFloat(int hash, float value, float transitionTime = 0.1f)
+    {
+        Animator.SetFloat(hash, value, transitionTime, _DeltaTime); 
+    }
+
     public void SetBool(int hash, bool value)
     {
         Animator.SetBool(hash, value);

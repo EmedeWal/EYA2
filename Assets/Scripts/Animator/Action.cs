@@ -6,14 +6,16 @@ namespace EmeWillem
     {
         public class Action : StateMachineBehaviour
         {
-            override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+            private int _inActionHash;
+
+            private void Awake()
             {
-                animator.SetBool("CanRotate", false);
+                _inActionHash = Animator.StringToHash("InAction");
             }
 
             override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                animator.SetBool("CanRotate", true);
+                animator.SetBool(_inActionHash, false);
             }
         }
     }

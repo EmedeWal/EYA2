@@ -11,14 +11,16 @@ namespace EmeWillem
             private InputHandler _inputHandler;
             private Locomotion _locomotion;
 
-            [Header("ANIMATION STRINGS")]
-            [SerializeField] private string _lightW = "Right Slash 2 [LW0]";
-            [SerializeField] private string _heavyW = "Right Slash 1 [HW0]";
-            [SerializeField] private string _lightD = "Sweep 1 [LD0]";
-            [SerializeField] private string _heavyD = "Leap 1 [HD0]";
+            //[Header("ANIMATION STRINGS")]
+            //[SerializeField] private string _lightW = "Right Slash 2 [LW0]";
+            //[SerializeField] private string _heavyW = "Right Slash 1 [HW0]";
+            //[SerializeField] private string _lightD = "Sweep 1 [LD0]";
+            //[SerializeField] private string _heavyD = "Leap 1 [HD0]";
 
             //[Header("SETTINGS")]
             //[SerializeField] private float _comboTime = 0.2f;
+
+            [SerializeField] private float _time = 0.4f;
 
             public override void Init(List<OffenseCollider> offenseColliders)
             {
@@ -40,12 +42,13 @@ namespace EmeWillem
 
             private void AttackHandler_LightAttackInputPerformed()
             {
-                UseAttack(_lightW, _lightD, "R1Press", "R2Press");
+                _AnimatorManager.CrossFadeAction(Animator.StringToHash("Test"), 1, _time);
+                //UseAttack(_lightW, _lightD, "R1Press", "R2Press");
             }
 
             private void AttackHandler_HeavyAttackInputPerformed()
             {
-                UseAttack(_heavyW, _heavyD, "R2Press", "R1Press");
+                //UseAttack(_heavyW, _heavyD, "R2Press", "R1Press");
             }
 
             private void UseAttack(string walking, string dashing, string buttonPressed, string buttonNotPressed)
