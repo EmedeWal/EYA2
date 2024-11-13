@@ -92,7 +92,7 @@
 
 //            creature.AnimatorManager.DeathAnimationFinished += CreatureManager_DeathAnimationFinished;
 //            creature.AnimatorManager.ForceCrossFade("Death");
-//            creature.Locomotion.StopAgent(true);
+//            creature.ResetMovementFloats.StopAgent(true);
 //            OnCreatureDeath(creature);
 //            RemoveCreature(creature);
 //        }

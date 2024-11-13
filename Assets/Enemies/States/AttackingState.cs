@@ -72,7 +72,7 @@ namespace EmeWillem
                     {
                         if (_Enemy.IsTargetInRange(_target))
                         {
-                            _animatorManager.CrossFade(_attackHandler.AttackData.AnimationName);
+                            //_animatorManager.CrossFade(_attackHandler.AttackData.AnimationName);
                         }
                         else
                         {

@@ -205,14 +205,14 @@
 //            _playerInputHandler.PauseInputPerformed += PauseMenu_PauseInputPerformed;
 //        }
 
-//        public bool TryGetRayCast(Vector3 cursorPosition, LayerMask layer, out GameObject hitObject)
+//        public bool TryGetRayCast(Vector3 cursorPosition, LayerMask LayerIndex, out GameObject hitObject)
 //        {
 //            EventSystem eventSystem = EventSystem.current;
 //            var eventData = new PointerEventData(eventSystem) { position = cursorPosition };
 //            var results = new List<RaycastResult>();
 
 //            eventSystem.RaycastAll(eventData, results);
-//            var uiResult = results.FirstOrDefault(r => (layer.value & (1 << r.gameObject.layer)) != 0);
+//            var uiResult = results.FirstOrDefault(r => (LayerIndex.value & (1 << r.gameObject.LayerIndex)) != 0);
 
 //            if (uiResult.gameObject != null)
 //            {

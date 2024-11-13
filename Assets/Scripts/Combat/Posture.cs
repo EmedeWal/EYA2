@@ -32,7 +32,7 @@ namespace EmeWillem
 
                 if (_currentPosture <= 0)
                 {
-                    _animatorManager.ForceCrossFade("Stagger", false);
+                    _animatorManager.ForceCrossFade(Animator.StringToHash("Stagger"));
                     _currentPosture = _maximumPosture;
                 }
                 else if (_currentPosture > _maximumPosture)

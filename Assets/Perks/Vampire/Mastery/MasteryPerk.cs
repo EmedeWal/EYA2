@@ -101,7 +101,7 @@
 //        //        comboData.FixedTick(delta);
 //        //    }
 
-//        //    if (_AnimatorManager.GetBool("InAction"))
+//        //    if (_AnimatorManager.GetBool("Idle"))
 //        //    {
 //        //        for (int i = 0; i < _timerList.Count; i++)
 //        //        {

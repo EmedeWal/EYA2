@@ -23,11 +23,6 @@ namespace EmeWillem
 
         public int ProcessAttack(Vector3 attackerPosition, int damageValue, int staggerValue)
         {
-            if (AttackEventHelper.CheckBlocking(Parent, attackerPosition))
-            {
-                return 0;
-            }
-
             _posture.InflictStagger(staggerValue);
             return _health.RemoveHealth(damageValue);
         }

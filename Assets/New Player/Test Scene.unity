@@ -3929,7 +3929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1113306130731123678, guid: 6abeed541f2193941b3b38435de85b3d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4020,7 +4020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d053ef3c9363a4d914f62b8c362374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _time: 0.4
 --- !u!114 &1559349987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4035,7 +4034,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 0
   AttackSpeed: 0
-  _time: 0.8
+  _animationClipDataList:
+  - {fileID: 11400000, guid: 2bd75e5c767b9a448b4b8194dc944a83, type: 2}
+  - {fileID: 11400000, guid: d2179cc21679bdc47aeab238dcc6b276, type: 2}
+  - {fileID: 11400000, guid: 974d29b19acd44348ae6ff47ba1443f4, type: 2}
+  - {fileID: 11400000, guid: d1efd404ee0c35949a601b0bb8f12e11, type: 2}
+  - {fileID: 11400000, guid: bfd9d911869518d40a4d5876c820682b, type: 2}
+  - {fileID: 11400000, guid: 0ca145e29a0b11a4c81f7eac29f5d0ca, type: 2}
+  - {fileID: 11400000, guid: 8a0b06d0a3a32a9459cabc40b3adc3ac, type: 2}
+  - {fileID: 11400000, guid: b6ba6316145b113469077d84aeb3f4ee, type: 2}
+  _snapThreshold: 0.05
 --- !u!95 &1559349988
 Animator:
   serializedVersion: 5
@@ -5361,7 +5369,7 @@ Transform:
   m_GameObject: {fileID: 4497868853178408677}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.09, y: 0, z: 19.57}
+  m_LocalPosition: {x: 0.09, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5787,7 +5795,6 @@ GameObject:
   - component: {fileID: 6083668102415102652}
   - component: {fileID: 6083668102415102653}
   - component: {fileID: 6083668102415102655}
-  - component: {fileID: 6083668102415102659}
   - component: {fileID: 6083668102415102657}
   - component: {fileID: 6083668102415102662}
   - component: {fileID: 6083668102415102661}
@@ -6487,10 +6494,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputQueueSize: 3
   _inputDropThreshold: 0.3
-  _fastLocomotionThreshold: 0.7
+  _locked: 0.4
+  _acceleration: 1
+  _deceleration: 0.6
+  _rotationSpeed: 3
   _slowLocomotionThreshold: 0.3
-  _fullTurnDotThreshold: -0.7
-  _halfTurnDotThreshold: -0.1
 --- !u!114 &6083668102415102657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6505,18 +6513,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lockRadius: 15
   _viewThreshold: 0.75
---- !u!114 &6083668102415102659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4497868853178408677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0493d00fa2d1d4d8d4016b6354c099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6083668102415102660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7318,6 +7314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 0
   AttackSpeed: 0
+  _animationClipDataList: []
 --- !u!114 &7075645647138437789
 MonoBehaviour:
   m_ObjectHideFlags: 0

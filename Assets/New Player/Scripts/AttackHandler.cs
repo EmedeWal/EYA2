@@ -9,8 +9,6 @@ namespace EmeWillem
         public class AttackHandler : BaseAttackHandler
         {
             private InputHandler _inputHandler;
-            private Locomotion _locomotion;
-
             //[Header("ANIMATION STRINGS")]
             //[SerializeField] private string _lightW = "Right Slash 2 [LW0]";
             //[SerializeField] private string _heavyW = "Right Slash 1 [HW0]";
@@ -20,14 +18,11 @@ namespace EmeWillem
             //[Header("SETTINGS")]
             //[SerializeField] private float _comboTime = 0.2f;
 
-            [SerializeField] private float _time = 0.4f;
-
             public override void Init(List<OffenseCollider> offenseColliders)
             {
                 base.Init(offenseColliders);
 
                 _inputHandler = GetComponentInParent<InputHandler>();
-                _locomotion = GetComponentInParent<Locomotion>();
 
                 _inputHandler.LightAttackInputPerformed += AttackHandler_LightAttackInputPerformed;
                 _inputHandler.HeavyAttackInputPerformed += AttackHandler_HeavyAttackInputPerformed;
@@ -42,7 +37,7 @@ namespace EmeWillem
 
             private void AttackHandler_LightAttackInputPerformed()
             {
-                _AnimatorManager.CrossFadeAction(Animator.StringToHash("Test"), 1, _time);
+                //_AnimatorManager.CrossFade(Animator.StringToHash("Test"));
                 //UseAttack(_lightW, _lightD, "R1Press", "R2Press");
             }
 

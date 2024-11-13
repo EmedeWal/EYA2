@@ -13,7 +13,12 @@ namespace EmeWillem
                 _inActionHash = Animator.StringToHash("InAction");
             }
 
-            override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+            public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+            {
+                animator.SetBool(_inActionHash, true);
+            }
+
+            public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 animator.SetBool(_inActionHash, false);
             }

@@ -1,96 +1,125 @@
+using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public abstract class BaseAnimatorManager : MonoBehaviour
+namespace EmeWillem
 {
-    public Animator Animator { get; private set; }
-
-    [HideInInspector] public float MovementSpeed;
-    [HideInInspector] public float AttackSpeed;
-
-    protected float _DeltaTime;
-
-    private int _movementSpeedHash;
-    private int _attackSpeedHash;
-    private int _locomotionHash;
-    private int _inActionHash;
-
-    public event Action<BaseAnimatorManager> DeathAnimationFinished;
-
-    public virtual void Init(float movementSpeed = 1, float attackSpeed = 1)
+    public abstract class BaseAnimatorManager : MonoBehaviour
     {
-        Animator = GetComponent<Animator>();
+        [HideInInspector] public float MovementSpeed;
+        [HideInInspector] public float AttackSpeed;
 
-        MovementSpeed = movementSpeed;
-        AttackSpeed = attackSpeed;
+        [Header("ANIMATION PROPERTIES")]
+        [SerializeField] private List<AnimationClipData> _animationClipDataList = new();
+        private AnimationClipData _previousClipData = null;
 
-        _movementSpeedHash = Animator.StringToHash("MovementSpeed");
-        _attackSpeedHash = Animator.StringToHash("AttackSpeed");
-        _locomotionHash = Animator.StringToHash("Locomotion");
-        _inActionHash = Animator.StringToHash("InAction");
+        protected Animator _Animator;
+        protected float _DeltaTime;
 
-        Animator.SetFloat(_movementSpeedHash, MovementSpeed);
-        Animator.SetFloat(_attackSpeedHash, AttackSpeed);
-    }
+        private int _layerIndex = 1;
+        private int _movementSpeedHash;
+        private int _attackSpeedHash;
+        private int _locomotionHash;
+        private int _inActionHash;
 
-    public virtual void Tick(float deltaTime, float locomotion, float transitionTime = 0.4f)
-    {
-        _DeltaTime = deltaTime;
-
-        Animator.SetFloat(_movementSpeedHash, MovementSpeed, 0.1f, _DeltaTime);
-        Animator.SetFloat(_attackSpeedHash, AttackSpeed, 0.1f, _DeltaTime);
-        Animator.SetFloat(_locomotionHash, locomotion, transitionTime, _DeltaTime);
-    }
-
-    public void ForceCrossFade(string animationName, bool allowRepeat, int layer = 1, float transitionDuration = 0.1f)
-    {
-        AnimatorStateInfo currentState = Animator.GetCurrentAnimatorStateInfo(layer);
-        if (!currentState.IsName(animationName) || allowRepeat)
+        public virtual void Init(float movementSpeed = 1, float attackSpeed = 1)
         {
-            Animator.CrossFadeInFixedTime(animationName, transitionDuration, layer, _DeltaTime);
+            _Animator = GetComponent<Animator>();
+
+            MovementSpeed = movementSpeed;
+            AttackSpeed = attackSpeed;
+
+            foreach (var data in _animationClipDataList) data.Init();
+
+            _movementSpeedHash = Animator.StringToHash("MovementSpeed");
+            _attackSpeedHash = Animator.StringToHash("AttackSpeed");
+            _locomotionHash = Animator.StringToHash("Locomotion");
+            _inActionHash = Animator.StringToHash("InAction");
+
+            _Animator.SetFloat(_movementSpeedHash, MovementSpeed);
+            _Animator.SetFloat(_attackSpeedHash, AttackSpeed);
         }
-    }
 
-    public void SetFloat(int hash, float value, float transitionTime = 0.1f)
-    {
-        Animator.SetFloat(hash, value, transitionTime, _DeltaTime); 
-    }
-
-    public void SetBool(int hash, bool value)
-    {
-        Animator.SetBool(hash, value);
-    }
-
-    public float GetFloat(int hash)
-    {
-        return Animator.GetFloat(hash);
-    }
-
-    public bool GetBool(int hash)
-    {
-        return Animator.GetBool(hash);
-    }
-
-    public void CrossFade(string animationName, int layer = 1, float transitionDuration = 0.1f)
-    {
-        if (!Animator.IsInTransition(layer) && !Animator.GetBool(_inActionHash))
+        public virtual void Tick(float deltaTime, float locomotion, float transitionTime = 0.4f)
         {
-            Animator.CrossFadeInFixedTime(animationName, transitionDuration, layer, _DeltaTime);
-        }
-    }
+            _DeltaTime = deltaTime;
 
-    public void CrossFadeAction(int animationHash, int layer = 1, float transitionDuration = 0.1f, bool canOverride = false)
-    {
-        if ((!Animator.IsInTransition(layer) && !Animator.GetBool(_inActionHash)) || canOverride)
+            _Animator.SetFloat(_locomotionHash, locomotion, transitionTime, _DeltaTime);
+            _Animator.SetFloat(_movementSpeedHash, MovementSpeed, 0.1f, _DeltaTime);
+            _Animator.SetFloat(_attackSpeedHash, AttackSpeed, 0.1f, _DeltaTime);
+        }
+
+        public void ForceCrossFade(int animationHash)
         {
-            SetBool(_inActionHash, true);
-            Animator.CrossFadeInFixedTime(animationHash, transitionDuration, layer, _DeltaTime);
+            AnimationClipData data = _animationClipDataList.Find(a => a.Hash == animationHash);
+            if (data == null)
+            {
+                Debug.LogWarning("Animator Manager is not familiar with the provided hash.");
+                return;
+            }
+
+            AnimatorStateInfo currentState = _Animator.GetCurrentAnimatorStateInfo(_layerIndex);
+            if (currentState.shortNameHash != animationHash || data.AllowRepeat)
+            {
+                _Animator.CrossFadeInFixedTime(animationHash, data.TransitionDuration, _layerIndex, _DeltaTime);
+            }
         }
-    }
+   
 
+        public void CrossFade(int animationHash)
+        {
+            if (_Animator.GetBool(_inActionHash)) return;
 
-    public void OnDeathAnimationFinished()
-    {
-        DeathAnimationFinished?.Invoke(this);
+            AnimationClipData data = _animationClipDataList.Find(a => a.Hash == animationHash);
+            if (data == null)
+            {
+                Debug.LogWarning("Animator Manager is not familiar with the provided hash.");
+                return;
+            }
+
+            AnimatorStateInfo nextState = _Animator.GetNextAnimatorStateInfo(_layerIndex);
+            AnimatorStateInfo currentState = _Animator.GetCurrentAnimatorStateInfo(_layerIndex);
+            if ((currentState.shortNameHash != animationHash && nextState.shortNameHash != animationHash) || data.AllowRepeat)
+            {
+                if (_Animator.IsInTransition(_layerIndex) && !AllowOverride(currentState, nextState)) return;
+                _Animator.CrossFadeInFixedTime(animationHash, data.TransitionDuration, _layerIndex, _DeltaTime);
+                //_Animator.SetFloat(_locomotionHash, 0, nextState.length / 2, _DeltaTime);
+                _previousClipData = data;
+            }
+        }
+
+        public bool Idle()
+        {
+            return !(_Animator.GetBool(_inActionHash) || _Animator.IsInTransition(_layerIndex));
+        }
+
+        private bool AllowOverride(AnimatorStateInfo currentState, AnimatorStateInfo nextState)
+        {
+            if (currentState.shortNameHash == _previousClipData.Hash && _previousClipData.AllowOverrideDuringExit)
+            {
+                return true;
+            }
+            else if (nextState.shortNameHash == _previousClipData.Hash && _previousClipData.AllowOverrideDuringEnter)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        #region External Access
+        public void SetBool(int hash, bool value)
+        {
+            _Animator.SetBool(hash, value);
+        }
+
+        public float GetFloat(int hash)
+        {
+            return _Animator.GetFloat(hash);
+        }
+
+        public bool GetBool(int hash)
+        {
+            return _Animator.GetBool(hash);
+        }
+        #endregion
     }
 }

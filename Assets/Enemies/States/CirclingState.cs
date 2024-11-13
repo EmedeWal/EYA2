@@ -16,10 +16,10 @@
 
 //        public override void Enter()
 //        {
-//            _CreatureAI.Locomotion.StopAgent(false);
-//            _CreatureAI.Locomotion.UpdateRotation(false);
+//            _CreatureAI.ResetMovementFloats.StopAgent(false);
+//            _CreatureAI.ResetMovementFloats.UpdateRotation(false);
 //            _CreatureAI.AnimatorManager.SetBool("InCombat", true);
-//            _CreatureAI.Locomotion.SetSpeed(_CreatureAI.CreatureData.WalkSpeed);
+//            _CreatureAI.ResetMovementFloats.SetSpeed(_CreatureAI.CreatureData.WalkSpeed);
 
 //            Vector3 directionToPlayer = (_followTarget.position - _CreatureAI.transform.position).normalized;
 //            float angleOffset = Random.value < 0.5f ? -90f : 90f;
@@ -30,7 +30,7 @@
 //            if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 1f, NavMesh.AllAreas))
 //            {
 //                _destination = hit.position;
-//                _CreatureAI.Locomotion.SetDestination(_destination);
+//                _CreatureAI.ResetMovementFloats.SetDestination(_destination);
 //            }
 //            else
 //            {
@@ -60,7 +60,7 @@
 //        public override void Exit()
 //        {
 //            _CreatureAI.AnimatorManager.SetBool("InCombat", false);
-//            _CreatureAI.Locomotion.UpdateRotation(true);
+//            _CreatureAI.ResetMovementFloats.UpdateRotation(true);
 //        }
 //    }
 //}

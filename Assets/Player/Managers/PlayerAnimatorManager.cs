@@ -9,8 +9,8 @@
 //    {
 //        base.Init(movementSpeed, attackSpeed);
 
-//        _animatorHorizontal = Animator.StringToHash("Horizontal");
-//        _animatorVertical = Animator.StringToHash("Vertical");
+//        _animatorHorizontal = _Animator.StringToHash("Horizontal");
+//        _animatorVertical = _Animator.StringToHash("Vertical");
 //    }
 
 //    public void UpdateAnimatorValues(float deltaTime, float horizontal, float vertical, bool grounded, bool locked, bool moving)
@@ -25,9 +25,9 @@
 
 //        base.Tick(deltaTime, locomotion);
 
-//        Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, deltaTime);
-//        Animator.SetFloat(_animatorVertical, vertical, 0.1f, deltaTime);
-//        Animator.SetBool("Grounded", grounded);
-//        Animator.SetBool("Locked", locked);
+//        _Animator.SetFloat(_animatorHorizontal, horizontal, 0.1f, deltaTime);
+//        _Animator.SetFloat(_animatorVertical, vertical, 0.1f, deltaTime);
+//        _Animator.SetBool("Grounded", grounded);
+//        _Animator.SetBool("Locked", locked);
 //    }
 //}

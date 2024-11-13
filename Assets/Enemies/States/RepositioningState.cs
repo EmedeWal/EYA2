@@ -28,7 +28,7 @@
 
 //        public override void Enter()
 //        {
-//            _CreatureAI.Locomotion.StopAgent(false);
+//            _CreatureAI.ResetMovementFloats.StopAgent(false);
 //            MoveToNextWaypoint();
 //        }
 
@@ -92,7 +92,7 @@
 //            if (_waypoints.Count > 0)
 //            {
 //                _currentWaypoint = _waypoints.Dequeue();
-//                _CreatureAI.Locomotion.SetDestination(_currentWaypoint);
+//                _CreatureAI.ResetMovementFloats.SetDestination(_currentWaypoint);
 //            }
 //        }
 //    }

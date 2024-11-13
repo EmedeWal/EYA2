@@ -30,7 +30,7 @@
 //        private float _groundCheckOffset;
 //        private bool _grounded = true;
 
-//        private Vector3 MovementDirection = Vector3.zero;
+//        private Vector3 _movementDirection = Vector3.zero;
 //        private float _currentInput;
 //        private float _horizontal;
 //        private float _vertical;
@@ -58,7 +58,7 @@
 //            int damageColliderLayer = LayerMask.NameToLayer("DamageCollider");
 
 //            _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
-//            gameObject.layer = controllerLayer;
+//            gameObject.LayerIndex = controllerLayer;
 
 //            //ListenToAttackEvents(true);
 //        }
@@ -83,10 +83,10 @@
 //                Vector3 horizontal = _horizontal * horizontalDirection;
 //                Vector3 vertical = _vertical * verticalDirection;
 //                float movement = Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput);
-//                MovementDirection = (horizontal + vertical).normalized;
+//                _movementDirection = (horizontal + vertical).normalized;
 //                _currentInput = Mathf.Clamp01(movement);
 
-//                _canMove = !_animatorManager.GetBool("InAction");
+//                _canMove = !_animatorManager.GetBool("Idle");
 
 //                if (_horizontal != 0 || _vertical != 0 && _canMove)
 //                {
@@ -119,16 +119,16 @@
 //        {
 //            if (!_grounded)
 //            {
-//                MovementDirection.y -= _gravity * _delta;
+//                _movementDirection.y -= _gravity * _delta;
 //                _animatorManager.CrossFade("Fall");
 //            }
 //            else
 //            {
-//                MovementDirection.y = 0;
+//                _movementDirection.y = 0;
 //            }
 
 //            Vector3 newVelocity = _rigidbody.velocity;
-//            newVelocity.y = MovementDirection.y;
+//            newVelocity.y = _movementDirection.y;
 //            _rigidbody.velocity = newVelocity;
 //        }
 
@@ -138,8 +138,8 @@
 //            {
 //                HandleStepClimb();
 
-//                MovementDirection *= MovementSpeed * _delta * _movementSpeed;
-//                _rigidbody.velocity = new(MovementDirection.x, _rigidbody.velocity.y, MovementDirection.z);
+//                _movementDirection *= MovementSpeed * _delta * _movementSpeed;
+//                _rigidbody.velocity = new(_movementDirection.x, _rigidbody.velocity.y, _movementDirection.z);
 //            }
 //            else
 //            {
@@ -149,7 +149,7 @@
 
 //        private void ManageRotation(Transform lockOnTarget)
 //        {
-//            Vector3 targetDirection = lockOnTarget ? lockOnTarget.position - _transform.position : MovementDirection;
+//            Vector3 targetDirection = lockOnTarget ? lockOnTarget.position - _transform.position : _movementDirection;
 //            targetDirection.y = 0;
 
 //            if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
@@ -163,7 +163,7 @@
 //        {
 //            Vector3 forwardRayOrigin = _transform.position + Vector3.up * 0.1f;
 
-//            if (Physics.Raycast(forwardRayOrigin, MovementDirection, out RaycastHit forwardHit, _collider.radius + 0.1f))
+//            if (Physics.Raycast(forwardRayOrigin, _movementDirection, out RaycastHit forwardHit, _collider.radius + 0.1f))
 //            {
 //                float stepHeight = forwardHit.point.y - _transform.position.y;
 //                if (stepHeight > 0 && stepHeight <= _stepHeight)
@@ -173,7 +173,7 @@
 //                    {
 //                        Vector3 stepUpPosition = new(_transform.position.x, topHit.point.y, _transform.position.z);
 //                        _transform.position = Vector3.Lerp(_transform.position, stepUpPosition, _stepSmooth);
-//                        MovementDirection *= 1.5f;
+//                        _movementDirection *= 1.5f;
 //                    }
 //                }
 //            }

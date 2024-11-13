@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using EmeWillem.Utilities;
 using UnityEngine;
 
 namespace EmeWillem
@@ -7,45 +7,45 @@ namespace EmeWillem
     {
         public class Locomotion : MonoBehaviour
         {
-            public Vector3 MovementDirection { get; private set; }
+            public Vector3 MovementDirection => _movementDirection;
 
+            // References
+            private InputHandler _inputHandler;
             private AnimatorManager _animatorManager;
             private CapsuleCollider _capsuleCollider;
+            private Transform _lockTarget;
             private Rigidbody _rigidbody;
             private Transform _transform;
             private LayerMask _ignoreLayers;
+            private Vector3 _movementDirection;
+            private Vector3 _transformForward;
+            private Vector3 _transformRight;
+            private float _locomotion;
 
-            [Header("INPUT SETTINGS")]
-            [SerializeField] private int _inputQueueSize = 3;
-            [SerializeField] private float _inputDropThreshold = 0.3f;
+            [Header("TRANSITION SETTINGS")]
+            [SerializeField] private float _locked = 0.4f;
+            [SerializeField] private float _acceleration = 1f;
+            [SerializeField] private float _deceleration = 0.2f;
 
-            [Header("ANIMATION SETTINGS")]
-            [SerializeField] private float _fastLocomotionThreshold = 0.7f;
-            [SerializeField] private float _slowLocomotionThreshold = 0.3f;
+            [Header("LOCOMOTION SETTINGS")]
+            [SerializeField] private float _rotationSpeed = 3f;
 
-            [Header("TURN SETTINGS")]
-            [SerializeField] private float _fullTurnDotThreshold = -0.7f;
-            [SerializeField] private float _halfTurnDotThreshold = -0.1f;
-            
-
-            private Queue<float> _inputHistory;
-            private float _currentInput;
-
+            // Animations
+            private int _dodgeStepBackwardHash;
+            private int _dodgeStepForwardHash;
+            private int _dodgeStepRightHash;
+            private int _dodgeStepLeftHash;
             private int _locomotionHash;
             private int _dodgeRollHash;
-            private int _rightTurnHash;
-            private int _leftTurnHash;
-            private int _fullTurnHash;
-            private int _inActionHash;
             private int _kickHash;
-            private int _layer;
-            private float _transitionTime = 0.3f;
 
             public void Init()
             {
+                _inputHandler = GetComponent<InputHandler>();
                 _animatorManager = GetComponentInChildren<AnimatorManager>();
                 _capsuleCollider = GetComponent<CapsuleCollider>();
                 _rigidbody = GetComponent<Rigidbody>();
+                _movementDirection = transform.forward;
                 _transform = transform;
 
                 _rigidbody.interpolation = RigidbodyInterpolation.None;
@@ -61,121 +61,112 @@ namespace EmeWillem
                 int damageColliderLayer = LayerMask.NameToLayer("DamageCollider");
                 _ignoreLayers = ~(1 << controllerLayer | 1 << damageColliderLayer);
 
+                _dodgeStepBackwardHash = Animator.StringToHash("Dodge Step Backward");
+                _dodgeStepForwardHash = Animator.StringToHash("Dodge Step Forward");
+                _dodgeStepRightHash = Animator.StringToHash("Dodge Step Right");
+                _dodgeStepLeftHash = Animator.StringToHash("Dodge Step Left");
                 _locomotionHash = Animator.StringToHash("Locomotion");
                 _dodgeRollHash = Animator.StringToHash("Dodge Roll");
-                _rightTurnHash = Animator.StringToHash("Right Turn");
-                _leftTurnHash = Animator.StringToHash("Left Turn");
-                _fullTurnHash = Animator.StringToHash("Full Turn");
-                _inActionHash = Animator.StringToHash("InAction");
                 _kickHash = Animator.StringToHash("Kick");
-                _layer = 0;
 
-                _inputHistory = new Queue<float>(_inputQueueSize);
-
-                GetComponent<InputHandler>().DodgeInputPerformed += Locomotion_DodgeInputPerformed;
+                _inputHandler.DodgeInputPerformed += Locomotion_DodgeInputPerformed;
+                // Subscribe to left stick press (kick input)
             }
 
-            public void FixedTick(float deltaTime, Vector3 xDirection, Vector3 yDirection, Vector2 rawInput)
+            public void Cleanup()
             {
-                xDirection *= rawInput.x;
-                yDirection *= rawInput.y;
-                MovementDirection = (xDirection + yDirection).normalized;
+                _inputHandler.DodgeInputPerformed -= Locomotion_DodgeInputPerformed;
+                // Unsubscribe to left stick press (kick input)
+            }
 
-                _currentInput = rawInput.magnitude;
-                if (_inputHistory.Count >= _inputQueueSize)
+            public void FixedTick(float deltaTime, Transform lockTarget, Vector3 cameraForward, Vector3 cameraRight, Vector2 rawInput)
+            {
+                UpdateVariables(lockTarget, cameraForward, cameraRight, rawInput);
+
+                if (_animatorManager.Idle())
                 {
-                    _inputHistory.Dequeue();
+                    float input = rawInput.magnitude;
+
+                    float transitionTime = CalculateTransitionTime(input);
+                    _animatorManager.UpdateAnimatorValues(deltaTime, input, rawInput.x, rawInput.y, transitionTime, true, lockTarget);
+
+                    HandleRotation(deltaTime, input);
                 }
-                _inputHistory.Enqueue(_currentInput);
-
-                _animatorManager.UpdateAnimatorValues(deltaTime, _currentInput, 0.8f, true);
-
-                if (_animatorManager.GetBool(_inActionHash) == false)
+                else if (_animatorManager.GetBool(Animator.StringToHash("InAction")))
                 {
-                    CheckAnimations(yDirection);
-                    HandleRotation(deltaTime);
+                    _animatorManager.UpdateAnimatorValues(deltaTime, 0, 0, 0, 0, true, lockTarget);
                 }
             }
 
-            private void Locomotion_DodgeInputPerformed()
+            private void UpdateVariables(Transform lockTarget, Vector3 cameraForward, Vector3 cameraRight, Vector2 rawInput)
             {
-                //Vector3 targetDirection = MovementDirection;
-                //targetDirection.y = 0;
+                Vector3 transformForward = Directions.Normalize(_transform.forward);
+                Vector3 transformRight = Directions.Normalize(_transform.right);
 
-                //if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
-                //_transform.LookAt(targetDirection);
-                _animatorManager.CrossFadeAction(_dodgeRollHash, _layer, _transitionTime);
+                cameraRight *= rawInput.x;
+                cameraForward *= rawInput.y;
+
+                _lockTarget = lockTarget;
+                _transformRight = transformRight;
+                _transformForward = transformForward;
+                _movementDirection = cameraRight + cameraForward;
+                _locomotion = _animatorManager.GetFloat(_locomotionHash);
+
+                if (_movementDirection == Vector3.zero) _movementDirection = _transformForward;
             }
 
-            private void HandleRotation(float delta)
+            private void HandleRotation(float deltaTime, float input)
             {
-                Vector3 targetDirection = MovementDirection;
+                Vector3 targetDirection = _lockTarget ? _lockTarget.position - _transform.position : _movementDirection;
                 targetDirection.y = 0;
 
-                if (targetDirection == Vector3.zero) targetDirection = _transform.forward;
-
-                float rotationSpeed = delta * _rigidbody.velocity.magnitude;
+                float rotationSpeed = deltaTime * input * _rotationSpeed;
                 Quaternion lookRotation = Quaternion.LookRotation(targetDirection);
                 Quaternion targetRotation = Quaternion.Slerp(_transform.rotation, lookRotation, rotationSpeed);
                 _transform.rotation = targetRotation;
             }
 
-            private void CheckAnimations(Vector3 yDirection)
+            private void Locomotion_DodgeInputPerformed()
             {
-                Vector3 movementDirection = MovementDirection;
-                Vector3 forwardDirection = transform.forward;
-                forwardDirection.y = 0;
-
-                float initialInput = _inputHistory.Count > 0 ? _inputHistory.Peek() : _currentInput;
-                float averageDrop = initialInput - _currentInput;
-
-                float locomotion = _animatorManager.GetFloat(_locomotionHash);
-                float dotProduct = Vector3.Dot(forwardDirection.normalized, movementDirection);
-
-                if (dotProduct < _fullTurnDotThreshold && locomotion > _fastLocomotionThreshold)
+                if (_lockTarget)
                 {
-                    _animatorManager.CrossFadeAction(_fullTurnHash, _layer, _transitionTime);
-                }
-                else if (locomotion < _slowLocomotionThreshold)
-                {
-                    if (dotProduct < _halfTurnDotThreshold && dotProduct > _fullTurnDotThreshold)
-                    {
-                        HandleHalfTurns(movementDirection, forwardDirection, yDirection);
-                    }
-                    else if (averageDrop > _inputDropThreshold)
-                    {
-                        _animatorManager.CrossFadeAction(_kickHash, _layer, _transitionTime);
-                    }
-                }
-            }
+                    // Direction calculation can be simplified because we are locking on now
+                    DirectionType directionType = Directions.Translate(_movementDirection, _transformForward, _transformRight);
 
-            private void HandleHalfTurns(Vector3 movementDirection, Vector3 forwardDirection, Vector3 yDirection)
-            {
-                Vector3 crossProduct = Vector3.Cross(yDirection, movementDirection);
-                float cameraDot = Vector3.Dot(forwardDirection, yDirection);
+                    switch (directionType)
+                    {
+                        case DirectionType.None:
+                            _animatorManager.CrossFade(_dodgeStepBackwardHash);
+                            break;
 
-                if (cameraDot >= 0)
-                {
-                    if (crossProduct.y > 0)
-                    {
-                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _transitionTime);
-                    }
-                    else
-                    {
-                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _transitionTime);
+                        case DirectionType.Backward:
+                            _animatorManager.CrossFade(_dodgeStepBackwardHash);
+                            break;
+
+                        case DirectionType.Forward:
+                            _animatorManager.CrossFade(_dodgeStepForwardHash);
+                            break;
+
+                        case DirectionType.Right:
+                            _animatorManager.CrossFade(_dodgeStepRightHash);
+                            break;
+
+                        case DirectionType.Left:
+                            _animatorManager.CrossFade(_dodgeStepLeftHash);
+                            break;
                     }
                 }
                 else
                 {
-                    if (crossProduct.y > 0)
-                    {
-                        _animatorManager.CrossFadeAction(_leftTurnHash, _layer, _transitionTime);
-                    }
-                    else
-                    {
-                        _animatorManager.CrossFadeAction(_rightTurnHash, _layer, _transitionTime);
-                    }
+                    _animatorManager.CrossFade(_dodgeRollHash);
                 }
+            }
+
+            private float CalculateTransitionTime(float input)
+            {
+                float deceleration = _deceleration * _locomotion;
+                float transitionTime = _lockTarget ? _locked : _acceleration;
+                return input > 0 ? transitionTime : deceleration;
             }
         }
     }
